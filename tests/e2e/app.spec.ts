@@ -81,8 +81,8 @@ test('lesson deviation waits for the move budget before failing', async ({ page 
   // Deviate on the first move: free play starts, but failure is not declared yet.
   await page.locator('[data-square="58"]').click();
   await page.locator('[data-square="67"]').click();
-  await expect(page.locator('.lesson-status')).toContainText('已偏离主线');
-  await expect(page.locator('.lesson-status')).toContainText('还可以自由走 2 步');
+  await expect(page.locator('.lesson-status')).toContainText('限定步数内将死');
+  await expect(page.locator('.lesson-status')).not.toContainText('偏离');
   await expect(page.locator('.lesson-status')).not.toContainText('挑战失败');
   await expect(page.getByRole('button', { name: '提示' })).toBeDisabled();
   await expect(page.locator('.turn-chip')).toContainText('自由走子');
@@ -99,12 +99,14 @@ test('lesson deviation waits for the move budget before failing', async ({ page 
   // Use the remaining two plies freely; failure appears only when the budget is exhausted.
   await page.locator('[data-square="66"]').click();
   await page.locator('[data-square="75"]').click();
-  await expect(page.locator('.lesson-status')).toContainText('还可以自由走 1 步');
+  await expect(page.locator('.line-progress-label')).toContainText('2 / 3 步');
+  await expect(page.locator('.lesson-status')).not.toContainText('偏离');
   await expect(page.locator('.lesson-status')).not.toContainText('挑战失败');
 
   await page.locator('[data-square="67"]').click();
   await page.locator('[data-square="76"]').click();
   await expect(page.locator('.lesson-status')).toContainText('步数已用完');
+  await expect(page.locator('.lesson-status')).toContainText('未能在限定步数内将死');
   await expect(page.locator('.lesson-status')).toContainText('挑战失败');
   await expect(page.locator('.line-progress-label')).toContainText('3 / 3 步');
   await expect(page.locator('.lesson-status')).toHaveJSProperty('offsetHeight', statusBefore?.height ?? 0);

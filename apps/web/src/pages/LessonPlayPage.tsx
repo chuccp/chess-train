@@ -282,7 +282,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
 
   function handlePoint(square: number) {
     if (!position || completed || autoMoving) return;
-    // 偏离主线后双方都能动；先自由走完本关步数，再判定失败。
+    // 自由走子：先走完本关步数，再判定是否将死。
     if (!freeMode && !failed && !userTurn) return;
     const movableColor = freeMode || failed ? position.turn : userColor;
     const piece = pieceAt(position, square);
@@ -346,9 +346,9 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       setFreeUsed(used);
       if (used >= total) {
         setFailed(true);
-        setMessage('步数已用完，本局没有走到主线，挑战失败。可以重来，或继续自由走子。');
+        setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以重来。');
       } else {
-        setMessage(`已偏离主线，还可以自由走 ${total - used} 步；步数用完后判定。`);
+        setMessage(null);
       }
       return;
     }
@@ -380,9 +380,9 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       setFreeUsed(used);
       if (used >= total) {
         setFailed(true);
-        setMessage('步数已用完，本局没有走到主线，挑战失败。可以重来，或继续自由走子。');
+        setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以重来。');
       } else {
-        setMessage(`已偏离主线，还可以自由走 ${total - used} 步；步数用完后判定。`);
+        setMessage(null);
       }
       if (result.ok) {
         feedback(result.givesCheck ? 'check' : result.move.captured ? 'capture' : 'move');
@@ -526,7 +526,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
             <div className={`turn-chip${autoMoving ? ' is-thinking' : ''}`}>
               <span className={`turn-disc ${boardPosition.turn}`} />
               {completed
-                ? (completedByWin ? '将死成功' : '主线完成')
+                ? completedByWin ? '将死成功' : '挑战完成'
                 : autoMoving
                   ? '对手应手…'
                   : freeMode || failed
@@ -563,13 +563,13 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
               (completed
                 ? completedByWin
                   ? '将死成功，本关已完成。'
-                  : '主线完成，本关已完成。'
-                : '按主线走，也可以自由走子；找到将死即完成，步数用完则判定。')}
+                  : '挑战完成，本关已完成。'
+                : '在限定步数内将死即完成；步数用完未将死则判定失败。')}
           </div>
 
           <div className="line-progress">
             <div className="line-progress-label">
-              <span>{completedByWin ? '将死成功' : freeMode ? '自由练习' : (line?.label ?? '主线')}</span>
+              <span>{completedByWin ? '将死成功' : freeMode ? '本关进度' : (line?.label ?? '主线')}</span>
               <span>{completedByWin ? '已完成' : `${stepsUsed} / ${total} 步`}</span>
             </div>
             <div className="progress-track">
@@ -581,10 +581,10 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
             <div className="tactic-result">
               <div className="result-mark"><CheckCircle2 size={24} aria-hidden="true" /></div>
               <div>
-                <span className="eyebrow">{completedByWin ? '将死成功' : '主线完成'}</span>
+                <span className="eyebrow">{completedByWin ? '将死成功' : '挑战完成'}</span>
                 <h2>{completedByWin ? '找到将死，完成。' : lesson.completionText}</h2>
                 <p>
-                  {completedByWin ? '你找到了一条更短的将死路线，本关已按胜利完成。' : '跟练完成。'}
+                  {completedByWin ? '你在限定步数内完成了将死，本关已按胜利完成。' : '跟练完成。'}
                   用了 {formatDuration(completedElapsedRef.current)}，错试 {attempts} 次，提示 {hintsUsed} 次。
                 </p>
               </div>
