@@ -24,6 +24,7 @@ import { useGameStore, levelLabel, resultLabel } from '../stores/game';
 import { useSettingsStore } from '../stores/settings';
 import { engineTotalBytes } from '../engine/manifest';
 import { EnginePrepCard } from '../components/EnginePrepCard';
+import { MobileGameLobby } from '../components/MobileGameLobby';
 import { listFinishedGames, listTrainingProgress } from '../lib/storage';
 import { formatBytes, formatDate, formatDuration } from '../lib/format';
 import type { FinishedGame, Level } from '../types';
@@ -32,6 +33,10 @@ export function HomePage() {
   const navigate = useNavigate();
   const engineReady = useEngineStore((state) => state.engineReady);
   const offlineReady = useEngineStore((state) => state.offlineReady);
+  const enginePhase = useEngineStore((state) => state.phase);
+  const engineError = useEngineStore((state) => state.error);
+  const engineLoaded = useEngineStore((state) => state.loaded);
+  const engineTotal = useEngineStore((state) => state.total);
   const current = useGameStore((state) => state.current);
   const hydrated = useGameStore((state) => state.hydrated);
   const startNewGame = useGameStore((state) => state.startNewGame);
@@ -83,6 +88,24 @@ export function HomePage() {
 
   return (
     <div className="page home-page">
+      <MobileGameLobby
+        current={current}
+        engineReady={engineReady}
+        offlineReady={offlineReady}
+        enginePhase={enginePhase}
+        engineError={engineError}
+        engineLoaded={engineLoaded}
+        engineTotal={engineTotal}
+        hydrated={hydrated}
+        color={color}
+        level={level}
+        starting={starting}
+        onColor={setColor}
+        onLevel={setLevel}
+        onStart={() => void start()}
+        onOpenCurrent={openCurrent}
+      />
+
       <section className="home-hero">
         <div className="hero-copy">
           <div className="eyebrow">

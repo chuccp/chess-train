@@ -19,6 +19,8 @@ const mobileNav = [
 
 export function Layout() {
   const location = useLocation();
+  const isHome = location.pathname === '/';
+  const isGameRoute = location.pathname === '/play' || location.pathname.startsWith('/play/');
   const hideMobileNav =
     location.pathname === '/play' ||
     location.pathname.startsWith('/play/') ||
@@ -28,7 +30,7 @@ export function Layout() {
     location.pathname.startsWith('/review/');
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell${isGameRoute ? ' is-game-route' : ''}${isHome ? ' is-home' : ''}`}>
       <a className="skip-link" href="#main-content">
         跳到主要内容
       </a>

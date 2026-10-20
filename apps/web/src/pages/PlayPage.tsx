@@ -37,6 +37,7 @@ export function PlayPage() {
   const [searchParams] = useSearchParams();
   const setupRequested = searchParams.get('setup') === '1';
   const engineReady = useEngineStore((state) => state.engineReady);
+  const offlineReady = useEngineStore((state) => state.offlineReady);
   const enginePhase = useEngineStore((state) => state.phase);
   const current = useGameStore((state) => state.current);
   const hydrated = useGameStore((state) => state.hydrated);
@@ -137,9 +138,15 @@ export function PlayPage() {
           <Play size={15} aria-hidden="true" />
           返回首页
         </Link>
-        <span className="play-meta">
-          {levelLabel(current.level)} · 你执{playerColor === 'r' ? '红' : '黑'} · {formatDuration(elapsed)}
-        </span>
+        <div className="play-topline-right">
+          <span className={`mobile-engine-status${offlineReady ? ' is-ready' : ''}`}>
+            <i aria-hidden="true" />
+            {offlineReady ? '离线棋力' : engineReady ? '在线棋力' : '引擎准备中'}
+          </span>
+          <span className="play-meta">
+            {levelLabel(current.level)} · 你执{playerColor === 'r' ? '红' : '黑'} · {formatDuration(elapsed)}
+          </span>
+        </div>
       </div>
 
       <div className="play-layout">

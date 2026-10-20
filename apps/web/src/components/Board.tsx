@@ -22,6 +22,7 @@ interface BoardProps {
   hint?: { from: number; to: number } | null;
   checkedSquare?: number | null;
   interactive?: boolean;
+  preview?: boolean;
   onPoint?: (square: number) => void;
 }
 
@@ -49,6 +50,7 @@ export function Board({
   hint = null,
   checkedSquare = null,
   interactive = true,
+  preview = false,
   onPoint,
 }: BoardProps) {
   const [focusedSquare, setFocusedSquare] = useState<number>(() => {
@@ -100,7 +102,7 @@ export function Board({
   const legalSet = new Set(legalTargets);
 
   return (
-    <div className="board-shell" role="group" aria-label="中国象棋棋盘">
+    <div className={`board-shell${preview ? ' board-preview' : ''}`} role="group" aria-label={preview ? '中国象棋棋盘预览' : '中国象棋棋盘'}>
       <svg
         className="board-svg"
         viewBox={`0 0 ${VIEW_WIDTH} ${VIEW_HEIGHT}`}
@@ -232,7 +234,7 @@ export function Board({
         })}
       </svg>
 
-      <div className="board-hit-layer">
+      {!preview && <div className="board-hit-layer">
         {points.map(({ square, x, y, row, col, piece }) => {
           const label = `${piece ? `${piece.color === 'r' ? '红方' : '黑方'}${PIECE_GLYPHS[piece.color][piece.type]}` : '空位'}，${squareName(square)}`;
           return (
@@ -267,7 +269,7 @@ export function Board({
             </button>
           );
         })}
-      </div>
+      </div>}
     </div>
   );
 }

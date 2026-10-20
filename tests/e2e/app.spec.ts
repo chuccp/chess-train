@@ -7,7 +7,7 @@ async function waitForOfflineReady(page: import('@playwright/test').Page) {
 
 test('home loads with the offline engine ready', async ({ page }) => {
   await waitForOfflineReady(page);
-  await expect(page.locator('h1')).toContainText('静下来');
+  await expect(page.locator('.home-hero h1')).toContainText('静下来');
   await expect(page.getByRole('button', { name: /和 AI 下一盘/ })).toBeEnabled();
   await expect(page.locator('.desktop-nav')).toBeVisible();
 });
@@ -32,7 +32,7 @@ test('stays usable after going offline', async ({ page, context }) => {
   await context.setOffline(true);
   await page.reload();
   await expect(page.locator('.engine-badge')).toContainText('离线就绪');
-  await expect(page.locator('h1')).toContainText('静下来');
+  await expect(page.locator('.home-hero h1')).toContainText('静下来');
   await page.goto('/train');
   await expect(page.locator('h1')).toContainText('把棋感练出来');
 });
@@ -58,6 +58,8 @@ test('mobile layout has no horizontal overflow and an immersive game', async ({ 
       () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
     ),
   ).toBe(false);
+  await expect(page.locator('.site-header')).toBeHidden();
+  await expect(page.locator('.mobile-game-lobby h1')).toContainText('下一盘好棋');
   await page.getByRole('button', { name: /和 AI 下一盘/ }).click();
   await expect(page).toHaveURL(/\/play$/);
   await expect(page.locator('.bottom-nav')).toBeHidden();
