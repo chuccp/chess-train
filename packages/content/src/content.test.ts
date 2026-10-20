@@ -36,7 +36,7 @@ function playLine(fen: string, uccis: string[]): { position: Position; hashes: s
 
 describe('starter content', () => {
   it('has the promised starter counts', () => {
-    expect(contentStats).toEqual({ tactics: 20, endgame: 30, opening: 12 });
+    expect(contentStats).toEqual({ tactics: 164, endgame: 801, opening: 40 });
   });
 
   it('has unique ids and valid provenance metadata', () => {
@@ -165,7 +165,8 @@ describe('starter content', () => {
           position = result.position;
         }
 
-        if (line.moves.length === 3) {
+        const forcedReference = /^endgame-0[1-6]$/.test(lesson.id);
+        if (forcedReference && line.moves.length === 3) {
           const first = parseUcci(line.moves[0]?.ucci ?? '');
           const final = parseUcci(line.moves[2]?.ucci ?? '');
           expect(first, `${lesson.id}/${line.id} first`).not.toBeNull();

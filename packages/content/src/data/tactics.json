@@ -567,5 +567,4355 @@
     ],
     "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
     "explanation": "红方走 车七平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-001",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第007局 春雷惊蛰",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 100,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第007局 春雷惊蛰",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69256/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3P2b2/4kr3/3Pb4/9/9/9/2P6/5A3/3KA4/cnn1C4 w - - 4 20",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d7d8"
+      ],
+      [
+        "d7e7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 后兵进一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-002",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第008局 珠藏韫柜",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 101,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第008局 珠藏韫柜",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69257/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "C2a1a1N1/r2k5/2P4n1/1r7/2N3p2/9/9/2n6/5p3/4Kc3 w - - 2 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c7d7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵七平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-003",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第009局 神龟出洛",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 102,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第009局 神龟出洛",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69258/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "5R3/1C7/c2ak4/9/3P5/9/4C4/B8/r2pnpp2/4K1c1R w - - 0 10",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d5e5"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵六平五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-004",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第010局 鸳鸯戏水",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 103,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第010局 鸳鸯戏水",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69259/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3a1ab1C/1R7/4k4/3N5/9/6B2/1n5r1/4n4/4A4/c1BAK4 w - - 2 8",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b8b7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车八退一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-005",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第011局 群鼠争穴",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 104,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第011局 群鼠争穴",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69260/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2bk3C1/4P4/1rc1b3c/9/4N4/9/9/3C5/4p1r2/2p2K3 w - - 8 7",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e5d7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马五进六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-006",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第014局 独鹿鸣泽",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 105,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第014局 独鹿鸣泽",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69263/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1C2k4/1R4r2/C2a1a3/9/2p6/9/9/3p5/4p3r/3K5 w - - 12 8",
+    "goal": "mate",
+    "solutions": [
+      [
+        "a7a9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮九进二，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-007",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第016局 退思补过",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 106,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第016局 退思补过",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69265/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1C2ka3/1n1P5/4b4/4p4/C8/6Br1/9/4p4/4p4/3p1K3 w - - 2 8",
+    "goal": "mate",
+    "solutions": [
+      [
+        "a5a9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮九进四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-008",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第018局 播弄造化",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 107,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第018局 播弄造化",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69267/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1CC3bn1/4ak3/4nc3/4p4/9/9/9/9/r1p1p4/3K4R w - - 2 15",
+    "goal": "mate",
+    "solutions": [
+      [
+        "i0i8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车一进八，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-009",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第019局 遁世不见",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 108,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第019局 遁世不见",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69268/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "5a3/n3a4/5k3/1P2P4/9/9/9/3cB1r1B/4AC1n1/4K3c w - - 0 7",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e1f2"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 仕五进四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-010",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第022局 及第思乡",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 109,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第022局 及第思乡",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69271/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "r2k2b2/1c2P4/9/8N/9/9/9/4BA3/5p3/3CKNRrc w - - 9 13",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g0g9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车三进九，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-011",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第026局 结草衔环",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 110,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第026局 结草衔环",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69275/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "8C/5N3/b4k3/4N1p2/4C4/9/4c4/6n2/5p1r1/1r1cK4 w - - 5 11",
+    "goal": "mate",
+    "solutions": [
+      [
+        "i9f9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮一平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-012",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第027局 藕断丝牵",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 111,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第027局 藕断丝牵",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69276/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2bnnk1r1/4P4/4bc3/9/2p3P1p/9/9/4p4/3p5/2pCK4 w - - 0 7",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d0d9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮六进九，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-013",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第028局 计罗并照",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 112,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第028局 计罗并照",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69277/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3a1k1C1/4a1n2/4bN2b/9/5r3/8r/9/4BC3/1n2p1p2/c4K3 w - - 2 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f7g9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马四进三，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-014",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第029局 四面楚歌",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 113,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第029局 四面楚歌",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69278/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2b4r1/4r4/4bk3/9/6P2/3n1Cc2/9/5n3/2p1p4/3K5 w - - 1 11",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g5f5"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵三平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-015",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第030局 国庶兵强",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 114,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第030局 国庶兵强",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69279/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "5kb2/c3P4/5P2r/6n2/6bN1/9/5n3/9/1r1p1p3/4K4 w - - 0 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e8e9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵五进一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-016",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第031局 兵贵拙速",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 115,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第031局 兵贵拙速",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69280/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2b3br1/r3a4/3a1k2n/8p/6P2/5C3/9/9/3p1p3/4K2c1 w - - 0 7",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g5f5"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵三平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-017",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第032局 士马如云",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 116,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第032局 士马如云",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69281/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2bk1ab2/n3a2P1/5N3/2N6/9/9/9/4BA3/3CAp3/2p1KCrc1 w - - 11 15",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c6b8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马七进八，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-018",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第035局 龙翻潭底",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 117,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第035局 龙翻潭底",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69284/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1CbR5/4nk3/4b4/2N1C4/9/9/4P1r2/8B/4Ar1n1/2BAK3c w - - 1 7",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d9f9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车六平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-019",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第036局 鹤鸣九皋",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 118,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第036局 鹤鸣九皋",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69285/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2r3b2/4a3n/1C1Nbk3/9/9/9/9/4B4/1n1pAC3/c1rAK4 w - - 0 13",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e1f2"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 仕五进四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-020",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第037局 损人安己",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 119,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第037局 损人安己",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69286/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "4C4/6P2/3a1k3/3NC4/2b6/9/6P2/4B1n2/2cpAp2r/4KAB1c w - - 2 11",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e6e8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 后炮进二，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-021",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第038局 百计无由",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 120,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第038局 百计无由",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69287/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3aP1br1/1R7/5k3/2p3p2/5Pc2/2B6/7p1/9/3r5/4K4 w - - 7 7",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f5f6"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵四进一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-022",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第044局 近悦远来",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 121,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第044局 近悦远来",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69293/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "4k4/3P1P3/8b/8N/5cb2/2n6/5C3/5A3/4AK3/1r4r2 w - - 8 8",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f8f9"
+      ],
+      [
+        "f8e8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵四进一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-023",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第045局 遇水叠桥",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 122,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第045局 遇水叠桥",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69294/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2br5/5k3/4b4/9/9/4C2N1/4p1p2/1cn6/5C3/c3K4 w - - 14 15",
+    "goal": "mate",
+    "solutions": [
+      [
+        "h4f3"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马二退四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-024",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第048局 卧薪尝胆",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 123,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第048局 卧薪尝胆",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69297/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "9/1N1kaR3/4b4/4C4/2b6/2B6/2P6/2nrB4/5p3/4K4 w - - 1 8",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f8e8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车四平五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-025",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第049局 独步出营",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 124,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第049局 独步出营",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69298/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2P2a3/1R2aP3/3kn4/4N4/9/9/9/5A3/3r5/2p1KA1rc w - - 7 12",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e6c5"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马五退七，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-026",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第050局 秦鹿方走",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 125,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第050局 秦鹿方走",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69299/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "7r1/4a3C/2C1ka3/7N1/4N4/9/4n4/9/4p4/5Kc1r w - - 3 8",
+    "goal": "mate",
+    "solutions": [
+      [
+        "h6g8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马二进三，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-027",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第054局 五虎靠山",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 126,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第054局 五虎靠山",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69303/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "C1bCk3r/5P3/b2a1a3/9/9/9/9/9/4p1r2/5K3 w - - 0 10",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d9d8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮六退一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-028",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第055局 背水战胜",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 127,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第055局 背水战胜",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69304/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "4C4/3P1P3/4k4/9/6bn1/1n3N3/9/5C3/r3p4/3K5 w - - 1 7",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d8e8"
+      ],
+      [
+        "f8e8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵六平五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-029",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第072局 骏骑追风",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 128,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第072局 骏骑追风",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69321/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "5aN1C/5k3/9/9/4N4/4C4/9/5p3/2n1p4/5K3 w - - 5 15",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g9h7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马三退二，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-030",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第073局 鱼跃于渊",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 129,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第073局 鱼跃于渊",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69322/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "5R3/3k5/9/3N1N3/3P5/3r5/9/4p4/3r1p3/1c2K4 w - - 3 14",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d6b7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马六进八，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-031",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第076局 莺慵蝶懒",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 130,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第076局 莺慵蝶懒",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69325/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3a1a3/9/3P1k3/2P2N3/9/6C1C/9/1c3p3/4p4/3n1K3 w - - 16 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g4f4"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮三平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-032",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第078局 翻江搅海",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 131,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第078局 翻江搅海",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69327/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1rC1c4/9/n4k3/5N3/9/9/4R4/4C4/4rn3/3K5 w - - 20 14",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e2f2"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮五平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-033",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第079局 四七并列",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 132,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第079局 四七并列",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69328/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "C2a1a3/7r1/2N2k3/4N4/9/9/9/5p3/4p4/5K3 w - - 13 14",
+    "goal": "mate",
+    "solutions": [
+      [
+        "a9a7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮九退二，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-034",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第081局 寻踪觅迹",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 133,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第081局 寻踪觅迹",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69330/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "5N1n1/2N6/3k5/9/9/C8/9/5p3/4p4/c4K3 w - - 14 11",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c8b6"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马七退八，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-035",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第082局 祸不单行",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 134,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第082局 祸不单行",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69331/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3k1a3/9/2PN4n/9/9/9/9/9/3p1p2r/3CK4 w - - 0 4",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d7f8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马六进四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-036",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第083局 沉鱼落雁",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 135,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第083局 沉鱼落雁",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69332/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2bkN4/7R1/9/9/9/9/9/5Cr2/r2p1p3/4K4 w - - 6 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f2f9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮四进七，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-037",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第084局 双蜓点水",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 136,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第084局 双蜓点水",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69333/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1C2k4/1N3P3/1nN1b4/9/9/9/9/4p4/3p1p3/4K4 w - - 6 4",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b8d7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马八退六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-038",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第086局 运筹决胜",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 137,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第086局 运筹决胜",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69335/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "9/3k5/4P4/9/9/9/9/2pA2p2/4AK1nr/4C4 w - - 1 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e0d0"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮五平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-039",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第089局 七雄争霸",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 138,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第089局 七雄争霸",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69338/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2bak3C/1nR1aP3/4b4/4p1p2/9/5n3/4PC3/3A5/3K2crc/3Ar4 w - - 8 14",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f8f9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵四进一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-040",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第090局 骅骝争先",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 139,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第090局 骅骝争先",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69339/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3a1k3/2N1a4/4bcc2/2p1p1p2/6n2/C6R1/2P1P4/2n1C4/4Ap2r/r2AK4 w - - 2 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "a4f4"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮九平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-041",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第091局 六国抗秦",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 140,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第091局 六国抗秦",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69340/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2bR5/3n1rNn1/3kb4/2N6/2p3p2/2B1C4/9/4B4/1r1p5/c3KC3 w - - 7 8",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c6e5"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马七退五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-042",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第092局 五丁凿路",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 141,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第092局 五丁凿路",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69341/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1Cbaka2R/C8/N3b4/7n1/9/2Bn5/9/B8/c1rp1p3/4Kc3 w - - 2 4",
+    "goal": "mate",
+    "solutions": [
+      [
+        "a7c8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马九进七，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-043",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第093局 鱼骇月钩",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 142,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第093局 鱼骇月钩",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69342/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3n2b1r/C2c5/P2kb4/2N6/9/9/9/4BA3/3p1p3/c1BAK4 w - - 0 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c6e5"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马七退五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-044",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第094局 负笈追师",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 143,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第094局 负笈追师",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69343/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2ba1k3/1R2a4/3N3nn/5C2N/9/9/9/5p3/2rc4r/5K3 w - - 2 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "i6g7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马一进三，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-045",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第095局 英雄贯斗",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 144,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第095局 英雄贯斗",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69344/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "6P2/1C3k3/3a1a3/3N5/6b2/9/5r3/4R1p2/1p3r1p1/4K2c1 w - - 1 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e2e8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车五进六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-046",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第097局 敌居万人",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 145,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第097局 敌居万人",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69346/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "8r/5kN2/4b4/c1p6/4P4/9/9/5C3/2r1p4/5K3 w - - 0 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g8f6"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马三退四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-047",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第098局 姜公钓渭",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 146,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第098局 姜公钓渭",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69347/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "R2a1a3/4k4/1C1N5/9/2b2Pb2/9/9/4pp3/3nr3r/5K3 w - - 8 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "a9a8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车九退一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-048",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第099局 偷营劫寨",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 147,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第099局 偷营劫寨",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69348/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "cr1a1a3/3R2P2/4ck3/9/9/9/9/4B4/9/2BK5 w - - 0 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d8f8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车六平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-049",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第100局 飞黄结路",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 148,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第100局 飞黄结路",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69349/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2r6/4akN2/C5P2/5C3/7r1/9/9/5p3/4p4/5K3 w - - 2 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "a7f7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮九平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-050",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第102局 金门待漏",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 149,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第102局 金门待漏",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69351/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1Cbak4/R4P3/9/9/4c4/9/9/9/2r3r2/4K4 w - - 2 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "a8e8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车九平五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-051",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第103局 双鹭窥鱼",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 150,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第103局 双鹭窥鱼",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69352/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3a4N/5k1N1/5a3/1rr6/9/9/9/9/5p3/4K4 w - - 2 4",
+    "goal": "mate",
+    "solutions": [
+      [
+        "i9h7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马一退二，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-052",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第104局 径行自遂",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 151,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第104局 径行自遂",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69353/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "4k4/7NC/4b4/9/9/R8/9/6n2/3p5/3AKAr1c w - - 6 8",
+    "goal": "mate",
+    "solutions": [
+      [
+        "a4a9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车九进五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-053",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第105局 战如烈火",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 152,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第105局 战如烈火",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69354/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2b2a3/8c/3C1k1N1/6n2/2b6/9/9/4C4/2rp1p3/4KAr1c w - - 2 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e2e7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮五进五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-054",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第106局 兵马出塞",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 153,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第106局 兵马出塞",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69355/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2ba1r3/6n1C/4bk3/6N2/9/6B2/9/2n1C4/1r7/c3K4 w - - 6 11",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g6e5"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马三退五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-055",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第107局 丹山起凤",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 154,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第107局 丹山起凤",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69356/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "5a3/3rk4/4ba3/4N1N2/9/9/9/3A5/2p1C4/3K2Brc w - - 9 12",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e6c7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马五进七，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-056",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第108局 争舟走渡",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 155,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第108局 争舟走渡",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69357/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2bak4/4a4/4b4/7N1/2r1C4/9/9/C4Rnr1/4Ap3/3AK3c w - - 6 7",
+    "goal": "mate",
+    "solutions": [
+      [
+        "h6g8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马二进三，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-057",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第109局 欲罢不能",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 156,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第109局 欲罢不能",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69358/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "4k3r/2R1a4/4ba3/4C4/9/5C3/4c3P/4B4/4A3p/3AK3c w - - 2 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c8c9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车七进一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-058",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第111局 兴戎出好",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 157,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第111局 兴戎出好",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69360/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2b1ka3/1N2a4/1c2b3c/9/9/6B2/4C1r2/C8/4Ap1n1/3AK4 w - - 2 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "a2a9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮九进七，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-059",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第112局 飞鲸吞钓",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 158,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第112局 飞鲸吞钓",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69361/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "C2k5/8R/b3ba3/9/6p2/1C2c4/9/4B4/1r2A1c2/4KAr2 w - - 2 4",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b4b9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮八进五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-060",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第113局 威镇四海",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 159,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第113局 威镇四海",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69362/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2b6/3k1N3/4b4/4C4/9/9/3nP4/6C2/3rAp3/c1nAK4 w - - 2 8",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g2g8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮三进六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-061",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第114局 践履笃实",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 160,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第114局 践履笃实",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69363/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "7r1/C3k1N2/4ba3/2N1p4/9/9/9/2n6/3pA4/c1rAK4 w - - 0 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c6b8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马七进八，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-062",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第115局 耕莘待聘",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 161,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第115局 耕莘待聘",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69364/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3k5/9/5N3/2N6/2p6/9/9/4C4/1nrpA4/c3KA3 w - - 3 17",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c6b8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马七进八，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-063",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第116局 明皇游宫",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 162,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第116局 明皇游宫",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69365/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2bk1a3/4a4/5N1c1/9/4P4/3C2C2/2P6/2n1p1nr1/3R5/1rB1K4 w - - 4 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g4g9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮三进五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-064",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第117局 曲突徙薪",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 163,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第117局 曲突徙薪",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69366/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1C2ka3/3Pa4/b3b4/9/9/7r1/2Pnc4/3CB3B/4Ap3/3AK3c w - - 2 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d8d9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵六进一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-065",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第120局 龟玉毁椟",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 164,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第120局 龟玉毁椟",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69369/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3n5/4nk1N1/4b4/9/9/1r1C5/4c4/4B4/3pN4/4KC3 w - - 6 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d4d8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮六进四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-066",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第121局 柳营射猎",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 165,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第121局 柳营射猎",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69370/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2na5/5k1N1/C8/5N3/6b2/9/9/9/r2p1pr2/4K4 w - - 2 8",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f6h7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马四进二，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-067",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第122局 地富兵强",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 166,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第122局 地富兵强",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69371/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "R4abC1/6C2/3k5/9/9/9/9/7r1/2pp4r/4K4 w - - 0 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "a9d9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车九平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-068",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第123局 逢山开路",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 167,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第123局 逢山开路",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69372/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "7n1/4a1P2/CN2bk3/1P3rn2/6b2/9/9/9/3p1r3/c3K4 w - - 6 8",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b7d6"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马八退六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-069",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第125局 五虎下川",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 168,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第125局 五虎下川",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69374/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "C1bN1k2c/7R1/3a1a3/3R5/9/2N6/9/3AB1n2/3p1p2r/4K4 w - - 16 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "h8h9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车二进一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-070",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第126局 叶落归秋",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 169,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第126局 叶落归秋",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69375/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2bak1n2/6R2/4ba3/9/4N4/9/9/5C3/3rAp3/c1rAK4 w - - 6 4",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e5f7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马五进四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-071",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第128局 耿恭拜井",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 170,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第128局 耿恭拜井",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69377/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2b2kb2/3R1rN2/9/9/9/9/4P4/4C4/3npr3/3K5 w - - 0 7",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d8d9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车六进一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-072",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第129局 凿壁偷光",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 171,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第129局 凿壁偷光",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69378/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1Cbrka3/1R3N3/c3ba3/9/9/9/9/9/5p2r/2c1K4 w - - 1 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f8d7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马四退六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-073",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第130局 鸦鹊争巢",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 172,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第130局 鸦鹊争巢",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69379/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3k5/3cP4/5N2C/r8/9/3c5/3C5/3p5/4p4/3K5 w - - 12 22",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e8e9"
+      ],
+      [
+        "e8d8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵五进一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-074",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第131局 入幕之宾",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 173,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第131局 入幕之宾",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69380/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2ba1k2C/2C1a3n/2n1N4/9/9/9/9/1r6B/5p2r/3RK4 w - - 0 8",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d0d9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车六进九，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-075",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第133局 六国争雄",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 174,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第133局 六国争雄",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69382/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2b3b2/4nk1N1/2N6/2C1p2C1/9/9/9/4p4/1r5r1/4K4 w - - 0 4",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c7d9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马七进六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-076",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第134局 沧海腾蛟",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 175,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第134局 沧海腾蛟",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69383/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1r1k5/4Pn3/5N3/9/9/9/9/4BAr2/3CAp3/4K3c w - - 11 10",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e1d2"
+      ],
+      [
+        "f7d8"
+      ],
+      [
+        "f7d6"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 仕五进六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-077",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第135局 竹马迎拜",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 176,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第135局 竹马迎拜",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69384/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2P4n1/1CN1a4/3knN1R1/4P4/9/9/1c7/3p5/r3p4/3K1p3 w - - 3 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e6e7"
+      ],
+      [
+        "e6d6"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵五进一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-078",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第136局 惊鸿整羽",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 177,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第136局 惊鸿整羽",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69385/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "4k2n1/4a4/NR2b4/2p1C1p2/4c4/9/9/9/6r1r/5K3 w - - 0 4",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b7b9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车八进二，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-079",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第137局 匹马平胡",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 178,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第137局 匹马平胡",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69386/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "5a1R1/4k4/3acN3/2n6/2b6/4P4/9/3CB4/1r1p4r/4K4 w - - 2 4",
+    "goal": "mate",
+    "solutions": [
+      [
+        "h9h8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车二退一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-080",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第139局 并驾连驱",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 179,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第139局 并驾连驱",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69388/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "C4k3/9/4cN3/9/9/1p4N1c/9/2p1C4/1rn4r1/3K5 w - - 2 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e2f2"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮五平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-081",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第140局 引龙出水",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 180,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第140局 引龙出水",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69389/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "6P1c/3Rak3/9/9/2b1N4/9/9/3KC4/1nr1p4/5r3 w - - 3 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d8e8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车六平五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-082",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第141局 细柳屯兵",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 181,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第141局 细柳屯兵",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69390/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2Pak4/C4P3/9/9/9/4C4/4c4/9/2nr1p3/1r1cK1B2 w - - 2 7",
+    "goal": "mate",
+    "solutions": [
+      [
+        "a8e8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮九平五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-083",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第142局 七国连衡",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 182,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第142局 七国连衡",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69391/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "5ab1C/3n2P2/1P1k2n2/2N6/2b1P4/9/9/5p3/4r4/3p1K3 w - - 0 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b7c7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵八平七，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-084",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第146局 远猎山林",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 183,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第146局 远猎山林",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69395/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3a5/4a4/5k3/4P4/9/9/9/B2ABA1r1/3CNp3/rc2K4 w - - 3 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d1f1"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮六平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-085",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第147局 烧牛凿城",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 184,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第147局 烧牛凿城",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69396/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3k1aP2/4a4/5N3/9/1N4b2/9/9/4B4/3C1p3/4Kcr1c w - - 13 19",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b5c7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马八进七，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-086",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第149局 腾蛟起凤",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 185,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第149局 腾蛟起凤",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69398/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "9/9/3kba3/4c4/9/2N6/4P4/4B1n1r/3CAp3/4K4 w - - 7 10",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c4d6"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马七进六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-087",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第150局 吕帅鹰扬",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 186,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第150局 吕帅鹰扬",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69399/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3a1R3/7CC/c3k4/3Prr3/2N6/9/9/3p5/4p4/1p1K5 w - - 2 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d6d7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵六进一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-088",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第151局 虏马饮江",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 187,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第151局 虏马饮江",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69400/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1R7/9/C2Nbk1P1/9/9/9/9/3p1A1C1/4p2r1/5K3 w - - 3 12",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b9f9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车八平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-089",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第151局 虏马饮江",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 188,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第151局 虏马饮江",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69400/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1R7/6P2/C2Nbk3/9/9/9/9/3p1A1C1/4p2r1/5K3 w - - 7 14",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d7e9"
+      ],
+      [
+        "d7e5"
+      ],
+      [
+        "b9f9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马六进五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-090",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第153局 死敌为忠",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 189,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第153局 死敌为忠",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69402/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3k1a3/2N1aP3/9/9/2N6/9/9/3C1A3/5r3/2p1K1pnc w - - 8 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c5d7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 后马进六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-091",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第154局 外攘四夷",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 190,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第154局 外攘四夷",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69403/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3ak3C/3r5/4ba1N1/9/6b2/6c2/9/3n5/4r4/3K2c2 w - - 0 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "h7g9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马二进三，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-092",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第155局 足蹑天窟",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 191,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第155局 足蹑天窟",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69404/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1C1R5/5kN2/b3ba3/9/4r3C/9/9/9/c1r3p2/c2K5 w - - 8 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "i5i8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮一进三，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-093",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第156局 三献刖足",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 192,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第156局 三献刖足",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69405/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1Nca2b2/1P1k5/3a5/3n5/9/9/9/9/3p5/1rc1K4 w - - 2 7",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b8c8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵八平七，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-094",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第158局 暴虎凭河",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 193,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第158局 暴虎凭河",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69407/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "C1b2ab2/4a4/3k5/N1N6/9/9/9/3A2r2/3K3c1/3A2n1c w - - 6 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "a6b8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马九进八，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-095",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第159局 前后绝伦",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 194,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第159局 前后绝伦",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69408/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3a1k3/4a4/4bN3/9/9/5r3/5c3/4BC3/1n1rA4/4KA3 w - - 0 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f2f4"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮四进二，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-096",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第161局 远害全身",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 195,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第161局 远害全身",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69410/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "9/3ka4/4PN2C/3C5/2b6/9/9/4p4/2r6/cr1AK4 w - - 1 4",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e7d7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵五平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-097",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第162局 朱云折槛",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 196,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第162局 朱云折槛",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69411/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2b3P2/4a4/5k1P1/6N2/9/9/9/4Cp2C/r3p4/5K3 w - - 3 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "i2i7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮一进五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-098",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第163局 选将练兵",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 197,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第163局 选将练兵",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69412/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "c2k1a3/4C4/b2Nb2c1/4C4/9/9/9/9/4p3r/5K3 w - - 0 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e6d6"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 后炮平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-099",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第165局 遇水叠桥",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 198,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第165局 遇水叠桥",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69414/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1Rbk5/3r3n1/4b4/9/9/9/9/9/3ppc3/5K3 w - - 2 8",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b9c9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车八平七，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-100",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第166局 立倾敌国",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 199,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第166局 立倾敌国",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69415/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3k5/5R3/3ab4/9/3N5/9/9/3CC4/3p1pnr1/4K4 w - - 5 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d5c7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马六进七，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-101",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第167局 功成略地",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 200,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第167局 功成略地",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69416/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2bk1ab1C/1R4P2/5N3/9/9/4n4/9/4p4/1r5r1/4K4 w - - 2 4",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b8d8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车八平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-102",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第169局 阴陵失道",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 201,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第169局 阴陵失道",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69418/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2b1RN1c1/3na4/3k1a3/3rp4/2b6/6C2/9/9/5r3/4K4 w - - 0 4",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g4g7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮三进三，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-103",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第170局 面缚自首",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 202,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第170局 面缚自首",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69419/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "6b2/3P1cP2/4bk3/3Nc4/6p2/9/9/2C6/3p1r3/4K4 w - - 2 4",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c2c7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮七进五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-104",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第171局 赢缩无常",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 203,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第171局 赢缩无常",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69420/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3kc1NC1/2P6/9/9/9/9/9/5p3/1r1r5/5K1p1 w - - 0 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g9e8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马三退五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-105",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第173局 水枯见鱼",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 204,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第173局 水枯见鱼",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69422/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "4R4/9/3k5/2N1p4/9/9/4P4/4C4/c1nrA4/4KA3 w - - 5 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e9d9"
+      ],
+      [
+        "e9e7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车五平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-106",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第174局 三气周瑜",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 205,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第174局 三气周瑜",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69423/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2b1kac1C/9/4b4/3R3C1/6c2/9/9/2n6/3p3r1/4K4 w - - 2 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "h6e6"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮二平五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-107",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第175局 四面旋绕",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 206,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第175局 四面旋绕",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69424/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "cN1k4C/4R4/b3b4/9/9/9/9/4p4/3nr1p2/5K3 w - - 0 14",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b9c7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马八退七，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-108",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第177局 声势相倚",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 207,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第177局 声势相倚",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69426/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "7R1/Cr7/3k5/p8/9/9/9/4B4/3rA4/4KAB2 w - - 0 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "h9h7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车二退二，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-109",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第179局 边烽惊虏",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 208,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第179局 边烽惊虏",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69428/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "9/5R3/bPCk4n/1r7/9/9/5c3/3p5/4p4/3K5 w - - 0 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c7a7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮七平九，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-110",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第180局 暮鸟投林",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 209,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第180局 暮鸟投林",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69429/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3kn4/2R1a4/4N4/9/9/9/9/3r5/1n3C3/2c1KcrN1 w - - 0 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f1f9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮四进八，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-111",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第181局 海底诛龙",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 210,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第181局 海底诛龙",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69430/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2b3b2/4r4/5k3/9/5N3/8C/9/4B4/4pcn2/3K5 w - - 2 7",
+    "goal": "mate",
+    "solutions": [
+      [
+        "i4f4"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮一平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-112",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第182局 投肉馁虎",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 211,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第182局 投肉馁虎",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69431/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2ba1ar1C/4k1N2/4c4/9/9/9/9/4B4/4pp3/2BK5 w - - 2 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "i9i8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮一退一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-113",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第184局 蛇龙混海",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 212,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第184局 蛇龙混海",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69433/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "rN1k4C/4P4/3cb4/9/6r2/9/9/6p2/4p4/5K3 w - - 0 7",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b9c7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马八退七，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-114",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第185局 酸毒道路",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 213,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第185局 酸毒道路",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69434/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "5k2C/4anRc1/5a3/9/2r6/9/9/9/3p1p3/4K4 w - - 5 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g8g9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车三进一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-115",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第186局 宿鸟惊弹",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 214,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第186局 宿鸟惊弹",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69435/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1nb1k4/1R7/4b4/6N2/9/9/9/9/3p2rr1/1C2K3c w - - 2 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b0b9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮八进九，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-116",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第187局 萤惑退舍",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 215,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第187局 萤惑退舍",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69436/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "1C2c4/4a3R/4rk3/4N4/9/9/9/5p3/4p2r1/5K3 w - - 2 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e6g5"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马五退三，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-117",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第188局 载沉载浮",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 216,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第188局 载沉载浮",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69437/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2b1Rab1C/2P6/3k5/9/9/9/9/9/c1nr1p3/4K4 w - - 5 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e9d9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车五平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-118",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第189局 闭门扫轨",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 217,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第189局 闭门扫轨",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69438/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3a1k3/4a1R2/4brN2/1N7/9/9/9/9/3p1p2p/4KC3 w - - 2 3",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g8e8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车三平五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-119",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第191局 劳问将士",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 218,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第191局 劳问将士",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69440/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3k2C2/1NR1an3/3a5/3r5/2b6/9/9/9/1c1p3r1/4K4 w - - 2 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c8e8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车七平五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-120",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第192局 两地关心",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 219,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第192局 两地关心",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69441/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2b1k1NrC/4a4/4b4/5C3/9/9/9/3p5/4p4/3K5 w - - 0 3",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g9f7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马三退四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-121",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第193局 同功并位",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 220,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第193局 同功并位",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69442/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2bk5/4RR3/9/9/9/9/9/3A2n2/3pA1r2/4K2c1 w - - 1 8",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f8f9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车四进一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-122",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第195局 盐车困骥",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 221,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第195局 盐车困骥",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69444/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2b2k2C/4a4/3a1N3/9/9/9/3C5/1p7/1np2p1r1/4K4 w - - 6 4",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d3f3"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮六平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-123",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第196局 雪拥蓝关",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 222,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第196局 雪拥蓝关",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69445/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2ba1a1N1/1P1k5/3cnr3/4C4/9/9/9/9/4p4/3K5 w - - 4 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b8c8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵八平七，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-124",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第197局 投命仇门",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 223,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第197局 投命仇门",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69446/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2bk4C/4a4/5cN2/9/9/9/8P/6n1B/2r6/4KA2r w - - 0 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g7f9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马三进四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-125",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第198局 惊鸟藏枝",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 224,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第198局 惊鸟藏枝",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69447/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "5C3/1N1kn4/4C3c/3r5/9/9/9/4p4/6r2/4K4 w - - 2 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f9f8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮四退一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-126",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第200局 落花流水",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 225,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第200局 落花流水",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69449/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3a5/5k1N1/4b4/8C/9/4C4/r8/9/2r1p4/3K5 w - - 6 7",
+    "goal": "mate",
+    "solutions": [
+      [
+        "i6i8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮一进二，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-127",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第201局 三请诸葛",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 226,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第201局 三请诸葛",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69450/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3a4P/4ak3/9/9/4pC3/c3C4/9/5p3/2rp5/4K4 w - - 2 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e4f4"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮五平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-128",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第203局 远近惊骇",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 227,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第203局 远近惊骇",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69452/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "9/2N1a4/3k5/4p4/9/9/4P4/cr1AKA3/5C3/2n6 w - - 3 9",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f1d1"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮四平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-129",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第205局 四畏廉名",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 228,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第205局 四畏廉名",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69454/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3k1a3/4a4/3P1N1Cc/9/9/9/9/9/2nrA4/4KA3 w - - 3 8",
+    "goal": "mate",
+    "solutions": [
+      [
+        "h7h9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮二进二，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-130",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第206局 孤星坠地",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 229,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第206局 孤星坠地",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69455/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "9/4a4/3a1k3/1N7/9/9/5C3/1p2KA1rc/2c1A4/5p3 w - - 0 8",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f3f0"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮四退三，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-131",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第207局 菱叶穿萍",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 230,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第207局 菱叶穿萍",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69456/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2bk3C1/3na4/3N5/4C4/1n6r/9/9/3p5/4p4/3K5 w - - 1 11",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d7b8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马六进八，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-132",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第210局 士马如云",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 231,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第210局 士马如云",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69459/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "Nr3c3/4kN2n/9/9/9/3R5/4C4/9/3p1pr2/4K4 w - - 5 11",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f8e6"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马四退五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-133",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第211局 晚鸟争枝",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 232,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第211局 晚鸟争枝",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69460/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "r8/7C1/4k1N1b/9/9/3r5/9/4n4/3p1p3/4K4 w - - 0 8",
+    "goal": "mate",
+    "solutions": [
+      [
+        "h8h7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮二退一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-134",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第212局 雁惊云网",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 233,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第212局 雁惊云网",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69461/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "5a3/1R5C1/3a1k2C/6p2/9/9/4n3c/5p3/4r4/5K3 w - - 0 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "h8h7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮二退一，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-135",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第219局 屈突徒薪",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 234,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第219局 屈突徒薪",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69468/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3R3c1/3Pak3/5r1r1/9/9/9/9/9/3p5/3AK4 w - - 0 7",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d8e8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 兵六平五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-136",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第220局 攀辕卧辙",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 235,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第220局 攀辕卧辙",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69469/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3k1a3/1rN4P1/n4a3/4R4/9/9/9/9/5pc2/c3K4 w - - 2 4",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e6d6"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车五平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-137",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第221局 野马舞风",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 236,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第221局 野马舞风",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69470/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "5a3/4a2C1/4k3b/5N3/6b2/3r5/9/3C5/4p3r/c4K3 w - - 8 10",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f6g8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马四进三，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-138",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第224局 随形助胜",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 237,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第224局 随形助胜",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69473/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3a1a1r1/1N3kc2/5r3/9/9/9/9/9/3p5/4K3c w - - 0 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b8d9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马八进六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-139",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第225局 循序渐进",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 238,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第225局 循序渐进",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69474/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "3P5/4nk1N1/4b4/9/r8/9/9/9/4r3C/3K5 w - - 4 10",
+    "goal": "mate",
+    "solutions": [
+      [
+        "i1i8"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮一进七，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-140",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第228局 游鱼吞钩",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 239,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第228局 游鱼吞钩",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69477/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "5PC2/4a4/3k1a3/2N1cN3/9/9/9/9/2nr1p3/4K4 w - - 5 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g9g7"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮三退二，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-141",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第230局 胡骑迫背",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 240,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第230局 胡骑迫背",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69479/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2bak1b2/4a2N1/9/5R3/9/9/9/6n2/r2r1p3/4K4 w - - 6 5",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f6f9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车四进三，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-142",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第234局 居中反祸",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 241,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第234局 居中反祸",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69483/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2b1k4/r5R2/n1r1b4/9/9/9/9/3n5/4p4/1C3K3 w - - 2 4",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b0b9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 炮八进九，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-143",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第236局 怀春育孕",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 242,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第236局 怀春育孕",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69485/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "2b1kaRC1/4a4/2r1b3r/9/4P4/9/9/9/4p4/5K3 w - - 0 4",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g9f9"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 车三平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-classic-144",
+    "kind": "tactics",
+    "title": "古谱杀法 · 第237局 长鲸授首",
+    "subtitle": "适情雅趣原谱局面 · 红先一步将死",
+    "level": 1,
+    "order": 243,
+    "tags": [
+      "古谱",
+      "一步杀",
+      "适情雅趣"
+    ],
+    "source": {
+      "name": "《适情雅趣》第237局 长鲸授首",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69486/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱局面 · 规则核自动校验",
+    "fen": "9/4a1NC1/3kba3/9/2b6/9/9/5n3/2r1p4/c4K3 w - - 0 6",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g8f6"
+      ]
+    ],
+    "hint": "先找能直接形成将死的一步。",
+    "explanation": "红方走 马三退四，黑将无合法应手，形成将死。"
   }
 ]
