@@ -43,11 +43,11 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
             <Icon size={15} aria-hidden="true" />
             {trainingKindLabels[kind]}
           </div>
-          <h1>{kind === 'endgame' ? '把少子下成胜势' : '把前六步走顺'}</h1>
+          <h1>{kind === 'endgame' ? '把少子下成胜势' : '把开局顺序走顺'}</h1>
           <p>
             {kind === 'endgame'
-              ? '每节演示一段强制应手，先看目标，再跟着主线走。'
-              : '每套开局一条主线，先理解出动顺序，不急着背变化。'}
+              ? '古谱与短课都在限定步数内完成；先看目标，再跟着主线走。'
+              : '每套开局一条主线，先理解出动顺序，再逐步扩展变化。'}
           </p>
         </div>
         <div className="list-progress-badge">
@@ -105,8 +105,8 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
 
       <p className="source-line list-source">
         {kind === 'endgame'
-          ? '残局演示为原创少子编排，规则核验证了全部黑方应手；来源：棋练项目组 · CC0-1.0。'
-          : '开局主线由公开布局常识整理，规则核逐着校验；来源：棋练项目组 · CC0-1.0。'}
+          ? '古谱条目注明原书与局号，原创短课为棋练项目组 CC0；所有主线均经规则核校验。'
+          : '古谱条目注明原书与局号，原创条目为棋练项目组 CC0；所有主线均经规则核逐着校验。'}
       </p>
     </div>
   );

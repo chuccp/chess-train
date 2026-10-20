@@ -328,7 +328,7 @@ export function HomePage() {
             <div>
               <span className="training-kicker">残局定式</span>
               <h3>把少子下成胜势</h3>
-              <p>跟着主线走，理解控将、收口和转换的次序。</p>
+              <p>古谱与短课，理解控将、收口和转换的次序。</p>
             </div>
             <div className="training-footer">
               <span>{contentStats.endgame} 节演示</span>
@@ -344,8 +344,8 @@ export function HomePage() {
             </div>
             <div>
               <span className="training-kicker">开局训练</span>
-              <h3>把前六步走顺</h3>
-              <p>不用背变化，先建立出动大子和占位的顺序感。</p>
+              <h3>把开局顺序走顺</h3>
+              <p>从经典主线建立出动大子和占位的顺序感。</p>
             </div>
             <div className="training-footer">
               <span>{contentStats.opening} 套开局</span>
