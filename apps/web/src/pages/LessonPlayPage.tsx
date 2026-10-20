@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import {
   applyMove,
+  evaluateBoard,
   generateLegalMoves,
   getKingSquare,
   isInCheck,
@@ -69,6 +70,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   const [attempts, setAttempts] = useState(0);
   const [hintsUsed, setHintsUsed] = useState(0);
   const [completed, setCompleted] = useState(false);
+  const [completedByWin, setCompletedByWin] = useState(false);
   const [freeMode, setFreeMode] = useState(false);
   const [freeUsed, setFreeUsed] = useState(0);
   const [failed, setFailed] = useState(false);
@@ -101,6 +103,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setAttempts(0);
     setHintsUsed(0);
     setCompleted(false);
+    setCompletedByWin(false);
     setFreeMode(false);
     setFreeUsed(0);
     setFailed(false);
@@ -208,8 +211,13 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     ? getKingSquare(position.board, position.turn)
     : null;
   const next = nextTrainingItem(kind, lesson.id);
-  const lastComment = ply > 0 ? moves[ply - 1]?.comment : undefined;
+  const lastComment = !completedByWin && ply > 0 ? moves[ply - 1]?.comment : undefined;
   const recordCompleted = loadedProgress?.status === 'completed';
+  const hasWon = (next: Position): boolean => {
+    if (lesson?.objective !== 'win') return false;
+    const end = evaluateBoard(next, { positionHashes: [] });
+    return end.status === 'win' && end.winner === userColor;
+  };
   const stepsUsed = Math.min(total, freeMode ? freeUsed : ply);
 
   function feedback(cue: 'move' | 'capture' | 'check' | 'win' | 'error') {
@@ -240,9 +248,10 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     void saveTrainingProgress(record);
   }
 
-  function finishLine(nextPly: number) {
+  function finishLine(nextPly: number, via: 'line' | 'win' = 'line') {
     if (completed) return;
     setCompleted(true);
+    setCompletedByWin(via === 'win');
     setSelected(null);
     setTargets([]);
     setHint(null);
@@ -327,6 +336,12 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
         return;
       }
 
+      if (hasWon(free.position)) {
+        setFreeUsed(Math.min(total, freeUsed + 1));
+        finishLine(Math.min(total, freeUsed + 1), 'win');
+        return;
+      }
+
       const used = Math.min(total, freeUsed + 1);
       setFreeUsed(used);
       if (used >= total) {
@@ -342,13 +357,20 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     const actual = `${'abcdefghi'[selected % 9]}${Math.floor(selected / 9)}${'abcdefghi'[square % 9]}${Math.floor(square / 9)}`;
 
     if (actual !== expected) {
-      const nextAttempts = attempts + 1;
-      // 不拦这步：先落子并进入自由练习；只有本关步数用完后才判失败。
+      // 不拦这步：先落子；如果直接形成将死，这是更短的解法，不记错试。
       const result = applyMove(position, selected, square);
-      setAttempts(nextAttempts);
       setSelected(null);
       setTargets([]);
       setHint(null);
+      if (result.ok && hasWon(result.position)) {
+        setPosition(result.position);
+        setLastMove({ from: result.move.from, to: result.move.to });
+        setPly(ply + 1);
+        finishLine(ply + 1, 'win');
+        return;
+      }
+      const nextAttempts = attempts + 1;
+      setAttempts(nextAttempts);
       setFreeMode(true);
       if (result.ok) {
         setPosition(result.position);
@@ -388,6 +410,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setMessage(null);
     feedback(result.givesCheck ? 'check' : result.move.captured ? 'capture' : 'move');
     if (nextPly >= total) finishLine(nextPly);
+    else if (hasWon(result.position)) finishLine(nextPly, 'win');
     else persistInProgress(nextPly);
   }
 
@@ -430,6 +453,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setHint(null);
     setMessage(null);
     setCompleted(false);
+    setCompletedByWin(false);
     setFreeMode(false);
     setFreeUsed(0);
     setFailed(false);
@@ -455,6 +479,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setHint(null);
     setMessage(null);
     setCompleted(false);
+    setCompletedByWin(false);
     setFreeMode(false);
     setFreeUsed(0);
     setFailed(false);
@@ -501,7 +526,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
             <div className={`turn-chip${autoMoving ? ' is-thinking' : ''}`}>
               <span className={`turn-disc ${boardPosition.turn}`} />
               {completed
-                ? '主线完成'
+                ? (completedByWin ? '将死成功' : '主线完成')
                 : autoMoving
                   ? '对手应手…'
                   : freeMode || failed
@@ -529,20 +554,25 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
 
           {/* 固定高度的状态槽：提示出现/消失不改变棋盘与整页高度，避免“页面上下一晃” */}
           <div
-            className={`inline-alert lesson-status${message ? '' : ' is-hint'}${failed ? ' inline-alert-error' : ''}`}
+            className={`inline-alert lesson-status${message ? '' : completed ? ' is-success' : ' is-hint'}${failed ? ' inline-alert-error' : ''}`}
             role="status"
             aria-live="polite"
           >
-            {message ?? '按主线走；也可以自由走子，步数用完后会判定结果。'}
+            {message ??
+              (completed
+                ? completedByWin
+                  ? '将死成功，本关已完成。'
+                  : '主线完成，本关已完成。'
+                : '按主线走，也可以自由走子；找到将死即完成，步数用完则判定。')}
           </div>
 
           <div className="line-progress">
             <div className="line-progress-label">
-              <span>{freeMode ? '自由练习' : (line?.label ?? '主线')}</span>
-              <span>{stepsUsed} / {total} 步</span>
+              <span>{completedByWin ? '将死成功' : freeMode ? '自由练习' : (line?.label ?? '主线')}</span>
+              <span>{completedByWin ? '已完成' : `${stepsUsed} / ${total} 步`}</span>
             </div>
             <div className="progress-track">
-              <span style={{ width: `${total ? Math.min(100, (stepsUsed / total) * 100) : 0}%` }} />
+              <span style={{ width: completedByWin ? '100%' : `${total ? Math.min(100, (stepsUsed / total) * 100) : 0}%` }} />
             </div>
           </div>
 
@@ -550,9 +580,12 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
             <div className="tactic-result">
               <div className="result-mark"><CheckCircle2 size={24} aria-hidden="true" /></div>
               <div>
-                <span className="eyebrow">主线完成</span>
-                <h2>{lesson.completionText}</h2>
-                <p>用了 {formatDuration(completedElapsedRef.current)}，错试 {attempts} 次，提示 {hintsUsed} 次。</p>
+                <span className="eyebrow">{completedByWin ? '将死成功' : '主线完成'}</span>
+                <h2>{completedByWin ? '找到将死，完成。' : lesson.completionText}</h2>
+                <p>
+                  {completedByWin ? '你找到了一条更短的将死路线，本关已按胜利完成。' : '跟练完成。'}
+                  用了 {formatDuration(completedElapsedRef.current)}，错试 {attempts} 次，提示 {hintsUsed} 次。
+                </p>
               </div>
             </div>
           )}

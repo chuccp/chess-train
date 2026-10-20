@@ -110,6 +110,19 @@ test('lesson deviation waits for the move budget before failing', async ({ page 
   await expect(page.locator('.lesson-status')).toHaveJSProperty('offsetHeight', statusBefore?.height ?? 0);
 });
 
+test('a faster mate completes the endgame lesson', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 950 });
+  await page.goto('/train/endgame/endgame-02');
+  await page.waitForTimeout(300);
+  await page.locator('[data-square="49"]').click();
+  await page.locator('[data-square="48"]').click();
+  await expect(page.locator('.lesson-status')).toContainText('将死成功');
+  await expect(page.locator('.tactic-result')).toContainText('找到将死，完成');
+  await expect(page.locator('.tactic-result')).toContainText('错试 0 次');
+  await expect(page.locator('.line-progress-label')).toContainText('已完成');
+  await expect(page.getByRole('button', { name: '提示' })).toBeDisabled();
+});
+
 test('mobile tactics success keeps the next action in view', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/train/tactics/tactic-01');

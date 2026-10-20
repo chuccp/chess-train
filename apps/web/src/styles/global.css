@@ -4254,6 +4254,12 @@ p {
   background: rgba(255, 250, 240, 0.32);
 }
 
+.lesson-status.is-success {
+  color: var(--green-3);
+  border-color: rgba(45, 86, 70, 0.2);
+  background: rgba(45, 86, 70, 0.07);
+}
+
 @media (max-width: 560px) {
   .lesson-status {
     min-height: 76px;
