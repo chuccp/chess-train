@@ -59,6 +59,15 @@ test('tactic answer marks the exercise completed', async ({ page }) => {
   await expect(page.locator('.tactic-result')).toContainText('看答案也算完成');
 });
 
+test('training board and controls fit a 1080p browser viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 950 });
+  await page.goto('/train/endgame/endgame-01');
+  const board = await page.locator('.board-shell').boundingBox();
+  const controls = await page.locator('.board-controls').boundingBox();
+  expect((board?.y ?? 0) + (board?.height ?? 0)).toBeLessThanOrEqual(950);
+  expect((controls?.y ?? 0) + (controls?.height ?? 0)).toBeLessThanOrEqual(950);
+});
+
 test('mobile tactics success keeps the next action in view', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/train/tactics/tactic-01');

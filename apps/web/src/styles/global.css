@@ -4183,3 +4183,32 @@ p {
     justify-content: center;
   }
 }
+
+
+/* Keep training boards and their action bars inside the viewport. */
+@media (min-width: 881px) {
+  .app-shell.is-training-play .main-content {
+    padding-top: 1.2rem;
+  }
+
+  .app-shell.is-training-play .play-topline {
+    margin-bottom: 0.7rem;
+  }
+
+  .app-shell.is-training-play .board-toolbar {
+    margin-bottom: 0.5rem;
+  }
+
+  .app-shell.is-training-play .training-layout {
+    grid-template-columns: minmax(0, clamp(360px, calc((100vh - 350px) * 0.9), 640px)) minmax(290px, 340px);
+    justify-content: center;
+  }
+}
+
+@media (max-width: 880px) {
+  .training-play-page .board-column {
+    width: 100%;
+    max-width: min(560px, calc((100vh - 190px) * 0.9));
+    margin: 0 auto;
+  }
+}
