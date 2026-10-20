@@ -69,6 +69,8 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   const [attempts, setAttempts] = useState(0);
   const [hintsUsed, setHintsUsed] = useState(0);
   const [completed, setCompleted] = useState(false);
+  const [freeMode, setFreeMode] = useState(false);
+  const [freeUsed, setFreeUsed] = useState(0);
   const [failed, setFailed] = useState(false);
   const [autoMoving, setAutoMoving] = useState(false);
   const [elapsed, setElapsed] = useState(0);
@@ -99,6 +101,8 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setAttempts(0);
     setHintsUsed(0);
     setCompleted(false);
+    setFreeMode(false);
+    setFreeUsed(0);
     setFailed(false);
     setElapsed(0);
     startRef.current = Date.now();
@@ -146,7 +150,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   // Automatically play the scripted opponent moves. This is a guided line, not
   // free play, so the opponent side never searches.
   useEffect(() => {
-    if (!lesson || !line || !position || completed || failed || loading) return;
+    if (!lesson || !line || !position || completed || freeMode || failed || loading) return;
     if (ply >= total) return;
     if (position.turn === lesson.userColor) return;
     if (autoMoving) return;
@@ -186,7 +190,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       setAutoMoving(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lesson, line, position, ply, total, completed, failed, loading]);
+  }, [lesson, line, position, ply, total, completed, freeMode, failed, loading]);
 
   if (!lesson) {
     return (
@@ -206,6 +210,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   const next = nextTrainingItem(kind, lesson.id);
   const lastComment = ply > 0 ? moves[ply - 1]?.comment : undefined;
   const recordCompleted = loadedProgress?.status === 'completed';
+  const stepsUsed = Math.min(total, freeMode ? freeUsed : ply);
 
   function feedback(cue: 'move' | 'capture' | 'check' | 'win' | 'error') {
     if (settings.sound) playCue(cue);
@@ -268,9 +273,9 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
 
   function handlePoint(square: number) {
     if (!position || completed || autoMoving) return;
-    // 失败后进入自由走子：双方都能动，不再强制主线；但不会记为完成。
-    if (!failed && !userTurn) return;
-    const movableColor = failed ? position.turn : userColor;
+    // 偏离主线后双方都能动；先自由走完本关步数，再判定失败。
+    if (!freeMode && !failed && !userTurn) return;
+    const movableColor = freeMode || failed ? position.turn : userColor;
     const piece = pieceAt(position, square);
     if (selected === null) {
       if (piece?.color === movableColor) {
@@ -304,11 +309,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       return;
     }
 
-    const expected = moves[ply]?.ucci;
-    const actual = `${'abcdefghi'[selected % 9]}${Math.floor(selected / 9)}${'abcdefghi'[square % 9]}${Math.floor(square / 9)}`;
-
-    // 已经失败：自由走子只改棋盘，不再推进讲解主线，也不弹整页结果。
-    if (failed) {
+    if (freeMode) {
       const free = applyMove(position, selected, square);
       if (!free.ok) {
         setMessage(free.message);
@@ -319,27 +320,51 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       setTargets([]);
       setHint(null);
       setLastMove({ from: free.move.from, to: free.move.to });
-      setMessage('自由练习中：这步不按主线，不会记为完成。点「重来」可以重新挑战。');
       feedback(free.givesCheck ? 'check' : free.move.captured ? 'capture' : 'move');
+
+      if (failed) {
+        setMessage('自由练习中：本局已判定失败，不会记为完成。点「重来」可以重新挑战。');
+        return;
+      }
+
+      const used = Math.min(total, freeUsed + 1);
+      setFreeUsed(used);
+      if (used >= total) {
+        setFailed(true);
+        setMessage('步数已用完，本局没有走到主线，挑战失败。可以重来，或继续自由走子。');
+      } else {
+        setMessage(`已偏离主线，还可以自由走 ${total - used} 步；步数用完后判定。`);
+      }
       return;
     }
 
+    const expected = moves[ply]?.ucci;
+    const actual = `${'abcdefghi'[selected % 9]}${Math.floor(selected / 9)}${'abcdefghi'[square % 9]}${Math.floor(square / 9)}`;
+
     if (actual !== expected) {
       const nextAttempts = attempts + 1;
-      // **不拦这步**：先按用户真实走的落子，再给失败提示。
-      // 这样棋盘不会“点了没反应”，页面也不会因为消息块插入而整体跳动。
+      // 不拦这步：先落子并进入自由练习；只有本关步数用完后才判失败。
       const result = applyMove(position, selected, square);
       setAttempts(nextAttempts);
       setSelected(null);
       setTargets([]);
       setHint(null);
-      feedback('error');
+      setFreeMode(true);
       if (result.ok) {
         setPosition(result.position);
         setLastMove({ from: result.move.from, to: result.move.to });
       }
-      setFailed(true);
-      setMessage('这步没有达到本关主线，挑战失败。现在可以自由走子，或点「重来」再试。');
+      const used = Math.min(total, ply + 1);
+      setFreeUsed(used);
+      if (used >= total) {
+        setFailed(true);
+        setMessage('步数已用完，本局没有走到主线，挑战失败。可以重来，或继续自由走子。');
+      } else {
+        setMessage(`已偏离主线，还可以自由走 ${total - used} 步；步数用完后判定。`);
+      }
+      if (result.ok) {
+        feedback(result.givesCheck ? 'check' : result.move.captured ? 'capture' : 'move');
+      }
       setLoadedProgress((record) =>
         record
           ? { ...record, attempts: nextAttempts, updatedAt: new Date().toISOString() }
@@ -367,7 +392,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   }
 
   function showHint() {
-    if (completed || !lesson) return;
+    if (completed || freeMode || failed || !lesson) return;
     const expected = moves[ply]?.ucci;
     if (!expected) return;
     const parsed = parseUcci(expected);
@@ -405,6 +430,8 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setHint(null);
     setMessage(null);
     setCompleted(false);
+    setFreeMode(false);
+    setFreeUsed(0);
     setFailed(false);
     setAutoMoving(false);
     setAttempts(0);
@@ -428,6 +455,8 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setHint(null);
     setMessage(null);
     setCompleted(false);
+    setFreeMode(false);
+    setFreeUsed(0);
     setFailed(false);
     setAutoMoving(false);
     setElapsed(0);
@@ -475,7 +504,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
                 ? '主线完成'
                 : autoMoving
                   ? '对手应手…'
-                  : failed
+                  : freeMode || failed
                     ? `自由走子 · ${boardPosition.turn === 'r' ? '红方' : '黑方'}`
                     : userTurn
                       ? '请你走这一步'
@@ -494,7 +523,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
             hint={hint}
             lastMove={lastMove}
             checkedSquare={checked}
-            interactive={!completed && (failed || userTurn) && !autoMoving}
+            interactive={!completed && (freeMode || failed || userTurn) && !autoMoving}
             onPoint={handlePoint}
           />
 
@@ -504,16 +533,16 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
             role="status"
             aria-live="polite"
           >
-            {message ?? '按主线走；如果不按步骤，会提示失败并进入自由走子。'}
+            {message ?? '按主线走；也可以自由走子，步数用完后会判定结果。'}
           </div>
 
           <div className="line-progress">
             <div className="line-progress-label">
-              <span>{line?.label ?? '主线'}</span>
-              <span>{Math.min(ply, total)} / {total} 步</span>
+              <span>{freeMode ? '自由练习' : (line?.label ?? '主线')}</span>
+              <span>{stepsUsed} / {total} 步</span>
             </div>
             <div className="progress-track">
-              <span style={{ width: `${total ? Math.min(100, (ply / total) * 100) : 0}%` }} />
+              <span style={{ width: `${total ? Math.min(100, (stepsUsed / total) * 100) : 0}%` }} />
             </div>
           </div>
 
@@ -533,7 +562,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
 
         <aside className="play-side">
           <div className="board-controls side-controls">
-            <button type="button" className="control-button" disabled={completed || failed || autoMoving} onClick={showHint}>
+            <button type="button" className="control-button" disabled={completed || freeMode || failed || autoMoving} onClick={showHint}>
               <Lightbulb size={18} aria-hidden="true" />
               <span>提示</span>
             </button>
