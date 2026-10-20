@@ -4163,3 +4163,23 @@ p {
   from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Fit the desktop game board inside the browser viewport. */
+@media (min-width: 881px) {
+  .app-shell.is-game-route .main-content {
+    padding-top: 1.2rem;
+  }
+
+  .app-shell.is-game-route .play-topline {
+    margin-bottom: 0.7rem;
+  }
+
+  .app-shell.is-game-route .board-toolbar {
+    margin-bottom: 0.55rem;
+  }
+
+  .app-shell.is-game-route .play-layout {
+    grid-template-columns: minmax(0, clamp(360px, calc((100vh - 260px) * 0.9), 680px)) minmax(290px, 340px);
+    justify-content: center;
+  }
+}

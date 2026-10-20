@@ -17,6 +17,8 @@ test('starts a game, gets an AI reply, and restores the game', async ({ page }) 
   await page.getByRole('button', { name: /和 AI 下一盘/ }).click();
   await expect(page).toHaveURL(/\/play$/);
   await expect(page.locator('.board-hit')).toHaveCount(90);
+  const desktopBoard = await page.locator('.board-shell').boundingBox();
+  expect((desktopBoard?.y ?? 0) + (desktopBoard?.height ?? 0)).toBeLessThanOrEqual(720);
 
   await page.locator('[data-square="25"]').click();
   await page.locator('[data-square="22"]').click();
