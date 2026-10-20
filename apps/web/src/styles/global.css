@@ -4239,3 +4239,23 @@ p {
     font-size: 0.78rem;
   }
 }
+
+/* Reserve a fixed lesson status area so wrong moves never shift the page. */
+.lesson-status {
+  min-height: 62px;
+  margin-top: 0.55rem;
+  padding: 0.55rem 0.8rem;
+  align-items: center;
+}
+
+.lesson-status.is-hint {
+  color: var(--muted);
+  border-color: transparent;
+  background: rgba(255, 250, 240, 0.32);
+}
+
+@media (max-width: 560px) {
+  .lesson-status {
+    min-height: 76px;
+  }
+}

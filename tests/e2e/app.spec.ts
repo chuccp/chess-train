@@ -69,6 +69,34 @@ test('training board and controls fit a 1080p browser viewport', async ({ page }
   expect(controls?.x ?? 0).toBeGreaterThan((board?.x ?? 0) + (board?.width ?? 0));
 });
 
+test('lesson wrong move fails in place and unlocks free play', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 950 });
+  await page.goto('/train/endgame/endgame-01');
+  await page.waitForTimeout(400);
+  const boardBefore = await page.locator('.board-shell').boundingBox();
+  const statusBefore = await page.locator('.lesson-status').boundingBox();
+  const scrollBefore = await page.evaluate(() => document.documentElement.scrollHeight);
+  const scrollYBefore = await page.evaluate(() => window.scrollY);
+
+  await page.locator('[data-square="58"]').click();
+  await page.locator('[data-square="67"]').click();
+  await expect(page.locator('.lesson-status')).toContainText('挑战失败');
+  await expect(page.getByRole('button', { name: '提示' })).toBeDisabled();
+  await expect(page.locator('.turn-chip')).toContainText('自由走子');
+
+  const boardAfter = await page.locator('.board-shell').boundingBox();
+  const statusAfter = await page.locator('.lesson-status').boundingBox();
+  const scrollAfter = await page.evaluate(() => document.documentElement.scrollHeight);
+  const scrollYAfter = await page.evaluate(() => window.scrollY);
+  expect((boardAfter?.y ?? 0) + scrollYAfter).toBeCloseTo((boardBefore?.y ?? 0) + scrollYBefore, 0);
+  expect((statusAfter?.y ?? 0) + scrollYAfter).toBeCloseTo((statusBefore?.y ?? 0) + scrollYBefore, 0);
+  expect(statusAfter?.height).toBe(statusBefore?.height);
+  expect(scrollAfter).toBe(scrollBefore);
+
+  await page.locator('.board-hit[aria-label*="黑方"]').first().click();
+  await expect(page.locator('.piece-selected')).toHaveCount(1);
+});
+
 test('mobile tactics success keeps the next action in view', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/train/tactics/tactic-01');

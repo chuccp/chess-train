@@ -69,6 +69,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   const [attempts, setAttempts] = useState(0);
   const [hintsUsed, setHintsUsed] = useState(0);
   const [completed, setCompleted] = useState(false);
+  const [failed, setFailed] = useState(false);
   const [autoMoving, setAutoMoving] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [loadedProgress, setLoadedProgress] = useState<TrainingProgress | null>(null);
@@ -98,6 +99,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setAttempts(0);
     setHintsUsed(0);
     setCompleted(false);
+    setFailed(false);
     setElapsed(0);
     startRef.current = Date.now();
     completedElapsedRef.current = 0;
@@ -144,7 +146,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   // Automatically play the scripted opponent moves. This is a guided line, not
   // free play, so the opponent side never searches.
   useEffect(() => {
-    if (!lesson || !line || !position || completed || loading) return;
+    if (!lesson || !line || !position || completed || failed || loading) return;
     if (ply >= total) return;
     if (position.turn === lesson.userColor) return;
     if (autoMoving) return;
@@ -184,7 +186,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       setAutoMoving(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lesson, line, position, ply, total, completed, loading]);
+  }, [lesson, line, position, ply, total, completed, failed, loading]);
 
   if (!lesson) {
     return (
@@ -265,16 +267,19 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   }
 
   function handlePoint(square: number) {
-    if (!position || completed || !userTurn || autoMoving) return;
+    if (!position || completed || autoMoving) return;
+    // 失败后进入自由走子：双方都能动，不再强制主线；但不会记为完成。
+    if (!failed && !userTurn) return;
+    const movableColor = failed ? position.turn : userColor;
     const piece = pieceAt(position, square);
     if (selected === null) {
-      if (piece?.color === userColor) {
+      if (piece?.color === movableColor) {
         const legal = generateLegalMoves(position).filter((move) => move.from === square).map((move) => move.to);
         setSelected(square);
         setTargets(legal);
         setMessage(null);
       } else {
-        setMessage(`请选择${userColor === 'r' ? '红' : '黑'}方棋子。`);
+        setMessage(`请选择${movableColor === 'r' ? '红' : '黑'}方棋子。`);
       }
       return;
     }
@@ -285,7 +290,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       return;
     }
 
-    if (piece?.color === userColor) {
+    if (piece?.color === movableColor) {
       const legal = generateLegalMoves(position).filter((move) => move.from === square).map((move) => move.to);
       setSelected(square);
       setTargets(legal);
@@ -295,19 +300,46 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     if (!targets.includes(square)) {
       setSelected(null);
       setTargets([]);
-      setMessage('这步不符合主线，再想想。');
+      setMessage('这枚棋子不能走到那里。');
       return;
     }
 
     const expected = moves[ply]?.ucci;
     const actual = `${'abcdefghi'[selected % 9]}${Math.floor(selected / 9)}${'abcdefghi'[square % 9]}${Math.floor(square / 9)}`;
+
+    // 已经失败：自由走子只改棋盘，不再推进讲解主线，也不弹整页结果。
+    if (failed) {
+      const free = applyMove(position, selected, square);
+      if (!free.ok) {
+        setMessage(free.message);
+        return;
+      }
+      setPosition(free.position);
+      setSelected(null);
+      setTargets([]);
+      setHint(null);
+      setLastMove({ from: free.move.from, to: free.move.to });
+      setMessage('自由练习中：这步不按主线，不会记为完成。点「重来」可以重新挑战。');
+      feedback(free.givesCheck ? 'check' : free.move.captured ? 'capture' : 'move');
+      return;
+    }
+
     if (actual !== expected) {
       const nextAttempts = attempts + 1;
+      // **不拦这步**：先按用户真实走的落子，再给失败提示。
+      // 这样棋盘不会“点了没反应”，页面也不会因为消息块插入而整体跳动。
+      const result = applyMove(position, selected, square);
       setAttempts(nextAttempts);
       setSelected(null);
       setTargets([]);
-      setMessage('这步偏离了讲解主线。想想先手要控制哪一格？');
+      setHint(null);
       feedback('error');
+      if (result.ok) {
+        setPosition(result.position);
+        setLastMove({ from: result.move.from, to: result.move.to });
+      }
+      setFailed(true);
+      setMessage('这步没有达到本关主线，挑战失败。现在可以自由走子，或点「重来」再试。');
       setLoadedProgress((record) =>
         record
           ? { ...record, attempts: nextAttempts, updatedAt: new Date().toISOString() }
@@ -373,6 +405,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setHint(null);
     setMessage(null);
     setCompleted(false);
+    setFailed(false);
     setAutoMoving(false);
     setAttempts(0);
     setHintsUsed(0);
@@ -395,6 +428,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setHint(null);
     setMessage(null);
     setCompleted(false);
+    setFailed(false);
     setAutoMoving(false);
     setElapsed(0);
     startRef.current = Date.now();
@@ -441,9 +475,11 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
                 ? '主线完成'
                 : autoMoving
                   ? '对手应手…'
-                  : userTurn
-                    ? '请你走这一步'
-                    : '等待演示'}
+                  : failed
+                    ? `自由走子 · ${boardPosition.turn === 'r' ? '红方' : '黑方'}`
+                    : userTurn
+                      ? '请你走这一步'
+                      : '等待演示'}
             </div>
             <span className="play-meta">
               <Timer size={14} aria-hidden="true" /> {formatDuration(completed ? completedElapsedRef.current : elapsed)}
@@ -458,11 +494,18 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
             hint={hint}
             lastMove={lastMove}
             checkedSquare={checked}
-            interactive={!completed && userTurn && !autoMoving}
+            interactive={!completed && (failed || userTurn) && !autoMoving}
             onPoint={handlePoint}
           />
 
-          {message && <div className="inline-alert" role="status">{message}</div>}
+          {/* 固定高度的状态槽：提示出现/消失不改变棋盘与整页高度，避免“页面上下一晃” */}
+          <div
+            className={`inline-alert lesson-status${message ? '' : ' is-hint'}${failed ? ' inline-alert-error' : ''}`}
+            role="status"
+            aria-live="polite"
+          >
+            {message ?? '按主线走；如果不按步骤，会提示失败并进入自由走子。'}
+          </div>
 
           <div className="line-progress">
             <div className="line-progress-label">
@@ -490,7 +533,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
 
         <aside className="play-side">
           <div className="board-controls side-controls">
-            <button type="button" className="control-button" disabled={completed || autoMoving} onClick={showHint}>
+            <button type="button" className="control-button" disabled={completed || failed || autoMoving} onClick={showHint}>
               <Lightbulb size={18} aria-hidden="true" />
               <span>提示</span>
             </button>
