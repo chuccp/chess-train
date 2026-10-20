@@ -130,6 +130,7 @@ interface GameState {
   hintToken: number;
   hydrate: () => Promise<void>;
   startNewGame: (playerColor: Color, level: Level) => Promise<boolean>;
+  resumeFinishedGame: (record: FinishedGame, keepMoves: number) => boolean;
   playSquare: (square: number) => void;
   requestAi: () => Promise<void>;
   requestHint: () => Promise<void>;
@@ -213,6 +214,58 @@ export const useGameStore = create<GameState>((set, get) => ({
       hintToken: get().hintToken + 1,
     });
     persist(game);
+    return true;
+  },
+
+  resumeFinishedGame(record, keepMoves) {
+    let position: Position;
+    try {
+      position = parseFen(record.initialFen);
+    } catch {
+      position = parseFen(START_FEN);
+    }
+    const hashes = [hashPosition(position)];
+    const limit = Math.max(0, Math.min(keepMoves, record.moves.length));
+    const moves: MoveRecord[] = [];
+    for (const move of record.moves.slice(0, limit)) {
+      const result = applyMove(position, move.from, move.to);
+      if (!result.ok) break;
+      position = result.position;
+      hashes.push(hashPosition(position));
+      moves.push(move);
+    }
+    const end = resultOf(position, hashes);
+    const now = new Date().toISOString();
+    const game: GameSnapshot = {
+      id: uuid(),
+      mode: 'ai',
+      playerColor: record.playerColor,
+      level: record.level,
+      position,
+      positionHashes: hashes,
+      moves,
+      phase: end.status === 'playing' ? 'playing' : 'finished',
+      result: end,
+      startedAt: now,
+      updatedAt: now,
+      elapsedMs: 0,
+    };
+    set({
+      current: game,
+      selected: null,
+      legalTargets: [],
+      notice: null,
+      error: null,
+      hint: null,
+      hintLoading: false,
+      aiInFlight: false,
+      aiError: null,
+      aiToken: get().aiToken + 1,
+      hintToken: get().hintToken + 1,
+    });
+    persist(game);
+    if (game.phase === 'finished') void enqueueFinished(game);
+    else if (position.turn !== record.playerColor) void get().requestAi();
     return true;
   },
 

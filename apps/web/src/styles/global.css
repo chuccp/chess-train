@@ -5234,3 +5234,21 @@ p {
     width: 100%;
   }
 }
+
+.review-heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 720px) {
+  .review-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .review-heading-actions {
+    width: 100%;
+  }
+}

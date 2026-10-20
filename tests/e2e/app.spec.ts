@@ -106,6 +106,73 @@ test('undo distance 10 means unlimited', async ({ page }) => {
   await expect(page.locator('.move-item')).toHaveCount(0);
   await expect(page.locator('.turn-chip')).toContainText('红方行棋');
 });
+test('history review can undo and resume', async ({ page }) => {
+  await page.goto('/');
+  await page.waitForTimeout(400);
+  await page.evaluate(async () => {
+    const request = indexedDB.open('qilian', 1);
+    request.onupgradeneeded = () => {
+      const database = request.result;
+      if (!database.objectStoreNames.contains('currentGame')) {
+        database.createObjectStore('currentGame', { keyPath: 'key' });
+      }
+      if (!database.objectStoreNames.contains('games')) {
+        const games = database.createObjectStore('games', { keyPath: 'id' });
+        games.createIndex('by-ended-at', 'endedAt');
+      }
+      if (!database.objectStoreNames.contains('training')) {
+        const training = database.createObjectStore('training', { keyPath: 'key' });
+        training.createIndex('by-kind', 'kind');
+      }
+    };
+    const database = await new Promise<IDBDatabase>((resolve, reject) => {
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    const now = new Date().toISOString();
+    const move = (ply: number, color: 'r' | 'b', from: number, to: number, notation: string) => ({
+      ply,
+      from,
+      to,
+      ucci: `${String.fromCharCode(97 + (from % 9))}${Math.floor(from / 9)}${String.fromCharCode(97 + (to % 9))}${Math.floor(to / 9)}`,
+      notation,
+      color,
+      pieceType: 'C',
+      capturedType: null,
+      givesCheck: false,
+      playedAt: now,
+    });
+    const record = {
+      id: 'history-undo-test',
+      mode: 'ai',
+      playerColor: 'r',
+      level: 1,
+      initialFen: 'rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1',
+      moves: [
+        move(1, 'r', 25, 22, '炮二平五'),
+        move(2, 'b', 70, 67, '炮8平5'),
+      ],
+      result: { status: 'win', winner: 'r', reason: 'resign' },
+      startedAt: now,
+      endedAt: now,
+      elapsedMs: 1200,
+    };
+    await new Promise<void>((resolve, reject) => {
+      const transaction = database.transaction('games', 'readwrite');
+      transaction.objectStore('games').put(record);
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error);
+    });
+    database.close();
+  });
+
+  await page.goto('/review/history-undo-test');
+  await page.getByRole('button', { name: '终局' }).click();
+  await page.getByRole('button', { name: '悔棋并继续' }).click();
+  await expect(page).toHaveURL(/\/play$/);
+  await expect(page.locator('.board-hit')).toHaveCount(90);
+  await expect(page.locator('.move-item')).toHaveCount(0);
+});
 test('starts a game, gets an AI reply, and restores the game', async ({ page }) => {
   await waitForOfflineReady(page);
   await page.getByRole('button', { name: /和 AI 下一盘/ }).click();
