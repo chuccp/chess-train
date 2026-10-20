@@ -29,6 +29,18 @@ test('starts a game, gets an AI reply, and restores the game', async ({ page }) 
   await expect(page.locator('.move-item')).toHaveCount(2, { timeout: 20_000 });
 });
 
+test('switching sides starts a new game with the AI moving first', async ({ page }) => {
+  await waitForOfflineReady(page);
+  await page.getByRole('button', { name: /和 AI 下一盘/ }).click();
+  await page.waitForSelector('.board-hit');
+  await page.getByRole('button', { name: '换边并开始新局' }).click();
+  await expect(page.getByRole('dialog')).toContainText('换边重开');
+  await page.getByRole('button', { name: '换边开局' }).click();
+  await expect(page.locator('.play-meta').first()).toContainText('你执黑');
+  await expect(page.locator('.move-item')).toHaveCount(1, { timeout: 15_000 });
+  await expect(page.locator('.turn-chip')).toContainText('轮到你走');
+});
+
 test('stays usable after going offline', async ({ page, context }) => {
   await waitForOfflineReady(page);
   await context.setOffline(true);

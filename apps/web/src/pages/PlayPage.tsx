@@ -29,7 +29,7 @@ import { useSettingsStore } from '../stores/settings';
 import { formatDuration } from '../lib/format';
 import type { Level } from '../types';
 
-type DialogAction = 'resign' | 'new' | null;
+type DialogAction = 'resign' | 'new' | 'switch' | null;
 
 export function PlayPage() {
   const navigate = useNavigate();
@@ -59,7 +59,6 @@ export function PlayPage() {
 
   const [dialog, setDialog] = useState<DialogAction>(null);
   const [starting, setStarting] = useState(false);
-  const [flipped, setFlipped] = useState(false);
   const [now, setNow] = useState(Date.now());
 
   useEffect(() => {
@@ -108,8 +107,8 @@ export function PlayPage() {
 
   const playerColor = current.playerColor;
   const aiColor: Color = playerColor === 'r' ? 'b' : 'r';
-  const orientation: Color =
-    settings.boardOrientation === 'auto' ? (flipped ? (playerColor === 'r' ? 'b' : 'r') : playerColor) : flipped ? 'b' : 'r';
+  const nextPlayerColor: Color = playerColor === 'r' ? 'b' : 'r';
+  const orientation: Color = settings.boardOrientation === 'auto' ? playerColor : 'r';
   const playerTurn = current.position.turn === playerColor;
   const interactive = current.phase === 'playing' && playerTurn;
   const lastMove = current.moves.length > 0 ? current.moves[current.moves.length - 1] : null;
@@ -161,11 +160,12 @@ export function PlayPage() {
             <button
               type="button"
               className="btn btn-ghost btn-small"
-              onClick={() => setFlipped((value) => !value)}
-              aria-label="翻转棋盘"
+              onClick={() => setDialog('switch')}
+              aria-label="换边并开始新局"
+              disabled={!engineReady || starting}
             >
               <ArrowLeftRight size={15} aria-hidden="true" />
-              翻转
+              换边
             </button>
           </div>
 
@@ -383,6 +383,33 @@ export function PlayPage() {
       </Dialog>
 
       <Dialog
+        open={dialog === 'switch'}
+        title="换边重开？"
+        onClose={() => setDialog(null)}
+        footer={
+          <>
+            <button type="button" className="btn btn-ghost" onClick={() => setDialog(null)}>
+              取消
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary"
+              disabled={!engineReady || starting}
+              onClick={() => void handleSwitchSides()}
+            >
+              {starting ? '正在摆棋…' : '换边开局'}
+            </button>
+          </>
+        }
+      >
+        <p>
+          你会改执{nextPlayerColor === 'r' ? '红' : '黑'}。
+          {nextPlayerColor === 'b' ? 'Pikafish 会自动先走。' : '你先走。'}
+          若当前棋局已经落子，会以“未完成”保存到棋谱。
+        </p>
+      </Dialog>
+
+      <Dialog
         open={dialog === 'new'}
         title="开始新的一局？"
         onClose={() => setDialog(null)}
@@ -414,8 +441,14 @@ export function PlayPage() {
     const ok = await startNewGame(current!.playerColor, current!.level);
     if (ok) {
       setDialog(null);
-      setFlipped(false);
     }
+  }
+
+  async function handleSwitchSides() {
+    setStarting(true);
+    const ok = await startNewGame(nextPlayerColor, current!.level);
+    setStarting(false);
+    if (ok) setDialog(null);
   }
 }
 
