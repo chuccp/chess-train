@@ -1204,5 +1204,1373 @@
       }
     ],
     "completionText": "《适情雅趣》第006局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-07",
+    "kind": "endgame",
+    "title": "适情雅趣 · 目视横流",
+    "subtitle": "《适情雅趣》第013局",
+    "level": 2,
+    "order": 14,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第013局 · 目视横流",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69262/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "4k4/3P2P2/b2N2R2/7r1/2b6/9/9/3n5/4p3r/2R2K3 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第013局“目视横流”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "g7e7",
+            "comment": "车三平五。"
+          },
+          {
+            "ucci": "c5e7",
+            "comment": "象3退5。"
+          },
+          {
+            "ucci": "d8e8",
+            "comment": "兵六平五。"
+          },
+          {
+            "ucci": "e9e8",
+            "comment": "将5进1。"
+          },
+          {
+            "ucci": "c0c8",
+            "comment": "车七进八。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第013局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-08",
+    "kind": "endgame",
+    "title": "适情雅趣 · 见危致命",
+    "subtitle": "《适情雅趣》第066局",
+    "level": 2,
+    "order": 15,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第066局 · 见危致命",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69315/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "1rbak3r/1N1Ra4/cR2b1N2/9/9/9/9/9/5p3/4K4 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第066局“见危致命”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "d8d9",
+            "comment": "车六进一。"
+          },
+          {
+            "ucci": "e8d9",
+            "comment": "士5退4。"
+          },
+          {
+            "ucci": "b7e7",
+            "comment": "车八平五。"
+          },
+          {
+            "ucci": "c9e7",
+            "comment": "象3进5。"
+          },
+          {
+            "ucci": "b8d7",
+            "comment": "马八退六。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第066局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-09",
+    "kind": "endgame",
+    "title": "适情雅趣 · 博望烧屯",
+    "subtitle": "《适情雅趣》第039局",
+    "level": 2,
+    "order": 16,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第039局 · 博望烧屯",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69288/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "2bak1b2/4aR2C/6N1n/9/9/9/5c3/4BC3/3p1r1n1/4K2c1 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第039局“博望烧屯”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "i8i9",
+            "comment": "炮一进一。"
+          },
+          {
+            "ucci": "i7h9",
+            "comment": "马9退8。"
+          },
+          {
+            "ucci": "f8f9",
+            "comment": "车四进一。"
+          },
+          {
+            "ucci": "e8f9",
+            "comment": "士5退6。"
+          },
+          {
+            "ucci": "i9g9",
+            "comment": "炮一平三。"
+          },
+          {
+            "ucci": "f9e8",
+            "comment": "士6进5。"
+          },
+          {
+            "ucci": "g7f9",
+            "comment": "马三进四。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第039局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-10",
+    "kind": "endgame",
+    "title": "适情雅趣 · 开窗邀月",
+    "subtitle": "《适情雅趣》第053局",
+    "level": 2,
+    "order": 17,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第053局 · 开窗邀月",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69302/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "1n1k1a3/R8/b2ab4/2R6/9/6C2/9/4C4/3pArn1c/4K4 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第053局“开窗邀月”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "c6c9",
+            "comment": "车七进三。"
+          },
+          {
+            "ucci": "a7c9",
+            "comment": "象1退3。"
+          },
+          {
+            "ucci": "a8d8",
+            "comment": "车九平六。"
+          },
+          {
+            "ucci": "d9d8",
+            "comment": "将4进1。"
+          },
+          {
+            "ucci": "g4d4",
+            "comment": "炮三平六。"
+          },
+          {
+            "ucci": "d7e8",
+            "comment": "士4退5。"
+          },
+          {
+            "ucci": "e2d2",
+            "comment": "炮五平六。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第053局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-11",
+    "kind": "endgame",
+    "title": "适情雅趣 · 鸿门碎斗",
+    "subtitle": "《适情雅趣》第068局",
+    "level": 2,
+    "order": 18,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第068局 · 鸿门碎斗",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69317/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "2Ck1a3/2R1aR3/9/5N3/r8/r8/9/3C5/4p1n2/3K5 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第068局“鸿门碎斗”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "f6d7",
+            "comment": "马四进六。"
+          },
+          {
+            "ucci": "a5d5",
+            "comment": "后车平4。"
+          },
+          {
+            "ucci": "f8f9",
+            "comment": "车四进一。"
+          },
+          {
+            "ucci": "e8f9",
+            "comment": "士5退6。"
+          },
+          {
+            "ucci": "d7f8",
+            "comment": "马六进四。"
+          },
+          {
+            "ucci": "d9e9",
+            "comment": "将4平5。"
+          },
+          {
+            "ucci": "f8d9",
+            "comment": "马四进六。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第068局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-12",
+    "kind": "endgame",
+    "title": "适情雅趣 · 精忠报国",
+    "subtitle": "《适情雅趣》第043局",
+    "level": 2,
+    "order": 19,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第043局 · 精忠报国",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69292/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "C4kbN1/R2Pa4/4ca3/4rNR2/6b2/6c2/9/4C4/4p3r/5K3 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第043局“精忠报国”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "g6g9",
+            "comment": "车三进三。"
+          },
+          {
+            "ucci": "g4g9",
+            "comment": "炮7退5。"
+          },
+          {
+            "ucci": "d8d9",
+            "comment": "兵六进一。"
+          },
+          {
+            "ucci": "f9f8",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "f6h7",
+            "comment": "马四进二。"
+          },
+          {
+            "ucci": "e7h7",
+            "comment": "炮5平8。"
+          },
+          {
+            "ucci": "a8e8",
+            "comment": "车九平五。"
+          },
+          {
+            "ucci": "e6e8",
+            "comment": "车5退2。"
+          },
+          {
+            "ucci": "e2f2",
+            "comment": "炮五平四。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第043局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-13",
+    "kind": "endgame",
+    "title": "适情雅趣 · 守边告归",
+    "subtitle": "《适情雅趣》第047局",
+    "level": 2,
+    "order": 20,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第047局 · 守边告归",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69296/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "1R3a3/2N1ak3/4P4/C2N4p/9/9/4cp3/4B1n1B/4A3r/3AK4 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第047局“守边告归”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "a6i6",
+            "comment": "炮九平一。"
+          },
+          {
+            "ucci": "i1i2",
+            "comment": "车9退1。"
+          },
+          {
+            "ucci": "e7f7",
+            "comment": "兵五平四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "b9f9",
+            "comment": "车八平四。"
+          },
+          {
+            "ucci": "f8f9",
+            "comment": "将6退1。"
+          },
+          {
+            "ucci": "i6f6",
+            "comment": "炮一平四。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "d6f7",
+            "comment": "马六进四。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第047局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-14",
+    "kind": "endgame",
+    "title": "适情雅趣 · 担雪填井",
+    "subtitle": "《适情雅趣》第052局",
+    "level": 2,
+    "order": 21,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第052局 · 担雪填井",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69301/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "3ak3r/4a1R2/b1C1bc3/1N2C3N/9/3p5/2n6/3K5/9/r8 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第052局“担雪填井”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "c7c9",
+            "comment": "炮七进二。"
+          },
+          {
+            "ucci": "a7c9",
+            "comment": "象1退3。"
+          },
+          {
+            "ucci": "g8g9",
+            "comment": "车三进一。"
+          },
+          {
+            "ucci": "i9g9",
+            "comment": "车9平7。"
+          },
+          {
+            "ucci": "b6c8",
+            "comment": "马八进七。"
+          },
+          {
+            "ucci": "e9f9",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "i6g7",
+            "comment": "马一进三。"
+          },
+          {
+            "ucci": "g9g7",
+            "comment": "车7进2。"
+          },
+          {
+            "ucci": "e6f6",
+            "comment": "炮五平四。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第052局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-15",
+    "kind": "endgame",
+    "title": "适情雅趣 · 放弥六合",
+    "subtitle": "《适情雅趣》第057局",
+    "level": 2,
+    "order": 22,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第057局 · 放弥六合",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69306/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "3ack3/1NR1a1P2/3n2R2/9/2C6/9/9/9/1r2p2r1/3K5 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第057局“放弥六合”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "g7f7",
+            "comment": "车三平四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "c8f8",
+            "comment": "车七平四。"
+          },
+          {
+            "ucci": "d7f8",
+            "comment": "马4退6。"
+          },
+          {
+            "ucci": "g8g9",
+            "comment": "兵三进一。"
+          },
+          {
+            "ucci": "e9g9",
+            "comment": "炮5平7。"
+          },
+          {
+            "ucci": "c5c9",
+            "comment": "炮七进四。"
+          },
+          {
+            "ucci": "d9e8",
+            "comment": "士4进5。"
+          },
+          {
+            "ucci": "b8d9",
+            "comment": "马八进六。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第057局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-16",
+    "kind": "endgame",
+    "title": "适情雅趣 · 群虎争餐",
+    "subtitle": "《适情雅趣》第061局",
+    "level": 2,
+    "order": 23,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第061局 · 群虎争餐",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69310/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "2bk1a3/1R2a2N1/rCc1b4/9/9/9/9/4C2R1/3r1p3/4K4 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第061局“群虎争餐”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "b8d8",
+            "comment": "车八平六。"
+          },
+          {
+            "ucci": "d9d8",
+            "comment": "将4进1。"
+          },
+          {
+            "ucci": "h8f9",
+            "comment": "马二进四。"
+          },
+          {
+            "ucci": "e8f9",
+            "comment": "士5退6。"
+          },
+          {
+            "ucci": "h2h8",
+            "comment": "车二进六。"
+          },
+          {
+            "ucci": "f9e8",
+            "comment": "士6进5。"
+          },
+          {
+            "ucci": "h8e8",
+            "comment": "车二平五。"
+          },
+          {
+            "ucci": "d8d9",
+            "comment": "将4退1。"
+          },
+          {
+            "ucci": "b7b9",
+            "comment": "炮八进二。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第061局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-17",
+    "kind": "endgame",
+    "title": "适情雅趣 · 头辆舆轮",
+    "subtitle": "《适情雅趣》第063局",
+    "level": 2,
+    "order": 24,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第063局 · 头辆舆轮",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69312/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "3akarr1/1NC2P2C/9/9/R8/9/6p2/4B4/2n1p4/5K3 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第063局“头辆舆轮”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "f8e8",
+            "comment": "兵四平五。"
+          },
+          {
+            "ucci": "d9e8",
+            "comment": "士4进5。"
+          },
+          {
+            "ucci": "a5a9",
+            "comment": "车九进四。"
+          },
+          {
+            "ucci": "e8d9",
+            "comment": "士5退4。"
+          },
+          {
+            "ucci": "c8h8",
+            "comment": "炮七平二。"
+          },
+          {
+            "ucci": "f9e8",
+            "comment": "士6进5。"
+          },
+          {
+            "ucci": "a9d9",
+            "comment": "车九平六。"
+          },
+          {
+            "ucci": "e8d9",
+            "comment": "士5退4。"
+          },
+          {
+            "ucci": "b8d7",
+            "comment": "马八退六。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第063局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-18",
+    "kind": "endgame",
+    "title": "适情雅趣 · 颠猿饮涧",
+    "subtitle": "《适情雅趣》第012局",
+    "level": 2,
+    "order": 25,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第012局 · 颠猿饮涧",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69261/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "1C2kab2/rN2a2R1/2r1c3b/9/9/5R3/9/7C1/9/3K5 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第012局“颠猿饮涧”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "f4f9",
+            "comment": "车四进五。"
+          },
+          {
+            "ucci": "e9f9",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "b8d9",
+            "comment": "马八进六。"
+          },
+          {
+            "ucci": "c7c9",
+            "comment": "车3退2。"
+          },
+          {
+            "ucci": "h8f8",
+            "comment": "车二平四。"
+          },
+          {
+            "ucci": "f9e9",
+            "comment": "将6平5。"
+          },
+          {
+            "ucci": "h2h9",
+            "comment": "炮二进七。"
+          },
+          {
+            "ucci": "e8f9",
+            "comment": "士5退6。"
+          },
+          {
+            "ucci": "f8f9",
+            "comment": "车四进一。"
+          },
+          {
+            "ucci": "e9e8",
+            "comment": "将5进1。"
+          },
+          {
+            "ucci": "f9f8",
+            "comment": "车四退一。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第012局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-19",
+    "kind": "endgame",
+    "title": "适情雅趣 · 妙振兵铃",
+    "subtitle": "《适情雅趣》第015局",
+    "level": 2,
+    "order": 26,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第015局 · 妙振兵铃",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69264/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "r1b1k4/c1PPaRc2/r2ab3n/4C4/7RC/9/9/9/4p4/3K5 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第015局“妙振兵铃”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h5h9",
+            "comment": "车二进四。"
+          },
+          {
+            "ucci": "i7h9",
+            "comment": "马9退8。"
+          },
+          {
+            "ucci": "d8d9",
+            "comment": "兵六进一。"
+          },
+          {
+            "ucci": "e9d9",
+            "comment": "将5平4。"
+          },
+          {
+            "ucci": "f8f9",
+            "comment": "车四进一。"
+          },
+          {
+            "ucci": "e8f9",
+            "comment": "士5退6。"
+          },
+          {
+            "ucci": "c8d8",
+            "comment": "兵七平六。"
+          },
+          {
+            "ucci": "d9d8",
+            "comment": "将4进1。"
+          },
+          {
+            "ucci": "i5d5",
+            "comment": "炮一平六。"
+          },
+          {
+            "ucci": "d7e8",
+            "comment": "士4退5。"
+          },
+          {
+            "ucci": "e6d6",
+            "comment": "炮五平六。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第015局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-20",
+    "kind": "endgame",
+    "title": "适情雅趣 · 下车伏谒",
+    "subtitle": "《适情雅趣》第051局",
+    "level": 2,
+    "order": 27,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第051局 · 下车伏谒",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69300/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "R2akab2/3n3P1/1NC1b4/5R3/2p3p2/9/9/5p3/4r3r/5K3 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第051局“下车伏谒”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "c7c9",
+            "comment": "炮七进二。"
+          },
+          {
+            "ucci": "d9e8",
+            "comment": "士4进5。"
+          },
+          {
+            "ucci": "f6f9",
+            "comment": "车四进三。"
+          },
+          {
+            "ucci": "e9f9",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "c9c8",
+            "comment": "炮七退一。"
+          },
+          {
+            "ucci": "f9f8",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "h8g8",
+            "comment": "兵二平三。"
+          },
+          {
+            "ucci": "f8f7",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "a9f9",
+            "comment": "车九平四。"
+          },
+          {
+            "ucci": "e8f9",
+            "comment": "士5退6。"
+          },
+          {
+            "ucci": "c8c7",
+            "comment": "炮七退一。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第051局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-21",
+    "kind": "endgame",
+    "title": "适情雅趣 · 变现出没",
+    "subtitle": "《适情雅趣》第059局",
+    "level": 2,
+    "order": 28,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第059局 · 变现出没",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69308/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "2b1ka1r1/3Pa4/5Rc2/5Nr2/9/9/9/7C1/C2p5/4K4 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第059局“变现出没”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "a1a9",
+            "comment": "炮九进八。"
+          },
+          {
+            "ucci": "c9a7",
+            "comment": "象3进1。"
+          },
+          {
+            "ucci": "d8d9",
+            "comment": "兵六进一。"
+          },
+          {
+            "ucci": "e9d9",
+            "comment": "将5平4。"
+          },
+          {
+            "ucci": "f7d7",
+            "comment": "车四平六。"
+          },
+          {
+            "ucci": "e8d7",
+            "comment": "士5进4。"
+          },
+          {
+            "ucci": "h2d2",
+            "comment": "炮二平六。"
+          },
+          {
+            "ucci": "d7e8",
+            "comment": "士4退5。"
+          },
+          {
+            "ucci": "f6d7",
+            "comment": "马四进六。"
+          },
+          {
+            "ucci": "g6d6",
+            "comment": "车7平4。"
+          },
+          {
+            "ucci": "d7c9",
+            "comment": "马六进七。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第059局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-22",
+    "kind": "endgame",
+    "title": "适情雅趣 · 推窗望月",
+    "subtitle": "《适情雅趣》第065局",
+    "level": 2,
+    "order": 29,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第065局 · 推窗望月",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69314/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "2ba1k3/4a4/n3N4/9/9/9/9/3RB1r2/2p2r3/3AK2R1 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第065局“推窗望月”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "d2d9",
+            "comment": "车六进七。"
+          },
+          {
+            "ucci": "f9f8",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "e2g4",
+            "comment": "相五进三。"
+          },
+          {
+            "ucci": "g2g4",
+            "comment": "车7退2。"
+          },
+          {
+            "ucci": "h0h8",
+            "comment": "车二进八。"
+          },
+          {
+            "ucci": "f8f7",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "d9f9",
+            "comment": "车六平四。"
+          },
+          {
+            "ucci": "e8f9",
+            "comment": "士5退6。"
+          },
+          {
+            "ucci": "h8h7",
+            "comment": "车二退一。"
+          },
+          {
+            "ucci": "f7f8",
+            "comment": "将6退1。"
+          },
+          {
+            "ucci": "e7d9",
+            "comment": "马五进六。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第065局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-23",
+    "kind": "endgame",
+    "title": "适情雅趣 · 凫罗鱼网",
+    "subtitle": "《适情雅趣》第067局",
+    "level": 2,
+    "order": 30,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第067局 · 凫罗鱼网",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69316/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "1n1ck3C/2PPa1R2/5a3/9/8N/9/9/3n5/4p2r1/5K3 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第067局“凫罗鱼网”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "g8g9",
+            "comment": "车三进一。"
+          },
+          {
+            "ucci": "e8f9",
+            "comment": "士5退6。"
+          },
+          {
+            "ucci": "d8e8",
+            "comment": "兵六平五。"
+          },
+          {
+            "ucci": "e9e8",
+            "comment": "将5进1。"
+          },
+          {
+            "ucci": "g9g8",
+            "comment": "车三退一。"
+          },
+          {
+            "ucci": "e8e7",
+            "comment": "将5进1。"
+          },
+          {
+            "ucci": "i5g6",
+            "comment": "马一进三。"
+          },
+          {
+            "ucci": "e7d7",
+            "comment": "将5平4。"
+          },
+          {
+            "ucci": "g8d8",
+            "comment": "车三平六。"
+          },
+          {
+            "ucci": "b9d8",
+            "comment": "马2进4。"
+          },
+          {
+            "ucci": "i9d9",
+            "comment": "炮一平六。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第067局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-24",
+    "kind": "endgame",
+    "title": "适情雅趣 · 鸢飞泪天",
+    "subtitle": "《适情雅趣》第070局",
+    "level": 2,
+    "order": 31,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局",
+      "短局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第070局 · 鸢飞泪天",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69319/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "4k3C/5N1rC/5c3/4p4/4N4/9/9/6n2/2r2p3/3RK4 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第070局“鸢飞泪天”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "f8h9",
+            "comment": "马四进二。"
+          },
+          {
+            "ucci": "f7f9",
+            "comment": "炮6退2。"
+          },
+          {
+            "ucci": "h9f8",
+            "comment": "马二退四。"
+          },
+          {
+            "ucci": "e9e8",
+            "comment": "将5进1。"
+          },
+          {
+            "ucci": "d0d8",
+            "comment": "车六进八。"
+          },
+          {
+            "ucci": "e8d8",
+            "comment": "将5平4。"
+          },
+          {
+            "ucci": "f8e6",
+            "comment": "马四退五。"
+          },
+          {
+            "ucci": "d8d7",
+            "comment": "将4进1。"
+          },
+          {
+            "ucci": "e6c7",
+            "comment": "前马进七。"
+          },
+          {
+            "ucci": "d7e7",
+            "comment": "将4平5。"
+          },
+          {
+            "ucci": "c7d5",
+            "comment": "马七退六。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第070局整理完成。古谱着法已校验，讲解为本项目重写。"
   }
 ]
