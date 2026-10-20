@@ -8,7 +8,6 @@ import {
   Flag,
   Lightbulb,
   Loader2,
-  Play,
   RotateCcw,
   ShieldCheck,
   Swords,
@@ -135,7 +134,7 @@ export function PlayPage() {
       <h1 className="sr-only">人机对局</h1>
       <div className="play-topline">
         <Link to="/" className="back-link">
-          <Play size={15} aria-hidden="true" />
+          <ArrowLeft size={15} aria-hidden="true" />
           返回首页
         </Link>
         <div className="play-topline-right">

@@ -77,7 +77,7 @@ export function MobileGameLobby({
           </h1>
           <p>{active || finished ? resultLabel(current!.result, current!.playerColor) : '你走你的，AI 走它的。'}</p>
         </div>
-        <span className={`mobile-engine-pill ${offlineReady ? 'is-ready' : ''}`}>
+        <span className={`mobile-engine-pill ${offlineReady ? 'is-ready' : ''}`} aria-live="polite">
           <i aria-hidden="true" />
           {engineLabel}
         </span>
