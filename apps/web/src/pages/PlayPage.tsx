@@ -177,6 +177,7 @@ export function PlayPage() {
             lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null}
             hint={hint}
             checkedSquare={checked}
+            checkmate={isFinished && current.result.status === 'win' && current.result.reason === 'checkmate' && current.result.winner === playerColor}
             interactive={interactive}
             onPoint={playSquare}
           />

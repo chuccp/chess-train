@@ -329,6 +329,7 @@ export function TacticsPlayPage() {
             hint={hint}
             lastMove={lastMove}
             checkedSquare={checked}
+            checkmate={isSolved && checked !== null}
             interactive={!isSolved}
             onPoint={handlePoint}
           />

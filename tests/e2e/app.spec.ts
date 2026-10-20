@@ -117,6 +117,8 @@ test('a faster mate completes the endgame lesson', async ({ page }) => {
   await page.locator('[data-square="49"]').click();
   await page.locator('[data-square="48"]').click();
   await expect(page.locator('.lesson-status')).toContainText('将死成功');
+  await expect(page.locator('.board-shell')).toHaveClass(/board-checkmate/);
+  await expect(page.locator('.checkmate-stamp')).toBeVisible();
   await expect(page.locator('.tactic-result')).toContainText('找到将死，完成');
   await expect(page.locator('.tactic-result')).toContainText('错试 0 次');
   await expect(page.locator('.line-progress-label')).toContainText('已完成');

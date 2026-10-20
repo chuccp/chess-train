@@ -29,6 +29,7 @@ interface BoardProps {
   lastMove?: { from: number; to: number } | null;
   hint?: { from: number; to: number } | null;
   checkedSquare?: number | null;
+  checkmate?: boolean;
   interactive?: boolean;
   preview?: boolean;
   onPoint?: (square: number) => void;
@@ -57,6 +58,7 @@ export function Board({
   lastMove = null,
   hint = null,
   checkedSquare = null,
+  checkmate = false,
   interactive = true,
   preview = false,
   onPoint,
@@ -183,7 +185,7 @@ export function Board({
   const legalSet = new Set(legalTargets);
 
   return (
-    <div className={`board-shell${preview ? ' board-preview' : ''}`} role="group" aria-label={preview ? '中国象棋棋盘预览' : '中国象棋棋盘'}>
+    <div className={`board-shell${preview ? ' board-preview' : ''}${checkmate ? ' board-checkmate' : ''}`} role="group" aria-label={preview ? '中国象棋棋盘预览' : '中国象棋棋盘'}>
       <svg
         className="board-svg"
         viewBox={`0 0 ${VIEW_WIDTH} ${VIEW_HEIGHT}`}
@@ -314,6 +316,22 @@ export function Board({
             </g>
           );
         })}
+        {checkmate && checkedSquare !== null && (() => {
+          const point = displayPoint(checkedSquare, orientation);
+          return (
+            <g className="checkmate-burst" transform={`translate(${point.x} ${point.y})`} aria-hidden="true">
+              <circle r="46" className="mate-ring mate-ring-a" />
+              <circle r="46" className="mate-ring mate-ring-b" />
+              <circle r="30" className="mate-flash" />
+              <g className="mate-rays">
+                {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
+                  <line key={angle} x1="58" y1="0" x2="88" y2="0" transform={`rotate(${angle})`} />
+                ))}
+              </g>
+            </g>
+          );
+        })()}
+
         {moveAnimation && (() => {
           const from = displayPoint(moveAnimation.from, orientation);
           const to = displayPoint(moveAnimation.to, orientation);
@@ -374,6 +392,13 @@ export function Board({
           );
         })}
       </div>}
+
+      {checkmate && (
+        <div className="checkmate-stamp" aria-hidden="true">
+          <span>绝杀</span>
+          <em>将死</em>
+        </div>
+      )}
     </div>
   );
 }

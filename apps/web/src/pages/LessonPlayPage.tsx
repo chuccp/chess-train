@@ -548,6 +548,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
             hint={hint}
             lastMove={lastMove}
             checkedSquare={checked}
+            checkmate={completed && checked !== null}
             interactive={!completed && (freeMode || failed || userTurn) && !autoMoving}
             onPoint={handlePoint}
           />
