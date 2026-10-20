@@ -9,6 +9,12 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
   const lessons = kind === 'endgame' ? endgameLessons : openingLessons;
   const [progress, setProgress] = useState<Record<string, TrainingProgress>>({});
   const [loading, setLoading] = useState(true);
+  const [query, setQuery] = useState('');
+  const [visibleCount, setVisibleCount] = useState(30);
+
+  useEffect(() => {
+    setVisibleCount(30);
+  }, [kind, query]);
 
   useEffect(() => {
     let alive = true;
@@ -28,6 +34,17 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
     () => lessons.reduce((sum, lesson) => sum + (lesson.lines[0]?.moves.length ?? 0), 0),
     [lessons],
   );
+  const filtered = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    if (!needle) return lessons;
+    return lessons.filter((lesson) =>
+      [lesson.title, lesson.subtitle, lesson.tags.join(' '), lesson.source.name]
+        .join(' ')
+        .toLowerCase()
+        .includes(needle),
+    );
+  }, [lessons, query]);
+  const shown = filtered.slice(0, visibleCount);
   const Icon = kind === 'endgame' ? Crown : BookOpen;
 
   return (
@@ -58,49 +75,79 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
 
       <div className="list-toolbar">
         <div className="lesson-meta-strip">
-          <span>{lessons.length} 节</span>
+          <span>
+            {filtered.length === lessons.length
+              ? `${lessons.length} 节`
+              : `${filtered.length} / ${lessons.length} 节`}
+          </span>
           <span>{totalPlies} 步主线</span>
           <span>规则核校验</span>
         </div>
-        {next && (
-          <Link to={`/train/${kind}/${next.id}`} className="btn btn-dark">
-            继续学习
-            <ArrowRight size={16} aria-hidden="true" />
-          </Link>
-        )}
+        <div className="list-actions">
+          <input
+            className="list-search"
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="搜索标题、来源或标签"
+            aria-label="搜索棋谱"
+          />
+          {next && (
+            <Link to={`/train/${kind}/${next.id}`} className="btn btn-dark">
+              继续学习
+              <ArrowRight size={16} aria-hidden="true" />
+            </Link>
+          )}
+        </div>
       </div>
 
       {loading ? (
         <p className="muted">读取学习记录…</p>
-      ) : (
-        <div className="lesson-list">
-          {lessons.map((lesson) => {
-            const record = progress[lesson.id];
-            const done = record?.status === 'completed';
-            const line = lesson.lines[0];
-            return (
-              <Link to={`/train/${kind}/${lesson.id}`} className={`lesson-row${done ? ' is-done' : ''}`} key={lesson.id}>
-                <span className="lesson-number">{String(lesson.order).padStart(2, '0')}</span>
-                <span className="lesson-icon">
-                  <Icon size={20} aria-hidden="true" />
-                </span>
-                <span className="lesson-main">
-                  <span className="lesson-topline">
-                    <span className="tactic-theme">{lesson.tags[0]}</span>
-                    <span className="lesson-level">{lesson.level === 1 ? '入门' : '进阶'}</span>
-                  </span>
-                  <strong>{lesson.title}</strong>
-                  <small>{lesson.subtitle} · {line?.moves.length ?? 0} 步</small>
-                </span>
-                <span className={`lesson-state${done ? ' done' : ''}`}>
-                  {done ? <CheckCircle2 size={18} aria-hidden="true" /> : <Circle size={18} aria-hidden="true" />}
-                  {done ? '已完成' : '未开始'}
-                </span>
-                <ArrowRight size={17} className="lesson-arrow" aria-hidden="true" />
-              </Link>
-            );
-          })}
+      ) : filtered.length === 0 ? (
+        <div className="empty-state panel">
+          <h2>没有找到匹配的棋谱</h2>
+          <p>可以换一个标题、来源或标签再试。</p>
         </div>
+      ) : (
+        <>
+          <div className="lesson-list">
+            {shown.map((lesson) => {
+              const record = progress[lesson.id];
+              const done = record?.status === 'completed';
+              const line = lesson.lines[0];
+              return (
+                <Link to={`/train/${kind}/${lesson.id}`} className={`lesson-row${done ? ' is-done' : ''}`} key={lesson.id}>
+                  <span className="lesson-number">{String(lesson.order).padStart(2, '0')}</span>
+                  <span className="lesson-icon">
+                    <Icon size={20} aria-hidden="true" />
+                  </span>
+                  <span className="lesson-main">
+                    <span className="lesson-topline">
+                      <span className="tactic-theme">{lesson.tags[0]}</span>
+                      <span className="lesson-level">{lesson.level === 1 ? '入门' : '进阶'}</span>
+                    </span>
+                    <strong>{lesson.title}</strong>
+                    <small>{lesson.subtitle} · {line?.moves.length ?? 0} 步</small>
+                  </span>
+                  <span className={`lesson-state${done ? ' done' : ''}`}>
+                    {done ? <CheckCircle2 size={18} aria-hidden="true" /> : <Circle size={18} aria-hidden="true" />}
+                    {done ? '已完成' : '未开始'}
+                  </span>
+                  <ArrowRight size={17} className="lesson-arrow" aria-hidden="true" />
+                </Link>
+              );
+            })}
+          </div>
+          {visibleCount < filtered.length && (
+            <button
+              type="button"
+              className="btn btn-outline list-more"
+              onClick={() => setVisibleCount((count) => count + 30)}
+            >
+              显示更多（还剩 {filtered.length - visibleCount} 节）
+            </button>
+          )}
+        </>
       )}
 
       <p className="source-line list-source">

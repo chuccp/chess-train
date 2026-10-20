@@ -9,6 +9,12 @@ export function TacticsListPage() {
   const [progress, setProgress] = useState<Record<string, TrainingProgress>>({});
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'todo' | 'done'>('all');
+  const [query, setQuery] = useState('');
+  const [visibleCount, setVisibleCount] = useState(30);
+
+  useEffect(() => {
+    setVisibleCount(30);
+  }, [filter, query]);
 
   useEffect(() => {
     let alive = true;
@@ -26,12 +32,18 @@ export function TacticsListPage() {
     () =>
       tacticExercises.filter((item) => {
         const done = progress[item.id]?.status === 'completed';
-        if (filter === 'todo') return !done;
-        if (filter === 'done') return done;
-        return true;
+        if (filter === 'todo' && done) return false;
+        if (filter === 'done' && !done) return false;
+        const needle = query.trim().toLowerCase();
+        if (!needle) return true;
+        return [item.title, item.subtitle, item.tags.join(' '), item.source.name]
+          .join(' ')
+          .toLowerCase()
+          .includes(needle);
       }),
-    [filter, progress],
+    [filter, progress, query],
   );
+  const shown = visible.slice(0, visibleCount);
 
   const completed = Object.values(progress).filter((item) => item.status === 'completed').length;
   const next = tacticExercises.find((item) => progress[item.id]?.status !== 'completed') ?? tacticExercises[0];
@@ -70,12 +82,22 @@ export function TacticsListPage() {
             已完成
           </button>
         </div>
-        {next && (
-          <Link to={`/train/tactics/${next.id}`} className="btn btn-dark">
-            继续练习
-            <ArrowRight size={16} aria-hidden="true" />
-          </Link>
-        )}
+        <div className="list-actions">
+          <input
+            className="list-search"
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="搜索杀法或来源"
+            aria-label="搜索杀法"
+          />
+          {next && (
+            <Link to={`/train/tactics/${next.id}`} className="btn btn-dark">
+              继续练习
+              <ArrowRight size={16} aria-hidden="true" />
+            </Link>
+          )}
+        </div>
       </div>
 
       {loading ? (
@@ -83,12 +105,19 @@ export function TacticsListPage() {
       ) : visible.length === 0 ? (
         <div className="empty-state panel">
           <CheckCircle2 size={30} aria-hidden="true" />
-          <h2>{filter === 'done' ? '还没有完成的题目' : '这一组已经练完了'}</h2>
-          <p>{filter === 'done' ? '先做几道题，完成记录会出现在这里。' : '可以切换筛选，或重新练一遍。'}</p>
+          <h2>{query.trim() ? '没有找到匹配的杀法' : filter === 'done' ? '还没有完成的题目' : '这一组已经练完了'}</h2>
+          <p>
+            {query.trim()
+              ? '可以换一个标题、来源或标签再试。'
+              : filter === 'done'
+                ? '先做几道题，完成记录会出现在这里。'
+                : '可以切换筛选，或重新练一遍。'}
+          </p>
         </div>
       ) : (
-        <div className="tactic-grid">
-          {visible.map((item) => {
+        <>
+          <div className="tactic-grid">
+            {shown.map((item) => {
             const record = progress[item.id];
             const done = record?.status === 'completed';
             return (
@@ -115,11 +144,21 @@ export function TacticsListPage() {
               </Link>
             );
           })}
-        </div>
+          </div>
+          {visibleCount < visible.length && (
+            <button
+              type="button"
+              className="btn btn-outline list-more"
+              onClick={() => setVisibleCount((count) => count + 30)}
+            >
+              显示更多（还剩 {visible.length - visibleCount} 题）
+            </button>
+          )}
+        </>
       )}
 
       <p className="source-line list-source">
-        题型为原创一步杀，规则核逐题验证；来源：棋练项目组 · CC0-1.0。
+        原创题为棋练项目组 CC0；古谱题注明原书与局号。规则核逐题验证全部一步将死。
       </p>
     </div>
   );

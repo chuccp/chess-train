@@ -134,6 +134,21 @@ test('classic endgame shows its original source', async ({ page }) => {
   await expect(page.locator('.source-card a[href*="xqdao.com"]')).toBeVisible();
   await expect(page.locator('.board-hit')).toHaveCount(90);
 });
+test('large training library paginates and searches', async ({ page }) => {
+  await page.goto('/train/endgame');
+  await expect(page.locator('.lesson-meta-strip')).toContainText('801 节');
+  await expect(page.locator('.lesson-row')).toHaveCount(30);
+  await page.locator('.list-more').click();
+  await expect(page.locator('.lesson-row')).toHaveCount(60);
+  await page.locator('.list-search').fill('气吞关右');
+  await expect(page.locator('.lesson-row')).toHaveCount(1);
+
+  await page.goto('/train/tactics');
+  await expect(page.locator('.list-progress-badge')).toContainText('164');
+  await expect(page.locator('.tactic-card')).toHaveCount(30);
+  await page.locator('.list-more').click();
+  await expect(page.locator('.tactic-card')).toHaveCount(60);
+});
 test('mobile tactics success keeps the next action in view', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/train/tactics/tactic-01');
