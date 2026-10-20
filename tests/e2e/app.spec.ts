@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+﻿import { test, expect } from '@playwright/test';
 
 async function waitForOfflineReady(page: import('@playwright/test').Page) {
   await page.goto('/');
@@ -138,12 +138,31 @@ test('local two-player game alternates turns and undoes a move', async ({ page }
   await expect(page.locator('.turn-chip')).toContainText('红方行棋');
   await expect(page.locator('.move-item')).toHaveCount(0);
 });
-test('local game hub links to chess, jungle and checkers', async ({ page }) => {
+test('local game hub lists all offline games', async ({ page }) => {
   await page.goto('/local');
-  await expect(page.locator('.local-game-card')).toHaveCount(3);
-  await expect(page.locator('.local-game-card')).toContainText(['中国象棋', '斗兽棋', '跳棋']);
+  await expect(page.locator('.local-game-card')).toHaveCount(5);
+  await expect(page.locator('.local-game-card')).toContainText(['中国象棋', '五子棋', '斗兽棋', '跳棋', '四子棋']);
 });
 
+test('local gomoku places black and white stones', async ({ page }) => {
+  await page.goto('/local/gomoku');
+  await expect(page.locator('.turn-chip')).toContainText('黑方行棋');
+  await page.locator('[data-gomoku-square="112"]').click();
+  await expect(page.locator('.turn-chip')).toContainText('白方行棋');
+  await page.locator('[data-gomoku-square="113"]').click();
+  await expect(page.locator('.turn-chip')).toContainText('黑方行棋');
+  await expect(page.locator('.gomoku-stone')).toHaveCount(2);
+});
+
+test('local connect four drops into a column', async ({ page }) => {
+  await page.goto('/local/connect4');
+  await expect(page.locator('.turn-chip')).toContainText('红方行棋');
+  await page.locator('[data-connect4-column="3"]').first().click();
+  await expect(page.locator('.turn-chip')).toContainText('黄方行棋');
+  await page.locator('[data-connect4-column="3"]').first().click();
+  await expect(page.locator('.turn-chip')).toContainText('红方行棋');
+  await expect(page.locator('.connect4-disc')).toHaveCount(2);
+});
 test('local jungle game alternates turns', async ({ page }) => {
   await page.goto('/local/jungle');
   await expect(page.locator('.turn-chip')).toContainText('红方行棋');
@@ -222,3 +241,5 @@ test('mobile layout has no horizontal overflow and an immersive game', async ({ 
   ).toBe(false);
   await context.close();
 });
+
+

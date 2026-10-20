@@ -10,11 +10,18 @@ const games = [
     tone: 'red',
   },
   {
+    to: '/local/gomoku',
+    title: '五子棋',
+    subtitle: '15 × 15 · 五子连珠',
+    description: '横、竖、斜任意方向连成五子，简单直接。',
+    tone: 'green',
+  },
+  {
     to: '/local/jungle',
     title: '斗兽棋',
     subtitle: '象狮虎豹 · 鼠可吃象',
     description: '过河、跳河、陷阱和兽穴，一盘几分钟的轻量对弈。',
-    tone: 'green',
+    tone: 'red',
   },
   {
     to: '/local/checkers',
@@ -22,6 +29,13 @@ const games = [
     subtitle: '121 孔 · 十子归营',
     description: '连跳、借桥、把十枚棋子全部送进对面的家。',
     tone: 'gold',
+  },
+  {
+    to: '/local/connect4',
+    title: '四子棋',
+    subtitle: '7 × 6 · 重力落子',
+    description: '选一列放棋子，先连成四子的一方赢。',
+    tone: 'green',
   },
 ];
 

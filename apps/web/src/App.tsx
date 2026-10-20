@@ -7,6 +7,8 @@ import { LocalGamesPage } from './pages/LocalGamesPage';
 import { LocalPlayPage } from './pages/LocalPlayPage';
 import { JunglePage } from './pages/JunglePage';
 import { CheckersPage } from './pages/CheckersPage';
+import { GomokuPage } from './pages/GomokuPage';
+import { Connect4Page } from './pages/Connect4Page';
 import { TrainHomePage } from './pages/TrainHomePage';
 import { TacticsListPage } from './pages/TacticsListPage';
 import { TacticsPlayPage } from './pages/TacticsPlayPage';
@@ -58,8 +60,10 @@ export default function App() {
           <Route path="play" element={<PlayPage />} />
           <Route path="local" element={<LocalGamesPage />} />
           <Route path="local/chess" element={<LocalPlayPage />} />
+          <Route path="local/gomoku" element={<GomokuPage />} />
           <Route path="local/jungle" element={<JunglePage />} />
           <Route path="local/checkers" element={<CheckersPage />} />
+          <Route path="local/connect4" element={<Connect4Page />} />
           <Route path="train" element={<TrainHomePage />} />
           <Route path="train/tactics" element={<TacticsListPage />} />
           <Route path="train/tactics/:id" element={<TacticsPlayPage />} />
