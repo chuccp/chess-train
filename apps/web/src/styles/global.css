@@ -3872,7 +3872,7 @@ p {
 
   .app-shell.is-game-route .board-column {
     width: 100%;
-    max-width: 560px;
+    max-width: min(560px, calc((100vh - 190px) * 0.9));
     margin: 0 auto;
   }
 
