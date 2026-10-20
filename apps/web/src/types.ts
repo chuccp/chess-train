@@ -33,6 +33,7 @@ export interface GameSnapshot {
   startedAt: string;
   updatedAt: string;
   elapsedMs: number;
+  historyResume?: boolean;
 }
 
 export interface FinishedGame {

@@ -146,10 +146,11 @@ export function PlayPage() {
   const canUndo =
     settings.allowUndo &&
     (!checked || settings.allowUndoWhenChecked) &&
-    current.phase === 'playing' &&
-    current.moves.length >= 1 &&
-    current.moves[current.moves.length - 1]?.color !== playerColor &&
-    current.moves[current.moves.length - 2]?.color === playerColor;
+    ((current.historyResume && current.moves.length > 0) ||
+      (current.phase === 'playing' &&
+        current.moves.length >= 1 &&
+        current.moves[current.moves.length - 1]?.color !== playerColor &&
+        current.moves[current.moves.length - 2]?.color === playerColor));
 
   const statusText = isFinished
     ? resultLabel(current.result, playerColor)

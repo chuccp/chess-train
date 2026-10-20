@@ -234,6 +234,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       hashes.push(hashPosition(position));
       moves.push(move);
     }
+    const isFinal = limit >= record.moves.length;
     const now = new Date().toISOString();
     const game: GameSnapshot = {
       id: uuid(),
@@ -243,11 +244,12 @@ export const useGameStore = create<GameState>((set, get) => ({
       position,
       positionHashes: hashes,
       moves,
-      phase: 'playing',
-      result: { status: 'playing' },
+      phase: isFinal ? 'finished' : 'playing',
+      result: isFinal ? record.result : { status: 'playing' },
       startedAt: now,
       updatedAt: now,
-      elapsedMs: 0,
+      elapsedMs: isFinal ? record.elapsedMs : 0,
+      historyResume: true,
     };
     set({
       current: game,
@@ -453,12 +455,44 @@ export const useGameStore = create<GameState>((set, get) => ({
       set({ notice: '当前设置不允许悔棋' });
       return;
     }
-    if (game.phase !== 'playing') {
+    const fromHistory = Boolean(game.historyResume);
+    if (game.phase !== 'playing' && !fromHistory) {
       set({ notice: 'AI 思考中或棋局已结束，暂时不能悔棋' });
       return;
     }
     if (!settings.allowUndoWhenChecked && isInCheck(game.position, game.position.turn)) {
       set({ notice: '当前被将军，设置要求先应将' });
+      return;
+    }
+    if (fromHistory) {
+      if (game.moves.length === 0) {
+        set({ notice: '还没有可悔的棋' });
+        return;
+      }
+      const keep = game.moves.length - 1;
+      const { position, hashes } = replayTo(game.moves, keep);
+      const next = snapshotWithGame(game, {
+        position,
+        positionHashes: hashes,
+        moves: game.moves.slice(0, keep),
+        phase: 'playing',
+        result: { status: 'playing' },
+        updatedAt: new Date().toISOString(),
+        historyResume: true,
+      });
+      set({
+        current: next,
+        selected: null,
+        legalTargets: [],
+        notice: null,
+        hint: null,
+        hintLoading: false,
+        aiInFlight: false,
+        aiError: null,
+        aiToken: get().aiToken + 1,
+        hintToken: get().hintToken + 1,
+      });
+      persist(next);
       return;
     }
     const removeCount = settings.undoSteps === 10 ? game.moves.length : Math.min(settings.undoSteps, game.moves.length);

@@ -167,11 +167,16 @@ test('history review can undo and resume', async ({ page }) => {
   });
 
   await page.goto('/review/history-undo-test');
-  await page.getByRole('button', { name: '终局' }).click();
   await page.getByRole('link', { name: '回到对弈' }).click();
   await expect(page).toHaveURL(/\/play$/);
   await expect(page.locator('.board-hit')).toHaveCount(90);
   await expect(page.locator('.move-item')).toHaveCount(2);
+  await expect(page.locator('.result-card')).toBeVisible();
+  const undo = page.locator('.side-controls .control-button').first();
+  await expect(undo).toBeEnabled();
+  await undo.click();
+  await expect(page.locator('.move-item')).toHaveCount(1);
+  await expect(page.locator('.result-card')).toHaveCount(0);
 });
 test('starts a game, gets an AI reply, and restores the game', async ({ page }) => {
   await waitForOfflineReady(page);

@@ -95,7 +95,7 @@ export function ReviewPage() {
   const step = (delta: number) => setIndex((value) => Math.min(positions.length - 1, Math.max(0, value + delta)));
   function resume() {
     if (!game) return;
-    const ok = resumeFinishedGame(game, index);
+    const ok = resumeFinishedGame(game, game.moves.length);
     if (ok) navigate('/play');
   }
 
@@ -152,7 +152,7 @@ export function ReviewPage() {
               <SkipForward size={18} aria-hidden="true" />
             </button>
           </div>
-          <p className="board-help">回放只读；点棋谱中的任意一手可直接跳转。点「回到对弈」会把当前局面载入对弈页，再用「悔棋」一步一步退回。</p>
+          <p className="board-help">回放只读；点棋谱中的任意一手可直接跳转。点「回到对弈」会载入终局结果，再在终局页用「悔棋」一次退一手。</p>
         </section>
 
         <aside className="play-side">
