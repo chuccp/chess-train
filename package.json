@@ -1,0 +1,24 @@
+{
+  "name": "chess-train",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.25.0",
+  "scripts": {
+    "dev": "pnpm --filter @qilian/web dev",
+    "build": "pnpm --filter @qilian/web build",
+    "preview": "pnpm --filter @qilian/web preview",
+    "typecheck": "pnpm --filter @qilian/web typecheck",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "pnpm --filter @qilian/web build && playwright test",
+    "fetch:engine": "node tools/fetch-engine.mjs",
+    "engine:check": "node tools/check-engine.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  },
+  "license": "GPL-3.0-only"
+}

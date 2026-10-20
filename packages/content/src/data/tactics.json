@@ -1,0 +1,571 @@
+[
+  {
+    "id": "tactic-01",
+    "kind": "tactics",
+    "title": "车类杀法 · 第 1 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 2,
+    "tags": [
+      "车类杀法",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "9/3k5/8b/4R4/4R4/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e5d5"
+      ],
+      [
+        "e6d6"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 前车平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-02",
+    "kind": "tactics",
+    "title": "车类杀法 · 第 2 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 3,
+    "tags": [
+      "车类杀法",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "9/3a5/3k5/4R4/2R6/9/9/9/9/5K3 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c5c7"
+      ],
+      [
+        "c5d5"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 车七进二，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-03",
+    "kind": "tactics",
+    "title": "车类杀法 · 第 3 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 4,
+    "tags": [
+      "车类杀法",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "9/5R3/3k5/9/5Rb2/9/9/9/9/4K4 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f5d5"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 后车平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-04",
+    "kind": "tactics",
+    "title": "车类杀法 · 第 4 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 5,
+    "tags": [
+      "车类杀法",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "9/3k1a3/4R4/6R2/9/9/9/9/9/4K4 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g6d6"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 车三平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-05",
+    "kind": "tactics",
+    "title": "车类杀法 · 第 5 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 6,
+    "tags": [
+      "车类杀法",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "9/2R6/3a1k3/9/6R2/9/9/9/9/4K4 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g5f5"
+      ],
+      [
+        "g5g7"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 车三平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-06",
+    "kind": "tactics",
+    "title": "车炮配合 · 第 6 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 7,
+    "tags": [
+      "车炮配合",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "9/6C2/4bk3/9/3R5/9/9/9/9/3K5 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d5f5"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 车六平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-07",
+    "kind": "tactics",
+    "title": "车炮配合 · 第 7 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 8,
+    "tags": [
+      "车炮配合",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "3C1a3/3k5/9/9/4R4/9/9/9/9/4K4 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e5d5"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 车五平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-08",
+    "kind": "tactics",
+    "title": "车炮配合 · 第 8 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 9,
+    "tags": [
+      "车炮配合",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "3k5/6C2/9/9/5Rb2/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f5d5"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 车四平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-09",
+    "kind": "tactics",
+    "title": "车炮配合 · 第 9 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 10,
+    "tags": [
+      "车炮配合",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "5kC2/3a5/6R2/9/9/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g7f7"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 车三平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-10",
+    "kind": "tactics",
+    "title": "车炮配合 · 第 10 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 11,
+    "tags": [
+      "车炮配合",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "9/5a3/5k3/3C5/6R2/9/9/9/3K5/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g5g7"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 车三进二，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-11",
+    "kind": "tactics",
+    "title": "车马配合 · 第 11 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 12,
+    "tags": [
+      "车马配合",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "9/5k3/6N2/3R5/6b2/9/9/9/9/3K5 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d6f6"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 车六平四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-12",
+    "kind": "tactics",
+    "title": "车马配合 · 第 12 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 13,
+    "tags": [
+      "车马配合",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "9/5aN2/3k5/9/2R6/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c5d5"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 车七平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-13",
+    "kind": "tactics",
+    "title": "车马配合 · 第 13 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 14,
+    "tags": [
+      "车马配合",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "3N2b2/9/3k5/4R4/9/9/9/9/9/4K4 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e6d6"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 车五平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-14",
+    "kind": "tactics",
+    "title": "车马配合 · 第 14 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 15,
+    "tags": [
+      "车马配合",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "3k1N3/4Ra3/9/9/9/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e8d8"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 车五平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-15",
+    "kind": "tactics",
+    "title": "马炮配合 · 第 15 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 16,
+    "tags": [
+      "马炮配合",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "3k2C2/3N5/9/9/9/9/9/5K3/9/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d8f9"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 马六进四，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-16",
+    "kind": "tactics",
+    "title": "马炮配合 · 第 16 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 17,
+    "tags": [
+      "马炮配合",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "4k4/9/9/4C4/5N3/9/9/9/9/3K5 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f5e7"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 马四进五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-17",
+    "kind": "tactics",
+    "title": "马炮配合 · 第 17 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 18,
+    "tags": [
+      "马炮配合",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "4k4/9/9/9/3NC4/9/9/9/9/4K4 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d5e7"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 马六进五，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-18",
+    "kind": "tactics",
+    "title": "车兵配合 · 第 18 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 19,
+    "tags": [
+      "车兵配合",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "2bk2P2/9/9/9/2R6/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c5d5"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 车七平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-19",
+    "kind": "tactics",
+    "title": "车兵配合 · 第 19 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 20,
+    "tags": [
+      "车兵配合",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "6R2/9/3k5/4P4/6b2/9/9/9/9/4K4 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g9d9"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 车三平六，黑将无合法应手，形成将死。"
+  },
+  {
+    "id": "tactic-20",
+    "kind": "tactics",
+    "title": "车兵配合 · 第 20 题",
+    "subtitle": "红先，一步将死",
+    "level": 1,
+    "order": 21,
+    "tags": [
+      "车兵配合",
+      "一步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "fen": "2R6/9/3Pbk3/9/9/9/9/9/9/3K5 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c9f9"
+      ]
+    ],
+    "hint": "黑将的退路有限。先找能同时封住将门和退路的着法。",
+    "explanation": "红方走 车七平四，黑将无合法应手，形成将死。"
+  }
+]

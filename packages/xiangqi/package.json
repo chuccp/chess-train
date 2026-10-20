@@ -1,0 +1,13 @@
+{
+  "name": "@qilian/xiangqi",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "license": "GPL-3.0-only"
+}

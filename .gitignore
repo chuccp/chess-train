@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.vite/
+coverage/
+playwright-report/
+test-results/
+apps/web/public/engines/pikafish/**/*.wasm
+apps/web/public/engines/pikafish/**/*.data
+apps/web/public/engines/pikafish/**/*.js
+.pnpm-store/
+.playwright-browsers/
+tmp-*.png
+.typecheck.log
+.DS_Store
+/.pnpm-store
+/.idea
+apps/web/dist-pages/
