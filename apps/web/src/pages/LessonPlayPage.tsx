@@ -485,7 +485,11 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
             </div>
           )}
 
-          <div className="board-controls">
+
+        </section>
+
+        <aside className="play-side">
+          <div className="board-controls side-controls">
             <button type="button" className="control-button" disabled={completed || autoMoving} onClick={showHint}>
               <Lightbulb size={18} aria-hidden="true" />
               <span>提示</span>
@@ -506,9 +510,6 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
               </Link>
             )}
           </div>
-        </section>
-
-        <aside className="play-side">
           <section className="side-card">
             <div className="side-heading">
               <span className="eyebrow">{trainingKindLabels[kind]}</span>

@@ -250,7 +250,15 @@ export function PlayPage() {
             </div>
           )}
 
-          <div className="board-controls">
+
+
+          <p className="board-help">
+            点击棋子，再点目标位置；也可用 Tab 聚焦棋格、方向键移动、回车落子。
+          </p>
+        </section>
+
+        <aside className="play-side">
+          <div className="board-controls side-controls">
             <button
               type="button"
               className="control-button"
@@ -288,13 +296,6 @@ export function PlayPage() {
               <span>认输</span>
             </button>
           </div>
-
-          <p className="board-help">
-            点击棋子，再点目标位置；也可用 Tab 聚焦棋格、方向键移动、回车落子。
-          </p>
-        </section>
-
-        <aside className="play-side">
           <section className="side-card">
             <div className="side-heading">
               <span className="eyebrow">对局</span>

@@ -66,6 +66,7 @@ test('training board and controls fit a 1080p browser viewport', async ({ page }
   const controls = await page.locator('.board-controls').boundingBox();
   expect((board?.y ?? 0) + (board?.height ?? 0)).toBeLessThanOrEqual(950);
   expect((controls?.y ?? 0) + (controls?.height ?? 0)).toBeLessThanOrEqual(950);
+  expect(controls?.x ?? 0).toBeGreaterThan((board?.x ?? 0) + (board?.width ?? 0));
 });
 
 test('mobile tactics success keeps the next action in view', async ({ page }) => {
