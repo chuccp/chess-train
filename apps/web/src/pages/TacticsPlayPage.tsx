@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -296,7 +297,7 @@ export function TacticsPlayPage() {
   }
 
   return (
-    <div className="page training-play-page">
+    <div className={`page training-play-page${isSolved ? ' has-success' : ''}`}>
       <div className="play-topline">
         <Link to="/train/tactics" className="back-link">
           <ArrowLeft size={15} aria-hidden="true" />
@@ -436,6 +437,33 @@ export function TacticsPlayPage() {
           </section>
         </aside>
       </div>
+
+      {isSolved &&
+        createPortal(
+        <div className="mobile-success-bar" role="status" aria-live="polite">
+          <div className="mobile-success-copy">
+            <span className="mobile-success-icon">
+              {phase === 'revealed' ? <Eye size={19} aria-hidden="true" /> : <CheckCircle2 size={19} aria-hidden="true" />}
+            </span>
+            <span>
+              <strong>{phase === 'revealed' ? '参考答案' : '杀法成立'}</strong>
+              <small>{solvedNotation}</small>
+            </span>
+          </div>
+          {next ? (
+            <button type="button" className="btn btn-primary btn-small" onClick={() => navigate(`/train/tactics/${next.id}`)}>
+              下一题
+              <ArrowRight size={16} aria-hidden="true" />
+            </button>
+          ) : (
+            <Link to="/train/tactics" className="btn btn-primary btn-small">
+              返回列表
+              <ArrowRight size={16} aria-hidden="true" />
+            </Link>
+          )}
+        </div>,
+        document.body,
+      )}
     </div>
   );
 }

@@ -1,10 +1,11 @@
-import { useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {
   PIECE_GLYPHS,
   fileOf,
   rankOf,
   squareAt,
   type Color,
+  type Piece,
   type Position,
 } from '@qilian/xiangqi';
 
@@ -12,6 +13,13 @@ const PADDING = 50;
 const CELL = 100;
 const VIEW_WIDTH = 900;
 const VIEW_HEIGHT = 1000;
+
+interface MoveAnimation {
+  from: number;
+  to: number;
+  piece: Piece;
+  key: string;
+}
 
 interface BoardProps {
   position: Position;
@@ -58,6 +66,79 @@ export function Board({
     return kingSquare >= 0 ? kingSquare : 0;
   });
   const buttonRefs = useRef(new Map<number, HTMLButtonElement>());
+  const [moveAnimation, setMoveAnimation] = useState<MoveAnimation | null>(null);
+  const previousBoardRef = useRef(position.board);
+  const mountedRef = useRef(false);
+  const animationKeyRef = useRef<string | null>(null);
+  const ghostRef = useRef<SVGGElement | null>(null);
+
+  useLayoutEffect(() => {
+    if (preview) {
+      previousBoardRef.current = position.board;
+      mountedRef.current = true;
+      return;
+    }
+
+    const previousBoard = previousBoardRef.current;
+    previousBoardRef.current = position.board;
+
+    if (!mountedRef.current) {
+      mountedRef.current = true;
+      animationKeyRef.current = lastMove ? `${lastMove.from}-${lastMove.to}` : null;
+      return;
+    }
+
+    if (!lastMove) {
+      animationKeyRef.current = null;
+      setMoveAnimation(null);
+      return;
+    }
+
+    const key = `${lastMove.from}-${lastMove.to}`;
+    if (animationKeyRef.current === key) return;
+    animationKeyRef.current = key;
+
+    const piece = position.board[lastMove.to];
+    const previousPiece = previousBoard[lastMove.from];
+    if (!piece || !previousPiece || previousPiece.color !== piece.color || previousPiece.type !== piece.type) {
+      setMoveAnimation(null);
+      return;
+    }
+
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      setMoveAnimation(null);
+      return;
+    }
+
+    setMoveAnimation({ from: lastMove.from, to: lastMove.to, piece, key });
+    const timer = window.setTimeout(() => {
+      setMoveAnimation((current) => (current?.key === key ? null : current));
+    }, 230);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [lastMove?.from, lastMove?.to, position.board, preview]);
+
+  useEffect(() => {
+    if (!moveAnimation) return;
+    const from = displayPoint(moveAnimation.from, orientation);
+    const to = displayPoint(moveAnimation.to, orientation);
+    const started = performance.now();
+    let frame = 0;
+
+    const step = (now: number) => {
+      const t = Math.min(1, (now - started) / 200);
+      const eased = 1 - (1 - t) ** 3;
+      const x = from.x + (to.x - from.x) * eased;
+      const y = from.y + (to.y - from.y) * eased;
+      ghostRef.current?.setAttribute('transform', `translate(${x} ${y})`);
+      if (t < 1) frame = requestAnimationFrame(step);
+    };
+
+    frame = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frame);
+  }, [moveAnimation, orientation]);
 
   const points = Array.from({ length: 90 }, (_, square) => {
     const point = displayPoint(square, orientation);
@@ -174,7 +255,7 @@ export function Board({
         </text>
 
         {lastMove && (
-          <g className="last-move-marks">
+          <g key={`last-${lastMove.from}-${lastMove.to}`} className="last-move-marks">
             <circle cx={displayPoint(lastMove.from, orientation).x} cy={displayPoint(lastMove.from, orientation).y} r="15" />
             <circle cx={displayPoint(lastMove.to, orientation).x} cy={displayPoint(lastMove.to, orientation).y} r="43" />
           </g>
@@ -192,7 +273,7 @@ export function Board({
           })}
 
         {hint && (
-          <g className="hint-layer">
+          <g key={`hint-${hint.from}-${hint.to}`} className="hint-layer">
             <line
               x1={displayPoint(hint.from, orientation).x}
               y1={displayPoint(hint.from, orientation).y}
@@ -206,6 +287,7 @@ export function Board({
 
         {points.map(({ square, x, y, piece }) => {
           if (!piece) return null;
+          if (moveAnimation && square === moveAnimation.to) return null;
           const isSelected = selected === square;
           const isChecked = checkedSquare === square;
           const isHintTarget = hint?.to === square;
@@ -232,7 +314,29 @@ export function Board({
             </g>
           );
         })}
+        {moveAnimation && (() => {
+          const from = displayPoint(moveAnimation.from, orientation);
+          const to = displayPoint(moveAnimation.to, orientation);
+          return (
+            <g
+              key={`ghost-${moveAnimation.key}`}
+              className={`piece piece-ghost ${moveAnimation.piece.color === 'r' ? 'piece-red' : 'piece-black'}`}
+              aria-hidden="true"
+              filter="url(#piece-shadow)"
+              ref={ghostRef}
+              transform={`translate(${from.x} ${from.y})`}
+            >
+              <circle r="43" className="piece-disc" />
+              <circle r="36" className="piece-ring" />
+              <text className="piece-glyph" textAnchor="middle" dominantBaseline="central">
+                {PIECE_GLYPHS[moveAnimation.piece.color][moveAnimation.piece.type]}
+              </text>
+            </g>
+          );
+        })()}
       </svg>
+
+
 
       {!preview && <div className="board-hit-layer">
         {points.map(({ square, x, y, row, col, piece }) => {

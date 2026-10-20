@@ -45,6 +45,19 @@ test('tactic answer marks the exercise completed', async ({ page }) => {
   await expect(page.locator('.tactic-result')).toContainText('看答案也算完成');
 });
 
+test('mobile tactics success keeps the next action in view', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/train/tactics/tactic-01');
+  await page.getByRole('button', { name: '看答案' }).click();
+  const bar = page.locator('.mobile-success-bar');
+  await page.waitForTimeout(450);
+  await expect(bar).toBeVisible();
+  await expect(bar.getByRole('button', { name: /下一题/ })).toBeInViewport();
+  const box = await bar.boundingBox();
+  expect(box?.y).toBeGreaterThanOrEqual(0);
+  expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(844);
+});
+
 test('mobile layout has no horizontal overflow and an immersive game', async ({ browser }) => {
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
