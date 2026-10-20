@@ -124,7 +124,9 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
                   <span className="lesson-main">
                     <span className="lesson-topline">
                       <span className="tactic-theme">{lesson.tags[0]}</span>
-                      <span className="lesson-level">{lesson.level === 1 ? '入门' : '进阶'}</span>
+                      <span className="lesson-level">
+                        {lesson.level === 1 ? '入门' : lesson.level === 2 ? '进阶' : '挑战'}
+                      </span>
                     </span>
                     <strong>{lesson.title}</strong>
                     <small>{lesson.subtitle} · {line?.moves.length ?? 0} 步</small>

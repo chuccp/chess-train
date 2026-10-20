@@ -620,7 +620,9 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
           <section className="side-card">
             <div className="side-heading">
               <span className="eyebrow">{trainingKindLabels[kind]}</span>
-              <span className="side-level">{lesson.level === 1 ? '入门' : '进阶'}</span>
+              <span className="side-level">
+                {lesson.level === 1 ? '入门' : lesson.level === 2 ? '进阶' : '挑战'}
+              </span>
             </div>
             <h1 className="exercise-title">{lesson.title}</h1>
             <p className="exercise-subtitle">{lesson.subtitle}</p>

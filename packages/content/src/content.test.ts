@@ -82,6 +82,25 @@ describe('starter content', () => {
       tacticFens.add(tactic.fen);
     }
   });
+  it('uses consistent difficulty levels', () => {
+    for (const lesson of endgameLessons) {
+      const branch = generateLegalMoves(parseFen(lesson.fen)).length;
+      const score = Math.ceil(lesson.lines[0].moves.length / 2) + branch / 30;
+      const expected = score <= 5 ? 1 : score <= 10 ? 2 : 3;
+      expect(lesson.level, `${lesson.id} difficulty`).toBe(expected);
+    }
+    for (const tactic of tacticExercises) {
+      const branch = generateLegalMoves(parseFen(tactic.fen)).length;
+      const score = branch - 3 * tactic.solutions.length;
+      const expected = score <= 20 ? 1 : score <= 34 ? 2 : 3;
+      expect(tactic.level, `${tactic.id} difficulty`).toBe(expected);
+    }
+    for (const lesson of openingLessons) {
+      const plies = lesson.lines[0].moves.length;
+      const expected = plies <= 12 ? 1 : plies <= 36 ? 2 : 3;
+      expect(lesson.level, `${lesson.id} difficulty`).toBe(expected);
+    }
+  });
   it('every tactic is legal and every listed solution mates in one', () => {
     for (const tactic of tacticExercises) {
       const position = parseFen(tactic.fen);

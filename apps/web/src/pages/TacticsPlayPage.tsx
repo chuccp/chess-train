@@ -383,7 +383,9 @@ export function TacticsPlayPage() {
           <section className="side-card">
             <div className="side-heading">
               <span className="eyebrow">本题</span>
-              <span className="side-level">{exercise.level === 1 ? '入门' : '进阶'}</span>
+              <span className="side-level">
+                {exercise.level === 1 ? '入门' : exercise.level === 2 ? '进阶' : '挑战'}
+              </span>
             </div>
             <h1 className="exercise-title">{exercise.title}</h1>
             <p className="exercise-subtitle">{exercise.subtitle}</p>

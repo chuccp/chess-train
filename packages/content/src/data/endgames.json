@@ -4,7 +4,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 气吞关右",
     "subtitle": "红弃双车、兵，马炮成杀",
-    "level": 3,
+    "level": 2,
     "order": 1,
     "tags": [
       "古谱",
@@ -87,7 +87,7 @@
     "kind": "endgame",
     "title": "车兵配合 · 将死练习 01",
     "subtitle": "找到将死即可；参考主线演示两步合围",
-    "level": 2,
+    "level": 1,
     "order": 2,
     "tags": [
       "车兵配合",
@@ -137,7 +137,7 @@
     "kind": "endgame",
     "title": "车兵配合 · 将死练习 02",
     "subtitle": "找到将死即可；参考主线演示两步合围",
-    "level": 2,
+    "level": 1,
     "order": 3,
     "tags": [
       "车兵配合",
@@ -187,7 +187,7 @@
     "kind": "endgame",
     "title": "车炮配合 · 两步成杀 03",
     "subtitle": "先手控制九宫，下一手完成合围",
-    "level": 2,
+    "level": 1,
     "order": 4,
     "tags": [
       "车炮配合",
@@ -237,7 +237,7 @@
     "kind": "endgame",
     "title": "车炮配合 · 两步成杀 04",
     "subtitle": "先手控制九宫，下一手完成合围",
-    "level": 2,
+    "level": 1,
     "order": 5,
     "tags": [
       "车炮配合",
@@ -287,7 +287,7 @@
     "kind": "endgame",
     "title": "车马配合 · 两步成杀 05",
     "subtitle": "先手控制九宫，下一手完成合围",
-    "level": 2,
+    "level": 1,
     "order": 6,
     "tags": [
       "车马配合",
@@ -337,7 +337,7 @@
     "kind": "endgame",
     "title": "车马配合 · 两步成杀 06",
     "subtitle": "先手控制九宫，下一手完成合围",
-    "level": 2,
+    "level": 1,
     "order": 7,
     "tags": [
       "车马配合",
@@ -1210,7 +1210,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 目视横流",
     "subtitle": "《适情雅趣》第013局",
-    "level": 2,
+    "level": 1,
     "order": 14,
     "tags": [
       "古谱",
@@ -1270,7 +1270,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 见危致命",
     "subtitle": "《适情雅趣》第066局",
-    "level": 2,
+    "level": 1,
     "order": 15,
     "tags": [
       "古谱",
@@ -1330,7 +1330,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 博望烧屯",
     "subtitle": "《适情雅趣》第039局",
-    "level": 2,
+    "level": 1,
     "order": 16,
     "tags": [
       "古谱",
@@ -6841,7 +6841,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第084局 双蜓点水",
     "subtitle": "《适情雅趣》第084局 双蜓点水",
-    "level": 2,
+    "level": 1,
     "order": 167,
     "tags": [
       "古谱",
@@ -8011,7 +8011,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第103局 双鹭窥鱼",
     "subtitle": "《适情雅趣》第103局 双鹭窥鱼",
-    "level": 2,
+    "level": 1,
     "order": 181,
     "tags": [
       "古谱",
@@ -9884,7 +9884,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第126局 叶落归秋",
     "subtitle": "《适情雅趣》第126局 叶落归秋",
-    "level": 2,
+    "level": 1,
     "order": 200,
     "tags": [
       "古谱",
@@ -11928,7 +11928,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第154局 外攘四夷",
     "subtitle": "《适情雅趣》第154局 外攘四夷",
-    "level": 3,
+    "level": 2,
     "order": 220,
     "tags": [
       "古谱",
@@ -14273,7 +14273,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第189局 闭门扫轨",
     "subtitle": "《适情雅趣》第189局 闭门扫轨",
-    "level": 2,
+    "level": 1,
     "order": 247,
     "tags": [
       "古谱",
@@ -14407,7 +14407,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第192局 两地关心",
     "subtitle": "《适情雅趣》第192局 两地关心",
-    "level": 2,
+    "level": 1,
     "order": 249,
     "tags": [
       "古谱",
@@ -15063,7 +15063,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第203局 远近惊骇",
     "subtitle": "《适情雅趣》第203局 远近惊骇",
-    "level": 3,
+    "level": 2,
     "order": 257,
     "tags": [
       "古谱",
@@ -15887,7 +15887,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第220局 攀辕卧辙",
     "subtitle": "《适情雅趣》第220局 攀辕卧辙",
-    "level": 2,
+    "level": 1,
     "order": 265,
     "tags": [
       "古谱",
@@ -17445,7 +17445,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第253局 毙马仆途",
     "subtitle": "《适情雅趣》第253局 毙马仆途",
-    "level": 2,
+    "level": 1,
     "order": 283,
     "tags": [
       "古谱",
@@ -17670,7 +17670,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第260局 金创满身",
     "subtitle": "《适情雅趣》第260局 金创满身",
-    "level": 2,
+    "level": 1,
     "order": 286,
     "tags": [
       "古谱",
@@ -17962,7 +17962,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第265局 入穴取虎",
     "subtitle": "《适情雅趣》第265局 入穴取虎",
-    "level": 2,
+    "level": 1,
     "order": 290,
     "tags": [
       "古谱",
@@ -18337,7 +18337,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第272局 舍命如归",
     "subtitle": "《适情雅趣》第272局 舍命如归",
-    "level": 2,
+    "level": 1,
     "order": 295,
     "tags": [
       "古谱",
@@ -18396,7 +18396,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第273局 辎重塞途",
     "subtitle": "《适情雅趣》第273局 辎重塞途",
-    "level": 2,
+    "level": 1,
     "order": 296,
     "tags": [
       "古谱",
@@ -18530,7 +18530,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第278局 火炎昆岗",
     "subtitle": "《适情雅趣》第278局 火炎昆岗",
-    "level": 2,
+    "level": 1,
     "order": 298,
     "tags": [
       "古谱",
@@ -18731,7 +18731,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第283局 肉钽负荆",
     "subtitle": "《适情雅趣》第283局 肉钽负荆",
-    "level": 2,
+    "level": 1,
     "order": 301,
     "tags": [
       "古谱",
@@ -18798,7 +18798,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第284局 一骑困魏",
     "subtitle": "《适情雅趣》第284局 一骑困魏",
-    "level": 2,
+    "level": 1,
     "order": 302,
     "tags": [
       "古谱",
@@ -18857,7 +18857,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第285局 野马诱虎",
     "subtitle": "《适情雅趣》第285局 野马诱虎",
-    "level": 2,
+    "level": 1,
     "order": 303,
     "tags": [
       "古谱",
@@ -20113,7 +20113,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第333局 策马入城",
     "subtitle": "《适情雅趣》第333局 策马入城",
-    "level": 2,
+    "level": 1,
     "order": 319,
     "tags": [
       "古谱",
@@ -20180,7 +20180,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第335局 殃及池鱼",
     "subtitle": "《适情雅趣》第335局 殃及池鱼",
-    "level": 2,
+    "level": 1,
     "order": 320,
     "tags": [
       "古谱",
@@ -21333,7 +21333,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第361局 视死如归",
     "subtitle": "《适情雅趣》第361局 视死如归",
-    "level": 2,
+    "level": 1,
     "order": 331,
     "tags": [
       "古谱",
@@ -21400,7 +21400,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第365局 以恩塞责",
     "subtitle": "《适情雅趣》第365局 以恩塞责",
-    "level": 2,
+    "level": 1,
     "order": 332,
     "tags": [
       "古谱",
@@ -21467,7 +21467,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第368局 兔游月窟",
     "subtitle": "《适情雅趣》第368局 兔游月窟",
-    "level": 2,
+    "level": 1,
     "order": 333,
     "tags": [
       "古谱",
@@ -22037,7 +22037,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第401局 幽鸟攒阶",
     "subtitle": "《适情雅趣》第401局 幽鸟攒阶",
-    "level": 3,
+    "level": 2,
     "order": 339,
     "tags": [
       "古谱",
@@ -22219,7 +22219,7 @@
     "kind": "endgame",
     "title": "适情雅趣 · 第416局 动中有静",
     "subtitle": "《适情雅趣》第416局 动中有静",
-    "level": 2,
+    "level": 1,
     "order": 341,
     "tags": [
       "古谱",
@@ -22925,7 +22925,7 @@
     "kind": "endgame",
     "title": "韬略元机 · 078三老存亡",
     "subtitle": "《韬略元机》078三老存亡",
-    "level": 3,
+    "level": 2,
     "order": 357,
     "tags": [
       "古谱",
@@ -25328,7 +25328,7 @@
     "kind": "endgame",
     "title": "韬略元机 · 111双车换象",
     "subtitle": "《韬略元机》111双车换象",
-    "level": 2,
+    "level": 1,
     "order": 398,
     "tags": [
       "古谱",
@@ -25478,7 +25478,7 @@
     "kind": "endgame",
     "title": "韬略元机 · 116追风莫御",
     "subtitle": "《韬略元机》116追风莫御",
-    "level": 2,
+    "level": 1,
     "order": 403,
     "tags": [
       "古谱",
@@ -25545,7 +25545,7 @@
     "kind": "endgame",
     "title": "韬略元机 · 117兵强莫御",
     "subtitle": "《韬略元机》117兵强莫御",
-    "level": 2,
+    "level": 1,
     "order": 405,
     "tags": [
       "古谱",
@@ -29935,7 +29935,7 @@
     "kind": "endgame",
     "title": "韬略元机 · 177双烟倚骑",
     "subtitle": "《韬略元机》177双烟倚骑",
-    "level": 2,
+    "level": 1,
     "order": 476,
     "tags": [
       "古谱",
@@ -30604,7 +30604,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 一战胜齐 红胜",
     "subtitle": "《烂柯神机》一战胜齐 红胜",
-    "level": 2,
+    "level": 1,
     "order": 483,
     "tags": [
       "古谱",
@@ -30853,7 +30853,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 三子争先 红胜",
     "subtitle": "《烂柯神机》三子争先 红胜",
-    "level": 2,
+    "level": 1,
     "order": 486,
     "tags": [
       "古谱",
@@ -31110,7 +31110,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 两路北征 红胜",
     "subtitle": "《烂柯神机》两路北征 红胜",
-    "level": 3,
+    "level": 2,
     "order": 489,
     "tags": [
       "古谱",
@@ -31217,7 +31217,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 中权扼要 红胜",
     "subtitle": "《烂柯神机》中权扼要 红胜",
-    "level": 2,
+    "level": 1,
     "order": 490,
     "tags": [
       "古谱",
@@ -31624,7 +31624,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 以少胜多",
     "subtitle": "《烂柯神机》以少胜多",
-    "level": 3,
+    "level": 2,
     "order": 496,
     "tags": [
       "古谱",
@@ -32175,7 +32175,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 元夜张宴 红胜",
     "subtitle": "《烂柯神机》元夜张宴 红胜",
-    "level": 3,
+    "level": 2,
     "order": 501,
     "tags": [
       "古谱",
@@ -33920,7 +33920,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 势崩雷电 红胜",
     "subtitle": "《烂柯神机》势崩雷电 红胜",
-    "level": 3,
+    "level": 2,
     "order": 521,
     "tags": [
       "古谱",
@@ -34201,7 +34201,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 匹马征戎 红胜",
     "subtitle": "《烂柯神机》匹马征戎 红胜",
-    "level": 2,
+    "level": 1,
     "order": 524,
     "tags": [
       "古谱",
@@ -34739,7 +34739,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 去其蝥贼 红胜",
     "subtitle": "《烂柯神机》去其蝥贼 红胜",
-    "level": 2,
+    "level": 1,
     "order": 531,
     "tags": [
       "古谱",
@@ -35226,7 +35226,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 另辟蹊径 红胜",
     "subtitle": "《烂柯神机》另辟蹊径 红胜",
-    "level": 3,
+    "level": 2,
     "order": 536,
     "tags": [
       "古谱",
@@ -35483,7 +35483,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 善探骊珠 红胜",
     "subtitle": "《烂柯神机》善探骊珠 红胜",
-    "level": 2,
+    "level": 1,
     "order": 539,
     "tags": [
       "古谱",
@@ -35542,7 +35542,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 善阵善战 红胜",
     "subtitle": "《烂柯神机》善阵善战 红胜",
-    "level": 2,
+    "level": 1,
     "order": 540,
     "tags": [
       "古谱",
@@ -35692,7 +35692,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 四灵献瑞 红胜",
     "subtitle": "《烂柯神机》四灵献瑞 红胜",
-    "level": 3,
+    "level": 2,
     "order": 542,
     "tags": [
       "古谱",
@@ -37343,7 +37343,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 左右逢源 红胜",
     "subtitle": "《烂柯神机》左右逢源 红胜",
-    "level": 2,
+    "level": 1,
     "order": 559,
     "tags": [
       "古谱",
@@ -37410,7 +37410,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 巧用连环",
     "subtitle": "《烂柯神机》巧用连环",
-    "level": 3,
+    "level": 2,
     "order": 560,
     "tags": [
       "古谱",
@@ -37715,7 +37715,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 帅军奏绩 红胜",
     "subtitle": "《烂柯神机》帅军奏绩 红胜",
-    "level": 2,
+    "level": 1,
     "order": 563,
     "tags": [
       "古谱",
@@ -38566,7 +38566,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 快意而毙 红胜",
     "subtitle": "《烂柯神机》快意而毙 红胜",
-    "level": 2,
+    "level": 1,
     "order": 572,
     "tags": [
       "古谱",
@@ -38756,7 +38756,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 想入非非 红胜",
     "subtitle": "《烂柯神机》想入非非 红胜",
-    "level": 3,
+    "level": 2,
     "order": 574,
     "tags": [
       "古谱",
@@ -38863,7 +38863,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 意外得胜 红胜",
     "subtitle": "《烂柯神机》意外得胜 红胜",
-    "level": 3,
+    "level": 2,
     "order": 575,
     "tags": [
       "古谱",
@@ -40332,7 +40332,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 最后成功 正和",
     "subtitle": "《烂柯神机》最后成功 正和",
-    "level": 2,
+    "level": 1,
     "order": 590,
     "tags": [
       "古谱",
@@ -41084,7 +41084,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 满极招灾 红胜",
     "subtitle": "《烂柯神机》满极招灾 红胜",
-    "level": 3,
+    "level": 2,
     "order": 598,
     "tags": [
       "古谱",
@@ -41603,7 +41603,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 炎炎者灭 红胜",
     "subtitle": "《烂柯神机》炎炎者灭 红胜",
-    "level": 2,
+    "level": 1,
     "order": 604,
     "tags": [
       "古谱",
@@ -41670,7 +41670,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 照顾不周 红胜",
     "subtitle": "《烂柯神机》照顾不周 红胜",
-    "level": 2,
+    "level": 1,
     "order": 605,
     "tags": [
       "古谱",
@@ -42374,7 +42374,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 玲珑小谷 红胜",
     "subtitle": "《烂柯神机》玲珑小谷 红胜",
-    "level": 2,
+    "level": 1,
     "order": 613,
     "tags": [
       "古谱",
@@ -42441,7 +42441,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 白虹贯日 红胜",
     "subtitle": "《烂柯神机》白虹贯日 红胜",
-    "level": 2,
+    "level": 1,
     "order": 614,
     "tags": [
       "古谱",
@@ -42674,7 +42674,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 直入巢穴 红胜",
     "subtitle": "《烂柯神机》直入巢穴 红胜",
-    "level": 2,
+    "level": 1,
     "order": 617,
     "tags": [
       "古谱",
@@ -42733,7 +42733,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 直捣中坚 红胜",
     "subtitle": "《烂柯神机》直捣中坚 红胜",
-    "level": 2,
+    "level": 1,
     "order": 618,
     "tags": [
       "古谱",
@@ -42800,7 +42800,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 直捣比京",
     "subtitle": "《烂柯神机》直捣比京",
-    "level": 3,
+    "level": 2,
     "order": 619,
     "tags": [
       "古谱",
@@ -43394,7 +43394,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 细入微茫 红胜",
     "subtitle": "《烂柯神机》细入微茫 红胜",
-    "level": 3,
+    "level": 2,
     "order": 625,
     "tags": [
       "古谱",
@@ -43707,7 +43707,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 羊肠转战 红胜",
     "subtitle": "《烂柯神机》羊肠转战 红胜",
-    "level": 2,
+    "level": 1,
     "order": 628,
     "tags": [
       "古谱",
@@ -44055,7 +44055,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 能识先机 红胜",
     "subtitle": "《烂柯神机》能识先机 红胜",
-    "level": 2,
+    "level": 1,
     "order": 632,
     "tags": [
       "古谱",
@@ -44213,7 +44213,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 脱颖而出 红胜",
     "subtitle": "《烂柯神机》脱颖而出 红胜",
-    "level": 2,
+    "level": 1,
     "order": 634,
     "tags": [
       "古谱",
@@ -45642,7 +45642,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 车马相须 红胜",
     "subtitle": "《烂柯神机》车马相须 红胜",
-    "level": 2,
+    "level": 1,
     "order": 651,
     "tags": [
       "古谱",
@@ -45974,7 +45974,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 运实于虚 红胜",
     "subtitle": "《烂柯神机》运实于虚 红胜",
-    "level": 2,
+    "level": 1,
     "order": 655,
     "tags": [
       "古谱",
@@ -46659,7 +46659,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 逼贼入港 红胜",
     "subtitle": "《烂柯神机》逼贼入港 红胜",
-    "level": 2,
+    "level": 1,
     "order": 662,
     "tags": [
       "古谱",
@@ -46932,7 +46932,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 闲中得利 红胜",
     "subtitle": "《烂柯神机》闲中得利 红胜",
-    "level": 2,
+    "level": 1,
     "order": 665,
     "tags": [
       "古谱",
@@ -47288,7 +47288,7 @@
     "kind": "endgame",
     "title": "烂柯神机 · 项伯舞剑 红胜",
     "subtitle": "《烂柯神机》项伯舞剑 红胜",
-    "level": 2,
+    "level": 1,
     "order": 670,
     "tags": [
       "古谱",
@@ -50504,7 +50504,7 @@
     "kind": "endgame",
     "title": "渊深海阁 · 第120局 得鱼忘筌",
     "subtitle": "《渊深海阁》第120局 得鱼忘筌",
-    "level": 2,
+    "level": 1,
     "order": 711,
     "tags": [
       "古谱",
@@ -51604,7 +51604,7 @@
     "kind": "endgame",
     "title": "渊深海阁 · 第216局 暗伏地雷",
     "subtitle": "《渊深海阁》第216局 暗伏地雷",
-    "level": 2,
+    "level": 1,
     "order": 747,
     "tags": [
       "古谱",
@@ -55509,7 +55509,7 @@
     "kind": "endgame",
     "title": "梦入神机 · 001由中应外",
     "subtitle": "《梦入神机》001由中应外",
-    "level": 2,
+    "level": 1,
     "order": 792,
     "tags": [
       "古谱",
@@ -55568,7 +55568,7 @@
     "kind": "endgame",
     "title": "梦入神机 · 002弋不射宿",
     "subtitle": "《梦入神机》002弋不射宿",
-    "level": 2,
+    "level": 1,
     "order": 793,
     "tags": [
       "古谱",
@@ -55627,7 +55627,7 @@
     "kind": "endgame",
     "title": "梦入神机 · 003存没无累",
     "subtitle": "《梦入神机》003存没无累",
-    "level": 2,
+    "level": 1,
     "order": 794,
     "tags": [
       "古谱",
@@ -55686,7 +55686,7 @@
     "kind": "endgame",
     "title": "梦入神机 · 004诱虎夺穴",
     "subtitle": "《梦入神机》004诱虎夺穴",
-    "level": 2,
+    "level": 1,
     "order": 795,
     "tags": [
       "古谱",
@@ -55745,7 +55745,7 @@
     "kind": "endgame",
     "title": "梦入神机 · 005三鳝登堂",
     "subtitle": "《梦入神机》005三鳝登堂",
-    "level": 2,
+    "level": 1,
     "order": 796,
     "tags": [
       "古谱",
@@ -55804,7 +55804,7 @@
     "kind": "endgame",
     "title": "梦入神机 · 008潜鱼恋藻",
     "subtitle": "《梦入神机》008潜鱼恋藻",
-    "level": 2,
+    "level": 1,
     "order": 797,
     "tags": [
       "古谱",
@@ -55930,7 +55930,7 @@
     "kind": "endgame",
     "title": "梦入神机 · 011劣马奔泉",
     "subtitle": "《梦入神机》011劣马奔泉",
-    "level": 2,
+    "level": 1,
     "order": 799,
     "tags": [
       "古谱",
@@ -56064,7 +56064,7 @@
     "kind": "endgame",
     "title": "梦入神机 · 013鱼依水藻",
     "subtitle": "《梦入神机》013鱼依水藻",
-    "level": 2,
+    "level": 1,
     "order": 801,
     "tags": [
       "古谱",
@@ -56198,7 +56198,7 @@
     "kind": "endgame",
     "title": "梦入神机 · 015无路通垠",
     "subtitle": "《梦入神机》015无路通垠",
-    "level": 2,
+    "level": 1,
     "order": 803,
     "tags": [
       "古谱",
@@ -56257,7 +56257,7 @@
     "kind": "endgame",
     "title": "梦入神机 · 018退一步胜",
     "subtitle": "《梦入神机》018退一步胜",
-    "level": 2,
+    "level": 1,
     "order": 804,
     "tags": [
       "古谱",
@@ -56391,7 +56391,7 @@
     "kind": "endgame",
     "title": "梦入神机 · 020双蛇入窟",
     "subtitle": "《梦入神机》020双蛇入窟",
-    "level": 2,
+    "level": 1,
     "order": 806,
     "tags": [
       "古谱",
@@ -58089,7 +58089,7 @@
     "kind": "endgame",
     "title": "梦入神机 · 049老子出关",
     "subtitle": "《梦入神机》049老子出关",
-    "level": 3,
+    "level": 2,
     "order": 829,
     "tags": [
       "古谱",
@@ -59773,7 +59773,7 @@
     "kind": "endgame",
     "title": "梦入神机 · 071诸葛平蛮",
     "subtitle": "《梦入神机》071诸葛平蛮",
-    "level": 2,
+    "level": 1,
     "order": 849,
     "tags": [
       "古谱",
@@ -65483,7 +65483,7 @@
     "kind": "endgame",
     "title": "橘中秘 · 双低兵胜单缺象096",
     "subtitle": "《橘中秘》双低兵胜单缺象096",
-    "level": 2,
+    "level": 1,
     "order": 904,
     "tags": [
       "古谱",
@@ -65740,7 +65740,7 @@
     "kind": "endgame",
     "title": "橘中秘 · 车胜马双象2",
     "subtitle": "《橘中秘》车胜马双象2",
-    "level": 3,
+    "level": 2,
     "order": 915,
     "tags": [
       "古谱",
