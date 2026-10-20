@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { HomePage } from './pages/HomePage';
 import { PlayPage } from './pages/PlayPage';
+import { LocalPlayPage } from './pages/LocalPlayPage';
 import { TrainHomePage } from './pages/TrainHomePage';
 import { TacticsListPage } from './pages/TacticsListPage';
 import { TacticsPlayPage } from './pages/TacticsPlayPage';
@@ -52,6 +53,7 @@ export default function App() {
         <Route element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="play" element={<PlayPage />} />
+          <Route path="local" element={<LocalPlayPage />} />
           <Route path="train" element={<TrainHomePage />} />
           <Route path="train/tactics" element={<TacticsListPage />} />
           <Route path="train/tactics/:id" element={<TacticsPlayPage />} />

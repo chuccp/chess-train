@@ -127,6 +127,17 @@ test('a faster mate completes the endgame lesson', async ({ page }) => {
   await expect(page.getByRole('button', { name: '提示' })).toBeDisabled();
 });
 
+test('local two-player game alternates turns and undoes a move', async ({ page }) => {
+  await page.goto('/local');
+  await expect(page.locator('.turn-chip')).toContainText('红方行棋');
+  await page.locator('[data-square="25"]').click();
+  await page.locator('[data-square="22"]').click();
+  await expect(page.locator('.turn-chip')).toContainText('黑方行棋');
+  await expect(page.locator('.move-item')).toHaveCount(1);
+  await page.locator('.side-controls .control-button').first().click();
+  await expect(page.locator('.turn-chip')).toContainText('红方行棋');
+  await expect(page.locator('.move-item')).toHaveCount(0);
+});
 test('classic endgame shows its original source', async ({ page }) => {
   await page.goto('/train/endgame/endgame-classic-01');
   await expect(page.locator('.exercise-title')).toContainText('气吞关右');

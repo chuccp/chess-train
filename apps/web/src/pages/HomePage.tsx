@@ -16,6 +16,7 @@ import {
   Swords,
   Target,
   Trophy,
+  Users,
 } from 'lucide-react';
 import { contentStats, trainingKindLabels } from '@qilian/content';
 import type { Color } from '@qilian/xiangqi';
@@ -146,6 +147,10 @@ export function HomePage() {
             <Link to="/train" className="btn btn-ghost btn-large">
               <GraduationCap size={18} aria-hidden="true" />
               去训练
+            </Link>
+            <Link to="/local" className="btn btn-ghost btn-large">
+              <Users size={18} aria-hidden="true" />
+              双人对弈
             </Link>
           </div>
 

@@ -1,9 +1,10 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import { BookOpen, GraduationCap, History, Home, Settings, Swords } from 'lucide-react';
+import { BookOpen, GraduationCap, History, Home, Settings, Swords, Users } from 'lucide-react';
 import { EngineBadge } from './EngineBadge';
 
 const desktopNav = [
   { to: '/', label: '练习', icon: Home, end: true },
+  { to: '/local', label: '双人', icon: Users },
   { to: '/train', label: '训练', icon: GraduationCap },
   { to: '/history', label: '棋谱', icon: History },
   { to: '/settings', label: '设置', icon: Settings },
@@ -20,11 +21,15 @@ const mobileNav = [
 export function Layout() {
   const location = useLocation();
   const isHome = location.pathname === '/';
-  const isGameRoute = location.pathname === '/play' || location.pathname.startsWith('/play/');
+  const isGameRoute =
+    location.pathname === '/play' ||
+    location.pathname.startsWith('/play/') ||
+    location.pathname === '/local';
   const isTrainingPlay = /^\/train\/(?:tactics|endgame|opening)\/[^/]+/.test(location.pathname);
   const hideMobileNav =
     location.pathname === '/play' ||
     location.pathname.startsWith('/play/') ||
+    location.pathname === '/local' ||
     location.pathname.startsWith('/train/tactics/') ||
     location.pathname.startsWith('/train/endgame/') ||
     location.pathname.startsWith('/train/opening/') ||
