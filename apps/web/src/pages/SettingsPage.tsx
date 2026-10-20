@@ -11,6 +11,7 @@ import {
   Settings2,
   ShieldCheck,
   Trash2,
+  Undo2,
   Volume2,
   Vibrate,
 } from 'lucide-react';
@@ -149,6 +150,65 @@ export function SettingsPage() {
                 </button>
               </div>
             </div>
+            <div className="settings-row">
+              <div>
+                <strong>允许悔棋</strong>
+                <p>关闭后，中国象棋对弈中的悔棋按钮不可用。</p>
+              </div>
+              <button
+                type="button"
+                className={`toggle${settings.allowUndo ? ' is-on' : ''}`}
+                onClick={() => settings.setAllowUndo(!settings.allowUndo)}
+                aria-pressed={settings.allowUndo}
+              >
+                <Undo2 size={16} aria-hidden="true" />
+                悔棋 {settings.allowUndo ? '开' : '关'}
+              </button>
+            </div>
+            {settings.allowUndo && (
+              <>
+                <div className="settings-row">
+                  <div>
+                    <strong>将军后也可悔棋</strong>
+                    <p>关闭后，被将军时必须先应将，不能退棋。</p>
+                  </div>
+                  <button
+                    type="button"
+                    className={`toggle${settings.allowUndoWhenChecked ? ' is-on' : ''}`}
+                    onClick={() => settings.setAllowUndoWhenChecked(!settings.allowUndoWhenChecked)}
+                    aria-pressed={settings.allowUndoWhenChecked}
+                  >
+                    <ShieldCheck size={16} aria-hidden="true" />
+                    将军悔棋 {settings.allowUndoWhenChecked ? '开' : '关'}
+                  </button>
+                </div>
+                <div className="settings-row">
+                  <div>
+                    <strong>悔棋步数</strong>
+                    <p>1 步 = 一方走一手；10 = 不限制，一次退到开局。适用于中国象棋对弈。</p>
+                  </div>
+                  <div className="undo-range">
+                    <div className="undo-range-value">
+                      {settings.undoSteps === 10 ? '不限制' : `${settings.undoSteps} 步`}
+                    </div>
+                    <input
+                      type="range"
+                      min={1}
+                      max={10}
+                      step={1}
+                      value={settings.undoSteps}
+                      aria-label="悔棋步数"
+                      aria-valuetext={settings.undoSteps === 10 ? '不限制' : `${settings.undoSteps} 步`}
+                      onChange={(event) => settings.setUndoSteps(Number(event.target.value))}
+                    />
+                    <div className="undo-range-labels">
+                      <span>1 步</span>
+                      <span>10 · 不限制</span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
           </section>
 
           <section className="panel settings-section" id="engine">

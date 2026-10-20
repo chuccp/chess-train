@@ -5197,3 +5197,40 @@ p {
     margin-left: 0;
   }
 }
+
+.undo-range {
+  display: flex;
+  width: min(100%, 250px);
+  flex-direction: column;
+  gap: 0.18rem;
+}
+
+.undo-range-value {
+  align-self: flex-end;
+  color: var(--green-3);
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.undo-range input[type="range"] {
+  width: 100%;
+  height: 1.35rem;
+  margin: 0;
+  accent-color: var(--green-3);
+  cursor: pointer;
+}
+
+.undo-range-labels {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 0.62rem;
+}
+
+@media (max-width: 720px) {
+  .undo-range {
+    width: 100%;
+  }
+}

@@ -20,6 +20,92 @@ test('home surfaces the offline two-player entry', async ({ page }) => {
   await expect(page).toHaveURL(/\/local$/);
   await expect(page.locator('.local-game-card')).toHaveCount(5);
 });
+test('settings can disable undo for chess', async ({ page }) => {
+  await page.goto('/settings');
+  const undoSetting = page.getByRole('button', { name: '悔棋 开', exact: true });
+  await expect(undoSetting).toBeVisible();
+  await undoSetting.click();
+  await expect(page.getByRole('button', { name: '悔棋 关', exact: true })).toBeVisible();
+
+  await page.goto('/local/chess');
+  await page.locator('[data-square="25"]').click();
+  await page.locator('[data-square="22"]').click();
+  await page.locator('[data-square="70"]').click();
+  await page.locator('[data-square="67"]').click();
+  await expect(page.locator('.side-controls .control-button').first()).toBeDisabled();
+});
+test('settings can require a response to check', async ({ page }) => {
+  await page.goto('/settings');
+  await page.getByRole('button', { name: '将军悔棋 开', exact: true }).click();
+  await expect(page.getByRole('button', { name: '将军悔棋 关', exact: true })).toBeVisible();
+
+  const now = new Date().toISOString();
+  await page.addInitScript((startedAt) => {
+    const move = {
+      ply: 1,
+      from: 25,
+      to: 22,
+      ucci: 'h2e2',
+      notation: '炮二平五',
+      color: 'r',
+      pieceType: 'C',
+      capturedType: null,
+      givesCheck: false,
+      playedAt: startedAt,
+    };
+    localStorage.setItem('qilian.local-game.v1', JSON.stringify({
+      fen: '4k4/9/9/9/9/9/9/9/4r4/4K4 w - - 0 1',
+      moves: [move, { ...move, ply: 2, color: 'b' }],
+      positionHashes: [],
+      result: { status: 'playing' },
+      startedAt,
+      orientation: 'r',
+    }));
+  }, now);
+  await page.goto('/local/chess');
+  await expect(page.locator('.check-banner')).toContainText('红方被将军');
+  await expect(page.locator('.side-controls .control-button').first()).toBeDisabled();
+});
+
+test('settings can change the undo distance', async ({ page }) => {
+  await page.goto('/settings');
+  const slider = page.getByRole('slider', { name: '悔棋步数' });
+  await slider.focus();
+  await slider.press('Home');
+  await slider.press('ArrowRight');
+  await slider.press('ArrowRight');
+  await slider.press('ArrowRight');
+  await expect(slider).toHaveValue('4');
+
+  await page.goto('/local/chess');
+  await page.locator('[data-square="25"]').click();
+  await page.locator('[data-square="22"]').click();
+  await page.locator('[data-square="70"]').click();
+  await page.locator('[data-square="67"]').click();
+  await expect(page.locator('.side-controls .control-button').first()).toBeDisabled();
+  await page.locator('[data-square="0"]').click();
+  await page.locator('[data-square="9"]').click();
+  await page.locator('[data-square="81"]').click();
+  await page.locator('[data-square="72"]').click();
+  await expect(page.locator('.side-controls .control-button').first()).toBeEnabled();
+});
+
+test('undo distance 10 means unlimited', async ({ page }) => {
+  await page.goto('/settings');
+  const slider = page.getByRole('slider', { name: '悔棋步数' });
+  await slider.focus();
+  await slider.press('End');
+  await expect(slider).toHaveValue('10');
+
+  await page.goto('/local/chess');
+  await page.locator('[data-square="25"]').click();
+  await page.locator('[data-square="22"]').click();
+  await page.locator('[data-square="70"]').click();
+  await page.locator('[data-square="67"]').click();
+  await page.locator('.side-controls .control-button').first().click();
+  await expect(page.locator('.move-item')).toHaveCount(0);
+  await expect(page.locator('.turn-chip')).toContainText('红方行棋');
+});
 test('starts a game, gets an AI reply, and restores the game', async ({ page }) => {
   await waitForOfflineReady(page);
   await page.getByRole('button', { name: /和 AI 下一盘/ }).click();
@@ -135,13 +221,16 @@ test('a faster mate completes the endgame lesson', async ({ page }) => {
   await expect(page.getByRole('button', { name: '提示' })).toBeDisabled();
 });
 
-test('local two-player game alternates turns and undoes a move', async ({ page }) => {
+test('local two-player game alternates turns and undoes a round', async ({ page }) => {
   await page.goto('/local/chess');
   await expect(page.locator('.turn-chip')).toContainText('红方行棋');
   await page.locator('[data-square="25"]').click();
   await page.locator('[data-square="22"]').click();
   await expect(page.locator('.turn-chip')).toContainText('黑方行棋');
   await expect(page.locator('.move-item')).toHaveCount(1);
+  await page.locator('[data-square="70"]').click();
+  await page.locator('[data-square="67"]').click();
+  await expect(page.locator('.move-item')).toHaveCount(2);
   await page.locator('.side-controls .control-button').first().click();
   await expect(page.locator('.turn-chip')).toContainText('红方行棋');
   await expect(page.locator('.move-item')).toHaveCount(0);
@@ -158,6 +247,17 @@ test('local chess allows undo while in check', async ({ page }) => {
         ucci: 'h2e2',
         notation: '炮二平五',
         color: 'r',
+        pieceType: 'C',
+        capturedType: null,
+        givesCheck: false,
+        playedAt: startedAt,
+      }, {
+        ply: 2,
+        from: 25,
+        to: 22,
+        ucci: 'h2e2',
+        notation: '炮二平五',
+        color: 'b',
         pieceType: 'C',
         capturedType: null,
         givesCheck: false,

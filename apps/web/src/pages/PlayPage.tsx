@@ -144,8 +144,10 @@ export function PlayPage() {
   const isFinished = current.phase === 'finished';
   const elapsed = current.elapsedMs + (isFinished ? 0 : now - new Date(current.startedAt).getTime() - current.elapsedMs);
   const canUndo =
+    settings.allowUndo &&
+    (!checked || settings.allowUndoWhenChecked) &&
     current.phase === 'playing' &&
-    current.moves.length >= 2 &&
+    current.moves.length >= 1 &&
     current.moves[current.moves.length - 1]?.color !== playerColor &&
     current.moves[current.moves.length - 2]?.color === playerColor;
 

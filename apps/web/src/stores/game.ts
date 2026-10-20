@@ -5,6 +5,7 @@ import {
   evaluateBoard,
   generateLegalMoves,
   hashPosition,
+  isInCheck,
   parseFen,
   parseUcciMove,
   pieceAt,
@@ -397,11 +398,21 @@ export const useGameStore = create<GameState>((set, get) => ({
     const state = get();
     const game = state.current;
     if (!game) return;
+    const settings = useSettingsStore.getState();
+    if (!settings.allowUndo) {
+      set({ notice: '当前设置不允许悔棋' });
+      return;
+    }
     if (game.phase !== 'playing') {
       set({ notice: 'AI 思考中或棋局已结束，暂时不能悔棋' });
       return;
     }
-    if (game.moves.length < 2) {
+    if (!settings.allowUndoWhenChecked && isInCheck(game.position, game.position.turn)) {
+      set({ notice: '当前被将军，设置要求先应将' });
+      return;
+    }
+    const removeCount = settings.undoSteps === 10 ? game.moves.length : Math.min(settings.undoSteps, game.moves.length);
+    if (removeCount < 1) {
       set({ notice: '还没有可悔的棋' });
       return;
     }
@@ -412,7 +423,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       return;
     }
 
-    const keep = game.moves.length - 2;
+    const keep = game.moves.length - removeCount;
     const { position, hashes } = replayTo(game.moves, keep);
     const end = resultOf(position, hashes);
     const next = snapshotWithGame(game, {
@@ -435,6 +446,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       hintToken: get().hintToken + 1,
     });
     persist(next);
+    if (next.position.turn !== next.playerColor) void get().requestAi();
   },
 
   async resign() {

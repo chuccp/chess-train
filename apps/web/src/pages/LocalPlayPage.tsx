@@ -124,7 +124,13 @@ export function LocalPlayPage() {
   const lastMove = game.moves.length > 0 ? game.moves[game.moves.length - 1] : null;
   const elapsed = new Date(game.endedAt ?? now).getTime() - new Date(game.startedAt).getTime();
   const turnName = position.turn === 'r' ? '红方' : '黑方';
-  const canUndo = !finished && game.moves.length > 0;
+  const undoPlies = settings.undoSteps === 10 ? game.moves.length : settings.undoSteps;
+  const canUndo =
+    settings.allowUndo &&
+    !finished &&
+    game.moves.length > 0 &&
+    game.moves.length >= undoPlies &&
+    (!checked || settings.allowUndoWhenChecked);
   const finishedWinner =
     game.result.status === 'win' ? game.result.winner : null;
 
@@ -231,7 +237,7 @@ export function LocalPlayPage() {
 
   function undo() {
     if (!canUndo) return;
-    const moves = game.moves.slice(0, -1);
+    const moves = game.moves.slice(0, -undoPlies);
     let position = parseFen(START_FEN);
     const positionHashes = [hashPosition(position)];
     for (const move of moves) {
