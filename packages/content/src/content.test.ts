@@ -6,6 +6,7 @@ import {
   generateLegalMoves,
   hashPosition,
   isInCheck,
+  moveToUcci,
   parseFen,
   parseUcci,
   type Position,
@@ -78,6 +79,44 @@ describe('starter content', () => {
     }
   });
 
+  it('every tactic records every legal one-move mate', () => {
+    for (const tactic of tacticExercises) {
+      const initial = parseFen(tactic.fen);
+      expect(initial.turn, tactic.id).toBe('r');
+      expect(isInCheck(initial, 'r'), tactic.id).toBe(false);
+      expect(isInCheck(initial, 'b'), tactic.id).toBe(false);
+      const actual = generateLegalMoves(initial)
+        .filter((move) => {
+          const result = applyMove(initial, move.from, move.to);
+          if (!result.ok) return false;
+          const end = evaluateBoard(result.position, { positionHashes: [] });
+          return end.status === 'win' && end.winner === 'r' && end.reason === 'checkmate';
+        })
+        .map((move) => moveToUcci(move.from, move.to))
+        .sort();
+      const listed = tactic.solutions.map((solution) => solution[0]).sort();
+      expect(new Set(listed).size, `${tactic.id} duplicate solution`).toBe(listed.length);
+      expect(listed, `${tactic.id} missing or extra solutions`).toEqual(actual);
+    }
+  });
+
+  it('opening move comments match the recorded notation', () => {
+    for (const lesson of openingLessons) {
+      for (const line of lesson.lines) {
+        let position = parseFen(lesson.fen);
+        for (const move of line.moves) {
+          const parsed = parseUcci(move.ucci);
+          expect(parsed, `${lesson.id}/${line.id} ${move.ucci}`).not.toBeNull();
+          if (!parsed) continue;
+          const result = applyMove(position, parsed.from, parsed.to);
+          expect(result.ok, `${lesson.id}/${line.id} ${move.ucci}`).toBe(true);
+          if (!result.ok) continue;
+          expect(move.comment, `${lesson.id}/${line.id} comment`).toContain(result.notation);
+          position = result.position;
+        }
+      }
+    }
+  });
   it('every endgame guided line is legal and ends in mate', () => {
     for (const lesson of endgameLessons) {
       expect(lesson.userColor).toBe('r');
@@ -107,7 +146,7 @@ describe('starter content', () => {
         const result = applyMove(initial, move.from, move.to);
         if (!result.ok) return false;
         const end = evaluateBoard(result.position, { positionHashes: [] });
-        return end.status === 'win' && end.winner === 'r';
+        return end.status === 'win' && end.winner === 'r' && end.reason === 'checkmate';
       });
       if (immediateWins.length > 0) {
         expect(lesson.title, lesson.id).not.toContain('两步成杀');

@@ -21,8 +21,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command:
-      'node apps/web/node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 4173',
+    command: 'node node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 4173',
+    cwd: 'apps/web',
     url: 'http://127.0.0.1:4173',
     reuseExistingServer: true,
     timeout: 120_000,

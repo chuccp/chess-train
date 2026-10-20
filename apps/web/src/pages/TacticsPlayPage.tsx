@@ -18,7 +18,6 @@ import {
   generateLegalMoves,
   getKingSquare,
   isInCheck,
-  moveToUcci,
   parseFen,
   parseUcci,
   pieceAt,
@@ -186,14 +185,18 @@ export function TacticsPlayPage() {
       return;
     }
 
-    const ucci = moveToUcci(selected, square);
-    const accepted = exercise.solutions.some((solution) => solution[0] === ucci);
-    if (!accepted) {
+    const result = applyMove(position, selected, square);
+    if (!result.ok) {
+      setMessage(result.message);
+      return;
+    }
+    const end = evaluateBoard(result.position, { positionHashes: [] });
+    if (end.status !== 'win' || end.winner !== 'r' || end.reason !== 'checkmate') {
       const nextAttempts = attempts + 1;
       setAttempts(nextAttempts);
       setSelected(null);
       setTargets([]);
-      setMessage('这步不是最直接的杀法，再找找。');
+      setMessage('这步没有形成将死，再找找。');
       feedback('error');
       if (loadedProgress?.status !== 'completed') {
         void saveTrainingProgress({
@@ -209,17 +212,6 @@ export function TacticsPlayPage() {
           completedLineIds: [],
         });
       }
-      return;
-    }
-
-    const result = applyMove(position, selected, square);
-    if (!result.ok) {
-      setMessage(result.message);
-      return;
-    }
-    const end = evaluateBoard(result.position, { positionHashes: [] });
-    if (end.status !== 'win' || end.winner !== 'r') {
-      setMessage('这步没有形成将死，请再找找。');
       return;
     }
 

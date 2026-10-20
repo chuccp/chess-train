@@ -16,7 +16,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "9/3k5/8b/4R4/4R4/9/9/9/4K4/9 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -47,7 +47,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "9/3a5/3k5/4R4/2R6/9/9/9/9/5K3 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -78,7 +78,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "9/5R3/3k5/9/5Rb2/9/9/9/9/4K4 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -106,7 +106,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "9/3k1a3/4R4/6R2/9/9/9/9/9/4K4 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -134,7 +134,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "9/2R6/3a1k3/9/6R2/9/9/9/9/4K4 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -165,7 +165,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "9/6C2/4bk3/9/3R5/9/9/9/9/3K5 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -193,7 +193,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "3C1a3/3k5/9/9/4R4/9/9/9/9/4K4 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -221,7 +221,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "3k5/6C2/9/9/5Rb2/9/9/9/4K4/9 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -249,7 +249,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "5kC2/3a5/6R2/9/9/9/9/9/4K4/9 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -277,7 +277,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "9/5a3/5k3/3C5/6R2/9/9/9/3K5/9 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -305,7 +305,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "9/5k3/6N2/3R5/6b2/9/9/9/9/3K5 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -333,7 +333,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "9/5aN2/3k5/9/2R6/9/9/9/4K4/9 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -361,7 +361,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "3N2b2/9/3k5/4R4/9/9/9/9/9/4K4 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -389,7 +389,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "3k1N3/4Ra3/9/9/9/9/9/9/4K4/9 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -417,7 +417,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "3k2C2/3N5/9/9/9/9/9/5K3/9/9 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -445,7 +445,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "4k4/9/9/4C4/5N3/9/9/9/9/3K5 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -473,7 +473,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "4k4/9/9/9/3NC4/9/9/9/9/4K4 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -501,7 +501,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "2bk2P2/9/9/9/2R6/9/9/9/4K4/9 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -529,7 +529,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "6R2/9/3k5/4P4/6b2/9/9/9/9/4K4 w - - 0 1",
     "goal": "mate",
     "solutions": [
@@ -557,7 +557,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核自动校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "2R6/9/3Pbk3/9/9/9/9/9/9/3K5 w - - 0 1",
     "goal": "mate",
     "solutions": [
