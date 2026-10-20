@@ -195,6 +195,21 @@ test('starts a game, gets an AI reply, and restores the game', async ({ page }) 
   await expect(page.locator('.move-item')).toHaveCount(2, { timeout: 20_000 });
 });
 
+test('AI undo takes back the player and machine moves together', async ({ page }) => {
+  await waitForOfflineReady(page);
+  await page.getByRole('button', { name: /和 AI 下一盘/ }).click();
+  await expect(page.locator('.board-hit')).toHaveCount(90);
+  await page.locator('[data-square="25"]').click();
+  await page.locator('[data-square="22"]').click();
+  await expect(page.locator('.move-item')).toHaveCount(2, { timeout: 15_000 });
+  await expect(page.locator('.turn-chip')).toContainText('轮到你走');
+
+  const undo = page.locator('.side-controls .control-button').first();
+  await expect(undo).toHaveAttribute('title', '退两步（含机器应手）');
+  await undo.click();
+  await expect(page.locator('.move-item')).toHaveCount(0);
+  await expect(page.locator('.turn-chip')).toContainText('轮到你走');
+});
 test('switching sides starts a new game with the AI moving first', async ({ page }) => {
   await waitForOfflineReady(page);
   await page.getByRole('button', { name: /和 AI 下一盘/ }).click();

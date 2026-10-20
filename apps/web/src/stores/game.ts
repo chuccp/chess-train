@@ -456,8 +456,12 @@ export const useGameStore = create<GameState>((set, get) => ({
       return;
     }
     const fromHistory = Boolean(game.historyResume);
-    if (game.phase !== 'playing' && !fromHistory) {
-      set({ notice: 'AI 思考中或棋局已结束，暂时不能悔棋' });
+    if (game.phase === 'finished' && !fromHistory) {
+      set({ notice: '棋局已结束，暂时不能悔棋' });
+      return;
+    }
+    if (game.phase !== 'playing' && game.phase !== 'ai_thinking' && !fromHistory) {
+      set({ notice: 'AI 正在准备，暂时不能悔棋' });
       return;
     }
     if (!settings.allowUndoWhenChecked && isInCheck(game.position, game.position.turn)) {
@@ -495,17 +499,19 @@ export const useGameStore = create<GameState>((set, get) => ({
       persist(next);
       return;
     }
-    const removeCount = settings.undoSteps === 10 ? game.moves.length : Math.min(settings.undoSteps, game.moves.length);
-    if (removeCount < 1) {
+    const last = game.moves[game.moves.length - 1];
+    if (!last) {
       set({ notice: '还没有可悔的棋' });
       return;
     }
-    const last = game.moves[game.moves.length - 1];
-    const beforeLast = game.moves[game.moves.length - 2];
-    if (!last || !beforeLast || last.color === game.playerColor || beforeLast.color !== game.playerColor) {
-      set({ notice: '当前没有可悔的回合' });
-      return;
-    }
+    // 机器刚走过：连同自己的上一步一起退两手；自己刚走过：只退一手。
+    const lastIsPlayer = last.color === game.playerColor;
+    const removeCount = lastIsPlayer
+      ? 1
+      : game.moves.length >= 2 && game.moves[game.moves.length - 2]?.color === game.playerColor
+        ? 2
+        : 1;
+    if (game.phase === 'ai_thinking') pikafish.stop();
 
     const keep = game.moves.length - removeCount;
     const { position, hashes } = replayTo(game.moves, keep);

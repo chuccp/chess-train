@@ -143,14 +143,15 @@ export function PlayPage() {
   const lastMove = current.moves.length > 0 ? current.moves[current.moves.length - 1] : null;
   const isFinished = current.phase === 'finished';
   const elapsed = current.elapsedMs + (isFinished ? 0 : now - new Date(current.startedAt).getTime() - current.elapsedMs);
+  const lastMoveColor = current.moves[current.moves.length - 1]?.color;
   const canUndo =
     settings.allowUndo &&
     (!checked || settings.allowUndoWhenChecked) &&
     ((current.historyResume && current.moves.length > 0) ||
-      (current.phase === 'playing' &&
-        current.moves.length >= 1 &&
-        current.moves[current.moves.length - 1]?.color !== playerColor &&
-        current.moves[current.moves.length - 2]?.color === playerColor));
+      ((current.phase === 'playing' || current.phase === 'ai_thinking') &&
+        current.moves.length > 0 &&
+        (lastMoveColor === playerColor ||
+          (current.moves.length >= 2 && current.moves[current.moves.length - 2]?.color === playerColor))));
 
   const statusText = isFinished
     ? resultLabel(current.result, playerColor)
@@ -302,8 +303,9 @@ export function PlayPage() {
             <button
               type="button"
               className="control-button"
-              disabled={!canUndo || aiInFlight}
+              disabled={!canUndo}
               onClick={undo}
+              title={lastMoveColor === playerColor ? '退一手' : '退两步（含机器应手）'}
             >
               <Undo2 size={18} aria-hidden="true" />
               <span>悔棋</span>

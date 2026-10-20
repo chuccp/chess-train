@@ -185,7 +185,7 @@ export function SettingsPage() {
                 <div className="settings-row">
                   <div>
                     <strong>悔棋步数</strong>
-                    <p>1 步 = 一方走一手；10 = 不限制，一次退到开局。适用于中国象棋对弈。</p>
+                    <p>线下双人每次悔棋步数；1 步 = 一方走一手，10 = 不限制。人机对战按最后一步自动退：机器最后一步退 2 手，自己最后一步退 1 手。</p>
                   </div>
                   <div className="undo-range">
                     <div className="undo-range-value">
