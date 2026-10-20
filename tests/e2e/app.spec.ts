@@ -12,6 +12,14 @@ test('home loads with the offline engine ready', async ({ page }) => {
   await expect(page.locator('.desktop-nav')).toBeVisible();
 });
 
+test('home surfaces the offline two-player entry', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.home-local-banner')).toBeVisible();
+  await expect(page.locator('.home-local-banner')).toContainText('两个人，一台设备');
+  await page.locator('.home-local-banner').click();
+  await expect(page).toHaveURL(/\/local$/);
+  await expect(page.locator('.local-game-card')).toHaveCount(5);
+});
 test('starts a game, gets an AI reply, and restores the game', async ({ page }) => {
   await waitForOfflineReady(page);
   await page.getByRole('button', { name: /和 AI 下一盘/ }).click();

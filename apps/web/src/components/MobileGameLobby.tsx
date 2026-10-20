@@ -158,6 +158,17 @@ export function MobileGameLobby({
         )}
       </div>
 
+      <Link to="/local" className="mobile-lobby-local">
+        <span className="mobile-lobby-local-icon" aria-hidden="true">
+          <Users size={18} />
+        </span>
+        <span className="mobile-lobby-local-copy">
+          <strong>线下双人</strong>
+          <small>5 张棋桌 · 同一台设备</small>
+        </span>
+        <ArrowRight size={17} aria-hidden="true" />
+      </Link>
+
       <div className="mobile-lobby-foot">
         <span>
           <ShieldCheck size={14} aria-hidden="true" />

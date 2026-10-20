@@ -13,6 +13,7 @@ const desktopNav = [
 const mobileNav = [
   { to: '/', label: '首页', icon: Home, end: true },
   { to: '/play', label: '对弈', icon: Swords },
+  { to: '/local', label: '双人', icon: Users },
   { to: '/train', label: '训练', icon: GraduationCap },
   { to: '/history', label: '棋谱', icon: History },
   { to: '/settings', label: '设置', icon: Settings },
@@ -60,10 +61,11 @@ export function Layout() {
                   key={item.to}
                   to={item.to}
                   end={item.end}
-                  className={({ isActive }) => `nav-link${isActive ? ' is-active' : ''}`}
+                  className={({ isActive }) => `nav-link${isActive ? ' is-active' : ''}${item.to === '/local' ? ' nav-link-local' : ''}`}
                 >
                   <Icon size={16} aria-hidden="true" />
                   {item.label}
+                  {item.to === '/local' && <span className="nav-local-badge" aria-hidden="true">5</span>}
                 </NavLink>
               );
             })}
@@ -85,7 +87,7 @@ export function Layout() {
               key={item.to}
               to={item.to}
               end={item.end}
-              className={({ isActive }) => `bottom-link${isActive ? ' is-active' : ''}`}
+              className={({ isActive }) => `bottom-link${isActive ? ' is-active' : ''}${item.to === '/local' ? ' bottom-link-local' : ''}`}
             >
               <Icon size={20} aria-hidden="true" />
               <span>{item.label}</span>
