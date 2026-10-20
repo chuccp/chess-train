@@ -1,4 +1,4 @@
-﻿import { test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
 async function waitForOfflineReady(page: import('@playwright/test').Page) {
   await page.goto('/');
@@ -187,6 +187,23 @@ test('classic endgame shows its original source', async ({ page }) => {
   await expect(page.locator('.source-card a[href*="xqdao.com"]')).toBeVisible();
   await expect(page.locator('.board-hit')).toHaveCount(90);
 });
+test('opening training follows the line with one automatic side', async ({ page }) => {
+  await page.goto('/train/opening/opening-classic-01');
+  await expect(page.locator('.turn-chip')).toContainText('请你走这一步');
+  await expect(page.locator('.lesson-flow-note')).toContainText('黑方自动应手');
+
+  // A legal but non-line move should not advance the lesson.
+  await page.locator('[data-square="29"]').click();
+  await page.locator('[data-square="38"]').click();
+  await expect(page.locator('.line-progress-label')).toContainText('0 / 20 步');
+  await expect(page.locator('.inline-alert')).toContainText('按主线逐步走');
+
+  // The scripted red move advances by one red + one automatic black reply.
+  await page.locator('[data-square="25"]').click();
+  await page.locator('[data-square="22"]').click();
+  await expect(page.locator('.line-progress-label')).toContainText('2 / 20 步');
+  await expect(page.locator('.turn-chip')).toContainText('请你走这一步');
+});
 test('large training library paginates and searches', async ({ page }) => {
   await page.goto('/train/endgame');
   await expect(page.locator('.lesson-meta-strip')).toContainText('703 节');
@@ -241,5 +258,3 @@ test('mobile layout has no horizontal overflow and an immersive game', async ({ 
   ).toBe(false);
   await context.close();
 });
-
-

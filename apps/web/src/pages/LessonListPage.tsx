@@ -64,7 +64,7 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
           <p>
             {kind === 'endgame'
               ? '古谱与短课都在限定步数内完成；先看目标，再跟着主线走。'
-              : '每套开局一条主线，先理解出动顺序，再逐步扩展变化。'}
+              : '你走红方，黑方自动应手；按主线一步一步走出开局顺序。'}
           </p>
         </div>
         <div className="list-progress-badge">

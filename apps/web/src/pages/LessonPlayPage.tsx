@@ -357,6 +357,15 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     const expected = moves[ply]?.ucci;
     const actual = `${'abcdefghi'[selected % 9]}${Math.floor(selected / 9)}${'abcdefghi'[square % 9]}${Math.floor(square / 9)}`;
 
+    if (actual !== expected && kind === 'opening') {
+      setSelected(null);
+      setTargets([]);
+      setHint(null);
+      setMessage('开局训练要按主线逐步走。请按提示走下一步。');
+      feedback('error');
+      return;
+    }
+
     if (actual !== expected) {
       // 不拦这步：先落子；如果直接形成将死，这是更短的解法，不记错试。
       const result = applyMove(position, selected, square);
@@ -627,6 +636,11 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
             <h1 className="exercise-title">{lesson.title}</h1>
             <p className="exercise-subtitle">{lesson.subtitle}</p>
             <p className="lesson-intro">{lesson.intro}</p>
+            {kind === 'opening' && (
+              <p className="muted small lesson-flow-note">
+                你走红方，黑方自动应手；请按主线一步一步走。
+              </p>
+            )}
             <div className="key-points">
               <span className="eyebrow">记住这几点</span>
               <ul className="plain-list compact-list">

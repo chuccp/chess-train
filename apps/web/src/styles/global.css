@@ -4929,3 +4929,9 @@ p {
   background: #fffaf0;
   box-shadow: 0 0 0 3px rgba(120, 105, 80, 0.12);
 }
+
+.lesson-flow-note {
+  margin: 0.35rem 0 0.75rem;
+  padding-left: 0.65rem;
+  border-left: 2px solid var(--gold);
+}
