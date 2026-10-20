@@ -234,7 +234,6 @@ export const useGameStore = create<GameState>((set, get) => ({
       hashes.push(hashPosition(position));
       moves.push(move);
     }
-    const end = resultOf(position, hashes);
     const now = new Date().toISOString();
     const game: GameSnapshot = {
       id: uuid(),
@@ -244,8 +243,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       position,
       positionHashes: hashes,
       moves,
-      phase: end.status === 'playing' ? 'playing' : 'finished',
-      result: end,
+      phase: 'playing',
+      result: { status: 'playing' },
       startedAt: now,
       updatedAt: now,
       elapsedMs: 0,
@@ -264,8 +263,6 @@ export const useGameStore = create<GameState>((set, get) => ({
       hintToken: get().hintToken + 1,
     });
     persist(game);
-    if (game.phase === 'finished') void enqueueFinished(game);
-    else if (position.turn !== record.playerColor) void get().requestAi();
     return true;
   },
 

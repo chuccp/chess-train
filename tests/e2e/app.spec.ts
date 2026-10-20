@@ -168,10 +168,10 @@ test('history review can undo and resume', async ({ page }) => {
 
   await page.goto('/review/history-undo-test');
   await page.getByRole('button', { name: '终局' }).click();
-  await page.getByRole('button', { name: '悔棋并继续' }).click();
+  await page.getByRole('link', { name: '回到对弈' }).click();
   await expect(page).toHaveURL(/\/play$/);
   await expect(page.locator('.board-hit')).toHaveCount(90);
-  await expect(page.locator('.move-item')).toHaveCount(0);
+  await expect(page.locator('.move-item')).toHaveCount(2);
 });
 test('starts a game, gets an AI reply, and restores the game', async ({ page }) => {
   await waitForOfflineReady(page);

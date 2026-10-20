@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   --bg: #f2ebde;
   --bg-deep: #e9dfcd;
   --surface: #fffaf0;
@@ -5235,12 +5235,6 @@ p {
   }
 }
 
-.review-heading-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  flex-wrap: wrap;
-}
 
 @media (max-width: 720px) {
   .review-heading {
