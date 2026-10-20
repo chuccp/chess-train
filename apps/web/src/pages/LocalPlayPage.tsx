@@ -8,6 +8,7 @@ import {
   Flag,
   RotateCcw,
   ShieldCheck,
+  Swords,
   Undo2,
   Users,
 } from 'lucide-react';
@@ -28,6 +29,8 @@ import { Board } from '../components/Board';
 import { Dialog } from '../components/Dialog';
 import { MoveList } from '../components/MoveList';
 import { formatDuration } from '../lib/format';
+import { playCue, vibrate } from '../lib/feedback';
+import { useSettingsStore } from '../stores/settings';
 import type { GameResult, MoveRecord } from '../types';
 
 type DialogAction = 'new' | 'resign' | null;
@@ -101,8 +104,16 @@ export function LocalPlayPage() {
   const [selected, setSelected] = useState<number | null>(null);
   const [targets, setTargets] = useState<number[]>([]);
   const [message, setMessage] = useState<string | null>(null);
+  const [captureNotice, setCaptureNotice] = useState<string | null>(null);
+  const settings = useSettingsStore();
   const [dialog, setDialog] = useState<DialogAction>(null);
   const [now, setNow] = useState(Date.now());
+
+  useEffect(() => {
+    if (!captureNotice) return;
+    const timer = window.setTimeout(() => setCaptureNotice(null), 1800);
+    return () => window.clearTimeout(timer);
+  }, [captureNotice]);
 
   const position = useMemo(() => parseFen(game.fen), [game.fen]);
   const finished = game.result.status !== 'playing';
@@ -113,6 +124,7 @@ export function LocalPlayPage() {
   const lastMove = game.moves.length > 0 ? game.moves[game.moves.length - 1] : null;
   const elapsed = new Date(game.endedAt ?? now).getTime() - new Date(game.startedAt).getTime();
   const turnName = position.turn === 'r' ? '红方' : '黑方';
+  const canUndo = !finished && game.moves.length > 0 && checked === null;
   const finishedWinner =
     game.result.status === 'win' ? game.result.winner : null;
 
@@ -193,6 +205,17 @@ export function LocalPlayPage() {
       givesCheck: result.givesCheck,
       playedAt: new Date().toISOString(),
     };
+    if (result.move.captured) {
+      const attacker = result.move.piece;
+      const captured = result.move.captured;
+      setCaptureNotice(
+        `${attacker.color === 'r' ? '红' : '黑'}${PIECE_GLYPHS[attacker.color][attacker.type]} 吃 ${captured.color === 'r' ? '红' : '黑'}${PIECE_GLYPHS[captured.color][captured.type]}`,
+      );
+      if (settings.sound) playCue('capture');
+      if (settings.haptics) vibrate(10);
+    } else {
+      setCaptureNotice(null);
+    }
     const endedAt = end.status === 'playing' ? undefined : new Date().toISOString();
     setGame((previous) => ({
       ...previous,
@@ -207,7 +230,7 @@ export function LocalPlayPage() {
   }
 
   function undo() {
-    if (finished || game.moves.length === 0) return;
+    if (!canUndo) return;
     const moves = game.moves.slice(0, -1);
     let position = parseFen(START_FEN);
     const positionHashes = [hashPosition(position)];
@@ -217,6 +240,7 @@ export function LocalPlayPage() {
       position = result.position;
       positionHashes.push(hashPosition(position));
     }
+    setCaptureNotice(null);
     setGame((previous) => ({
       ...previous,
       fen: toFen(position),
@@ -240,12 +264,14 @@ export function LocalPlayPage() {
       result,
       endedAt: new Date().toISOString(),
     }));
+    setCaptureNotice(null);
     setDialog(null);
   }
 
   function newGame() {
     setGame(freshGame(game.orientation));
     clearSelection();
+    setCaptureNotice(null);
     setMessage(null);
     setDialog(null);
   }
@@ -308,6 +334,13 @@ export function LocalPlayPage() {
             onPoint={handlePoint}
           />
 
+          {captureNotice && (
+            <div className="capture-banner" role="status">
+              <Swords size={17} aria-hidden="true" />
+              <span>{captureNotice}</span>
+            </div>
+          )}
+
           {checked && !finished && (
             <div className="check-banner" role="status">
               <AlertTriangle size={17} aria-hidden="true" />
@@ -362,8 +395,9 @@ export function LocalPlayPage() {
             <button
               type="button"
               className="control-button"
-              disabled={finished || game.moves.length === 0}
+              disabled={!canUndo}
               onClick={undo}
+              title={checked ? '被将军时不能悔棋，请先应将' : undefined}
             >
               <Undo2 size={18} aria-hidden="true" />
               <span>悔棋</span>

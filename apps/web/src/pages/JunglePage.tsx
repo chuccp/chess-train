@@ -1,6 +1,6 @@
 ﻿import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Flag, RotateCcw, ShieldCheck, Undo2 } from 'lucide-react';
+import { ArrowLeft, Flag, RotateCcw, ShieldCheck, Swords, Undo2 } from 'lucide-react';
 import {
   JUNGLE_GLYPHS,
   applyJungleMove,
@@ -74,8 +74,15 @@ export function JunglePage() {
   const [selected, setSelected] = useState<number | null>(null);
   const [targets, setTargets] = useState<number[]>([]);
   const [message, setMessage] = useState<string | null>(null);
+  const [captureNotice, setCaptureNotice] = useState<string | null>(null);
   const [dialog, setDialog] = useState<DialogAction>(null);
   const [now, setNow] = useState(Date.now());
+
+  useEffect(() => {
+    if (!captureNotice) return;
+    const timer = window.setTimeout(() => setCaptureNotice(null), 1800);
+    return () => window.clearTimeout(timer);
+  }, [captureNotice]);
 
   const finished = game.state.status.status !== 'playing';
   const lastMove = game.moves.length > 0 ? game.moves[game.moves.length - 1] : null;
@@ -125,6 +132,13 @@ export function JunglePage() {
     }
     const pieceAtFrom = game.state.board[move.from];
     if (!pieceAtFrom) return;
+    if (move.capture) {
+      setCaptureNotice(
+        `${pieceAtFrom.color === 'r' ? '红' : '黑'}${JUNGLE_GLYPHS[pieceAtFrom.animal]} 吃 ${move.capture.color === 'r' ? '红' : '黑'}${JUNGLE_GLYPHS[move.capture.animal]}`,
+      );
+    } else {
+      setCaptureNotice(null);
+    }
     const next = applyJungleMove(game.state, move);
     const endedAt = next.status.status === 'playing' ? undefined : new Date().toISOString();
     setGame((previous) => ({
@@ -153,6 +167,7 @@ export function JunglePage() {
       if (next.status.status !== 'playing') break;
       state = next;
     }
+    setCaptureNotice(null);
     setGame((previous) => ({
       ...previous,
       state,
@@ -176,12 +191,14 @@ export function JunglePage() {
       },
       endedAt: new Date().toISOString(),
     }));
+    setCaptureNotice(null);
     setDialog(null);
   }
 
   function newGame() {
     setGame(freshGame());
     clearSelection();
+    setCaptureNotice(null);
     setMessage(null);
     setDialog(null);
   }
@@ -225,6 +242,13 @@ export function JunglePage() {
             disabled={finished}
             onPoint={choose}
           />
+
+          {captureNotice && (
+            <div className="capture-banner" role="status">
+              <Swords size={17} aria-hidden="true" />
+              <span>{captureNotice}</span>
+            </div>
+          )}
 
           {message && (
             <div className="inline-alert" role="status">

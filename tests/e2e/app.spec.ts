@@ -138,6 +138,80 @@ test('local two-player game alternates turns and undoes a move', async ({ page }
   await expect(page.locator('.turn-chip')).toContainText('红方行棋');
   await expect(page.locator('.move-item')).toHaveCount(0);
 });
+test('local chess disables undo while in check', async ({ page }) => {
+  const now = new Date().toISOString();
+  await page.addInitScript((startedAt) => {
+    localStorage.setItem('qilian.local-game.v1', JSON.stringify({
+      fen: '4k4/9/9/9/9/9/9/9/4r4/4K4 w - - 0 1',
+      moves: [{
+        ply: 1,
+        from: 25,
+        to: 22,
+        ucci: 'h2e2',
+        notation: '炮二平五',
+        color: 'r',
+        pieceType: 'C',
+        capturedType: null,
+        givesCheck: false,
+        playedAt: startedAt,
+      }],
+      positionHashes: [],
+      result: { status: 'playing' },
+      startedAt,
+      orientation: 'r',
+    }));
+  }, now);
+  await page.goto('/local/chess');
+  await expect(page.locator('.check-banner')).toContainText('红方被将军');
+  await expect(page.locator('.side-controls .control-button').first()).toBeDisabled();
+});
+
+test('local chess shows a capture notice', async ({ page }) => {
+  const now = new Date().toISOString();
+  await page.addInitScript((startedAt) => {
+    localStorage.setItem('qilian.local-game.v1', JSON.stringify({
+      fen: '3k5/9/9/9/9/9/9/9/n8/R3K4 w - - 0 1',
+      moves: [],
+      positionHashes: [],
+      result: { status: 'playing' },
+      startedAt,
+      orientation: 'r',
+    }));
+  }, now);
+  await page.goto('/local/chess');
+  await page.locator('[data-square="0"]').click();
+  await page.locator('[data-square="9"]').click();
+  await expect(page.locator('.capture-banner')).toContainText('红车');
+  await expect(page.locator('.capture-banner')).toContainText(/黑[马馬]/);
+});
+test('local chess shows the checkmate animation', async ({ page }) => {
+  const now = new Date().toISOString();
+  await page.addInitScript((startedAt) => {
+    localStorage.setItem('qilian.local-game.v1', JSON.stringify({
+      fen: '4k4/9/9/9/9/9/9/9/4r4/4K4 w - - 0 1',
+      moves: [{
+        ply: 1,
+        from: 25,
+        to: 22,
+        ucci: 'h2e2',
+        notation: '炮二平五',
+        color: 'r',
+        pieceType: 'C',
+        capturedType: null,
+        givesCheck: false,
+        playedAt: startedAt,
+      }],
+      positionHashes: [],
+      result: { status: 'win', winner: 'r', reason: 'checkmate' },
+      startedAt,
+      endedAt: startedAt,
+      orientation: 'r',
+    }));
+  }, now);
+  await page.goto('/local/chess');
+  await expect(page.locator('.checkmate-stamp')).toBeVisible();
+  await expect(page.locator('.board-checkmate')).toHaveCount(1);
+});
 test('local game hub lists all offline games', async ({ page }) => {
   await page.goto('/local');
   await expect(page.locator('.local-game-card')).toHaveCount(5);
