@@ -136,7 +136,7 @@ test('classic endgame shows its original source', async ({ page }) => {
 });
 test('large training library paginates and searches', async ({ page }) => {
   await page.goto('/train/endgame');
-  await expect(page.locator('.lesson-meta-strip')).toContainText('827 节');
+  await expect(page.locator('.lesson-meta-strip')).toContainText('703 节');
   await expect(page.locator('.lesson-row')).toHaveCount(30);
   await page.locator('.list-more').click();
   await expect(page.locator('.lesson-row')).toHaveCount(60);

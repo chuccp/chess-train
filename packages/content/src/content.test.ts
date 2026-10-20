@@ -36,7 +36,7 @@ function playLine(fen: string, uccis: string[]): { position: Position; hashes: s
 
 describe('starter content', () => {
   it('has the promised starter counts', () => {
-    expect(contentStats).toEqual({ tactics: 801, endgame: 827, opening: 89 });
+    expect(contentStats).toEqual({ tactics: 801, endgame: 703, opening: 88 });
   });
 
   it('has unique ids and valid provenance metadata', () => {
@@ -51,6 +51,37 @@ describe('starter content', () => {
     }
   });
 
+  it('has unique positions and excludes full-game start positions', () => {
+    const seen = new Set<string>();
+    const limits = { K: 1, A: 2, B: 2, N: 2, R: 2, C: 2, P: 5 } as const;
+    for (const lesson of endgameLessons) {
+      expect(lesson.fen, lesson.id).not.toBe(START_FEN);
+      expect(seen.has(lesson.fen), `${lesson.id} duplicate FEN`).toBe(false);
+      seen.add(lesson.fen);
+      const position = parseFen(lesson.fen);
+      expect(position.board.filter(Boolean).length, `${lesson.id} full board`).toBeLessThan(32);
+      for (const color of ['r', 'b'] as const) {
+        for (const [type, max] of Object.entries(limits)) {
+          const count = position.board.filter((piece) => piece?.color === color && piece.type === type).length;
+          expect(count, `${lesson.id} ${color}${type}`).toBeLessThanOrEqual(max);
+        }
+      }
+    }
+  });
+
+  it('has unique opening sequences and tactic positions', () => {
+    const openingSequences = new Set<string>();
+    for (const lesson of openingLessons) {
+      const sequence = lesson.lines[0]?.moves.map((move) => move.ucci).join(' ') ?? '';
+      expect(openingSequences.has(sequence), `${lesson.id} duplicate line`).toBe(false);
+      openingSequences.add(sequence);
+    }
+    const tacticFens = new Set<string>();
+    for (const tactic of tacticExercises) {
+      expect(tacticFens.has(tactic.fen), `${tactic.id} duplicate FEN`).toBe(false);
+      tacticFens.add(tactic.fen);
+    }
+  });
   it('every tactic is legal and every listed solution mates in one', () => {
     for (const tactic of tacticExercises) {
       const position = parseFen(tactic.fen);
