@@ -3990,3 +3990,17 @@ p {
     display: none;
   }
 }
+
+@media (max-width: 340px) and (max-height: 620px) {
+  .mobile-board-stage {
+    width: min(100%, 260px);
+  }
+
+  .mobile-lobby-head p {
+    display: none;
+  }
+
+  .mobile-lobby-head h1 {
+    font-size: 1.7rem;
+  }
+}
