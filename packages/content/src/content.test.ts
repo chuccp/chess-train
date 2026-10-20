@@ -36,7 +36,7 @@ function playLine(fen: string, uccis: string[]): { position: Position; hashes: s
 
 describe('starter content', () => {
   it('has the promised starter counts', () => {
-    expect(contentStats).toEqual({ tactics: 164, endgame: 801, opening: 40 });
+    expect(contentStats).toEqual({ tactics: 801, endgame: 827, opening: 89 });
   });
 
   it('has unique ids and valid provenance metadata', () => {

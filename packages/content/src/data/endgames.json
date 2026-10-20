@@ -80045,5 +80045,3835 @@
       }
     ],
     "completionText": "心武残编“两阶舞羽”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69113",
+    "kind": "endgame",
+    "title": "橘中秘 · 借炮使马",
+    "subtitle": "《橘中秘》借炮使马",
+    "level": 3,
+    "order": 901,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》借炮使马",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69113/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "2bak4/4a4/1C2b4/4pNp2/9/9/9/2n1BCN2/3rAp3/1cBAK4 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“借炮使马”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "f6g8",
+            "comment": "马四进三。"
+          },
+          {
+            "ucci": "e9f9",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "g2f4",
+            "comment": "后马进四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "f4g6",
+            "comment": "马四进三。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "g6f4",
+            "comment": "后马退四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "f4e6",
+            "comment": "马四进五。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "e6f4",
+            "comment": "马五退四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "f4d5",
+            "comment": "马四进六。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "d5f6",
+            "comment": "马六进四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "f6d7",
+            "comment": "马四进六。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "g8f6",
+            "comment": "马三退四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "f6h5",
+            "comment": "马四退二。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "h5f4",
+            "comment": "马二退四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "f4g6",
+            "comment": "马四进三。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "g6h8",
+            "comment": "马三进二。"
+          },
+          {
+            "ucci": "f9f8",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "h8f7",
+            "comment": "马二退四。"
+          },
+          {
+            "ucci": "f8f7",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "d7e5",
+            "comment": "马六退五。"
+          },
+          {
+            "ucci": "f7f8",
+            "comment": "将6退1。"
+          },
+          {
+            "ucci": "e5f7",
+            "comment": "马五进四。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“借炮使马”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69115",
+    "kind": "endgame",
+    "title": "橘中秘 · 借车使炮",
+    "subtitle": "《橘中秘》借车使炮",
+    "level": 3,
+    "order": 902,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》借车使炮",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69115/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "3a1kbn1/4P4/1c2n1r2/4p4/9/CC5pp/9/9/r1p1p4/3K3RR w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“借车使炮”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h0f0",
+            "comment": "车二平四。"
+          },
+          {
+            "ucci": "g7f7",
+            "comment": "车7平6。"
+          },
+          {
+            "ucci": "b4f4",
+            "comment": "炮八平四。"
+          },
+          {
+            "ucci": "f7g7",
+            "comment": "车6平7。"
+          },
+          {
+            "ucci": "f4g4",
+            "comment": "炮四平三。"
+          },
+          {
+            "ucci": "g7f7",
+            "comment": "车7平6。"
+          },
+          {
+            "ucci": "a4f4",
+            "comment": "炮九平四。"
+          },
+          {
+            "ucci": "f7g7",
+            "comment": "车6平7。"
+          },
+          {
+            "ucci": "f4h4",
+            "comment": "炮四平二。"
+          },
+          {
+            "ucci": "g7f7",
+            "comment": "车7平6。"
+          },
+          {
+            "ucci": "g4f4",
+            "comment": "炮三平四。"
+          },
+          {
+            "ucci": "f7g7",
+            "comment": "车6平7。"
+          },
+          {
+            "ucci": "f4i4",
+            "comment": "炮四平一。"
+          },
+          {
+            "ucci": "g7f7",
+            "comment": "车7平6。"
+          },
+          {
+            "ucci": "h4f4",
+            "comment": "炮二平四。"
+          },
+          {
+            "ucci": "f7g7",
+            "comment": "车6平7。"
+          },
+          {
+            "ucci": "f4b4",
+            "comment": "炮四平八。"
+          },
+          {
+            "ucci": "g7f7",
+            "comment": "车7平6。"
+          },
+          {
+            "ucci": "i4f4",
+            "comment": "炮一平四。"
+          },
+          {
+            "ucci": "f7g7",
+            "comment": "车6平7。"
+          },
+          {
+            "ucci": "f4c4",
+            "comment": "炮四平七。"
+          },
+          {
+            "ucci": "g7f7",
+            "comment": "车7平6。"
+          },
+          {
+            "ucci": "f0f7",
+            "comment": "车四进七。"
+          },
+          {
+            "ucci": "b7f7",
+            "comment": "炮2平6。"
+          },
+          {
+            "ucci": "b4b9",
+            "comment": "炮八进五。"
+          },
+          {
+            "ucci": "d9e8",
+            "comment": "士4进5。"
+          },
+          {
+            "ucci": "c4c9",
+            "comment": "炮七进五。"
+          },
+          {
+            "ucci": "f9f8",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "i0i8",
+            "comment": "车一进八。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“借车使炮”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69116",
+    "kind": "endgame",
+    "title": "橘中秘 · 借车使炮",
+    "subtitle": "《橘中秘》借车使炮",
+    "level": 3,
+    "order": 903,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》借车使炮",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69116/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "3ak4/4a4/2c6/5N3/4p4/9/9/crnpC2C1/3pA1p2/3AK2R1 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“借车使炮”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "f6d7",
+            "comment": "马四进六。"
+          },
+          {
+            "ucci": "e9f9",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "h0f0",
+            "comment": "车二平四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "h2f2",
+            "comment": "炮二平四。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "f2d2",
+            "comment": "炮四平六。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "e2f2",
+            "comment": "炮五平四。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "f2c2",
+            "comment": "炮四平七。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "d2f2",
+            "comment": "炮六平四。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "f2b2",
+            "comment": "炮四平八。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "f0f7",
+            "comment": "车四进七。"
+          },
+          {
+            "ucci": "c7f7",
+            "comment": "炮3平6。"
+          },
+          {
+            "ucci": "c2c9",
+            "comment": "炮七进七。"
+          },
+          {
+            "ucci": "d9e8",
+            "comment": "士4进5。"
+          },
+          {
+            "ucci": "b2b9",
+            "comment": "炮八进七。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“借车使炮”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69120",
+    "kind": "endgame",
+    "title": "橘中秘 · 双低兵胜单缺象096",
+    "subtitle": "《橘中秘》双低兵胜单缺象096",
+    "level": 2,
+    "order": 904,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》双低兵胜单缺象096",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69120/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "3ak4/4aPP2/b8/9/9/9/9/9/9/4K4 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“双低兵胜单缺象096”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "g8g9",
+            "comment": "兵三进一。"
+          },
+          {
+            "ucci": "a7c5",
+            "comment": "象1进3。"
+          },
+          {
+            "ucci": "g9f9",
+            "comment": "兵三平四。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“双低兵胜单缺象096”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69126",
+    "kind": "endgame",
+    "title": "橘中秘 · 双马饮泉005",
+    "subtitle": "《橘中秘》双马饮泉005",
+    "level": 2,
+    "order": 905,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》双马饮泉005",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69126/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "4kab2/1N1Pa4/4b4/3N5/9/9/8n/9/4Ap3/3AK3c w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“双马饮泉005”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "b8d7",
+            "comment": "马八退六。"
+          },
+          {
+            "ucci": "i3g2",
+            "comment": "马9进7。"
+          },
+          {
+            "ucci": "d8d9",
+            "comment": "兵六进一。"
+          },
+          {
+            "ucci": "e9d9",
+            "comment": "将5平4。"
+          },
+          {
+            "ucci": "d7b8",
+            "comment": "前马进八。"
+          },
+          {
+            "ucci": "d9e9",
+            "comment": "将4平5。"
+          },
+          {
+            "ucci": "d6c8",
+            "comment": "马六进七。"
+          },
+          {
+            "ucci": "e9d9",
+            "comment": "将5平4。"
+          },
+          {
+            "ucci": "c8e7",
+            "comment": "马七退五。"
+          },
+          {
+            "ucci": "d9e9",
+            "comment": "将4平5。"
+          },
+          {
+            "ucci": "e7g8",
+            "comment": "马五进三。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“双马饮泉005”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69066",
+    "kind": "endgame",
+    "title": "橘中秘 · 右炮直车破右单提马士象局013",
+    "subtitle": "《橘中秘》右炮直车破右单提马士象局013",
+    "level": 3,
+    "order": 906,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》右炮直车破右单提马士象局013",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69066/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“右炮直车破右单提马士象局013”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h2e2",
+            "comment": "炮二平五。"
+          },
+          {
+            "ucci": "b9c7",
+            "comment": "马2进3。"
+          },
+          {
+            "ucci": "h0g2",
+            "comment": "马二进三。"
+          },
+          {
+            "ucci": "h9i7",
+            "comment": "马8进9。"
+          },
+          {
+            "ucci": "i0h0",
+            "comment": "车一平二。"
+          },
+          {
+            "ucci": "h7f7",
+            "comment": "炮8平6。"
+          },
+          {
+            "ucci": "e3e4",
+            "comment": "兵五进一。"
+          },
+          {
+            "ucci": "c9e7",
+            "comment": "象3进5。"
+          },
+          {
+            "ucci": "e4e5",
+            "comment": "兵五进一。"
+          },
+          {
+            "ucci": "e6e5",
+            "comment": "卒5进1。"
+          },
+          {
+            "ucci": "h0h5",
+            "comment": "车二进五。"
+          },
+          {
+            "ucci": "d9e8",
+            "comment": "士4进5。"
+          },
+          {
+            "ucci": "h5e5",
+            "comment": "车二平五。"
+          },
+          {
+            "ucci": "a9d9",
+            "comment": "车1平4。"
+          },
+          {
+            "ucci": "b0c2",
+            "comment": "马八进七。"
+          },
+          {
+            "ucci": "f7f2",
+            "comment": "炮6进5。"
+          },
+          {
+            "ucci": "b2a2",
+            "comment": "炮八平九。"
+          },
+          {
+            "ucci": "f2c2",
+            "comment": "炮6平3。"
+          },
+          {
+            "ucci": "g2e3",
+            "comment": "马三进五。"
+          },
+          {
+            "ucci": "d9d3",
+            "comment": "车4进6。"
+          },
+          {
+            "ucci": "a0b0",
+            "comment": "车九平八。"
+          },
+          {
+            "ucci": "b7a7",
+            "comment": "炮2平1。"
+          },
+          {
+            "ucci": "b0b7",
+            "comment": "车八进七。"
+          },
+          {
+            "ucci": "a7a3",
+            "comment": "炮1进4。"
+          },
+          {
+            "ucci": "e3d5",
+            "comment": "马五进六。"
+          },
+          {
+            "ucci": "c7d9",
+            "comment": "马3退4。"
+          },
+          {
+            "ucci": "a2a6",
+            "comment": "炮九进四。"
+          },
+          {
+            "ucci": "a3a0",
+            "comment": "炮1进3。"
+          },
+          {
+            "ucci": "a6a9",
+            "comment": "炮九进三。"
+          },
+          {
+            "ucci": "e7c9",
+            "comment": "象5退3。"
+          },
+          {
+            "ucci": "e5e8",
+            "comment": "车五进三。"
+          },
+          {
+            "ucci": "e9e8",
+            "comment": "将5进1。"
+          },
+          {
+            "ucci": "b7b8",
+            "comment": "车八进一。"
+          },
+          {
+            "ucci": "e8e9",
+            "comment": "将5退1。"
+          },
+          {
+            "ucci": "d5e7",
+            "comment": "马六进五。"
+          },
+          {
+            "ucci": "f9e8",
+            "comment": "士6进5。"
+          },
+          {
+            "ucci": "b8e8",
+            "comment": "车八平五。"
+          },
+          {
+            "ucci": "e9f9",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "e8e9",
+            "comment": "车五进一。"
+          },
+          {
+            "ucci": "f9f8",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "e9f9",
+            "comment": "车五平四。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“右炮直车破右单提马士象局013”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69068",
+    "kind": "endgame",
+    "title": "橘中秘 · 大列手炮局016",
+    "subtitle": "《橘中秘》大列手炮局016",
+    "level": 3,
+    "order": 907,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》大列手炮局016",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69068/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“大列手炮局016”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h2e2",
+            "comment": "炮二平五。"
+          },
+          {
+            "ucci": "b7e7",
+            "comment": "炮2平5。"
+          },
+          {
+            "ucci": "h0g2",
+            "comment": "马二进三。"
+          },
+          {
+            "ucci": "h9i7",
+            "comment": "马8进9。"
+          },
+          {
+            "ucci": "i0h0",
+            "comment": "车一平二。"
+          },
+          {
+            "ucci": "i9h9",
+            "comment": "车9平8。"
+          },
+          {
+            "ucci": "b0a2",
+            "comment": "马八进九。"
+          },
+          {
+            "ucci": "b9c7",
+            "comment": "马2进3。"
+          },
+          {
+            "ucci": "a0b0",
+            "comment": "车九平八。"
+          },
+          {
+            "ucci": "a9b9",
+            "comment": "车1平2。"
+          },
+          {
+            "ucci": "a3a4",
+            "comment": "兵九进一。"
+          },
+          {
+            "ucci": "i6i5",
+            "comment": "卒9进1。"
+          },
+          {
+            "ucci": "h0h4",
+            "comment": "车二进四。"
+          },
+          {
+            "ucci": "b9b5",
+            "comment": "车2进4。"
+          },
+          {
+            "ucci": "a2b4",
+            "comment": "马九进八。"
+          },
+          {
+            "ucci": "b5f5",
+            "comment": "车2平6。"
+          },
+          {
+            "ucci": "h4d4",
+            "comment": "车二平六。"
+          },
+          {
+            "ucci": "i7h5",
+            "comment": "马9进8。"
+          },
+          {
+            "ucci": "b4d5",
+            "comment": "马八进六。"
+          },
+          {
+            "ucci": "c6c5",
+            "comment": "卒3进1。"
+          },
+          {
+            "ucci": "d5c7",
+            "comment": "马六进七。"
+          },
+          {
+            "ucci": "h7c7",
+            "comment": "炮8平3。"
+          },
+          {
+            "ucci": "b2b9",
+            "comment": "炮八进七。"
+          },
+          {
+            "ucci": "f9e8",
+            "comment": "士6进5。"
+          },
+          {
+            "ucci": "e2e6",
+            "comment": "炮五进四。"
+          },
+          {
+            "ucci": "e9f9",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "b0b8",
+            "comment": "车八进八。"
+          },
+          {
+            "ucci": "h9h8",
+            "comment": "车8进1。"
+          },
+          {
+            "ucci": "b8e8",
+            "comment": "车八平五。"
+          },
+          {
+            "ucci": "h8e8",
+            "comment": "车8平5。"
+          },
+          {
+            "ucci": "d4d9",
+            "comment": "车六进五。"
+          },
+          {
+            "ucci": "e8e9",
+            "comment": "车5退1。"
+          },
+          {
+            "ucci": "d9e9",
+            "comment": "车六平五。"
+          },
+          {
+            "ucci": "f9f8",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "e9f9",
+            "comment": "车五平四。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“大列手炮局016”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69069",
+    "kind": "endgame",
+    "title": "橘中秘 · 小列手破大列手炮局017",
+    "subtitle": "《橘中秘》小列手破大列手炮局017",
+    "level": 3,
+    "order": 908,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》小列手破大列手炮局017",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69069/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“小列手破大列手炮局017”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h2e2",
+            "comment": "炮二平五。"
+          },
+          {
+            "ucci": "b7e7",
+            "comment": "炮2平5。"
+          },
+          {
+            "ucci": "h0g2",
+            "comment": "马二进三。"
+          },
+          {
+            "ucci": "h9g7",
+            "comment": "马8进7。"
+          },
+          {
+            "ucci": "i0h0",
+            "comment": "车一平二。"
+          },
+          {
+            "ucci": "i9h9",
+            "comment": "车9平8。"
+          },
+          {
+            "ucci": "h0h6",
+            "comment": "车二进六。"
+          },
+          {
+            "ucci": "h7i7",
+            "comment": "炮8平9。"
+          },
+          {
+            "ucci": "h6g6",
+            "comment": "车二平三。"
+          },
+          {
+            "ucci": "h9h7",
+            "comment": "车8进2。"
+          },
+          {
+            "ucci": "b2b4",
+            "comment": "炮八进二。"
+          },
+          {
+            "ucci": "i7i8",
+            "comment": "炮9退1。"
+          },
+          {
+            "ucci": "b4g4",
+            "comment": "炮八平三。"
+          },
+          {
+            "ucci": "i8g8",
+            "comment": "炮9平7。"
+          },
+          {
+            "ucci": "g6f6",
+            "comment": "车三平四。"
+          },
+          {
+            "ucci": "g7h5",
+            "comment": "马7进8。"
+          },
+          {
+            "ucci": "f6f8",
+            "comment": "车四进二。"
+          },
+          {
+            "ucci": "g8g3",
+            "comment": "炮7进5。"
+          },
+          {
+            "ucci": "f8b8",
+            "comment": "车四平八。"
+          },
+          {
+            "ucci": "h5f4",
+            "comment": "马8进6。"
+          },
+          {
+            "ucci": "a0a2",
+            "comment": "车九进二。"
+          },
+          {
+            "ucci": "h7g7",
+            "comment": "车8平7。"
+          },
+          {
+            "ucci": "g0i2",
+            "comment": "相三进一。"
+          },
+          {
+            "ucci": "g3h3",
+            "comment": "炮7平8。"
+          },
+          {
+            "ucci": "g2f4",
+            "comment": "马三进四。"
+          },
+          {
+            "ucci": "g7g4",
+            "comment": "车7进3。"
+          },
+          {
+            "ucci": "e2e6",
+            "comment": "炮五进四。"
+          },
+          {
+            "ucci": "d9e8",
+            "comment": "士4进5。"
+          },
+          {
+            "ucci": "f4d5",
+            "comment": "马四进六。"
+          },
+          {
+            "ucci": "h3h0",
+            "comment": "炮8进3。"
+          },
+          {
+            "ucci": "i2g0",
+            "comment": "相一退三。"
+          },
+          {
+            "ucci": "g4g0",
+            "comment": "车7进4。"
+          },
+          {
+            "ucci": "d5b6",
+            "comment": "马六进八。"
+          },
+          {
+            "ucci": "g0g6",
+            "comment": "车7退6。"
+          },
+          {
+            "ucci": "f0e1",
+            "comment": "仕四进五。"
+          },
+          {
+            "ucci": "g6e6",
+            "comment": "车7平5。"
+          },
+          {
+            "ucci": "b6c8",
+            "comment": "前马进七。"
+          },
+          {
+            "ucci": "e9d9",
+            "comment": "将5平4。"
+          },
+          {
+            "ucci": "a2d2",
+            "comment": "车九平六。"
+          },
+          {
+            "ucci": "e7d7",
+            "comment": "炮5平4。"
+          },
+          {
+            "ucci": "b8b7",
+            "comment": "车八退一。"
+          },
+          {
+            "ucci": "d9d8",
+            "comment": "将4进1。"
+          },
+          {
+            "ucci": "c8a9",
+            "comment": "马七进九。"
+          },
+          {
+            "ucci": "b9a7",
+            "comment": "马2进1。"
+          },
+          {
+            "ucci": "b7c7",
+            "comment": "车八平七。"
+          },
+          {
+            "ucci": "e6g6",
+            "comment": "车5平7。"
+          },
+          {
+            "ucci": "a9b7",
+            "comment": "马九退八。"
+          },
+          {
+            "ucci": "g6g0",
+            "comment": "车7进6。"
+          },
+          {
+            "ucci": "e1f0",
+            "comment": "仕五退四。"
+          },
+          {
+            "ucci": "g0g5",
+            "comment": "车7退5。"
+          },
+          {
+            "ucci": "f0e1",
+            "comment": "仕四进五。"
+          },
+          {
+            "ucci": "d7d5",
+            "comment": "炮4进2。"
+          },
+          {
+            "ucci": "c7c6",
+            "comment": "车七退一。"
+          },
+          {
+            "ucci": "d8d7",
+            "comment": "将4进1。"
+          },
+          {
+            "ucci": "b7c9",
+            "comment": "前马进七。"
+          },
+          {
+            "ucci": "a7c8",
+            "comment": "马1退3。"
+          },
+          {
+            "ucci": "c6c8",
+            "comment": "车七进二。"
+          },
+          {
+            "ucci": "d7e7",
+            "comment": "将4平5。"
+          },
+          {
+            "ucci": "c8c7",
+            "comment": "车七退一。"
+          },
+          {
+            "ucci": "d5d7",
+            "comment": "炮4退2。"
+          },
+          {
+            "ucci": "c7d7",
+            "comment": "车七平六。"
+          },
+          {
+            "ucci": "e8d7",
+            "comment": "士5进4。"
+          },
+          {
+            "ucci": "d2d7",
+            "comment": "车六进五。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“小列手破大列手炮局017”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69136",
+    "kind": "endgame",
+    "title": "橘中秘 · 炮兵胜士象全2",
+    "subtitle": "《橘中秘》炮兵胜士象全2",
+    "level": 3,
+    "order": 909,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》炮兵胜士象全2",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69136/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "2baka3/5P3/b8/9/9/9/9/9/3K5/7C1 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“炮兵胜士象全2”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h0e0",
+            "comment": "炮二平五。"
+          },
+          {
+            "ucci": "a7c5",
+            "comment": "象1进3。"
+          },
+          {
+            "ucci": "e0e4",
+            "comment": "炮五进四。"
+          },
+          {
+            "ucci": "c5a7",
+            "comment": "前象退1。"
+          },
+          {
+            "ucci": "d1e1",
+            "comment": "帅六平五。"
+          },
+          {
+            "ucci": "a7c5",
+            "comment": "象1进3。"
+          },
+          {
+            "ucci": "e1f1",
+            "comment": "帅五平四。"
+          },
+          {
+            "ucci": "c5a7",
+            "comment": "前象退1。"
+          },
+          {
+            "ucci": "e4i4",
+            "comment": "炮五平一。"
+          },
+          {
+            "ucci": "f9e8",
+            "comment": "士6进5。"
+          },
+          {
+            "ucci": "f1e1",
+            "comment": "帅四平五。"
+          },
+          {
+            "ucci": "a7c5",
+            "comment": "象1进3。"
+          },
+          {
+            "ucci": "i4c4",
+            "comment": "炮一平七。"
+          },
+          {
+            "ucci": "c5a7",
+            "comment": "前象退1。"
+          },
+          {
+            "ucci": "e1e0",
+            "comment": "帅五退一。"
+          },
+          {
+            "ucci": "c9e7",
+            "comment": "象3进5。"
+          },
+          {
+            "ucci": "c4e4",
+            "comment": "炮七平五。"
+          },
+          {
+            "ucci": "a7c9",
+            "comment": "象1退3。"
+          },
+          {
+            "ucci": "e0f0",
+            "comment": "帅五平四。"
+          },
+          {
+            "ucci": "c9a7",
+            "comment": "象3进1。"
+          },
+          {
+            "ucci": "f8f9",
+            "comment": "兵四进一。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“炮兵胜士象全2”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69106",
+    "kind": "endgame",
+    "title": "橘中秘 · 让双马-巡河炮破屏风马007",
+    "subtitle": "《橘中秘》让双马-巡河炮破屏风马007",
+    "level": 3,
+    "order": 910,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》让双马-巡河炮破屏风马007",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69106/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/R1BAKAB1R w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“让双马-巡河炮破屏风马007”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h2h4",
+            "comment": "炮二进二。"
+          },
+          {
+            "ucci": "h9g7",
+            "comment": "马8进7。"
+          },
+          {
+            "ucci": "h4g4",
+            "comment": "炮二平三。"
+          },
+          {
+            "ucci": "b9c7",
+            "comment": "马2进3。"
+          },
+          {
+            "ucci": "i0h0",
+            "comment": "车一平二。"
+          },
+          {
+            "ucci": "i9h9",
+            "comment": "车9平8。"
+          },
+          {
+            "ucci": "h0h5",
+            "comment": "车二进五。"
+          },
+          {
+            "ucci": "d9e8",
+            "comment": "士4进5。"
+          },
+          {
+            "ucci": "b2h2",
+            "comment": "炮八平二。"
+          },
+          {
+            "ucci": "g6g5",
+            "comment": "卒7进1。"
+          },
+          {
+            "ucci": "h5g5",
+            "comment": "车二平三。"
+          },
+          {
+            "ucci": "h7i7",
+            "comment": "炮8平9。"
+          },
+          {
+            "ucci": "h2g2",
+            "comment": "炮二平三。"
+          },
+          {
+            "ucci": "h9h7",
+            "comment": "车8进2。"
+          },
+          {
+            "ucci": "g5g7",
+            "comment": "车三进二。"
+          },
+          {
+            "ucci": "h7g7",
+            "comment": "车8平7。"
+          },
+          {
+            "ucci": "g4g9",
+            "comment": "前炮进五。"
+          },
+          {
+            "ucci": "g7g9",
+            "comment": "车7退2。"
+          },
+          {
+            "ucci": "g2g9",
+            "comment": "炮三进七。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“让双马-巡河炮破屏风马007”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69097",
+    "kind": "endgame",
+    "title": "橘中秘 · 让左马-列手炮破夹马009",
+    "subtitle": "《橘中秘》让左马-列手炮破夹马009",
+    "level": 3,
+    "order": 911,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》让左马-列手炮破夹马009",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69097/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/R1BAKABNR w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“让左马-列手炮破夹马009”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h2e2",
+            "comment": "炮二平五。"
+          },
+          {
+            "ucci": "b7e7",
+            "comment": "炮2平5。"
+          },
+          {
+            "ucci": "h0g2",
+            "comment": "马二进三。"
+          },
+          {
+            "ucci": "b9c7",
+            "comment": "马2进3。"
+          },
+          {
+            "ucci": "i0h0",
+            "comment": "车一平二。"
+          },
+          {
+            "ucci": "h9g7",
+            "comment": "马8进7。"
+          },
+          {
+            "ucci": "b2b4",
+            "comment": "炮八进二。"
+          },
+          {
+            "ucci": "e6e5",
+            "comment": "卒5进1。"
+          },
+          {
+            "ucci": "h0h7",
+            "comment": "车二进七。"
+          },
+          {
+            "ucci": "e7h7",
+            "comment": "炮5平8。"
+          },
+          {
+            "ucci": "e2e5",
+            "comment": "炮五进三。"
+          },
+          {
+            "ucci": "e9e8",
+            "comment": "将5进1。"
+          },
+          {
+            "ucci": "a0a1",
+            "comment": "车九进一。"
+          },
+          {
+            "ucci": "g7h9",
+            "comment": "马7退8。"
+          },
+          {
+            "ucci": "a1h1",
+            "comment": "车九平二。"
+          },
+          {
+            "ucci": "h7f7",
+            "comment": "炮8平6。"
+          },
+          {
+            "ucci": "h1h8",
+            "comment": "车二进七。"
+          },
+          {
+            "ucci": "e8e7",
+            "comment": "将5进1。"
+          },
+          {
+            "ucci": "h8d8",
+            "comment": "车二平六。"
+          },
+          {
+            "ucci": "f7f6",
+            "comment": "炮6进1。"
+          },
+          {
+            "ucci": "d8d6",
+            "comment": "车六退二。"
+          },
+          {
+            "ucci": "f6f8",
+            "comment": "炮6退2。"
+          },
+          {
+            "ucci": "b4e4",
+            "comment": "炮八平五。"
+          },
+          {
+            "ucci": "e7f7",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "d6d7",
+            "comment": "车六进一。"
+          },
+          {
+            "ucci": "c9e7",
+            "comment": "象3进5。"
+          },
+          {
+            "ucci": "d7e7",
+            "comment": "车六平五。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“让左马-列手炮破夹马009”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69099",
+    "kind": "endgame",
+    "title": "橘中秘 · 让左马-直车破士象右单提马007",
+    "subtitle": "《橘中秘》让左马-直车破士象右单提马007",
+    "level": 3,
+    "order": 912,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》让左马-直车破士象右单提马007",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69099/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/R1BAKABNR w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“让左马-直车破士象右单提马007”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h2e2",
+            "comment": "炮二平五。"
+          },
+          {
+            "ucci": "b9c7",
+            "comment": "马2进3。"
+          },
+          {
+            "ucci": "h0g2",
+            "comment": "马二进三。"
+          },
+          {
+            "ucci": "h9i7",
+            "comment": "马8进9。"
+          },
+          {
+            "ucci": "i0h0",
+            "comment": "车一平二。"
+          },
+          {
+            "ucci": "i9h9",
+            "comment": "车9平8。"
+          },
+          {
+            "ucci": "e3e4",
+            "comment": "兵五进一。"
+          },
+          {
+            "ucci": "c9e7",
+            "comment": "象3进5。"
+          },
+          {
+            "ucci": "e4e5",
+            "comment": "兵五进一。"
+          },
+          {
+            "ucci": "e6e5",
+            "comment": "卒5进1。"
+          },
+          {
+            "ucci": "h0h5",
+            "comment": "车二进五。"
+          },
+          {
+            "ucci": "d9e8",
+            "comment": "士4进5。"
+          },
+          {
+            "ucci": "h5e5",
+            "comment": "车二平五。"
+          },
+          {
+            "ucci": "a9d9",
+            "comment": "车1平4。"
+          },
+          {
+            "ucci": "b2a2",
+            "comment": "炮八平九。"
+          },
+          {
+            "ucci": "h7f7",
+            "comment": "炮8平6。"
+          },
+          {
+            "ucci": "a0b0",
+            "comment": "车九平八。"
+          },
+          {
+            "ucci": "b7a7",
+            "comment": "炮2平1。"
+          },
+          {
+            "ucci": "g2e3",
+            "comment": "马三进五。"
+          },
+          {
+            "ucci": "a7a3",
+            "comment": "炮1进4。"
+          },
+          {
+            "ucci": "e3f5",
+            "comment": "马五进四。"
+          },
+          {
+            "ucci": "h9h5",
+            "comment": "车8进4。"
+          },
+          {
+            "ucci": "f5e7",
+            "comment": "马四进五。"
+          },
+          {
+            "ucci": "h5e5",
+            "comment": "车8平5。"
+          },
+          {
+            "ucci": "e7c8",
+            "comment": "马五进七。"
+          },
+          {
+            "ucci": "d9d8",
+            "comment": "车4进1。"
+          },
+          {
+            "ucci": "b0b9",
+            "comment": "车八进九。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“让左马-直车破士象右单提马007”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69100",
+    "kind": "endgame",
+    "title": "橘中秘 · 让左马-顺炮横车破他先上马002",
+    "subtitle": "《橘中秘》让左马-顺炮横车破他先上马002",
+    "level": 3,
+    "order": 913,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》让左马-顺炮横车破他先上马002",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69100/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/R1BAKABNR w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“让左马-顺炮横车破他先上马002”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h2e2",
+            "comment": "炮二平五。"
+          },
+          {
+            "ucci": "h7e7",
+            "comment": "炮8平5。"
+          },
+          {
+            "ucci": "h0g2",
+            "comment": "马二进三。"
+          },
+          {
+            "ucci": "h9g7",
+            "comment": "马8进7。"
+          },
+          {
+            "ucci": "i0i1",
+            "comment": "车一进一。"
+          },
+          {
+            "ucci": "i9h9",
+            "comment": "车9平8。"
+          },
+          {
+            "ucci": "i1d1",
+            "comment": "车一平六。"
+          },
+          {
+            "ucci": "b9a7",
+            "comment": "马2进1。"
+          },
+          {
+            "ucci": "d1d7",
+            "comment": "车六进六。"
+          },
+          {
+            "ucci": "b7b5",
+            "comment": "炮2进2。"
+          },
+          {
+            "ucci": "d7d5",
+            "comment": "车六退二。"
+          },
+          {
+            "ucci": "a6a5",
+            "comment": "卒1进1。"
+          },
+          {
+            "ucci": "a3a4",
+            "comment": "兵九进一。"
+          },
+          {
+            "ucci": "a5a4",
+            "comment": "卒1进1。"
+          },
+          {
+            "ucci": "a0a4",
+            "comment": "车九进四。"
+          },
+          {
+            "ucci": "b5c5",
+            "comment": "炮2平3。"
+          },
+          {
+            "ucci": "b2b7",
+            "comment": "炮八进五。"
+          },
+          {
+            "ucci": "c5c0",
+            "comment": "炮3进5。"
+          },
+          {
+            "ucci": "d0e1",
+            "comment": "仕六进五。"
+          },
+          {
+            "ucci": "g7i8",
+            "comment": "马7退9。"
+          },
+          {
+            "ucci": "e2e6",
+            "comment": "炮五进四。"
+          },
+          {
+            "ucci": "f9e8",
+            "comment": "士6进5。"
+          },
+          {
+            "ucci": "a4d4",
+            "comment": "车九平六。"
+          },
+          {
+            "ucci": "e9f9",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "d5d9",
+            "comment": "前车进四。"
+          },
+          {
+            "ucci": "f9f8",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "d9d8",
+            "comment": "前车退一。"
+          },
+          {
+            "ucci": "e7f7",
+            "comment": "炮5平6。"
+          },
+          {
+            "ucci": "d4f4",
+            "comment": "后车平四。"
+          },
+          {
+            "ucci": "a9b9",
+            "comment": "车1平2。"
+          },
+          {
+            "ucci": "b7e7",
+            "comment": "炮八平五。"
+          },
+          {
+            "ucci": "h9h7",
+            "comment": "车8进2。"
+          },
+          {
+            "ucci": "d8e8",
+            "comment": "车六平五。"
+          },
+          {
+            "ucci": "f8f9",
+            "comment": "将6退1。"
+          },
+          {
+            "ucci": "e6f6",
+            "comment": "后炮平四。"
+          },
+          {
+            "ucci": "f7f4",
+            "comment": "炮6进3。"
+          },
+          {
+            "ucci": "e7f7",
+            "comment": "炮五平四。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“让左马-顺炮横车破他先上马002”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69102",
+    "kind": "endgame",
+    "title": "橘中秘 · 让左马-顺炮横车破夹马炮004",
+    "subtitle": "《橘中秘》让左马-顺炮横车破夹马炮004",
+    "level": 3,
+    "order": 914,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》让左马-顺炮横车破夹马炮004",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69102/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/R1BAKABNR w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“让左马-顺炮横车破夹马炮004”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h2e2",
+            "comment": "炮二平五。"
+          },
+          {
+            "ucci": "h7e7",
+            "comment": "炮8平5。"
+          },
+          {
+            "ucci": "h0g2",
+            "comment": "马二进三。"
+          },
+          {
+            "ucci": "h9g7",
+            "comment": "马8进7。"
+          },
+          {
+            "ucci": "i0i1",
+            "comment": "车一进一。"
+          },
+          {
+            "ucci": "i9h9",
+            "comment": "车9平8。"
+          },
+          {
+            "ucci": "i1d1",
+            "comment": "车一平六。"
+          },
+          {
+            "ucci": "b9c7",
+            "comment": "马2进3。"
+          },
+          {
+            "ucci": "d1d6",
+            "comment": "车六进五。"
+          },
+          {
+            "ucci": "e7f7",
+            "comment": "炮5平6。"
+          },
+          {
+            "ucci": "d6c6",
+            "comment": "车六平七。"
+          },
+          {
+            "ucci": "c9e7",
+            "comment": "象3进5。"
+          },
+          {
+            "ucci": "e3e4",
+            "comment": "兵五进一。"
+          },
+          {
+            "ucci": "h9h3",
+            "comment": "车8进6。"
+          },
+          {
+            "ucci": "e4e5",
+            "comment": "兵五进一。"
+          },
+          {
+            "ucci": "e6e5",
+            "comment": "卒5进1。"
+          },
+          {
+            "ucci": "g2e3",
+            "comment": "马三进五。"
+          },
+          {
+            "ucci": "h3g3",
+            "comment": "车8平7。"
+          },
+          {
+            "ucci": "e3c4",
+            "comment": "马五进七。"
+          },
+          {
+            "ucci": "d9e8",
+            "comment": "士4进5。"
+          },
+          {
+            "ucci": "c4d6",
+            "comment": "马七进六。"
+          },
+          {
+            "ucci": "a9c9",
+            "comment": "车1平3。"
+          },
+          {
+            "ucci": "b2c2",
+            "comment": "炮八平七。"
+          },
+          {
+            "ucci": "c7d9",
+            "comment": "马3退4。"
+          },
+          {
+            "ucci": "c6c9",
+            "comment": "车七进三。"
+          },
+          {
+            "ucci": "e7c9",
+            "comment": "象5退3。"
+          },
+          {
+            "ucci": "d6c8",
+            "comment": "马六进七。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“让左马-顺炮横车破夹马炮004”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69223",
+    "kind": "endgame",
+    "title": "橘中秘 · 车胜马双象2",
+    "subtitle": "《橘中秘》车胜马双象2",
+    "level": 3,
+    "order": 915,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》车胜马双象2",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69223/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "4k1b2/9/4n3b/4R4/9/9/9/9/9/4K4 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“车胜马双象2”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "e6e5",
+            "comment": "车五退一。"
+          },
+          {
+            "ucci": "e9d9",
+            "comment": "将5平4。"
+          },
+          {
+            "ucci": "e5b5",
+            "comment": "车五平八。"
+          },
+          {
+            "ucci": "d9d8",
+            "comment": "将4进1。"
+          },
+          {
+            "ucci": "b5b8",
+            "comment": "车八进三。"
+          },
+          {
+            "ucci": "d8d9",
+            "comment": "将4退1。"
+          },
+          {
+            "ucci": "b8b4",
+            "comment": "车八退四。"
+          },
+          {
+            "ucci": "d9d8",
+            "comment": "将4进1。"
+          },
+          {
+            "ucci": "b4d4",
+            "comment": "车八平六。"
+          },
+          {
+            "ucci": "d8e8",
+            "comment": "将4平5。"
+          },
+          {
+            "ucci": "d4d9",
+            "comment": "车六进五。"
+          },
+          {
+            "ucci": "e8f8",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "d9e9",
+            "comment": "车六平五。"
+          },
+          {
+            "ucci": "f8f7",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "e0e1",
+            "comment": "帅五进一。"
+          },
+          {
+            "ucci": "e7f5",
+            "comment": "马5进6。"
+          },
+          {
+            "ucci": "e9f9",
+            "comment": "车五平四。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“车胜马双象2”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69225",
+    "kind": "endgame",
+    "title": "橘中秘 · 车马冷着",
+    "subtitle": "《橘中秘》车马冷着",
+    "level": 3,
+    "order": 916,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》车马冷着",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69225/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "2ba1k3/4a4/4b4/5N1R1/9/9/3pp4/4B4/4rp3/2BK5 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“车马冷着”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h6h9",
+            "comment": "车二进三。"
+          },
+          {
+            "ucci": "f9f8",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "f6h7",
+            "comment": "马四进二。"
+          },
+          {
+            "ucci": "f8f7",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "h9h8",
+            "comment": "车二退一。"
+          },
+          {
+            "ucci": "e7g5",
+            "comment": "象5进7。"
+          },
+          {
+            "ucci": "h8g8",
+            "comment": "车二平三。"
+          },
+          {
+            "ucci": "f7e7",
+            "comment": "将6平5。"
+          },
+          {
+            "ucci": "g8g5",
+            "comment": "车三退三。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "h7f6",
+            "comment": "马二退四。"
+          },
+          {
+            "ucci": "e7e8",
+            "comment": "将5退1。"
+          },
+          {
+            "ucci": "g5g8",
+            "comment": "车三进三。"
+          },
+          {
+            "ucci": "e8e7",
+            "comment": "将5进1。"
+          },
+          {
+            "ucci": "g8d8",
+            "comment": "车三平六。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "d8d4",
+            "comment": "车六退四。"
+          },
+          {
+            "ucci": "e7f7",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "d4f4",
+            "comment": "车六平四。"
+          },
+          {
+            "ucci": "f7e7",
+            "comment": "将6平5。"
+          },
+          {
+            "ucci": "f6g8",
+            "comment": "马四进三。"
+          },
+          {
+            "ucci": "e7d7",
+            "comment": "将5平4。"
+          },
+          {
+            "ucci": "f4d4",
+            "comment": "车四平六。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“车马冷着”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69073",
+    "kind": "endgame",
+    "title": "橘中秘 · 顺炮横车破直车不食弃马003",
+    "subtitle": "《橘中秘》顺炮横车破直车不食弃马003",
+    "level": 3,
+    "order": 917,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》顺炮横车破直车不食弃马003",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69073/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“顺炮横车破直车不食弃马003”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h2e2",
+            "comment": "炮二平五。"
+          },
+          {
+            "ucci": "h7e7",
+            "comment": "炮8平5。"
+          },
+          {
+            "ucci": "h0g2",
+            "comment": "马二进三。"
+          },
+          {
+            "ucci": "h9g7",
+            "comment": "马8进7。"
+          },
+          {
+            "ucci": "i0i1",
+            "comment": "车一进一。"
+          },
+          {
+            "ucci": "i9h9",
+            "comment": "车9平8。"
+          },
+          {
+            "ucci": "i1d1",
+            "comment": "车一平六。"
+          },
+          {
+            "ucci": "h9h3",
+            "comment": "车8进6。"
+          },
+          {
+            "ucci": "d1d8",
+            "comment": "车六进七。"
+          },
+          {
+            "ucci": "b9a7",
+            "comment": "马2进1。"
+          },
+          {
+            "ucci": "a0a1",
+            "comment": "车九进一。"
+          },
+          {
+            "ucci": "f9e8",
+            "comment": "士6进5。"
+          },
+          {
+            "ucci": "a1f1",
+            "comment": "车九平四。"
+          },
+          {
+            "ucci": "b7d7",
+            "comment": "炮2平4。"
+          },
+          {
+            "ucci": "f1f8",
+            "comment": "车四进七。"
+          },
+          {
+            "ucci": "a9b9",
+            "comment": "车1平2。"
+          },
+          {
+            "ucci": "b2b8",
+            "comment": "炮八进六。"
+          },
+          {
+            "ucci": "c6c5",
+            "comment": "卒3进1。"
+          },
+          {
+            "ucci": "e2b2",
+            "comment": "炮五平八。"
+          },
+          {
+            "ucci": "a7c6",
+            "comment": "马1进3。"
+          },
+          {
+            "ucci": "b2b9",
+            "comment": "后炮进七。"
+          },
+          {
+            "ucci": "c6d8",
+            "comment": "马3退4。"
+          },
+          {
+            "ucci": "b8c8",
+            "comment": "后炮平七。"
+          },
+          {
+            "ucci": "h3g3",
+            "comment": "车8平7。"
+          },
+          {
+            "ucci": "g2i1",
+            "comment": "马三退一。"
+          },
+          {
+            "ucci": "e7e3",
+            "comment": "炮5进4。"
+          },
+          {
+            "ucci": "b9b7",
+            "comment": "炮八退二。"
+          },
+          {
+            "ucci": "d7d5",
+            "comment": "炮4进2。"
+          },
+          {
+            "ucci": "e0e1",
+            "comment": "帅五进一。"
+          },
+          {
+            "ucci": "g3g1",
+            "comment": "车7进2。"
+          },
+          {
+            "ucci": "e1e2",
+            "comment": "帅五进一。"
+          },
+          {
+            "ucci": "g1i1",
+            "comment": "车7平9。"
+          },
+          {
+            "ucci": "b7c7",
+            "comment": "炮八平七。"
+          },
+          {
+            "ucci": "c9a7",
+            "comment": "象3进1。"
+          },
+          {
+            "ucci": "c8b8",
+            "comment": "前炮平八。"
+          },
+          {
+            "ucci": "e8d7",
+            "comment": "士5进4。"
+          },
+          {
+            "ucci": "f8d8",
+            "comment": "车四平六。"
+          },
+          {
+            "ucci": "d5d8",
+            "comment": "炮4退3。"
+          },
+          {
+            "ucci": "c7c9",
+            "comment": "炮七进二。"
+          },
+          {
+            "ucci": "d9e8",
+            "comment": "后士进5。"
+          },
+          {
+            "ucci": "b8b9",
+            "comment": "炮八进一。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“顺炮横车破直车不食弃马003”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69075",
+    "kind": "endgame",
+    "title": "橘中秘 · 顺炮横车破直车弃马001",
+    "subtitle": "《橘中秘》顺炮横车破直车弃马001",
+    "level": 3,
+    "order": 918,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》顺炮横车破直车弃马001",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69075/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“顺炮横车破直车弃马001”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h2e2",
+            "comment": "炮二平五。"
+          },
+          {
+            "ucci": "h7e7",
+            "comment": "炮8平5。"
+          },
+          {
+            "ucci": "h0g2",
+            "comment": "马二进三。"
+          },
+          {
+            "ucci": "h9g7",
+            "comment": "马8进7。"
+          },
+          {
+            "ucci": "i0i1",
+            "comment": "车一进一。"
+          },
+          {
+            "ucci": "i9h9",
+            "comment": "车9平8。"
+          },
+          {
+            "ucci": "i1d1",
+            "comment": "车一平六。"
+          },
+          {
+            "ucci": "h9h3",
+            "comment": "车8进6。"
+          },
+          {
+            "ucci": "d1d8",
+            "comment": "车六进七。"
+          },
+          {
+            "ucci": "b9a7",
+            "comment": "马2进1。"
+          },
+          {
+            "ucci": "a0a1",
+            "comment": "车九进一。"
+          },
+          {
+            "ucci": "b7b0",
+            "comment": "炮2进7。"
+          },
+          {
+            "ucci": "b2b7",
+            "comment": "炮八进五。"
+          },
+          {
+            "ucci": "g7h9",
+            "comment": "马7退8。"
+          },
+          {
+            "ucci": "e2e6",
+            "comment": "炮五进四。"
+          },
+          {
+            "ucci": "f9e8",
+            "comment": "士6进5。"
+          },
+          {
+            "ucci": "a1d1",
+            "comment": "车九平六。"
+          },
+          {
+            "ucci": "e9f9",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "d8d9",
+            "comment": "前车进一。"
+          },
+          {
+            "ucci": "e8d9",
+            "comment": "士5退4。"
+          },
+          {
+            "ucci": "d1f1",
+            "comment": "车六平四。"
+          },
+          {
+            "ucci": "e7f7",
+            "comment": "炮5平6。"
+          },
+          {
+            "ucci": "f1f7",
+            "comment": "车四进六。"
+          },
+          {
+            "ucci": "f9e9",
+            "comment": "将6平5。"
+          },
+          {
+            "ucci": "b7e7",
+            "comment": "炮八平五。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“顺炮横车破直车弃马001”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69076",
+    "kind": "endgame",
+    "title": "橘中秘 · 顺炮横车破直车用马004",
+    "subtitle": "《橘中秘》顺炮横车破直车用马004",
+    "level": 3,
+    "order": 919,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》顺炮横车破直车用马004",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69076/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“顺炮横车破直车用马004”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h2e2",
+            "comment": "炮二平五。"
+          },
+          {
+            "ucci": "h7e7",
+            "comment": "炮8平5。"
+          },
+          {
+            "ucci": "h0g2",
+            "comment": "马二进三。"
+          },
+          {
+            "ucci": "h9g7",
+            "comment": "马8进7。"
+          },
+          {
+            "ucci": "i0i1",
+            "comment": "车一进一。"
+          },
+          {
+            "ucci": "i9h9",
+            "comment": "车9平8。"
+          },
+          {
+            "ucci": "i1d1",
+            "comment": "车一平六。"
+          },
+          {
+            "ucci": "d9e8",
+            "comment": "士4进5。"
+          },
+          {
+            "ucci": "d1d8",
+            "comment": "车六进七。"
+          },
+          {
+            "ucci": "b9a7",
+            "comment": "马2进1。"
+          },
+          {
+            "ucci": "c3c4",
+            "comment": "兵七进一。"
+          },
+          {
+            "ucci": "h9h3",
+            "comment": "车8进6。"
+          },
+          {
+            "ucci": "b0c2",
+            "comment": "马八进七。"
+          },
+          {
+            "ucci": "h3g3",
+            "comment": "车8平7。"
+          },
+          {
+            "ucci": "c2d4",
+            "comment": "马七进六。"
+          },
+          {
+            "ucci": "g6g5",
+            "comment": "卒7进1。"
+          },
+          {
+            "ucci": "d4c6",
+            "comment": "马六进七。"
+          },
+          {
+            "ucci": "b7d7",
+            "comment": "炮2平4。"
+          },
+          {
+            "ucci": "c6e7",
+            "comment": "马七进五。"
+          },
+          {
+            "ucci": "g9e7",
+            "comment": "象7进5。"
+          },
+          {
+            "ucci": "b2b7",
+            "comment": "炮八进五。"
+          },
+          {
+            "ucci": "g7f5",
+            "comment": "马7进6。"
+          },
+          {
+            "ucci": "e2e6",
+            "comment": "炮五进四。"
+          },
+          {
+            "ucci": "g3g2",
+            "comment": "车7进1。"
+          },
+          {
+            "ucci": "e6g6",
+            "comment": "炮五平三。"
+          },
+          {
+            "ucci": "g2b2",
+            "comment": "车7平2。"
+          },
+          {
+            "ucci": "b7e7",
+            "comment": "炮八平五。"
+          },
+          {
+            "ucci": "f5e7",
+            "comment": "马6退5。"
+          },
+          {
+            "ucci": "g6g9",
+            "comment": "炮三进三。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“顺炮横车破直车用马004”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69077",
+    "kind": "endgame",
+    "title": "橘中秘 · 顺炮横车破直车用马005",
+    "subtitle": "《橘中秘》顺炮横车破直车用马005",
+    "level": 3,
+    "order": 920,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》顺炮横车破直车用马005",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69077/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“顺炮横车破直车用马005”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h2e2",
+            "comment": "炮二平五。"
+          },
+          {
+            "ucci": "h7e7",
+            "comment": "炮8平5。"
+          },
+          {
+            "ucci": "h0g2",
+            "comment": "马二进三。"
+          },
+          {
+            "ucci": "h9g7",
+            "comment": "马8进7。"
+          },
+          {
+            "ucci": "i0i1",
+            "comment": "车一进一。"
+          },
+          {
+            "ucci": "i9h9",
+            "comment": "车9平8。"
+          },
+          {
+            "ucci": "i1d1",
+            "comment": "车一平六。"
+          },
+          {
+            "ucci": "d9e8",
+            "comment": "士4进5。"
+          },
+          {
+            "ucci": "d1d8",
+            "comment": "车六进七。"
+          },
+          {
+            "ucci": "b9a7",
+            "comment": "马2进1。"
+          },
+          {
+            "ucci": "c3c4",
+            "comment": "兵七进一。"
+          },
+          {
+            "ucci": "h9h3",
+            "comment": "车8进6。"
+          },
+          {
+            "ucci": "b0c2",
+            "comment": "马八进七。"
+          },
+          {
+            "ucci": "h3g3",
+            "comment": "车8平7。"
+          },
+          {
+            "ucci": "c2d4",
+            "comment": "马七进六。"
+          },
+          {
+            "ucci": "g6g5",
+            "comment": "卒7进1。"
+          },
+          {
+            "ucci": "a3a4",
+            "comment": "兵九进一。"
+          },
+          {
+            "ucci": "g5g4",
+            "comment": "卒7进1。"
+          },
+          {
+            "ucci": "a4a5",
+            "comment": "兵九进一。"
+          },
+          {
+            "ucci": "a6a5",
+            "comment": "卒1进1。"
+          },
+          {
+            "ucci": "a0a5",
+            "comment": "车九进五。"
+          },
+          {
+            "ucci": "b7c7",
+            "comment": "炮2平3。"
+          },
+          {
+            "ucci": "d8b8",
+            "comment": "车六平八。"
+          },
+          {
+            "ucci": "g4f4",
+            "comment": "卒7平6。"
+          },
+          {
+            "ucci": "d4e6",
+            "comment": "马六进五。"
+          },
+          {
+            "ucci": "g7e6",
+            "comment": "马7进5。"
+          },
+          {
+            "ucci": "e2e6",
+            "comment": "炮五进四。"
+          },
+          {
+            "ucci": "g3g2",
+            "comment": "车7进1。"
+          },
+          {
+            "ucci": "a5a7",
+            "comment": "车九进二。"
+          },
+          {
+            "ucci": "a9a7",
+            "comment": "车1进2。"
+          },
+          {
+            "ucci": "b8e8",
+            "comment": "车八平五。"
+          },
+          {
+            "ucci": "f9e8",
+            "comment": "士6进5。"
+          },
+          {
+            "ucci": "b2b9",
+            "comment": "炮八进七。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“顺炮横车破直车用马005”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69079",
+    "kind": "endgame",
+    "title": "橘中秘 · 顺炮直车左炮巡河破横车010",
+    "subtitle": "《橘中秘》顺炮直车左炮巡河破横车010",
+    "level": 3,
+    "order": 921,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》顺炮直车左炮巡河破横车010",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69079/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“顺炮直车左炮巡河破横车010”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h2e2",
+            "comment": "炮二平五。"
+          },
+          {
+            "ucci": "h7e7",
+            "comment": "炮8平5。"
+          },
+          {
+            "ucci": "h0g2",
+            "comment": "马二进三。"
+          },
+          {
+            "ucci": "h9g7",
+            "comment": "马8进7。"
+          },
+          {
+            "ucci": "i0h0",
+            "comment": "车一平二。"
+          },
+          {
+            "ucci": "i9i8",
+            "comment": "车9进1。"
+          },
+          {
+            "ucci": "h0h6",
+            "comment": "车二进六。"
+          },
+          {
+            "ucci": "i8d8",
+            "comment": "车9平4。"
+          },
+          {
+            "ucci": "h6g6",
+            "comment": "车二平三。"
+          },
+          {
+            "ucci": "d8d2",
+            "comment": "车4进6。"
+          },
+          {
+            "ucci": "b2b4",
+            "comment": "炮八进二。"
+          },
+          {
+            "ucci": "d2d4",
+            "comment": "车4退2。"
+          },
+          {
+            "ucci": "b4a4",
+            "comment": "炮八平九。"
+          },
+          {
+            "ucci": "b9a7",
+            "comment": "马2进1。"
+          },
+          {
+            "ucci": "c3c4",
+            "comment": "兵七进一。"
+          },
+          {
+            "ucci": "d4c4",
+            "comment": "车4平3。"
+          },
+          {
+            "ucci": "c0a2",
+            "comment": "相七进九。"
+          },
+          {
+            "ucci": "c4b4",
+            "comment": "车3平2。"
+          },
+          {
+            "ucci": "b0c2",
+            "comment": "马八进七。"
+          },
+          {
+            "ucci": "b4f4",
+            "comment": "车2平6。"
+          },
+          {
+            "ucci": "a0b0",
+            "comment": "车九平八。"
+          },
+          {
+            "ucci": "b7c7",
+            "comment": "炮2平3。"
+          },
+          {
+            "ucci": "c2b4",
+            "comment": "马七进八。"
+          },
+          {
+            "ucci": "f4f2",
+            "comment": "车6进2。"
+          },
+          {
+            "ucci": "b4d5",
+            "comment": "马八进六。"
+          },
+          {
+            "ucci": "c7d7",
+            "comment": "炮3平4。"
+          },
+          {
+            "ucci": "a4g4",
+            "comment": "炮九平三。"
+          },
+          {
+            "ucci": "g7i8",
+            "comment": "马7退9。"
+          },
+          {
+            "ucci": "e2e6",
+            "comment": "炮五进四。"
+          },
+          {
+            "ucci": "d9e8",
+            "comment": "士4进5。"
+          },
+          {
+            "ucci": "b0b8",
+            "comment": "车八进八。"
+          },
+          {
+            "ucci": "a9b9",
+            "comment": "车1平2。"
+          },
+          {
+            "ucci": "b8d8",
+            "comment": "车八平六。"
+          },
+          {
+            "ucci": "b9b7",
+            "comment": "车2进2。"
+          },
+          {
+            "ucci": "g4g9",
+            "comment": "炮三进五。"
+          },
+          {
+            "ucci": "i8g9",
+            "comment": "马9退7。"
+          },
+          {
+            "ucci": "g6g9",
+            "comment": "车三进三。"
+          },
+          {
+            "ucci": "f2f8",
+            "comment": "车6退6。"
+          },
+          {
+            "ucci": "d5e7",
+            "comment": "马六进五。"
+          },
+          {
+            "ucci": "d7d5",
+            "comment": "炮4进2。"
+          },
+          {
+            "ucci": "g9f9",
+            "comment": "车三平四。"
+          },
+          {
+            "ucci": "e9f9",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "d8d9",
+            "comment": "车六进一。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“顺炮直车左炮巡河破横车010”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69081",
+    "kind": "endgame",
+    "title": "橘中秘 · 顺炮窝心横车破士角炮008",
+    "subtitle": "《橘中秘》顺炮窝心横车破士角炮008",
+    "level": 3,
+    "order": 922,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》顺炮窝心横车破士角炮008",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69081/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“顺炮窝心横车破士角炮008”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "h2e2",
+            "comment": "炮二平五。"
+          },
+          {
+            "ucci": "h7e7",
+            "comment": "炮8平5。"
+          },
+          {
+            "ucci": "h0g2",
+            "comment": "马二进三。"
+          },
+          {
+            "ucci": "h9g7",
+            "comment": "马8进7。"
+          },
+          {
+            "ucci": "i0i1",
+            "comment": "车一进一。"
+          },
+          {
+            "ucci": "b7d7",
+            "comment": "炮2平4。"
+          },
+          {
+            "ucci": "i1d1",
+            "comment": "车一平六。"
+          },
+          {
+            "ucci": "d9e8",
+            "comment": "士4进5。"
+          },
+          {
+            "ucci": "e2e1",
+            "comment": "炮五退一。"
+          },
+          {
+            "ucci": "b9c7",
+            "comment": "马2进3。"
+          },
+          {
+            "ucci": "b2e2",
+            "comment": "炮八平五。"
+          },
+          {
+            "ucci": "a9b9",
+            "comment": "车1平2。"
+          },
+          {
+            "ucci": "b0c2",
+            "comment": "马八进七。"
+          },
+          {
+            "ucci": "b9b3",
+            "comment": "车2进6。"
+          },
+          {
+            "ucci": "e3e4",
+            "comment": "兵五进一。"
+          },
+          {
+            "ucci": "b3c3",
+            "comment": "车2平3。"
+          },
+          {
+            "ucci": "c2e3",
+            "comment": "马七进五。"
+          },
+          {
+            "ucci": "i9h9",
+            "comment": "车9平8。"
+          },
+          {
+            "ucci": "e4e5",
+            "comment": "兵五进一。"
+          },
+          {
+            "ucci": "e6e5",
+            "comment": "卒5进1。"
+          },
+          {
+            "ucci": "e2e5",
+            "comment": "前炮进三。"
+          },
+          {
+            "ucci": "d7d9",
+            "comment": "炮4退2。"
+          },
+          {
+            "ucci": "d1d7",
+            "comment": "车六进六。"
+          },
+          {
+            "ucci": "g7e6",
+            "comment": "马7进5。"
+          },
+          {
+            "ucci": "e5e7",
+            "comment": "前炮进二。"
+          },
+          {
+            "ucci": "e8d7",
+            "comment": "士5进4。"
+          },
+          {
+            "ucci": "e1e6",
+            "comment": "后炮进五。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“顺炮窝心横车破士角炮008”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69239",
+    "kind": "endgame",
+    "title": "橘中秘 · 马兵胜炮卒双士074",
+    "subtitle": "《橘中秘》马兵胜炮卒双士074",
+    "level": 3,
+    "order": 923,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》马兵胜炮卒双士074",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69239/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "1c1ak3N/4aP3/9/9/9/9/9/p8/9/4K4 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“马兵胜炮卒双士074”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "f8g8",
+            "comment": "兵四平三。"
+          },
+          {
+            "ucci": "e9f9",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "i9h7",
+            "comment": "马一退二。"
+          },
+          {
+            "ucci": "b9b8",
+            "comment": "炮2进1。"
+          },
+          {
+            "ucci": "g8g9",
+            "comment": "兵三进一。"
+          },
+          {
+            "ucci": "f9e9",
+            "comment": "将6平5。"
+          },
+          {
+            "ucci": "h7f6",
+            "comment": "马二退四。"
+          },
+          {
+            "ucci": "a2b2",
+            "comment": "卒1平2。"
+          },
+          {
+            "ucci": "f6d7",
+            "comment": "马四进六。"
+          },
+          {
+            "ucci": "b8d8",
+            "comment": "炮2平4。"
+          },
+          {
+            "ucci": "d7b6",
+            "comment": "马六退八。"
+          },
+          {
+            "ucci": "b2c2",
+            "comment": "卒2平3。"
+          },
+          {
+            "ucci": "b6c8",
+            "comment": "马八进七。"
+          },
+          {
+            "ucci": "c2d2",
+            "comment": "卒3平4。"
+          },
+          {
+            "ucci": "e0e1",
+            "comment": "帅五进一。"
+          },
+          {
+            "ucci": "d2c2",
+            "comment": "卒4平3。"
+          },
+          {
+            "ucci": "c8d6",
+            "comment": "马七退六。"
+          },
+          {
+            "ucci": "c2d2",
+            "comment": "卒3平4。"
+          },
+          {
+            "ucci": "d6f7",
+            "comment": "马六进四。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“马兵胜炮卒双士074”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-69240",
+    "kind": "endgame",
+    "title": "橘中秘 · 马兵胜炮卒士象全",
+    "subtitle": "《橘中秘》马兵胜炮卒士象全",
+    "level": 2,
+    "order": 924,
+    "tags": [
+      "古谱",
+      "橘中秘",
+      "残局"
+    ],
+    "source": {
+      "name": "《橘中秘》马兵胜炮卒士象全",
+      "author": "明·朱晋桢",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69240/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "c1ba5/4ak3/b5PN1/2p6/p7p/9/9/9/3p5/4K4 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《橘中秘》“马兵胜炮卒士象全”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "g7g8",
+            "comment": "兵三进一。"
+          },
+          {
+            "ucci": "f8f9",
+            "comment": "将6退1。"
+          },
+          {
+            "ucci": "g8g9",
+            "comment": "兵三进一。"
+          },
+          {
+            "ucci": "f9e9",
+            "comment": "将6平5。"
+          },
+          {
+            "ucci": "h7f6",
+            "comment": "马二退四。"
+          },
+          {
+            "ucci": "a9a8",
+            "comment": "炮1进1。"
+          },
+          {
+            "ucci": "f6d7",
+            "comment": "马四进六。"
+          },
+          {
+            "ucci": "a8d8",
+            "comment": "炮1平4。"
+          },
+          {
+            "ucci": "d7b6",
+            "comment": "马六退八。"
+          },
+          {
+            "ucci": "a5a4",
+            "comment": "卒1进1。"
+          },
+          {
+            "ucci": "b6c8",
+            "comment": "马八进七。"
+          },
+          {
+            "ucci": "a4b4",
+            "comment": "卒1平2。"
+          },
+          {
+            "ucci": "c8d6",
+            "comment": "马七退六。"
+          },
+          {
+            "ucci": "d8d7",
+            "comment": "炮4进1。"
+          },
+          {
+            "ucci": "d6f7",
+            "comment": "马六进四。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《橘中秘》“马兵胜炮卒士象全”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-66760",
+    "kind": "endgame",
+    "title": "百局象棋谱 · 七贤过关",
+    "subtitle": "《百局象棋谱》七贤过关",
+    "level": 3,
+    "order": 925,
+    "tags": [
+      "古谱",
+      "百局象棋谱",
+      "残局"
+    ],
+    "source": {
+      "name": "《百局象棋谱》七贤过关",
+      "author": "古谱原编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/66760/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "C2k1ab2/1R2a4/1R2b1P2/4C4/N8/2P6/9/4B4/2cpAp1r1/4KABc1 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自《百局象棋谱》“七贤过关”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "b7d7",
+            "comment": "后车平六。"
+          },
+          {
+            "ucci": "e8d7",
+            "comment": "士5进4。"
+          },
+          {
+            "ucci": "b8b9",
+            "comment": "车八进一。"
+          },
+          {
+            "ucci": "e7c9",
+            "comment": "象5退3。"
+          },
+          {
+            "ucci": "b9c9",
+            "comment": "车八平七。"
+          },
+          {
+            "ucci": "d9d8",
+            "comment": "将4进1。"
+          },
+          {
+            "ucci": "a5b7",
+            "comment": "马九进八。"
+          },
+          {
+            "ucci": "d8e8",
+            "comment": "将4平5。"
+          },
+          {
+            "ucci": "c9e9",
+            "comment": "车七平五。"
+          },
+          {
+            "ucci": "e8f8",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "g7g8",
+            "comment": "兵三进一。"
+          },
+          {
+            "ucci": "f8f7",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "b7d6",
+            "comment": "马八退六。"
+          },
+          {
+            "ucci": "d7e8",
+            "comment": "士4退5。"
+          },
+          {
+            "ucci": "e9e8",
+            "comment": "车五退一。"
+          },
+          {
+            "ucci": "f9e8",
+            "comment": "士6进5。"
+          },
+          {
+            "ucci": "a9e9",
+            "comment": "炮九平五。"
+          },
+          {
+            "ucci": "e8d7",
+            "comment": "士5进4。"
+          },
+          {
+            "ucci": "e6e8",
+            "comment": "后炮进二。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《百局象棋谱》“七贤过关”整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-66744",
+    "kind": "endgame",
+    "title": "百局象棋谱 · 八仙过海",
+    "subtitle": "《百局象棋谱》八仙过海",
+    "level": 3,
+    "order": 926,
+    "tags": [
+      "古谱",
+      "百局象棋谱",
+      "残局"
+    ],
+    "source": {
+      "name": "《百局象棋谱》八仙过海",
+      "author": "古谱原编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/66744/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "3a5/3k1C3/2Pa1RP2/9/9/9/p6p1/9/1p2r4/3K2B2 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自《百局象棋谱》“八仙过海”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "f7f1",
+            "comment": "车四退六。"
+          },
+          {
+            "ucci": "e1e3",
+            "comment": "车5退2。"
+          },
+          {
+            "ucci": "c7d7",
+            "comment": "兵七平六。"
+          },
+          {
+            "ucci": "d8e8",
+            "comment": "将4平5。"
+          },
+          {
+            "ucci": "d7d8",
+            "comment": "兵六进一。"
+          },
+          {
+            "ucci": "e8e9",
+            "comment": "将5退1。"
+          },
+          {
+            "ucci": "f8e8",
+            "comment": "炮四平五。"
+          },
+          {
+            "ucci": "d9e8",
+            "comment": "士4进5。"
+          },
+          {
+            "ucci": "f1b1",
+            "comment": "车四平八。"
+          },
+          {
+            "ucci": "e3d3",
+            "comment": "车5平4。"
+          },
+          {
+            "ucci": "d0e0",
+            "comment": "帅六平五。"
+          },
+          {
+            "ucci": "d3d8",
+            "comment": "车4退5。"
+          },
+          {
+            "ucci": "b1i1",
+            "comment": "车八平一。"
+          },
+          {
+            "ucci": "e9f9",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "i1i9",
+            "comment": "车一进八。"
+          },
+          {
+            "ucci": "f9f8",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "g7g8",
+            "comment": "兵三进一。"
+          },
+          {
+            "ucci": "f8f7",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "i9i7",
+            "comment": "车一退二。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《百局象棋谱》“八仙过海”整理完成。古谱着法已校验，讲解为本项目重写。"
   }
 ]
