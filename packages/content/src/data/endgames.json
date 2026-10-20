@@ -2,14 +2,14 @@
   {
     "id": "endgame-01",
     "kind": "endgame",
-    "title": "车兵配合 · 两步成杀 01",
-    "subtitle": "先手控制九宫，下一手完成合围",
+    "title": "车兵配合 · 将死练习 01",
+    "subtitle": "找到将死即可；参考主线演示两步合围",
     "level": 2,
     "order": 2,
     "tags": [
       "车兵配合",
       "残局演示",
-      "两步杀"
+      "将死练习"
     ],
     "source": {
       "name": "棋练原创编排",
@@ -17,11 +17,11 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核强制应手校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "3a5/9/3k5/4P4/2R6/9/9/9/9/4K4 w - - 0 1",
     "userColor": "r",
     "objective": "win",
-    "intro": "这是一个少子残局演示。先手要限制黑将的活动范围，再在下一手收口。",
+    "intro": "找到任意将死即可完成。本局也有车七平六的一步杀；参考主线演示先控将门、再收口。",
     "keyPoints": [
       "先看黑将能走到哪里",
       "用现有子力封住将门",
@@ -30,7 +30,7 @@
     "lines": [
       {
         "id": "main",
-        "label": "主线 · 两步成杀",
+        "label": "参考主线 · 两步合围",
         "moves": [
           {
             "ucci": "c5c8",
@@ -47,19 +47,19 @@
         ]
       }
     ],
-    "completionText": "合围完成。记住：残局先控将门，再收口。"
+    "completionText": "将死完成。参考主线展示了先控将门、再收口的合围思路。"
   },
   {
     "id": "endgame-02",
     "kind": "endgame",
-    "title": "车兵配合 · 两步成杀 02",
-    "subtitle": "先手控制九宫，下一手完成合围",
+    "title": "车兵配合 · 将死练习 02",
+    "subtitle": "找到将死即可；参考主线演示两步合围",
     "level": 2,
     "order": 3,
     "tags": [
       "车兵配合",
       "残局演示",
-      "两步杀"
+      "将死练习"
     ],
     "source": {
       "name": "棋练原创编排",
@@ -67,11 +67,11 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核强制应手校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "3a5/9/3k1P3/9/4R4/9/9/9/5K3/9 w - - 0 1",
     "userColor": "r",
     "objective": "win",
-    "intro": "这是一个少子残局演示。先手要限制黑将的活动范围，再在下一手收口。",
+    "intro": "找到任意将死即可完成。本局也有车五平六的一步杀；参考主线演示先控将门、再收口。",
     "keyPoints": [
       "先看黑将能走到哪里",
       "用现有子力封住将门",
@@ -80,7 +80,7 @@
     "lines": [
       {
         "id": "main",
-        "label": "主线 · 两步成杀",
+        "label": "参考主线 · 两步合围",
         "moves": [
           {
             "ucci": "f1e1",
@@ -97,7 +97,7 @@
         ]
       }
     ],
-    "completionText": "合围完成。记住：残局先控将门，再收口。"
+    "completionText": "将死完成。参考主线展示了先控将门、再收口的合围思路。"
   },
   {
     "id": "endgame-03",
@@ -117,7 +117,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核强制应手校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "5a3/3kC4/5R3/9/9/9/9/4K4/9/9 w - - 0 1",
     "userColor": "r",
     "objective": "win",
@@ -167,7 +167,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核强制应手校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "2R2a3/3k5/9/9/5C3/9/9/9/9/4K4 w - - 0 1",
     "userColor": "r",
     "objective": "win",
@@ -217,7 +217,7 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核强制应手校验 + 人工抽检",
+    "reviewedBy": "规则核全量校验 + 人工复核",
     "fen": "3k2b2/5R3/9/5N3/9/9/9/4K4/9/9 w - - 0 1",
     "userColor": "r",
     "objective": "win",
@@ -267,8 +267,8 @@
       "license": "CC0-1.0"
     },
     "reviewedAt": "2026-10-20",
-    "reviewedBy": "规则核强制应手校验 + 人工抽检",
-    "fen": "9/2N2k3/9/9/2R3b2/9/9/9/9/3K5 w - - 0 1",
+    "reviewedBy": "规则核全量校验 + 人工复核",
+    "fen": "9/2N2k1N1/9/9/2R3b2/9/9/9/9/3K5 w - - 0 1",
     "userColor": "r",
     "objective": "win",
     "intro": "这是一个少子残局演示。先手要限制黑将的活动范围，再在下一手收口。",

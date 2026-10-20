@@ -3,6 +3,7 @@ import {
   START_FEN,
   applyMove,
   evaluateBoard,
+  generateLegalMoves,
   hashPosition,
   isInCheck,
   parseFen,
@@ -95,6 +96,63 @@ describe('starter content', () => {
     }
   });
 
+  it('endgame records are legal, forced and honestly labelled', () => {
+    for (const lesson of endgameLessons) {
+      const initial = parseFen(lesson.fen);
+      expect(initial.turn, lesson.id).toBe('r');
+      expect(isInCheck(initial, 'r'), lesson.id).toBe(false);
+      expect(isInCheck(initial, 'b'), lesson.id).toBe(false);
+
+      const immediateWins = generateLegalMoves(initial).filter((move) => {
+        const result = applyMove(initial, move.from, move.to);
+        if (!result.ok) return false;
+        const end = evaluateBoard(result.position, { positionHashes: [] });
+        return end.status === 'win' && end.winner === 'r';
+      });
+      if (immediateWins.length > 0) {
+        expect(lesson.title, lesson.id).not.toContain('两步成杀');
+      }
+
+      for (const line of lesson.lines) {
+        let position = initial;
+        for (const move of line.moves) {
+          const parsed = parseUcci(move.ucci);
+          expect(parsed, `${lesson.id}/${line.id} ${move.ucci}`).not.toBeNull();
+          if (!parsed) continue;
+          const result = applyMove(position, parsed.from, parsed.to);
+          expect(result.ok, `${lesson.id}/${line.id} ${move.ucci}`).toBe(true);
+          if (!result.ok) continue;
+          expect(move.comment, `${lesson.id}/${line.id} comment`).toContain(result.notation);
+          position = result.position;
+        }
+
+        if (line.moves.length === 3) {
+          const first = parseUcci(line.moves[0]?.ucci ?? '');
+          const final = parseUcci(line.moves[2]?.ucci ?? '');
+          expect(first, `${lesson.id}/${line.id} first`).not.toBeNull();
+          expect(final, `${lesson.id}/${line.id} final`).not.toBeNull();
+          if (!first || !final) continue;
+          const afterFirst = applyMove(initial, first.from, first.to);
+          expect(afterFirst.ok, `${lesson.id}/${line.id} first move`).toBe(true);
+          if (!afterFirst.ok) continue;
+          for (const reply of generateLegalMoves(afterFirst.position)) {
+            const afterReply = applyMove(afterFirst.position, reply.from, reply.to);
+            expect(afterReply.ok, `${lesson.id}/${line.id} reply`).toBe(true);
+            if (!afterReply.ok) continue;
+            const finalMove = applyMove(afterReply.position, final.from, final.to);
+            expect(finalMove.ok, `${lesson.id}/${line.id} final after reply`).toBe(true);
+            if (!finalMove.ok) continue;
+            const end = evaluateBoard(finalMove.position, { positionHashes: [] });
+            expect(end, `${lesson.id}/${line.id} final after reply`).toMatchObject({
+              status: 'win',
+              winner: 'r',
+              reason: 'checkmate',
+            });
+          }
+        }
+      }
+    }
+  });
   it('every opening line is legal and starts from the standard position', () => {
     for (const lesson of openingLessons) {
       expect(lesson.fen).toBe(START_FEN);
