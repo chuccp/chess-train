@@ -262,9 +262,9 @@ export function LocalPlayPage() {
       <h1 className="sr-only">线下双人对弈</h1>
 
       <div className="play-topline">
-        <Link to="/" className="back-link">
+        <Link to="/local" className="back-link">
           <ArrowLeft size={15} aria-hidden="true" />
-          返回首页
+          线下棋桌
         </Link>
         <div className="play-topline-right">
           <span className="mobile-engine-status is-ready">
@@ -345,8 +345,8 @@ export function LocalPlayPage() {
                   <RotateCcw size={16} aria-hidden="true" />
                   再来一局
                 </button>
-                <Link to="/" className="btn btn-ghost">
-                  返回首页
+                <Link to="/local" className="btn btn-ghost">
+                  返回棋桌
                 </Link>
               </div>
             </div>

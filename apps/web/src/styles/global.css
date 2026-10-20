@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --bg: #f2ebde;
   --bg-deep: #e9dfcd;
   --surface: #fffaf0;
@@ -4466,4 +4466,358 @@ p {
     opacity: 0;
     transform: translate(-50%, -50%) scale(1.06) rotate(-4deg);
   }
+}
+
+/* Local board-game hub and alternate games */
+.local-games-page {
+  max-width: 1080px;
+}
+
+.local-games-heading {
+  max-width: 720px;
+  margin: 1.6rem 0 2rem;
+}
+
+.local-games-heading h1 {
+  margin: 0.45rem 0 0.7rem;
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  line-height: 1.08;
+  font-weight: 500;
+}
+
+.local-games-heading p {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.local-games-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.local-game-card {
+  position: relative;
+  display: flex;
+  min-height: 295px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.2rem;
+  padding: 1.35rem;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 250, 240, 0.78);
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.local-game-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--line-strong);
+  background: var(--surface);
+}
+
+.local-game-red { color: var(--red); }
+.local-game-green { color: var(--green); }
+.local-game-gold { color: var(--gold); }
+
+.local-game-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.local-game-mark {
+  display: grid;
+  width: 3.4rem;
+  height: 3.4rem;
+  place-items: center;
+  border-radius: 14px;
+  background: var(--green);
+  color: #fff8e9;
+  font-family: var(--serif);
+  font-size: 1.65rem;
+}
+
+.local-game-red .local-game-mark { background: var(--red); }
+.local-game-green .local-game-mark { background: var(--green); }
+.local-game-gold .local-game-mark { background: var(--gold); }
+
+.local-game-kicker {
+  color: var(--muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}
+
+.local-game-card h2 {
+  margin: 0.25rem 0 0.45rem;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.55rem;
+  font-weight: 500;
+}
+
+.local-game-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.local-game-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: currentColor;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.local-games-note {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.25rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.local-game-layout {
+  align-items: start;
+}
+
+.local-game-rule-chip {
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.local-rule-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.65;
+}
+
+.local-move-list {
+  display: grid;
+  max-height: 260px;
+  gap: 0.3rem;
+  overflow: auto;
+}
+
+.local-move-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--ink-soft);
+  font-size: 0.74rem;
+}
+
+.local-move-color {
+  display: inline-grid;
+  width: 1.15rem;
+  height: 1.15rem;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff8e9;
+  font-size: 0.6rem;
+}
+
+.local-move-color.r { background: var(--red); }
+.local-move-color.b { background: var(--green); }
+
+.local-move-note {
+  color: var(--gold);
+  font-size: 0.65rem;
+}
+
+/* Jungle board */
+.jungle-board {
+  display: grid;
+  width: min(100%, 520px);
+  aspect-ratio: 7 / 9;
+  margin: 0 auto;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-rows: repeat(9, minmax(0, 1fr));
+  overflow: hidden;
+  border: 1px solid #b99a64;
+  border-radius: 16px;
+  background: #e8cf9e;
+  box-shadow: 0 18px 40px -28px rgba(80, 56, 28, 0.5);
+}
+
+.jungle-cell {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-right: 1px solid rgba(126, 92, 44, 0.25);
+  border-bottom: 1px solid rgba(126, 92, 44, 0.25);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.jungle-cell:nth-child(7n) { border-right: 0; }
+.jungle-cell:nth-last-child(-n + 7) { border-bottom: 0; }
+.jungle-cell:disabled { cursor: default; }
+
+.jungle-cell.is-water {
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.18) 0 2px, transparent 2px 7px),
+    #a9cbd0;
+}
+
+.jungle-cell.is-trap {
+  background: #d8ac6b;
+}
+
+.jungle-cell.is-den {
+  background: #6a4b3b;
+}
+
+.jungle-cell.is-selected {
+  box-shadow: inset 0 0 0 3px var(--gold);
+}
+
+.jungle-cell.is-last {
+  box-shadow: inset 0 0 0 3px rgba(45, 86, 70, 0.45);
+}
+
+.jungle-terrain-label {
+  color: rgba(72, 48, 24, 0.55);
+  font-family: var(--serif);
+  font-size: 0.75rem;
+}
+
+.jungle-cell.is-den .jungle-terrain-label {
+  color: rgba(255, 248, 233, 0.75);
+}
+
+.jungle-piece {
+  display: grid;
+  width: 82%;
+  height: 82%;
+  place-items: center;
+  border: 2px solid rgba(255, 248, 233, 0.65);
+  border-radius: 50%;
+  box-shadow: 0 4px 10px -5px rgba(40, 28, 16, 0.65);
+  color: #fff8e9;
+  font-family: var(--serif);
+  font-size: clamp(0.85rem, 2.4vw, 1.35rem);
+  font-weight: 600;
+}
+
+.jungle-piece.r { background: var(--red); }
+.jungle-piece.b { background: var(--green); }
+
+.jungle-target {
+  position: absolute;
+  width: 22%;
+  height: 22%;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 4px rgba(183, 133, 55, 0.18);
+}
+
+/* Chinese checkers board */
+.checkers-board {
+  position: relative;
+  width: min(100%, 600px);
+  aspect-ratio: 1 / 1.02;
+  margin: 0 auto;
+  border: 1px solid #c7aa77;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 250, 240, 0.55), transparent 62%),
+    #ecd7b3;
+  box-shadow: 0 18px 40px -28px rgba(80, 56, 28, 0.5);
+}
+
+.checkers-home-label {
+  position: absolute;
+  left: 50%;
+  z-index: 1;
+  color: rgba(74, 54, 30, 0.5);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  transform: translateX(-50%);
+}
+
+.checkers-home-label.top { top: 1.2%; }
+.checkers-home-label.bottom { bottom: 1.2%; }
+
+.checkers-hole {
+  position: absolute;
+  display: grid;
+  width: 5.3%;
+  aspect-ratio: 1;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #b99a64;
+  border-radius: 50%;
+  background: #dcc59a;
+  box-shadow: inset 0 2px 3px rgba(90, 65, 30, 0.18);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.checkers-hole.in-black-home { background: #d5c7ad; }
+.checkers-hole.in-red-home { background: #e1c5ad; }
+.checkers-hole:disabled { cursor: default; }
+.checkers-hole.is-selected { box-shadow: 0 0 0 3px var(--gold); }
+.checkers-hole.is-last { box-shadow: 0 0 0 2px rgba(45, 86, 70, 0.45); }
+
+.checkers-piece {
+  display: block;
+  width: 82%;
+  height: 82%;
+  border: 1px solid rgba(255, 248, 233, 0.55);
+  border-radius: 50%;
+  box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.28), 0 3px 5px -3px rgba(50, 30, 10, 0.5);
+}
+
+.checkers-piece.r { background: var(--red); }
+.checkers-piece.b { background: var(--green); }
+
+.checkers-target {
+  position: absolute;
+  width: 34%;
+  height: 34%;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+@media (max-width: 880px) {
+  .local-games-grid { grid-template-columns: 1fr; }
+  .local-game-card { min-height: 220px; }
+  .local-game-rule-chip { display: none; }
+  .checkers-board { width: min(100%, 480px); }
+}
+
+@media (max-width: 560px) {
+  .local-games-heading h1 { font-size: 2.35rem; }
+  .jungle-board { border-radius: 12px; }
+  .checkers-board { border-radius: 12px; }
+  .checkers-hole { width: 6%; }
+  .local-game-layout .board-column { min-width: 0; }
+}
+
+
+
+.local-game-card::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  background: currentColor;
+  content: "";
+  opacity: 0.78;
 }

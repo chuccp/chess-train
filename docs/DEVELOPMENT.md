@@ -64,6 +64,7 @@ apps/web/                 React + Vite + PWA 前端
   src/                    UI、状态、引擎客户端、缓存、训练播放器
 packages/xiangqi/         中国象棋规则核心（完整走法/终局/FEN/UCCI/记谱）
 packages/content/         训练内容、schema、来源和自动校验
+apps/web/src/games/       斗兽棋、跳棋等本地双人规则与测试
 tools/                    引擎资源拉取、内容抓取与生成脚本
 licenses/                 许可全文
 docs/                     产品、开发与设计文档

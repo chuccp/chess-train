@@ -3,7 +3,10 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { HomePage } from './pages/HomePage';
 import { PlayPage } from './pages/PlayPage';
+import { LocalGamesPage } from './pages/LocalGamesPage';
 import { LocalPlayPage } from './pages/LocalPlayPage';
+import { JunglePage } from './pages/JunglePage';
+import { CheckersPage } from './pages/CheckersPage';
 import { TrainHomePage } from './pages/TrainHomePage';
 import { TacticsListPage } from './pages/TacticsListPage';
 import { TacticsPlayPage } from './pages/TacticsPlayPage';
@@ -53,7 +56,10 @@ export default function App() {
         <Route element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="play" element={<PlayPage />} />
-          <Route path="local" element={<LocalPlayPage />} />
+          <Route path="local" element={<LocalGamesPage />} />
+          <Route path="local/chess" element={<LocalPlayPage />} />
+          <Route path="local/jungle" element={<JunglePage />} />
+          <Route path="local/checkers" element={<CheckersPage />} />
           <Route path="train" element={<TrainHomePage />} />
           <Route path="train/tactics" element={<TacticsListPage />} />
           <Route path="train/tactics/:id" element={<TacticsPlayPage />} />

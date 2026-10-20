@@ -128,7 +128,7 @@ test('a faster mate completes the endgame lesson', async ({ page }) => {
 });
 
 test('local two-player game alternates turns and undoes a move', async ({ page }) => {
-  await page.goto('/local');
+  await page.goto('/local/chess');
   await expect(page.locator('.turn-chip')).toContainText('红方行棋');
   await page.locator('[data-square="25"]').click();
   await page.locator('[data-square="22"]').click();
@@ -137,6 +137,29 @@ test('local two-player game alternates turns and undoes a move', async ({ page }
   await page.locator('.side-controls .control-button').first().click();
   await expect(page.locator('.turn-chip')).toContainText('红方行棋');
   await expect(page.locator('.move-item')).toHaveCount(0);
+});
+test('local game hub links to chess, jungle and checkers', async ({ page }) => {
+  await page.goto('/local');
+  await expect(page.locator('.local-game-card')).toHaveCount(3);
+  await expect(page.locator('.local-game-card')).toContainText(['中国象棋', '斗兽棋', '跳棋']);
+});
+
+test('local jungle game alternates turns', async ({ page }) => {
+  await page.goto('/local/jungle');
+  await expect(page.locator('.turn-chip')).toContainText('红方行棋');
+  await page.locator('[data-jungle-square="50"]').click();
+  await page.locator('[data-jungle-square="43"]').click();
+  await expect(page.locator('.turn-chip')).toContainText('黑方行棋');
+  await expect(page.locator('.local-move-row')).toHaveCount(1);
+});
+
+test('local Chinese checkers alternates turns', async ({ page }) => {
+  await page.goto('/local/checkers');
+  await expect(page.locator('.turn-chip')).toContainText('红方行棋');
+  await page.locator('[data-checkers-hole="111"]').click();
+  await page.locator('[data-checkers-hole="102"]').click();
+  await expect(page.locator('.turn-chip')).toContainText('黑方行棋');
+  await expect(page.locator('.local-move-row')).toHaveCount(1);
 });
 test('classic endgame shows its original source', async ({ page }) => {
   await page.goto('/train/endgame/endgame-classic-01');

@@ -24,12 +24,12 @@ export function Layout() {
   const isGameRoute =
     location.pathname === '/play' ||
     location.pathname.startsWith('/play/') ||
-    location.pathname === '/local';
+    location.pathname.startsWith('/local/');
   const isTrainingPlay = /^\/train\/(?:tactics|endgame|opening)\/[^/]+/.test(location.pathname);
   const hideMobileNav =
     location.pathname === '/play' ||
     location.pathname.startsWith('/play/') ||
-    location.pathname === '/local' ||
+    location.pathname.startsWith('/local/') ||
     location.pathname.startsWith('/train/tactics/') ||
     location.pathname.startsWith('/train/endgame/') ||
     location.pathname.startsWith('/train/opening/') ||
