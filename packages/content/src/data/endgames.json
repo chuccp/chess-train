@@ -381,5 +381,828 @@
       }
     ],
     "completionText": "合围完成。记住：残局先控将门，再收口。"
+  },
+  {
+    "id": "endgame-classic-002",
+    "kind": "endgame",
+    "title": "适情雅趣 · 马蹀阏氏",
+    "subtitle": "《适情雅趣》第002局",
+    "level": 3,
+    "order": 9,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第002局 · 马蹀阏氏",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69251/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "C3kab2/4a4/n3c1n2/p2Np1p2/1R4P2/1R7/P3P4/4B4/2Cp1p3/c1rAK1N2 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第002局“马蹀阏氏”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "b5b9",
+            "comment": "前车进四。"
+          },
+          {
+            "ucci": "e8d9",
+            "comment": "士5退4。"
+          },
+          {
+            "ucci": "b9b8",
+            "comment": "前车退一。"
+          },
+          {
+            "ucci": "d9e8",
+            "comment": "士4进5。"
+          },
+          {
+            "ucci": "c1c9",
+            "comment": "炮七进八。"
+          },
+          {
+            "ucci": "a7b9",
+            "comment": "马1退2。"
+          },
+          {
+            "ucci": "c9c1",
+            "comment": "炮七退八。"
+          },
+          {
+            "ucci": "e8d9",
+            "comment": "士5退4。"
+          },
+          {
+            "ucci": "b8e8",
+            "comment": "前车平五。"
+          },
+          {
+            "ucci": "f9e8",
+            "comment": "士6进5。"
+          },
+          {
+            "ucci": "d6c8",
+            "comment": "马六进七。"
+          },
+          {
+            "ucci": "e9f9",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "b4f4",
+            "comment": "车八平四。"
+          },
+          {
+            "ucci": "e7f7",
+            "comment": "炮5平6。"
+          },
+          {
+            "ucci": "f4f7",
+            "comment": "车四进三。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "c1f1",
+            "comment": "炮七平四。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "g0f2",
+            "comment": "马三进四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "f2h3",
+            "comment": "马四进二。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "h3f4",
+            "comment": "马二进四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "f4e6",
+            "comment": "马四进五。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "e6g7",
+            "comment": "马五进三。"
+          },
+          {
+            "ucci": "f9f8",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "g7e6",
+            "comment": "马三退五。"
+          },
+          {
+            "ucci": "f8f9",
+            "comment": "将6退1。"
+          },
+          {
+            "ucci": "e6f4",
+            "comment": "马五退四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "f4g6",
+            "comment": "马四进三。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "g6h8",
+            "comment": "马三进二。"
+          },
+          {
+            "ucci": "f9f8",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "h8f7",
+            "comment": "马二退四。"
+          },
+          {
+            "ucci": "f8f7",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "g5f5",
+            "comment": "兵三平四。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第002局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-003",
+    "kind": "endgame",
+    "title": "适情雅趣 · 羝羊触藩",
+    "subtitle": "《适情雅趣》第003局",
+    "level": 3,
+    "order": 10,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第003局 · 羝羊触藩",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69252/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "1rbckaP2/3PaP1r1/1P2b4/1R7/Nn7/CRBp1n3/4C4/9/4p1p2/1c3K3 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第003局“羝羊触藩”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "g9f9",
+            "comment": "兵三平四。"
+          },
+          {
+            "ucci": "d9f9",
+            "comment": "炮4平6。"
+          },
+          {
+            "ucci": "d8e8",
+            "comment": "兵六平五。"
+          },
+          {
+            "ucci": "e9d9",
+            "comment": "将5平4。"
+          },
+          {
+            "ucci": "e8e9",
+            "comment": "兵五进一。"
+          },
+          {
+            "ucci": "d9d8",
+            "comment": "将4进1。"
+          },
+          {
+            "ucci": "b6d6",
+            "comment": "前车平六。"
+          },
+          {
+            "ucci": "b5d6",
+            "comment": "马2退4。"
+          },
+          {
+            "ucci": "a5c6",
+            "comment": "马九进七。"
+          },
+          {
+            "ucci": "d8d7",
+            "comment": "将4进1。"
+          },
+          {
+            "ucci": "b7c7",
+            "comment": "兵八平七。"
+          },
+          {
+            "ucci": "d7d8",
+            "comment": "将4退1。"
+          },
+          {
+            "ucci": "b4b8",
+            "comment": "车八进四。"
+          },
+          {
+            "ucci": "b9b8",
+            "comment": "车2进1。"
+          },
+          {
+            "ucci": "c7b7",
+            "comment": "兵七平八。"
+          },
+          {
+            "ucci": "d8d7",
+            "comment": "将4进1。"
+          },
+          {
+            "ucci": "a4a7",
+            "comment": "炮九进三。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第003局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-004",
+    "kind": "endgame",
+    "title": "适情雅趣 · 良将安边",
+    "subtitle": "《适情雅趣》第004局",
+    "level": 3,
+    "order": 11,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第004局 · 良将安边",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69253/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "2bk1ab2/4a4/9/p1P6/3NC4/4Pp3/P5n2/4B3N/4Ar3/1RBAK2cr w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第004局“良将安边”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "d5c7",
+            "comment": "马六进七。"
+          },
+          {
+            "ucci": "d9d8",
+            "comment": "将4进1。"
+          },
+          {
+            "ucci": "b0b8",
+            "comment": "车八进八。"
+          },
+          {
+            "ucci": "d8d7",
+            "comment": "将4进1。"
+          },
+          {
+            "ucci": "c6d6",
+            "comment": "兵七平六。"
+          },
+          {
+            "ucci": "d7e7",
+            "comment": "将4平5。"
+          },
+          {
+            "ucci": "c7e6",
+            "comment": "马七退五。"
+          },
+          {
+            "ucci": "e7f7",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "e6g5",
+            "comment": "马五退三。"
+          },
+          {
+            "ucci": "f7f8",
+            "comment": "将6退1。"
+          },
+          {
+            "ucci": "g5h7",
+            "comment": "马三进二。"
+          },
+          {
+            "ucci": "f8f7",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "h7g9",
+            "comment": "马二进三。"
+          },
+          {
+            "ucci": "f7f8",
+            "comment": "将6退1。"
+          },
+          {
+            "ucci": "g9h7",
+            "comment": "马三退二。"
+          },
+          {
+            "ucci": "f8f7",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "b8b7",
+            "comment": "车八退一。"
+          },
+          {
+            "ucci": "c9e7",
+            "comment": "象3进5。"
+          },
+          {
+            "ucci": "e5i5",
+            "comment": "炮五平一。"
+          },
+          {
+            "ucci": "i0i2",
+            "comment": "车9退2。"
+          },
+          {
+            "ucci": "h7g5",
+            "comment": "马二退三。"
+          },
+          {
+            "ucci": "f7f8",
+            "comment": "将6退1。"
+          },
+          {
+            "ucci": "b7e7",
+            "comment": "车八平五。"
+          },
+          {
+            "ucci": "g3h1",
+            "comment": "马7进8。"
+          },
+          {
+            "ucci": "e7f7",
+            "comment": "车五平四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "g5e6",
+            "comment": "马三进五。"
+          },
+          {
+            "ucci": "f8e8",
+            "comment": "将6平5。"
+          },
+          {
+            "ucci": "i5e5",
+            "comment": "炮一平五。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第004局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-005",
+    "kind": "endgame",
+    "title": "适情雅趣 · 淮阴遇汉",
+    "subtitle": "《适情雅趣》第005局",
+    "level": 3,
+    "order": 12,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第005局 · 淮阴遇汉",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69254/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "2ba1k3/4a1R2/9/1cp2N3/1Nb6/3n2P2/4C4/3AB4/3r1p1n1/2R1KAr1c w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第005局“淮阴遇汉”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "g8g9",
+            "comment": "车三进一。"
+          },
+          {
+            "ucci": "f9f8",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "f6h7",
+            "comment": "马四进二。"
+          },
+          {
+            "ucci": "f8f7",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "g9g7",
+            "comment": "车三退二。"
+          },
+          {
+            "ucci": "f7f8",
+            "comment": "将6退1。"
+          },
+          {
+            "ucci": "g7g8",
+            "comment": "车三进一。"
+          },
+          {
+            "ucci": "f8f7",
+            "comment": "将6进1。"
+          },
+          {
+            "ucci": "h7g5",
+            "comment": "马二退三。"
+          },
+          {
+            "ucci": "f7e7",
+            "comment": "将6平5。"
+          },
+          {
+            "ucci": "g5e6",
+            "comment": "马三进五。"
+          },
+          {
+            "ucci": "e7d7",
+            "comment": "将5平4。"
+          },
+          {
+            "ucci": "g8g7",
+            "comment": "车三退一。"
+          },
+          {
+            "ucci": "c9e7",
+            "comment": "后象进5。"
+          },
+          {
+            "ucci": "g7e7",
+            "comment": "车三平五。"
+          },
+          {
+            "ucci": "c5e7",
+            "comment": "象3退5。"
+          },
+          {
+            "ucci": "e3d3",
+            "comment": "炮五平六。"
+          },
+          {
+            "ucci": "d4b5",
+            "comment": "马4退2。"
+          },
+          {
+            "ucci": "e6d4",
+            "comment": "马五退六。"
+          },
+          {
+            "ucci": "b5d6",
+            "comment": "马2退4。"
+          },
+          {
+            "ucci": "d4c6",
+            "comment": "马六进七。"
+          },
+          {
+            "ucci": "d6c4",
+            "comment": "马4进3。"
+          },
+          {
+            "ucci": "d3d1",
+            "comment": "炮六退二。"
+          },
+          {
+            "ucci": "c4d6",
+            "comment": "马3退4。"
+          },
+          {
+            "ucci": "c6b8",
+            "comment": "马七进八。"
+          },
+          {
+            "ucci": "d7d8",
+            "comment": "将4退1。"
+          },
+          {
+            "ucci": "c0c8",
+            "comment": "车七进八。"
+          },
+          {
+            "ucci": "d8d7",
+            "comment": "将4进1。"
+          },
+          {
+            "ucci": "c8e8",
+            "comment": "车七平五。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第005局整理完成。古谱着法已校验，讲解为本项目重写。"
+  },
+  {
+    "id": "endgame-classic-006",
+    "kind": "endgame",
+    "title": "适情雅趣 · 蝇垂骥尾",
+    "subtitle": "《适情雅趣》第006局",
+    "level": 3,
+    "order": 13,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "残局"
+    ],
+    "source": {
+      "name": "《适情雅趣》第006局 · 蝇垂骥尾",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69255/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "2b1kabn1/4aR3/3R2N2/4p1p2/5P3/4P4/3N2Pr1/4C1n2/3pAr3/4K3c w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第006局“蝇垂骥尾”。原谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "古谱原谱局面",
+      "逐着通过规则核校验",
+      "限定步数内将死即可完成"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线",
+        "moves": [
+          {
+            "ucci": "e2e6",
+            "comment": "炮五进四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "d7e7",
+            "comment": "车六平五。"
+          },
+          {
+            "ucci": "e9d9",
+            "comment": "将5平4。"
+          },
+          {
+            "ucci": "f8d8",
+            "comment": "车四平六。"
+          },
+          {
+            "ucci": "d9d8",
+            "comment": "将4进1。"
+          },
+          {
+            "ucci": "g7f9",
+            "comment": "马三进四。"
+          },
+          {
+            "ucci": "d8d9",
+            "comment": "将4退1。"
+          },
+          {
+            "ucci": "e7d7",
+            "comment": "车五平六。"
+          },
+          {
+            "ucci": "d9e9",
+            "comment": "将4平5。"
+          },
+          {
+            "ucci": "f9e7",
+            "comment": "马四退五。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "e7g8",
+            "comment": "马五进三。"
+          },
+          {
+            "ucci": "e9f9",
+            "comment": "将5平6。"
+          },
+          {
+            "ucci": "d7f7",
+            "comment": "车六平四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "e6f6",
+            "comment": "炮五平四。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "f6f1",
+            "comment": "炮四退五。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "f5e5",
+            "comment": "兵四平五。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "d3f4",
+            "comment": "马六进四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "f4g6",
+            "comment": "马四进三。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "g6f4",
+            "comment": "后马退四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "f4h5",
+            "comment": "马四进二。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "h5f6",
+            "comment": "马二进四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "f6d7",
+            "comment": "马四进六。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "g8f6",
+            "comment": "马三退四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "f6h7",
+            "comment": "马四进二。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "h7f8",
+            "comment": "马二进四。"
+          },
+          {
+            "ucci": "e8f7",
+            "comment": "士5进6。"
+          },
+          {
+            "ucci": "f8h9",
+            "comment": "马四进二。"
+          },
+          {
+            "ucci": "f7e8",
+            "comment": "士6退5。"
+          },
+          {
+            "ucci": "h9g7",
+            "comment": "马二退三。"
+          }
+        ]
+      }
+    ],
+    "completionText": "《适情雅趣》第006局整理完成。古谱着法已校验，讲解为本项目重写。"
   }
 ]
