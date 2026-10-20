@@ -124,7 +124,7 @@ export function LocalPlayPage() {
   const lastMove = game.moves.length > 0 ? game.moves[game.moves.length - 1] : null;
   const elapsed = new Date(game.endedAt ?? now).getTime() - new Date(game.startedAt).getTime();
   const turnName = position.turn === 'r' ? '红方' : '黑方';
-  const canUndo = !finished && game.moves.length > 0 && checked === null;
+  const canUndo = !finished && game.moves.length > 0;
   const finishedWinner =
     game.result.status === 'win' ? game.result.winner : null;
 
@@ -397,7 +397,6 @@ export function LocalPlayPage() {
               className="control-button"
               disabled={!canUndo}
               onClick={undo}
-              title={checked ? '被将军时不能悔棋，请先应将' : undefined}
             >
               <Undo2 size={18} aria-hidden="true" />
               <span>悔棋</span>

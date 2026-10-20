@@ -39,6 +39,7 @@ export function JungleBoard({
         const isTarget = targets.includes(index);
         const isSelected = selected === index;
         const isLast = lastMove?.to === index;
+        const isCapture = isTarget && Boolean(piece);
 
         return (
           <button
@@ -53,6 +54,7 @@ export function JungleBoard({
               den || trap ? `terrain-${owner}` : '',
               isSelected ? 'is-selected' : '',
               isTarget ? 'is-target' : '',
+              isCapture ? 'is-capture' : '',
               isLast ? 'is-last' : '',
             ]
               .filter(Boolean)

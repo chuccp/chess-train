@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import {
   AlertTriangle,
@@ -60,11 +60,40 @@ export function PlayPage() {
   const [dialog, setDialog] = useState<DialogAction>(null);
   const [starting, setStarting] = useState(false);
   const [now, setNow] = useState(Date.now());
+  const [captureNotice, setCaptureNotice] = useState<string | null>(null);
+  const seenMoveCountRef = useRef(current?.moves.length ?? 0);
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    const count = current?.moves.length ?? 0;
+    if (count <= seenMoveCountRef.current) {
+      seenMoveCountRef.current = count;
+      setCaptureNotice(null);
+      return;
+    }
+    seenMoveCountRef.current = count;
+    const move = current?.moves[count - 1];
+    if (!move?.capturedType) {
+      setCaptureNotice(null);
+      return;
+    }
+    const capturedColor = move.color === 'r' ? 'b' : 'r';
+    const glyph = (color: Color, type: string) =>
+      PIECE_GLYPHS[color][type as keyof (typeof PIECE_GLYPHS)['r']] ?? type;
+    setCaptureNotice(
+      `${move.color === 'r' ? '红' : '黑'}${glyph(move.color, move.pieceType)} 吃 ${capturedColor === 'r' ? '红' : '黑'}${glyph(capturedColor, move.capturedType)}`,
+    );
+  }, [current?.id, current?.moves.length]);
+
+  useEffect(() => {
+    if (!captureNotice) return;
+    const timer = window.setTimeout(() => setCaptureNotice(null), 1800);
+    return () => window.clearTimeout(timer);
+  }, [captureNotice]);
 
   useEffect(() => {
     setDialog(null);
@@ -177,10 +206,17 @@ export function PlayPage() {
             lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null}
             hint={hint}
             checkedSquare={checked}
-            checkmate={isFinished && current.result.status === 'win' && current.result.reason === 'checkmate' && current.result.winner === playerColor}
+            checkmate={isFinished && current.result.status === 'win' && current.result.reason === 'checkmate'}
             interactive={interactive}
             onPoint={playSquare}
           />
+
+          {captureNotice && (
+            <div className="capture-banner" role="status">
+              <Swords size={17} aria-hidden="true" />
+              <span>{captureNotice}</span>
+            </div>
+          )}
 
           {checked && !isFinished && (
             <div className="check-banner" role="status">

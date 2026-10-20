@@ -138,7 +138,7 @@ test('local two-player game alternates turns and undoes a move', async ({ page }
   await expect(page.locator('.turn-chip')).toContainText('红方行棋');
   await expect(page.locator('.move-item')).toHaveCount(0);
 });
-test('local chess disables undo while in check', async ({ page }) => {
+test('local chess allows undo while in check', async ({ page }) => {
   const now = new Date().toISOString();
   await page.addInitScript((startedAt) => {
     localStorage.setItem('qilian.local-game.v1', JSON.stringify({
@@ -163,7 +163,7 @@ test('local chess disables undo while in check', async ({ page }) => {
   }, now);
   await page.goto('/local/chess');
   await expect(page.locator('.check-banner')).toContainText('红方被将军');
-  await expect(page.locator('.side-controls .control-button').first()).toBeDisabled();
+  await expect(page.locator('.side-controls .control-button').first()).toBeEnabled();
 });
 
 test('local chess shows a capture notice', async ({ page }) => {
@@ -180,6 +180,8 @@ test('local chess shows a capture notice', async ({ page }) => {
   }, now);
   await page.goto('/local/chess');
   await page.locator('[data-square="0"]').click();
+  await expect(page.locator('.legal-capture-mark')).toHaveCount(1);
+  await expect(page.locator('.legal-capture-mark')).toHaveCSS('stroke', 'rgb(47, 122, 83)');
   await page.locator('[data-square="9"]').click();
   await expect(page.locator('.capture-banner')).toContainText('红车');
   await expect(page.locator('.capture-banner')).toContainText(/黑[马馬]/);

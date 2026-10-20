@@ -1528,10 +1528,10 @@ p {
 
 .legal-capture-mark {
   fill: none;
-  stroke: rgba(179, 58, 50, 0.7);
+  stroke: #2f7a53;
   stroke-width: 4;
-  stroke-dasharray: 7 6;
   pointer-events: none;
+  filter: drop-shadow(0 0 4px rgba(47, 122, 83, 0.55));
 }
 
 .last-move-marks circle {
@@ -4959,4 +4959,8 @@ p {
 @keyframes capture-pop {
   from { opacity: 0; transform: translateY(-3px) scale(0.98); }
   to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.jungle-cell.is-capture .jungle-piece {
+  box-shadow: 0 0 0 3px #2f7a53, 0 4px 8px -4px rgba(24, 55, 39, 0.5);
 }
