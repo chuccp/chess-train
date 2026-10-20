@@ -127,6 +127,13 @@ test('a faster mate completes the endgame lesson', async ({ page }) => {
   await expect(page.getByRole('button', { name: '提示' })).toBeDisabled();
 });
 
+test('classic endgame shows its original source', async ({ page }) => {
+  await page.goto('/train/endgame/endgame-classic-01');
+  await expect(page.locator('.exercise-title')).toContainText('气吞关右');
+  await expect(page.locator('.source-card')).toContainText('适情雅趣');
+  await expect(page.locator('.source-card a[href*="xqdao.com"]')).toBeVisible();
+  await expect(page.locator('.board-hit')).toHaveCount(90);
+});
 test('mobile tactics success keeps the next action in view', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/train/tactics/tactic-01');

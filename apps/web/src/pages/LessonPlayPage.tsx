@@ -7,6 +7,7 @@ import {
   CheckCircle2,
   ChevronRight,
   Crown,
+  ExternalLink,
   Lightbulb,
   RotateCcw,
   Timer,
@@ -661,8 +662,15 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
 
           <section className="side-card source-card">
             <span className="eyebrow">来源</span>
-            <p>{lesson.source.name} · {lesson.source.license}</p>
+            <p>{lesson.source.name}</p>
+            <p className="muted small">{lesson.source.author} · {lesson.source.license}</p>
             <p className="muted small">审阅：{lesson.reviewedBy}</p>
+            {lesson.source.url && (
+              <a className="text-link" href={lesson.source.url} target="_blank" rel="noreferrer">
+                查看原谱来源
+                <ExternalLink size={14} aria-hidden="true" />
+              </a>
+            )}
             <Link to={`/train/${kind}`} className="text-link">
               回到{trainingKindLabels[kind]}
               <ArrowRight size={14} aria-hidden="true" />

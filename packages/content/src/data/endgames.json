@@ -1,5 +1,88 @@
 [
   {
+    "id": "endgame-classic-01",
+    "kind": "endgame",
+    "title": "适情雅趣 · 气吞关右",
+    "subtitle": "红弃双车、兵，马炮成杀",
+    "level": 3,
+    "order": 1,
+    "tags": [
+      "古谱",
+      "适情雅趣",
+      "弃子攻杀"
+    ],
+    "source": {
+      "name": "《适情雅趣》第001局 · 气吞关右",
+      "author": "明·徐芝 选编",
+      "license": "公有领域（古谱原文）",
+      "url": "https://www.xqdao.com/qipu/show/69250/"
+    },
+    "reviewedAt": "2026-10-20",
+    "reviewedBy": "原谱着法 · 规则核自动校验 + 人工复核",
+    "fen": "2baka3/3P3N1/bN7/7nc/9/4C1P2/P5n1P/B3R3B/4Apr2/2RAK3c w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "本局录自明代《适情雅趣》第001局“气吞关右”。红方连续弃双车、兵，最后以马炮成杀。古谱着法已逐着通过规则核校验；讲解为本项目整理。",
+    "keyPoints": [
+      "弃子是为了收紧将门，不是为了吃回",
+      "注意黑将的平移与上移方向",
+      "最后马炮合围时，车已全部弃掉"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "原谱主线 · 弃子成杀",
+        "moves": [
+          {
+            "ucci": "e4a4",
+            "comment": "炮五平九，红炮沉底叫将，迫使黑方应付。"
+          },
+          {
+            "ucci": "g3e2",
+            "comment": "马7进5，黑马垫将并吃掉红车。"
+          },
+          {
+            "ucci": "d8d9",
+            "comment": "兵六进一，红方弃兵继续收紧九宫。"
+          },
+          {
+            "ucci": "e9d9",
+            "comment": "将5平4，黑将被迫平移。"
+          },
+          {
+            "ucci": "c0c9",
+            "comment": "车七进九，红车沉底再将，弃车攻杀。"
+          },
+          {
+            "ucci": "a7c9",
+            "comment": "象1退3，黑象退防并吃车。"
+          },
+          {
+            "ucci": "a4a9",
+            "comment": "炮九进五，红炮沉底继续叫将。"
+          },
+          {
+            "ucci": "c9e7",
+            "comment": "象3进5，黑象再挡。"
+          },
+          {
+            "ucci": "b7c9",
+            "comment": "马八进七，红马跃出叫将。"
+          },
+          {
+            "ucci": "d9d8",
+            "comment": "将4进1，黑将上移。"
+          },
+          {
+            "ucci": "h8f9",
+            "comment": "马二进四，马炮合围，将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "古谱完成。弃双车、兵后马炮成杀，关键在于每一步都将黑将的活动范围继续压缩。"
+  },
+  {
     "id": "endgame-01",
     "kind": "endgame",
     "title": "车兵配合 · 将死练习 01",
