@@ -8,8 +8,6 @@ import {
   ShieldCheck,
   WifiOff,
 } from 'lucide-react';
-import { ENGINE_ASSETS, ENGINE_VERSION, engineTotalBytes } from '../engine/manifest';
-import { formatBytes } from '../lib/format';
 
 const external = { target: '_blank', rel: 'noreferrer noopener' } as const;
 const baseUrl = import.meta.env.BASE_URL;
@@ -26,10 +24,10 @@ export function AboutPage() {
         <div className="about-seal" aria-hidden="true">棋</div>
         <div>
           <div className="eyebrow">关于棋练</div>
-          <h1>一个安静的单机象棋练习场</h1>
+          <h1>一个安静的象棋练习场</h1>
           <p>
-            棋练把对弈、杀法、残局和开局放在一张棋桌上。没有账号、匹配、排行榜或对局服务器；
-            棋局与训练进度留在本机。
+            棋练把对弈、杀法、残局和开局放在一张棋桌上。人机走子由服务端 Pikafish 计算，
+            但没有账号、匹配或排行榜；棋局与训练进度留在本机。
           </p>
         </div>
       </section>
@@ -39,16 +37,15 @@ export function AboutPage() {
           <div className="about-icon"><Cpu size={22} aria-hidden="true" /></div>
           <div>
             <span className="eyebrow">引擎</span>
-            <h2>Pikafish，本地运行</h2>
+            <h2>Pikafish，服务端棋力</h2>
             <p>
-              V1 使用 Pikafish 单线程 WebAssembly + NNUE，在浏览器 Web Worker 中计算。
-              首次在线打开时下载并校验 {ENGINE_ASSETS.length} 个文件（约 {formatBytes(engineTotalBytes())}），
-              自检成功后才标记为离线就绪。
+              人机走子由服务端 Pikafish（NNUE）与多棋类引擎计算，页面不再下载引擎文件。
+              每次请求只发送当前局面，服务端不创建对局、不保存棋谱。
             </p>
             <dl className="info-list">
-              <div><dt>构建</dt><dd>{ENGINE_VERSION}</dd></div>
-              <div><dt>协议</dt><dd>UCI</dd></div>
-              <div><dt>运行</dt><dd>本地 Worker · 无服务端</dd></div>
+              <div><dt>棋类</dt><dd>象棋、五子棋、四子棋、斗兽棋、跳棋等</dd></div>
+              <div><dt>协议</dt><dd>UCCI / UCI 风格着法</dd></div>
+              <div><dt>运行</dt><dd>服务端计算 · 无需下载</dd></div>
             </dl>
           </div>
         </section>
@@ -57,13 +54,10 @@ export function AboutPage() {
           <div className="about-icon"><WifiOff size={22} aria-hidden="true" /></div>
           <div>
             <span className="eyebrow">离线</span>
-            <h2>首次准备后，断网也能下</h2>
+            <h2>双人与训练，断网也能用</h2>
             <p>
-              应用壳、训练内容、引擎和 NNUE 都保存在浏览器缓存中。首次准备完成后，关闭浏览器、断网再打开，
-              仍可完成人机对弈。浏览器或系统清理站点缓存后，需要重新准备。
-            </p>
-            <p className="fine-print">
-              “离线就绪”只在下载、哈希校验、引擎加载和短搜索都通过后显示；在此之前不会假装可用。
+              应用壳与训练内容缓存在浏览器中，断网后仍可双人对弈、做杀法、看棋谱回放。
+              人机对弈需要联网获取 AI 走子；浏览器清理站点缓存后会重新加载页面资源。
             </p>
           </div>
         </section>
@@ -97,7 +91,8 @@ export function AboutPage() {
             <span className="eyebrow">隐私</span>
             <h2>不收集棋谱</h2>
             <p>
-              没有账号系统，也没有上传棋谱或训练记录的接口。页面接入百度统计用于访问量统计，可能收集访问设备与页面信息；棋谱、训练进度和设置仍然只保存在当前浏览器。
+              没有账号系统，也没有上传棋谱或训练记录的接口。AI 走子请求只携带当前局面（不含对局历史）。
+              页面接入百度统计用于访问量统计，可能收集访问设备与页面信息；棋谱、训练进度和设置仍然只保存在当前浏览器。
               清除站点数据会删除它们。
             </p>
           </div>
@@ -122,10 +117,6 @@ export function AboutPage() {
           </a>
           <a href="https://www.pikafish.com/wiki/reference/uci-options.html" {...external}>
             Pikafish UCI 选项
-            <ExternalLink size={13} aria-hidden="true" />
-          </a>
-          <a href="https://github.com/ningh-o/engine-builds" {...external}>
-            Web 构建镜像与校验
             <ExternalLink size={13} aria-hidden="true" />
           </a>
         </div>

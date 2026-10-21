@@ -4,7 +4,6 @@ import {
   AlertTriangle,
   Check,
   Database,
-  Download,
   Info,
   RefreshCw,
   RotateCcw,
@@ -14,10 +13,10 @@ import {
   Undo2,
   Volume2,
   Vibrate,
+  Wifi,
 } from 'lucide-react';
 import { useEngineStore } from '../stores/engine';
 import { useSettingsStore } from '../stores/settings';
-import { ENGINE_ASSETS, ENGINE_VERSION, engineTotalBytes } from '../engine/manifest';
 import { clearAllLocalData } from '../lib/storage';
 import { formatBytes } from '../lib/format';
 import type { Level } from '../types';
@@ -39,16 +38,7 @@ export function SettingsPage() {
     }
   }, []);
 
-  const percent = engine.total > 0 ? Math.min(100, Math.round((engine.loaded / engine.total) * 100)) : 0;
-
-  async function clearEngine() {
-    if (!window.confirm(`清除离线引擎缓存？清除后需要重新下载约 ${formatBytes(engineTotalBytes())}，当前未开始的 AI 对局将不可用。`)) return;
-    setBusy('engine');
-    await engine.clear();
-    setBusy(null);
-  }
-
-  async function reinstallEngine() {
+  async function reconnectEngine() {
     setBusy('engine');
     await engine.retry();
     setBusy(null);
@@ -214,52 +204,43 @@ export function SettingsPage() {
           <section className="panel settings-section" id="engine">
             <div className="section-heading compact">
               <div>
-                <span className="eyebrow">离线棋力</span>
-                <h2>Pikafish 引擎</h2>
+                <span className="eyebrow">AI 引擎</span>
+                <h2>服务端 Pikafish</h2>
               </div>
               <span className={`status-pill ${engine.engineReady ? 'ready' : engine.phase === 'error' ? 'error' : 'busy'}`}>
-                {engine.engineReady ? (engine.offlineReady ? '离线就绪' : '引擎就绪') : engine.phase === 'error' ? '准备失败' : engine.phase === 'idle' ? '未准备' : '准备中'}
+                {engine.engineReady ? '已连接' : engine.phase === 'error' ? '不可用' : '连接中'}
               </span>
             </div>
             <p className="settings-lede">
-              引擎在浏览器本地运行。首次准备需要下载约 {formatBytes(engineTotalBytes())}，之后会从本机缓存启动。
+              <Wifi size={14} aria-hidden="true" /> 人机走子由服务端 Pikafish（NNUE）计算，只发送当前局面，不保存棋谱。双人对局与训练可离线使用。
             </p>
 
-            {(!engine.engineReady || engine.phase === 'error') && (
+            {!engine.engineReady && (
               <div className="engine-settings-progress">
-                <div className="progress-track large" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={percent}>
-                  <span style={{ width: `${percent}%` }} />
-                </div>
-                <div className="engine-progress-meta">
-                  <span>{engine.phase === 'error' ? '准备失败' : engine.phase === 'initializing' ? '正在启动引擎' : '正在准备离线资源'}</span>
-                  <span>{engine.loaded > 0 ? `${formatBytes(engine.loaded)} / ${formatBytes(engine.total || engineTotalBytes())}` : ''}</span>
-                </div>
                 {engine.error && <p className="form-error" role="alert">{engine.error}</p>}
-                {(engine.phase === 'idle' || engine.phase === 'error') && (
-                  <button type="button" className="btn btn-dark" disabled={busy === 'engine'} onClick={() => void reinstallEngine()}>
-                    <Download size={16} aria-hidden="true" />
-                    {busy === 'engine' ? '准备中…' : engine.phase === 'error' ? '重试准备' : '开始准备'}
-                  </button>
-                )}
+                <button type="button" className="btn btn-dark" disabled={busy === 'engine'} onClick={() => void reconnectEngine()}>
+                  <RefreshCw size={16} aria-hidden="true" />
+                  {busy === 'engine' ? '连接中…' : '重新连接'}
+                </button>
               </div>
             )}
 
             {engine.engineReady && (
               <div className="engine-details">
                 <dl className="info-list">
-                  <div><dt>版本</dt><dd>{ENGINE_VERSION}</dd></div>
-                  <div><dt>文件</dt><dd>{ENGINE_ASSETS.length} 个 · {formatBytes(engineTotalBytes())}</dd></div>
-                  <div><dt>离线缓存</dt><dd>{engine.offlineReady ? '已确认' : '等待 Service Worker 接管'}</dd></div>
-                  <div><dt>运行方式</dt><dd>单线程 WASM · Web Worker</dd></div>
+                  <div><dt>服务版本</dt><dd>{engine.version || 'auto-chess'}</dd></div>
+                  <div><dt>棋类</dt><dd>{engine.games || 7} 种（象棋、五子棋、四子棋、斗兽棋、跳棋等）</dd></div>
+                  <div><dt>离线缓存</dt><dd>{engine.offlineReady ? '应用外壳已缓存' : '等待 Service Worker 接管'}</dd></div>
+                  <div><dt>隐私</dt><dd>只上传当前局面，棋谱留在本机</dd></div>
                 </dl>
                 <div className="engine-actions">
                   <button type="button" className="btn btn-ghost" onClick={() => void engine.refreshOffline()}>
                     <RefreshCw size={15} aria-hidden="true" />
                     重新检查离线
                   </button>
-                  <button type="button" className="btn btn-ghost danger-text" disabled={busy === 'engine'} onClick={() => void clearEngine()}>
-                    <Trash2 size={15} aria-hidden="true" />
-                    清除引擎缓存
+                  <button type="button" className="btn btn-ghost" disabled={busy === 'engine'} onClick={() => void reconnectEngine()}>
+                    <Wifi size={15} aria-hidden="true" />
+                    重新连接
                   </button>
                 </div>
               </div>
@@ -267,7 +248,7 @@ export function SettingsPage() {
 
             <p className="fine-print">
               <Info size={14} aria-hidden="true" />
-              缓存被浏览器清理后，首页会重新显示“棋力准备中”。训练内容不受影响。
+              断网时人机对弈不可用，双人对局、训练和棋谱回放不受影响。
             </p>
           </section>
 
@@ -288,7 +269,7 @@ export function SettingsPage() {
                 清除所有本地数据
               </button>
             </div>
-            <p className="fine-print"><AlertTriangle size={14} aria-hidden="true" /> 清除数据不会删除已经下载的引擎资源；需要单独清除引擎缓存。</p>
+            <p className="fine-print"><AlertTriangle size={14} aria-hidden="true" /> 清除数据只影响本机棋谱与进度，不影响 AI 引擎服务。</p>
           </section>
         </div>
 

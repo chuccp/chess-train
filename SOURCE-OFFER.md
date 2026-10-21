@@ -27,7 +27,7 @@ The app fetches these exact files into local Cache Storage and verifies their SH
 | pikafish-single.wasm | 500621 | 625dbdd6cb7717204ec25fa0fc5e4ba9f6278ab901a52294ff29b975302cd9f6 |
 | pikafish.data | 4103914 | d19746bb9eccbb8d65b5f7eaf9f5a9622a1ddde5847c12a0ef18afe864296ee2 |
 
-The engine and NNUE assets are not committed to Git; `tools/fetch-engine.mjs` reproduces the pack from the pinned mirror after verifying these hashes.
+The web app no longer bundles engine binaries: AI moves are computed by the auto-chess service (Pikafish NNUE on the server). Earlier builds shipped the WASM pack listed above; the files are not committed to Git and are no longer part of the web build.
 
 ## License obligations
 

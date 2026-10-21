@@ -22,12 +22,11 @@ import type { Color } from '@qilian/xiangqi';
 import { useEngineStore } from '../stores/engine';
 import { useGameStore, levelLabel, resultLabel } from '../stores/game';
 import { useSettingsStore } from '../stores/settings';
-import { engineTotalBytes } from '../engine/manifest';
 import { EnginePrepCard } from '../components/EnginePrepCard';
 import { MobileGameLobby } from '../components/MobileGameLobby';
 import { listFinishedGames, listTrainingProgress } from '../lib/storage';
-import { formatBytes, formatDate, formatDuration } from '../lib/format';
-import type { FinishedGame, Level } from '../types';
+import { formatDate, formatDuration } from '../lib/format';
+import type { FinishedGame, GameMode, Level } from '../types';
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -35,8 +34,6 @@ export function HomePage() {
   const offlineReady = useEngineStore((state) => state.offlineReady);
   const enginePhase = useEngineStore((state) => state.phase);
   const engineError = useEngineStore((state) => state.error);
-  const engineLoaded = useEngineStore((state) => state.loaded);
-  const engineTotal = useEngineStore((state) => state.total);
   const current = useGameStore((state) => state.current);
   const hydrated = useGameStore((state) => state.hydrated);
   const startNewGame = useGameStore((state) => state.startNewGame);
@@ -44,6 +41,7 @@ export function HomePage() {
 
   const [color, setColor] = useState<Color>(settings.preferredColor);
   const [level, setLevel] = useState<Level>(settings.preferredLevel);
+  const [opponent, setOpponent] = useState<GameMode>('ai');
   const [recentGames, setRecentGames] = useState<FinishedGame[]>([]);
   const [completed, setCompleted] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -77,7 +75,7 @@ export function HomePage() {
 
   async function start() {
     setStarting(true);
-    const ok = await startNewGame(color, level);
+    const ok = await startNewGame(color, level, opponent);
     setStarting(false);
     if (ok) navigate('/play');
   }
@@ -94,8 +92,6 @@ export function HomePage() {
         offlineReady={offlineReady}
         enginePhase={enginePhase}
         engineError={engineError}
-        engineLoaded={engineLoaded}
-        engineTotal={engineTotal}
         hydrated={hydrated}
         color={color}
         level={level}
@@ -110,14 +106,14 @@ export function HomePage() {
         <div className="hero-copy">
           <div className="eyebrow">
             <span className="eyebrow-dot" />
-            单机 · 离线 · 无账号
+            人机 · 双人 · 训练
           </div>
           <h1>
             静下来，<br />
             下一盘<span className="text-red">好棋</span>。
           </h1>
           <p className="hero-lede">
-            和本机 Pikafish 对弈，练杀法、拆残局、走开局。没有匹配、没有催促，棋谱和进度只留在这台设备。
+            和 Pikafish 人机对弈，也能双人同屏；练杀法、拆残局、走开局。没有匹配、没有催促，棋谱和进度只留在这台设备。
           </p>
 
           <div className="hero-actions">
@@ -137,10 +133,16 @@ export function HomePage() {
                 type="button"
                 className="btn btn-primary btn-large"
                 onClick={() => void start()}
-                disabled={!engineReady || starting || !hydrated}
+                disabled={(opponent === 'ai' && !engineReady) || starting || !hydrated}
               >
                 <Swords size={19} aria-hidden="true" />
-                {starting ? '正在摆棋…' : engineReady ? '和 AI 下一盘' : '棋力准备中…'}
+                {starting
+                  ? '正在摆棋…'
+                  : opponent === 'human'
+                    ? '双人对局'
+                    : engineReady
+                      ? '和 AI 下一盘'
+                      : 'AI 引擎连接中…'}
               </button>
             )}
             <Link to="/train" className="btn btn-ghost btn-large">
@@ -151,11 +153,11 @@ export function HomePage() {
 
           <div className="hero-note">
             <ShieldCheck size={16} aria-hidden="true" />
-            {offlineReady
-              ? '引擎已在缓存中，断网也能继续。'
-              : engineReady
-                ? '引擎可以启动，离线缓存正在确认。'
-                : `首次会准备约 ${formatBytes(engineTotalBytes())} 的离线棋力，之后不再下载。`}
+            {engineReady
+              ? offlineReady
+                ? 'AI 引擎已连接；页面可离线打开，人机对弈需联网。'
+                : 'AI 引擎已连接，可以开始人机对弈。'
+              : '正在连接 AI 引擎…双人对局与训练不受影响。'}
           </div>
         </div>
 
@@ -181,7 +183,7 @@ export function HomePage() {
           </div>
           <div className="hero-side-caption">
             <span className="tiny-rule" />
-            <span>Pikafish · 本地引擎</span>
+            <span>Pikafish · 云端棋力</span>
           </div>
         </div>
       </section>
@@ -204,6 +206,25 @@ export function HomePage() {
           </div>
           <div className="quick-options">
             <div className="field">
+              <span className="field-label">对手</span>
+              <div className="segmented">
+                <button
+                  type="button"
+                  className={opponent === 'ai' ? 'is-selected' : ''}
+                  onClick={() => setOpponent('ai')}
+                >
+                  人机
+                </button>
+                <button
+                  type="button"
+                  className={opponent === 'human' ? 'is-selected' : ''}
+                  onClick={() => setOpponent('human')}
+                >
+                  双人
+                </button>
+              </div>
+            </div>
+            <div className="field">
               <span className="field-label">执子</span>
               <div className="segmented">
                 <button
@@ -222,28 +243,30 @@ export function HomePage() {
                 </button>
               </div>
             </div>
-            <div className="field">
-              <span className="field-label">难度</span>
-              <div className="segmented">
-                {([1, 2, 3] as Level[]).map((value) => (
-                  <button
-                    type="button"
-                    key={value}
-                    className={level === value ? 'is-selected' : ''}
-                    onClick={() => setLevel(value)}
-                  >
-                    {levelLabel(value)}
-                  </button>
-                ))}
+            {opponent === 'ai' && (
+              <div className="field">
+                <span className="field-label">难度</span>
+                <div className="segmented">
+                  {([1, 2, 3] as Level[]).map((value) => (
+                    <button
+                      type="button"
+                      key={value}
+                      className={level === value ? 'is-selected' : ''}
+                      onClick={() => setLevel(value)}
+                    >
+                      {levelLabel(value)}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
             <button
               type="button"
               className="btn btn-dark"
-              disabled={!engineReady || !hydrated || starting}
+              disabled={(opponent === 'ai' && !engineReady) || !hydrated || starting}
               onClick={() => void start()}
             >
-              {engineReady ? '开始对局' : '等待棋力'}
+              {opponent === 'human' ? '开始双人对局' : engineReady ? '开始对局' : '等待 AI 引擎'}
               <ChevronRight size={16} aria-hidden="true" />
             </button>
           </div>
@@ -258,10 +281,12 @@ export function HomePage() {
           <div className="continue-copy">
             <span className="eyebrow">未完成的棋局</span>
             <h2>
-              你执{current.playerColor === 'r' ? '红' : '黑'} · {levelLabel(current.level)}
+              {current.mode === 'human'
+                ? '双人对局'
+                : `你执${current.playerColor === 'r' ? '红' : '黑'} · ${levelLabel(current.level)}`}
             </h2>
             <p>
-              {current.moves.length} 手 · {resultLabel(current.result, current.playerColor)} · 更新于{' '}
+              {current.moves.length} 手 · {resultLabel(current.result, current.playerColor, current.mode)} · 更新于{' '}
               {formatDateTime(current.updatedAt)}
             </p>
           </div>
@@ -279,7 +304,7 @@ export function HomePage() {
           </div>
           <div className="continue-copy">
             <span className="eyebrow">上一局</span>
-            <h2>{resultLabel(current.result, current.playerColor)}</h2>
+            <h2>{resultLabel(current.result, current.playerColor, current.mode)}</h2>
             <p>
               {current.moves.length} 手 · {formatDuration(current.elapsedMs)} · 已保存到棋谱
             </p>
@@ -413,9 +438,10 @@ export function HomePage() {
                 <Link to={`/review/${game.id}`} className="recent-row" key={game.id}>
                   <span className={`result-dot ${game.result.status === 'win' && game.result.winner === game.playerColor ? 'win' : ''}`} />
                   <span className="recent-main">
-                    <strong>{resultLabel(game.result, game.playerColor)}</strong>
+                    <strong>{resultLabel(game.result, game.playerColor, game.mode)}</strong>
                     <small>
-                      {formatDate(game.endedAt)} · {levelLabel(game.level)} · {game.moves.length} 手
+                      {formatDate(game.endedAt)} · {game.mode === 'human' ? '双人' : levelLabel(game.level)} ·{' '}
+                      {game.moves.length} 手
                     </small>
                   </span>
                   <ChevronRight size={16} aria-hidden="true" />
@@ -429,11 +455,11 @@ export function HomePage() {
       <section className="home-footnote">
         <div>
           <GraduationCap size={18} aria-hidden="true" />
-          <span>三种训练模式，内容独立于引擎，下载棋力时也能先练。</span>
+          <span>三种训练模式，内容独立于引擎，离线也能练。</span>
         </div>
         <div>
           <ShieldCheck size={18} aria-hidden="true" />
-          <span>无账号、无排行榜、无对局服务器。只把棋留在本机。</span>
+          <span>无账号、无排行榜。棋谱只留本机，AI 只看当前局面。</span>
         </div>
       </section>
     </div>

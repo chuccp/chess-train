@@ -12,8 +12,6 @@ interface MobileGameLobbyProps {
   offlineReady: boolean;
   enginePhase: string;
   engineError: string | null;
-  engineLoaded: number;
-  engineTotal: number;
   hydrated: boolean;
   color: Color;
   level: Level;
@@ -30,8 +28,6 @@ export function MobileGameLobby({
   offlineReady,
   enginePhase,
   engineError,
-  engineLoaded,
-  engineTotal,
   hydrated,
   color,
   level,
@@ -45,24 +41,22 @@ export function MobileGameLobby({
   const active = Boolean(current && current.phase !== 'finished');
   const finished = Boolean(current && current.phase === 'finished');
   const position = current?.position ?? initial;
-  const orientation = current?.playerColor ?? color;
+  const isHuman = current?.mode === 'human';
+  const orientation: Color = isHuman ? 'r' : (current?.playerColor ?? color);
 
   const statusText = active
-    ? `${current?.moves.length ?? 0} 手 · ${current?.position.turn === current?.playerColor ? '轮到你' : 'AI 思考中'}`
+    ? isHuman
+      ? `${current?.moves.length ?? 0} 手 · 轮到${current?.position.turn === 'r' ? '红方' : '黑方'}`
+      : `${current?.moves.length ?? 0} 手 · ${current?.position.turn === current?.playerColor ? '轮到你' : 'AI 思考中'}`
     : finished
       ? `${current?.moves.length ?? 0} 手 · 已保存棋谱`
       : `${color === 'r' ? '执红先行' : '执黑后行'} · ${levelLabel(level)}`;
 
-  const enginePercent = engineTotal > 0 ? Math.min(100, Math.round((engineLoaded / engineTotal) * 100)) : 0;
-  const engineLabel = offlineReady
-    ? '离线棋力'
-    : engineReady
-      ? '引擎就绪'
-      : enginePhase === 'error'
-        ? '棋力不可用'
-        : enginePercent > 0
-          ? `棋力 ${enginePercent}%`
-          : '棋力准备中';
+  const engineLabel = engineReady
+    ? 'AI 已就绪'
+    : enginePhase === 'error'
+      ? 'AI 不可用'
+      : '连接引擎中';
 
   return (
     <section className="mobile-game-lobby" aria-labelledby="mobile-lobby-title">
@@ -70,24 +64,22 @@ export function MobileGameLobby({
         <div>
           <span className="eyebrow mobile-lobby-brand">
             <span className="mobile-lobby-seal" aria-hidden="true">棋</span>
-            棋练 · 单机棋桌
+            棋练 · 棋桌
           </span>
           <h1 id="mobile-lobby-title">
             {active ? '继续这盘棋' : finished ? '上局已结束' : '下一盘好棋'}
           </h1>
-          <p>{active || finished ? resultLabel(current!.result, current!.playerColor) : '你走你的，AI 走它的。'}</p>
+          <p>
+            {active || finished
+              ? resultLabel(current!.result, current!.playerColor, current!.mode)
+              : '你走你的，AI 走它的。'}
+          </p>
         </div>
-        <span className={`mobile-engine-pill ${offlineReady ? 'is-ready' : ''}`} aria-live="polite">
+        <span className={`mobile-engine-pill ${engineReady ? 'is-ready' : ''}`} aria-live="polite">
           <i aria-hidden="true" />
           {engineLabel}
         </span>
       </div>
-
-      {!engineReady && enginePhase !== 'error' && engineTotal > 0 && (
-        <div className="mobile-lobby-progress" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={enginePercent}>
-          <span style={{ width: `${enginePercent}%` }} />
-        </div>
-      )}
 
       <div className="mobile-board-stage" aria-hidden="true">
         <Board position={position} orientation={orientation} preview />
@@ -103,7 +95,11 @@ export function MobileGameLobby({
               <ArrowRight size={17} aria-hidden="true" />
             </button>
             <div className="mobile-lobby-secondary">
-              <span>{active ? `你执${current!.playerColor === 'r' ? '红' : '黑'} · ${levelLabel(current!.level)}` : '本机棋谱已保存'}</span>
+              <span>
+                {isHuman
+                  ? '双人对局'
+                  : `你执${current!.playerColor === 'r' ? '红' : '黑'} · ${levelLabel(current!.level)}`}
+              </span>
               <Link to="/play?setup=1" className="text-link">
                 换个对手
               </Link>
@@ -118,7 +114,7 @@ export function MobileGameLobby({
               disabled={!engineReady || !hydrated || starting}
             >
               <Swords size={18} aria-hidden="true" />
-              {starting ? '正在摆棋…' : engineReady ? '和 AI 下一盘' : '等待棋力'}
+              {starting ? '正在摆棋…' : engineReady ? '和 AI 下一盘' : '等待 AI 引擎'}
               <ArrowRight size={17} aria-hidden="true" />
             </button>
             <div className="mobile-lobby-options">
@@ -161,7 +157,7 @@ export function MobileGameLobby({
       <div className="mobile-lobby-foot">
         <span>
           <ShieldCheck size={14} aria-hidden="true" />
-          {offlineReady ? '断网也能下' : '首次需准备约 4.6 MB 棋力'}
+          {offlineReady ? '页面可离线打开，人机需联网' : '人机对弈需要联网'}
         </span>
         <Link to="/train" className="text-link">
           <GraduationCap size={14} aria-hidden="true" />

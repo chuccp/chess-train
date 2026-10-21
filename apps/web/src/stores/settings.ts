@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import type { Color } from '@qilian/xiangqi';
 import type { Level } from '../types';
 
-export type BoardOrientation = 'auto' | 'red';
+export type BoardOrientation = 'auto' | 'red' | 'black';
 
 interface SettingsState {
   preferredColor: Color;

@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { HomePage } from './pages/HomePage';
 import { PlayPage } from './pages/PlayPage';
 import { LocalGamesPage } from './pages/LocalGamesPage';
-import { LocalPlayPage } from './pages/LocalPlayPage';
 import { JunglePage } from './pages/JunglePage';
 import { CheckersPage } from './pages/CheckersPage';
 import { GomokuPage } from './pages/GomokuPage';
@@ -59,7 +58,8 @@ export default function App() {
           <Route index element={<HomePage />} />
           <Route path="play" element={<PlayPage />} />
           <Route path="local" element={<LocalGamesPage />} />
-          <Route path="local/chess" element={<LocalPlayPage />} />
+          {/* 象棋人人对战已并入人机对战流程 */}
+          <Route path="local/chess" element={<Navigate to="/play?setup=1" replace />} />
           <Route path="local/gomoku" element={<GomokuPage />} />
           <Route path="local/jungle" element={<JunglePage />} />
           <Route path="local/checkers" element={<CheckersPage />} />

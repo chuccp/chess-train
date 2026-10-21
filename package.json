@@ -10,9 +10,7 @@
     "typecheck": "pnpm --filter @qilian/web typecheck",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "pnpm --filter @qilian/web build && playwright test",
-    "fetch:engine": "node tools/fetch-engine.mjs",
-    "engine:check": "node tools/check-engine.mjs"
+    "test:e2e": "pnpm --filter @qilian/web build && playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",

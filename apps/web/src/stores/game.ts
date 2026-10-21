@@ -10,11 +10,12 @@ import {
   parseUcciMove,
   pieceAt,
   opposite,
+  toFen,
   type BoardEnd,
   type Color,
   type Position,
 } from '@qilian/xiangqi';
-import { pikafish } from '../engine/client';
+import { engineApi } from '../engine/api';
 import { useEngineStore } from './engine';
 import { useSettingsStore } from './settings';
 import {
@@ -25,6 +26,7 @@ import {
 import { playCue, vibrate } from '../lib/feedback';
 import type {
   FinishedGame,
+  GameMode,
   GameResult,
   GameSnapshot,
   Level,
@@ -48,7 +50,7 @@ function resultOf(position: Position, hashes: string[]): BoardEnd {
 function enqueueFinished(game: GameSnapshot): Promise<void> {
   const record: FinishedGame = {
     id: game.id,
-    mode: 'ai',
+    mode: game.mode,
     playerColor: game.playerColor,
     level: game.level,
     initialFen: START_FEN,
@@ -129,7 +131,7 @@ interface GameState {
   aiToken: number;
   hintToken: number;
   hydrate: () => Promise<void>;
-  startNewGame: (playerColor: Color, level: Level) => Promise<boolean>;
+  startNewGame: (playerColor: Color, level: Level, opponent?: GameMode) => Promise<boolean>;
   resumeFinishedGame: (record: FinishedGame, keepMoves: number) => boolean;
   playSquare: (square: number) => void;
   requestAi: () => Promise<void>;
@@ -164,15 +166,15 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
   },
 
-  async startNewGame(playerColor, level) {
-    if (!useEngineStore.getState().engineReady) {
-      set({ error: '离线棋力尚未就绪，暂时不能开始与 AI 的对局' });
+  async startNewGame(playerColor, level, opponent = 'ai') {
+    if (opponent === 'ai' && !useEngineStore.getState().engineReady) {
+      set({ error: 'AI 引擎尚未就绪，暂时不能开始与 AI 的对局' });
       return false;
     }
     useSettingsStore.getState().setPreferredColor(playerColor);
     useSettingsStore.getState().setPreferredLevel(level);
     const existing = get().current;
-    if (get().aiInFlight || existing?.phase === 'ai_thinking') pikafish.stop();
+    if (get().aiInFlight || existing?.phase === 'ai_thinking') engineApi.stop();
     if (existing && existing.phase !== 'finished' && existing.moves.length > 0) {
       const aborted = snapshotWithGame(existing, {
         phase: 'finished',
@@ -187,13 +189,13 @@ export const useGameStore = create<GameState>((set, get) => ({
     const result = resultOf(initial, hashes);
     const game: GameSnapshot = {
       id: uuid(),
-      mode: 'ai',
+      mode: opponent,
       playerColor,
       level,
       position: initial,
       positionHashes: hashes,
       moves: [],
-      phase: playerColor === 'r' ? 'playing' : 'ai_thinking',
+      phase: opponent === 'ai' && playerColor !== 'r' ? 'ai_thinking' : 'playing',
       result,
       startedAt: now,
       updatedAt: now,
@@ -238,7 +240,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     const now = new Date().toISOString();
     const game: GameSnapshot = {
       id: uuid(),
-      mode: 'ai',
+      mode: record.mode ?? 'ai',
       playerColor: record.playerColor,
       level: record.level,
       position,
@@ -272,11 +274,13 @@ export const useGameStore = create<GameState>((set, get) => ({
     const state = get();
     const game = state.current;
     if (!game || game.phase !== 'playing') return;
-    if (game.position.turn !== game.playerColor) return;
+    // 人机模式只能动自己一方；人人模式轮到哪方哪方走。
+    const actor: Color = game.mode === 'human' ? game.position.turn : game.playerColor;
+    if (game.position.turn !== actor) return;
 
     const piece = pieceAt(game.position, square);
     if (state.selected === null) {
-      if (!piece || piece.color !== game.playerColor) {
+      if (!piece || piece.color !== actor) {
         set({ notice: '请选择自己的棋子' });
         return;
       }
@@ -292,7 +296,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       return;
     }
 
-    if (piece?.color === game.playerColor) {
+    if (piece?.color === actor) {
       const targets = generateLegalMoves(game.position)
         .filter((move) => move.from === square)
         .map((move) => move.to);
@@ -319,7 +323,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       position: result.position,
       positionHashes: hashes,
       moves: [...game.moves, record],
-      phase: finished ? 'finished' : 'ai_thinking',
+      phase: finished ? 'finished' : game.mode === 'human' ? 'playing' : 'ai_thinking',
       result: end,
     });
 
@@ -357,17 +361,19 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ aiInFlight: true, aiError: null, aiToken: token });
 
     try {
-      const search = await pikafish.search({
-        initialFen: START_FEN,
-        movesUcci: game.moves.map((move) => move.ucci),
+      const search = await engineApi.search({
+        game: 'xiangqi',
+        fen: toFen(game.position),
         level: game.level,
         timeLimitMs: AI_TIME_MS[game.level],
       });
+      const ucci = search.move.uci;
+      if (!ucci) throw new Error('AI 未返回着法');
       const latest = get();
       if (!latest.current || latest.current.id !== game.id || latest.aiToken !== token) return;
       if (latest.current.phase !== 'ai_thinking') return;
 
-      const legalMove = parseUcciMove(latest.current.position, search.ucci);
+      const legalMove = parseUcciMove(latest.current.position, ucci);
       if (!legalMove) throw new Error('引擎返回了不合法的着法');
       const result = applyMove(latest.current.position, legalMove.from, legalMove.to);
       if (!result.ok) throw new Error(result.message);
@@ -412,7 +418,12 @@ export const useGameStore = create<GameState>((set, get) => ({
   async requestHint() {
     const state = get();
     const game = state.current;
-    if (!game || game.phase !== 'playing' || game.position.turn !== game.playerColor) {
+    if (!game || game.phase !== 'playing') {
+      set({ notice: '现在还不能请求提示' });
+      return;
+    }
+    const isPlayersTurn = game.mode === 'human' || game.position.turn === game.playerColor;
+    if (!isPlayersTurn) {
       set({ notice: '现在还不能请求提示' });
       return;
     }
@@ -423,16 +434,18 @@ export const useGameStore = create<GameState>((set, get) => ({
     const token = ++hintTokenSeq;
     set({ hintLoading: true, hint: null, hintToken: token });
     try {
-      const result = await pikafish.search({
-        initialFen: START_FEN,
-        movesUcci: game.moves.map((move) => move.ucci),
+      const result = await engineApi.search({
+        game: 'xiangqi',
+        fen: toFen(game.position),
         level: 3,
         timeLimitMs: 900,
       });
+      const ucci = result.move.uci;
+      if (!ucci) throw new Error('AI 未返回着法');
       const latest = get();
       if (!latest.current || latest.current.id !== game.id || latest.hintToken !== token) return;
       if (latest.current.moves.length !== game.moves.length) return;
-      const legal = parseUcciMove(latest.current.position, result.ucci);
+      const legal = parseUcciMove(latest.current.position, ucci);
       if (!legal) throw new Error('提示着法不合法');
       set({ hint: { from: legal.from, to: legal.to }, hintLoading: false });
     } catch (error) {
@@ -473,14 +486,17 @@ export const useGameStore = create<GameState>((set, get) => ({
       set({ notice: '还没有可悔的棋' });
       return;
     }
-    // 机器刚走过：连同自己的上一步一起退两手；自己刚走过：只退一手。
+    // 人人模式固定退一手；人机模式：机器刚走过连退两手，自己刚走过退一手。
     const lastIsPlayer = last.color === game.playerColor;
-    const removeCount = lastIsPlayer
-      ? 1
-      : game.moves.length >= 2 && game.moves[game.moves.length - 2]?.color === game.playerColor
-        ? 2
-        : 1;
-    if (game.phase === 'ai_thinking') pikafish.stop();
+    const removeCount =
+      game.mode === 'human'
+        ? 1
+        : lastIsPlayer
+          ? 1
+          : game.moves.length >= 2 && game.moves[game.moves.length - 2]?.color === game.playerColor
+            ? 2
+            : 1;
+    if (game.phase === 'ai_thinking') engineApi.stop();
 
     const keep = game.moves.length - removeCount;
     const { position, hashes } = replayTo(game.moves, keep);
@@ -505,16 +521,18 @@ export const useGameStore = create<GameState>((set, get) => ({
       hintToken: get().hintToken + 1,
     });
     persist(next);
-    if (next.position.turn !== next.playerColor) void get().requestAi();
+    if (game.mode === 'ai' && next.position.turn !== next.playerColor) void get().requestAi();
   },
 
   async resign() {
     const game = get().current;
     if (!game || (game.phase !== 'playing' && game.phase !== 'ai_thinking')) return;
-    if (game.phase === 'ai_thinking') pikafish.stop();
+    if (game.phase === 'ai_thinking') engineApi.stop();
+    // 人机模式由玩家认输；人人模式由轮到走棋的一方认输。
+    const resigner: Color = game.mode === 'human' ? game.position.turn : game.playerColor;
     const next = snapshotWithGame(game, {
       phase: 'finished',
-      result: { status: 'win', winner: opposite(game.playerColor), reason: 'resign' },
+      result: { status: 'win', winner: opposite(resigner), reason: 'resign' },
     });
     set({ current: next, selected: null, legalTargets: [], hint: null, aiInFlight: false });
     persist(next);
@@ -535,7 +553,7 @@ export function levelLabel(level: Level): string {
   return level === 1 ? '入门' : level === 2 ? '进阶' : '挑战';
 }
 
-export function resultLabel(result: GameResult, playerColor?: Color): string {
+export function resultLabel(result: GameResult, playerColor?: Color, mode: GameMode = 'ai'): string {
   if (result.status === 'playing') return '进行中';
   if (result.status === 'aborted') return '未完成';
   if (result.status === 'draw') {
@@ -543,7 +561,11 @@ export function resultLabel(result: GameResult, playerColor?: Color): string {
     if (result.reason === 'no-capture') return '自然限着，和棋';
     return '双方均无进攻子力，和棋';
   }
-  if (result.reason === 'resign') return result.winner === playerColor ? '对方认输，你赢了' : '你已认输';
-  if (result.reason === 'stalemate') return `困毙，${result.winner === 'r' ? '红方' : '黑方'}胜`;
-  return `${result.winner === 'r' ? '红方' : '黑方'}将死对手`;
+  const winnerName = result.winner === 'r' ? '红方' : '黑方';
+  if (result.reason === 'resign') {
+    if (mode === 'human') return `${winnerName}胜 · 对方认输`;
+    return result.winner === playerColor ? '对方认输，你赢了' : '你已认输';
+  }
+  if (result.reason === 'stalemate') return `困毙，${winnerName}胜`;
+  return `${winnerName}将死对手`;
 }

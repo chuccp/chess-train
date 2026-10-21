@@ -18,27 +18,17 @@ precacheAndRoute(self.__WB_MANIFEST);
 
 const scopePath = new URL(self.registration.scope).pathname;
 const basePath = scopePath.endsWith('/') ? scopePath : `${scopePath}/`;
-const enginePath = `${basePath}engines/`;
 const navigationHandler = createHandlerBoundToURL(`${basePath}index.html`);
-registerRoute(
-  new NavigationRoute(navigationHandler, {
-    denylist: [/[/]engines[/]/, /[/]engine[/]/],
-  }),
-);
+registerRoute(new NavigationRoute(navigationHandler));
 
-self.addEventListener('fetch', (event) => {
-  const url = new URL(event.request.url);
-  if (url.origin !== self.location.origin) return;
-  if (!url.pathname.startsWith(enginePath)) return;
-
-  event.respondWith(
+// 引擎已改为服务端计算；顺手清掉旧版本遗留的引擎缓存。
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
     (async () => {
-      const cacheNames = (await caches.keys()).filter((name) => name.startsWith('qilian-engine-'));
-      for (const cacheName of cacheNames) {
-        const cached = await caches.match(event.request, { cacheName });
-        if (cached) return cached;
-      }
-      return fetch(event.request);
+      const cacheNames = await caches.keys();
+      await Promise.all(
+        cacheNames.filter((name) => name.startsWith('qilian-engine-')).map((name) => caches.delete(name)),
+      );
     })(),
   );
 });

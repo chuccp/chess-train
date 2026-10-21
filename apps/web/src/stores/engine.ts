@@ -1,29 +1,18 @@
 import { create } from 'zustand';
-import { ensureEngineAssets, clearEngineCache } from '../engine/assets';
-import { pikafish } from '../engine/client';
-import { ENGINE_VERSION } from '../engine/manifest';
+import { engineApi } from '../engine/api';
 
-export type EnginePhase =
-  | 'idle'
-  | 'checking'
-  | 'downloading'
-  | 'verifying'
-  | 'initializing'
-  | 'ready'
-  | 'error';
+export type EnginePhase = 'idle' | 'checking' | 'ready' | 'error';
 
 interface EngineState {
   phase: EnginePhase;
-  loaded: number;
-  total: number;
   engineReady: boolean;
+  /** 应用外壳已缓存，可离线打开（人机对弈仍需联网）。 */
   offlineReady: boolean;
   error: string | null;
   version: string;
-  options: Record<string, string | number | boolean>;
+  games: number;
   bootstrap: () => Promise<void>;
   retry: () => Promise<void>;
-  clear: () => Promise<void>;
   refreshOffline: () => Promise<void>;
 }
 
@@ -55,41 +44,25 @@ async function serviceWorkerControls(): Promise<boolean> {
 
 export const useEngineStore = create<EngineState>((set, get) => ({
   phase: 'idle',
-  loaded: 0,
-  total: 0,
   engineReady: false,
   offlineReady: false,
   error: null,
-  version: ENGINE_VERSION,
-  options: {},
+  version: '',
+  games: 0,
 
   async bootstrap() {
     if (get().engineReady && get().phase === 'ready') return;
     if (bootstrapPromise) return bootstrapPromise;
 
     bootstrapPromise = (async () => {
-      set({ phase: 'checking', error: null, loaded: 0 });
+      set({ phase: 'checking', error: null });
       try {
-        await ensureEngineAssets((progress) => {
-          set({
-            phase:
-              progress.phase === 'checking'
-                ? 'checking'
-                : progress.phase === 'verifying'
-                  ? 'verifying'
-                  : 'downloading',
-            loaded: progress.loaded,
-            total: progress.total,
-          });
-        });
-        set({ phase: 'initializing' });
-        await pikafish.initialize();
-        const info = pikafish.engineInfo();
+        const info = await engineApi.health();
         set({
           phase: 'ready',
           engineReady: true,
-          version: info.version || ENGINE_VERSION,
-          options: info.options,
+          version: info.version,
+          games: info.games,
         });
         const offline = await serviceWorkerControls();
         set({ offlineReady: offline });
@@ -105,7 +78,6 @@ export const useEngineStore = create<EngineState>((set, get) => ({
         set({
           phase: 'error',
           engineReady: false,
-          offlineReady: false,
           error: error instanceof Error ? error.message : String(error),
         });
       } finally {
@@ -117,28 +89,9 @@ export const useEngineStore = create<EngineState>((set, get) => ({
   },
 
   async retry() {
-    pikafish.reset();
-    set({
-      phase: 'checking',
-      engineReady: false,
-      offlineReady: false,
-      error: null,
-      loaded: 0,
-    });
+    engineApi.reset();
+    set({ phase: 'checking', engineReady: false, error: null });
     await get().bootstrap();
-  },
-
-  async clear() {
-    await clearEngineCache();
-    pikafish.reset();
-    set({
-      phase: 'idle',
-      engineReady: false,
-      offlineReady: false,
-      loaded: 0,
-      total: 0,
-      error: null,
-    });
   },
 
   async refreshOffline() {

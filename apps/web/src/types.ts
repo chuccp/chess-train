@@ -2,6 +2,8 @@ import type { BoardEnd, Color, Position } from '@qilian/xiangqi';
 
 export type Level = 1 | 2 | 3;
 export type GamePhase = 'playing' | 'ai_thinking' | 'finished';
+/** ai = 人机对战；human = 同屏双人（人人对战） */
+export type GameMode = 'ai' | 'human';
 export type GameResult =
   | BoardEnd
   | { status: 'win'; winner: Color; reason: 'resign' }
@@ -22,7 +24,7 @@ export interface MoveRecord {
 
 export interface GameSnapshot {
   id: string;
-  mode: 'ai';
+  mode: GameMode;
   playerColor: Color;
   level: Level;
   position: Position;
@@ -38,7 +40,7 @@ export interface GameSnapshot {
 
 export interface FinishedGame {
   id: string;
-  mode: 'ai';
+  mode: GameMode;
   playerColor: Color;
   level: Level;
   initialFen: string;

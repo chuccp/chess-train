@@ -27,7 +27,7 @@ import { useEngineStore } from '../stores/engine';
 import { useGameStore, levelLabel, resultLabel } from '../stores/game';
 import { useSettingsStore } from '../stores/settings';
 import { formatDuration } from '../lib/format';
-import type { Level } from '../types';
+import type { GameMode, Level } from '../types';
 
 type DialogAction = 'resign' | 'new' | 'switch' | null;
 
@@ -127,9 +127,9 @@ export function PlayPage() {
       <NewGameSetup
         engineReady={engineReady}
         enginePhase={enginePhase}
-        onStart={async (color, level) => {
+        onStart={async (color, level, opponent) => {
           setStarting(true);
-          const ok = await startNewGame(color, level);
+          const ok = await startNewGame(color, level, opponent);
           setStarting(false);
           if (ok) navigate('/play', { replace: true });
           return ok;
@@ -142,12 +142,20 @@ export function PlayPage() {
     );
   }
 
+  const isHuman = current.mode === 'human';
   const playerColor = current.playerColor;
   const aiColor: Color = playerColor === 'r' ? 'b' : 'r';
   const nextPlayerColor: Color = playerColor === 'r' ? 'b' : 'r';
-  const orientation: Color = settings.boardOrientation === 'auto' ? playerColor : 'r';
-  const playerTurn = current.position.turn === playerColor;
-  const interactive = current.phase === 'playing' && playerTurn;
+  const orientation: Color =
+    settings.boardOrientation === 'auto'
+      ? isHuman
+        ? 'r'
+        : playerColor
+      : settings.boardOrientation === 'black'
+        ? 'b'
+        : 'r';
+  const playerTurn = isHuman ? true : current.position.turn === playerColor;
+  const interactive = current.phase === 'playing' && (isHuman || playerTurn);
   const lastMove = current.moves.length > 0 ? current.moves[current.moves.length - 1] : null;
   const isFinished = current.phase === 'finished';
   const elapsed = current.elapsedMs + (isFinished ? 0 : now - new Date(current.startedAt).getTime() - current.elapsedMs);
@@ -158,7 +166,8 @@ export function PlayPage() {
     ((current.historyResume && current.moves.length > 0) ||
       ((current.phase === 'playing' || current.phase === 'ai_thinking') &&
         current.moves.length > 0 &&
-        (lastMoveColor === playerColor ||
+        (isHuman ||
+          lastMoveColor === playerColor ||
           (current.moves.length >= 2 && current.moves[current.moves.length - 2]?.color === playerColor))));
 
   function handleUndo() {
@@ -180,12 +189,14 @@ export function PlayPage() {
   }
 
   const statusText = isFinished
-    ? resultLabel(current.result, playerColor)
+    ? resultLabel(current.result, playerColor, current.mode)
     : current.phase === 'ai_thinking'
       ? 'Pikafish 正在思考…'
-      : playerTurn
-        ? '轮到你走'
-        : '等待引擎';
+      : isHuman
+        ? `轮到${current.position.turn === 'r' ? '红方' : '黑方'}`
+        : playerTurn
+          ? '轮到你走'
+          : '等待引擎';
 
   return (
     <div className="page play-page">
@@ -196,12 +207,13 @@ export function PlayPage() {
           返回首页
         </Link>
         <div className="play-topline-right">
-          <span className={`mobile-engine-status${offlineReady ? ' is-ready' : ''}`}>
+          <span className={`mobile-engine-status${engineReady ? ' is-ready' : ''}`}>
             <i aria-hidden="true" />
-            {offlineReady ? '离线棋力' : engineReady ? '在线棋力' : '引擎准备中'}
+            {engineReady ? 'AI 引擎' : 'AI 离线'}
           </span>
           <span className="play-meta">
-            {levelLabel(current.level)} · 你执{playerColor === 'r' ? '红' : '黑'} · {formatDuration(elapsed)}
+            {isHuman ? '双人对局' : `${levelLabel(current.level)} · 你执${playerColor === 'r' ? '红' : '黑'}`} ·{' '}
+            {formatDuration(elapsed)}
           </span>
         </div>
       </div>
@@ -219,12 +231,18 @@ export function PlayPage() {
             <button
               type="button"
               className="btn btn-ghost btn-small"
-              onClick={() => setDialog('switch')}
-              aria-label="换边并开始新局"
-              disabled={!engineReady || starting}
+              onClick={() => {
+                if (isHuman) {
+                  settings.setBoardOrientation(orientation === 'r' ? 'black' : 'red');
+                } else {
+                  setDialog('switch');
+                }
+              }}
+              aria-label={isHuman ? '翻转棋盘' : '换边并开始新局'}
+              disabled={isHuman ? isFinished : !engineReady || starting}
             >
               <ArrowLeftRight size={15} aria-hidden="true" />
-              换边
+              {isHuman ? '翻转' : '换边'}
             </button>
           </div>
 
@@ -252,7 +270,11 @@ export function PlayPage() {
           {checked && !isFinished && (
             <div className="check-banner" role="status">
               <AlertTriangle size={17} aria-hidden="true" />
-              {current.position.turn === playerColor ? '你被将军了。' : '将军！'}
+              {isHuman
+                ? `${current.position.turn === 'r' ? '红方' : '黑方'}被将军了。`
+                : current.position.turn === playerColor
+                  ? '你被将军了。'
+                  : '将军！'}
             </div>
           )}
 
@@ -292,17 +314,17 @@ export function PlayPage() {
               </div>
               <div>
                 <span className="eyebrow">棋局结束</span>
-                <h2>{resultLabel(current.result, playerColor)}</h2>
+                <h2>{resultLabel(current.result, playerColor, current.mode)}</h2>
                 <p>
                   {current.moves.length} 手 · {formatDuration(current.elapsedMs)} ·{' '}
-                  {levelLabel(current.level)}难度
+                  {isHuman ? '双人对局' : `${levelLabel(current.level)}难度`}
                 </p>
               </div>
               <div className="result-actions">
                 <button
                   type="button"
                   className="btn btn-primary"
-                  disabled={!engineReady}
+                  disabled={!isHuman && !engineReady}
                   onClick={() => void handleNewGame()}
                 >
                   <RotateCcw size={16} aria-hidden="true" />
@@ -332,7 +354,13 @@ export function PlayPage() {
               className="control-button"
               disabled={!canUndo}
               onClick={handleUndo}
-              title={lastMoveColor === playerColor ? '退一手' : '退两步（含机器应手）'}
+              title={
+                isHuman
+                  ? '退一手'
+                  : lastMoveColor === playerColor
+                    ? '退一手'
+                    : '退两步（含机器应手）'
+              }
             >
               <Undo2 size={18} aria-hidden="true" />
               <span>悔棋</span>
@@ -368,15 +396,15 @@ export function PlayPage() {
           <section className="side-card">
             <div className="side-heading">
               <span className="eyebrow">对局</span>
-              <span className="side-level">{levelLabel(current.level)}</span>
+              <span className="side-level">{isHuman ? '双人' : levelLabel(current.level)}</span>
             </div>
             <div className="player-row">
               <div className={`player-avatar ${aiColor === 'r' ? 'red' : 'black'} ${current.position.turn === aiColor ? 'active' : ''}`}>
                 {PIECE_GLYPHS[aiColor].K}
               </div>
               <div>
-                <strong>Pikafish</strong>
-                <span>{levelLabel(current.level)}引擎</span>
+                <strong>{isHuman ? (aiColor === 'r' ? '红方' : '黑方') : 'Pikafish'}</strong>
+                <span>{isHuman ? '本地棋手' : `${levelLabel(current.level)}引擎`}</span>
               </div>
               {current.phase === 'ai_thinking' && <Loader2 size={16} className="spin" aria-label="思考中" />}
             </div>
@@ -390,10 +418,16 @@ export function PlayPage() {
                 {PIECE_GLYPHS[playerColor].K}
               </div>
               <div>
-                <strong>你</strong>
-                <span>执{playerColor === 'r' ? '红' : '黑'} · 本地棋手</span>
+                <strong>{isHuman ? (playerColor === 'r' ? '红方' : '黑方') : '你'}</strong>
+                <span>
+                  {isHuman
+                    ? '本地棋手'
+                    : `执${playerColor === 'r' ? '红' : '黑'} · 本地棋手`}
+                </span>
               </div>
-              {playerTurn && current.phase === 'playing' && <Check size={16} aria-label="轮到你" />}
+              {(isHuman ? current.phase === 'playing' : playerTurn && current.phase === 'playing') && (
+                <Check size={16} aria-label="轮到走棋" />
+              )}
             </div>
             <div className="side-meta">
               <span>已走 {current.moves.length} 手</span>
@@ -416,12 +450,12 @@ export function PlayPage() {
           </section>
 
           <section className="side-card engine-note">
-            <span className="eyebrow">离线说明</span>
+            <span className="eyebrow">说明</span>
             <p>
-              引擎在浏览器本地运行，棋局不会上传。关闭页面会保留当前局面；清理站点数据后会丢失本地棋谱。
+              AI 走子由服务端 Pikafish 计算，只发送当前局面，棋谱保存在本机。双人对局与训练可离线使用。
             </p>
             <Link to="/settings#engine" className="text-link">
-              引擎状态与缓存
+              引擎状态
             </Link>
           </section>
         </aside>
@@ -508,7 +542,7 @@ export function PlayPage() {
   );
 
   async function handleNewGame() {
-    const ok = await startNewGame(current!.playerColor, current!.level);
+    const ok = await startNewGame(current!.playerColor, current!.level, current!.mode);
     if (ok) {
       setDialog(null);
     }
@@ -533,14 +567,16 @@ function NewGameSetup({
 }: {
   engineReady: boolean;
   enginePhase: string;
-  onStart: (color: Color, level: Level) => Promise<boolean>;
+  onStart: (color: Color, level: Level, opponent: GameMode) => Promise<boolean>;
   starting: boolean;
   initialColor: Color;
   initialLevel: Level;
   hasActiveGame: boolean;
 }) {
+  const [opponent, setOpponent] = useState<GameMode>('ai');
   const [color, setColor] = useState<Color>(initialColor);
   const [level, setLevel] = useState<Level>(initialLevel);
+  const isHuman = opponent === 'human';
 
   return (
     <div className="page setup-page">
@@ -549,77 +585,122 @@ function NewGameSetup({
         返回首页
       </Link>
       <div className="setup-heading">
-        <span className="eyebrow">人机练习</span>
-        <h1>和 Pikafish 下一盘</h1>
-        <p>选择一个执子方向与难度。棋局只保存在本机，随时可以回看。</p>
+        <span className="eyebrow">象棋对弈</span>
+        <h1>{isHuman ? '两个人，一盘棋' : '和 Pikafish 下一盘'}</h1>
+        <p>
+          {isHuman
+            ? '同屏轮流落子，支持悔棋、翻转和棋谱记录，不需要联网。'
+            : '选择一个执子方向与难度。棋局只保存在本机，随时可以回看。'}
+        </p>
       </div>
 
       <div className="setup-grid">
         <section className="panel setup-panel">
           <div className="field">
-            <span className="field-label">你执哪一边？</span>
-            <div className="choice-grid">
-              <button
-                type="button"
-                className={`choice-card${color === 'r' ? ' is-selected' : ''}`}
-                onClick={() => setColor('r')}
-              >
-                <span className="choice-emblem red">{PIECE_GLYPHS.r.K}</span>
-                <strong>执红先行</strong>
-                <span>你先走，掌握主动</span>
+            <span className="field-label">对手</span>
+            <div className="segmented">
+              <button type="button" className={opponent === 'ai' ? 'is-selected' : ''} onClick={() => setOpponent('ai')}>
+                人机对战
               </button>
               <button
                 type="button"
-                className={`choice-card${color === 'b' ? ' is-selected' : ''}`}
-                onClick={() => setColor('b')}
+                className={opponent === 'human' ? 'is-selected' : ''}
+                onClick={() => setOpponent('human')}
               >
-                <span className="choice-emblem">{PIECE_GLYPHS.b.K}</span>
-                <strong>执黑后行</strong>
-                <span>先看 AI 如何开局</span>
+                双人对战
               </button>
             </div>
           </div>
 
-          <div className="field">
-            <span className="field-label">难度</span>
-            <div className="level-list">
-              {([
-                [1, '入门', '更短思考，适合熟悉规则'],
-                [2, '进阶', '默认强度，兼顾棋力与速度'],
-                [3, '挑战', '完整强度，适合认真对弈'],
-              ] as const).map(([value, label, desc]) => (
+          {!isHuman && (
+            <div className="field">
+              <span className="field-label">你执哪一边？</span>
+              <div className="choice-grid">
                 <button
                   type="button"
-                  key={value}
-                  className={`level-row${level === value ? ' is-selected' : ''}`}
-                  onClick={() => setLevel(value)}
+                  className={`choice-card${color === 'r' ? ' is-selected' : ''}`}
+                  onClick={() => setColor('r')}
                 >
-                  <span className="level-number">0{value}</span>
-                  <span>
-                    <strong>{label}</strong>
-                    <small>{desc}</small>
-                  </span>
-                  {level === value && <Check size={18} aria-hidden="true" />}
+                  <span className="choice-emblem red">{PIECE_GLYPHS.r.K}</span>
+                  <strong>执红先行</strong>
+                  <span>你先走，掌握主动</span>
                 </button>
-              ))}
+                <button
+                  type="button"
+                  className={`choice-card${color === 'b' ? ' is-selected' : ''}`}
+                  onClick={() => setColor('b')}
+                >
+                  <span className="choice-emblem">{PIECE_GLYPHS.b.K}</span>
+                  <strong>执黑后行</strong>
+                  <span>先看 AI 如何开局</span>
+                </button>
+              </div>
             </div>
-          </div>
+          )}
+
+          {!isHuman && (
+            <div className="field">
+              <span className="field-label">难度</span>
+              <div className="level-list">
+                {([
+                  [1, '入门', '更短思考，适合熟悉规则'],
+                  [2, '进阶', '默认强度，兼顾棋力与速度'],
+                  [3, '挑战', '完整强度，适合认真对弈'],
+                ] as const).map(([value, label, desc]) => (
+                  <button
+                    type="button"
+                    key={value}
+                    className={`level-row${level === value ? ' is-selected' : ''}`}
+                    onClick={() => setLevel(value)}
+                  >
+                    <span className="level-number">0{value}</span>
+                    <span>
+                      <strong>{label}</strong>
+                      <small>{desc}</small>
+                    </span>
+                    {level === value && <Check size={18} aria-hidden="true" />}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {isHuman && (
+            <div className="field">
+              <span className="field-label">规则</span>
+              <ul className="plain-list">
+                <li><Check size={15} aria-hidden="true" /> 红方先行，轮流在同屏落子</li>
+                <li><Check size={15} aria-hidden="true" /> 可翻转棋盘，方便对坐观看</li>
+                <li><Check size={15} aria-hidden="true" /> 悔棋、认输、棋谱记录与人机一致</li>
+              </ul>
+            </div>
+          )}
 
           <button
             type="button"
             className="btn btn-primary btn-large btn-block"
-            disabled={!engineReady || starting}
-            onClick={() => void onStart(color, level)}
+            disabled={(!isHuman && !engineReady) || starting}
+            onClick={() => void onStart(color, level, opponent)}
           >
             <Swords size={19} aria-hidden="true" />
-            {starting ? '正在摆棋…' : engineReady ? '开始对局' : enginePhase === 'error' ? '棋力不可用' : '等待棋力准备'}
+            {starting
+              ? '正在摆棋…'
+              : isHuman
+                ? '开始双人对局'
+                : engineReady
+                  ? '开始对局'
+                  : enginePhase === 'error'
+                    ? 'AI 引擎不可用'
+                    : '等待 AI 引擎'}
           </button>
           <p className="setup-footnote">
             {hasActiveGame && '开始新局会把当前未完成棋局保存为“未完成”。'}
             {hasActiveGame && ' '}
-            {engineReady
-              ? '执黑时，Pikafish 会自动先走。'
-              : '首次启动需要准备本地引擎；准备完成后按钮会自动可用。'}
+            {isHuman
+              ? '双人模式红先；随时可以在设置里打开声音与震动反馈。'
+              : engineReady
+                ? '执黑时，Pikafish 会自动先走。'
+                : '人机对弈需要联网获取 AI 走子；准备完成后按钮会自动可用。'}
           </p>
         </section>
 
@@ -631,7 +712,7 @@ function NewGameSetup({
               <li><Check size={15} aria-hidden="true" /> 无账号、无匹配等待</li>
               <li><Check size={15} aria-hidden="true" /> 每步自动保存到本机</li>
               <li><Check size={15} aria-hidden="true" /> 结束可回放、可继续练</li>
-              <li><Check size={15} aria-hidden="true" /> 引擎在本地运行</li>
+              <li><Check size={15} aria-hidden="true" /> AI 只看当前局面，不保存棋谱</li>
             </ul>
           </section>
         </aside>
