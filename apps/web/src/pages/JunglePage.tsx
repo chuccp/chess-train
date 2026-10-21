@@ -331,16 +331,20 @@ export function JunglePage() {
           <div className="board-toolbar">
             <div className={`turn-chip${aiThinking ? ' is-thinking' : ''}`} aria-live="polite">
               <span className={`turn-disc ${game.state.turn}`} />
-              {finished
-                ? resultText(game.state)
-                : aiThinking
-                  ? 'AI 思考中…'
-                  : isAi && game.state.turn === AI_COLOR
-                    ? 'AI 行棋'
-                    : isAi
-                      ? '轮到你走'
-                      : `${turnName}行棋`}
-              {!finished && <span className="turn-sub">红方先行 · 同一设备轮流落子</span>}
+              {banMode
+                ? '禁着模式'
+                : finished
+                  ? resultText(game.state)
+                  : aiThinking
+                    ? 'AI 思考中…'
+                    : isAi && game.state.turn === AI_COLOR
+                      ? 'AI 行棋'
+                      : isAi
+                        ? '轮到你走'
+                        : `${turnName}行棋`}
+              {!finished && (
+                <span className="turn-sub">{banMode ? '点格子标记/解除禁点' : '红方先行 · 同一设备轮流落子'}</span>
+              )}
             </div>
             <span className="local-game-rule-chip">象 &gt; 狮 &gt; 虎 &gt; 豹 &gt; 狼 &gt; 狗 &gt; 猫 &gt; 鼠</span>
           </div>
@@ -350,8 +354,8 @@ export function JunglePage() {
             selected={selected}
             targets={targets}
             lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null}
-            disabled={finished || aiThinking || (isAi && game.state.turn === AI_COLOR)}
-            onPoint={choose}
+            disabled={banMode ? finished || aiThinking : finished || aiThinking || (isAi && game.state.turn === AI_COLOR)}
+            onPoint={banMode ? toggleBan : choose}
           />
 
           {captureNotice && (
@@ -408,6 +412,16 @@ export function JunglePage() {
               <Undo2 size={18} aria-hidden="true" />
               <span>悔棋</span>
             </button>
+            <button
+              type="button"
+              className={`control-button${banMode ? ' is-active' : ''}`}
+              disabled={finished}
+              onClick={() => setBanMode((value) => !value)}
+              title="标记任何子都不会走到的位置"
+            >
+              <ShieldCheck size={18} aria-hidden="true" />
+              <span>禁着</span>
+            </button>
             <button type="button" className="control-button" disabled={finished} onClick={() => setDialog('new')}>
               <RotateCcw size={18} aria-hidden="true" />
               <span>新局</span>
@@ -459,6 +473,27 @@ export function JunglePage() {
               <span>已走 {game.moves.length} 手</span>
               <span>{formatDuration(elapsed)}</span>
             </div>
+          </section>
+
+          <section className="side-card">
+            <div className="side-heading">
+              <span className="eyebrow">禁着</span>
+              <span className="side-level">{(game.manualBans ?? []).length} 个</span>
+            </div>
+            {(game.manualBans ?? []).length === 0 ? (
+              <p className="muted small">按下「禁着」后点棋盘格子，标记任何子都不会走到的位置；再点一次解除。</p>
+            ) : (
+              <div className="local-move-list">
+                {(game.manualBans ?? []).map((index) => (
+                  <div className="local-move-row" key={index}>
+                    <span>{coordLabel(index)}</span>
+                    <button type="button" className="text-button" onClick={() => toggleBan(index)}>
+                      解除
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
 
           <section className="side-card">

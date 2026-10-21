@@ -14,11 +14,12 @@ import {
 import { CheckersBoard } from '../components/CheckersBoard';
 import { Dialog } from '../components/Dialog';
 import { OpponentPicker, type OpponentMode } from '../components/OpponentPicker';
-import { checkersPosition, requestGridMove } from '../engine/adapters';
+import { checkersPosition, gridPositionKey, requestGridMove } from '../engine/adapters';
 import { useAiTurn } from '../lib/useAiTurn';
 import { formatDuration } from '../lib/format';
 
 type DialogAction = 'new' | 'resign' | null;
+type AiReply = { index?: number; from?: number; to?: number };
 
 interface CheckersMoveRecord {
   from: number;
@@ -34,6 +35,10 @@ interface LocalCheckers {
   endedAt?: string;
   mode: OpponentMode;
   level: 1 | 2 | 3;
+  /** 手动禁点：任何子都不许落到的孔位下标 */
+  manualBans?: number[];
+  /** 局面键 → AI 曾走过的着法；同局面重试时禁掉，换思路 */
+  aiReplies?: Record<string, AiReply[]>;
 }
 
 const STORAGE_KEY = 'qilian.local-checkers.v1';
@@ -77,6 +82,11 @@ function resultText(state: CheckersState): string {
   return `${winner}胜 · ${reason}`;
 }
 
+function holeLabel(index: number): string {
+  const hole = CHECKERS_HOLES[index];
+  return hole ? checkersHoleLabel(hole) : `孔 ${index}`;
+}
+
 export function CheckersPage() {
   const [game, setGame] = useState<LocalCheckers>(() => loadGame());
   const [selected, setSelected] = useState<number | null>(null);
@@ -85,6 +95,7 @@ export function CheckersPage() {
   const [dialog, setDialog] = useState<DialogAction>(null);
   const [now, setNow] = useState(Date.now());
   const [aiThinking, setAiThinking] = useState(false);
+  const [banMode, setBanMode] = useState(false);
 
   const finished = game.state.status.status !== 'playing';
   const isAi = game.mode === 'ai';
@@ -114,7 +125,13 @@ export function CheckersPage() {
   useAiTurn(isAi && !finished && game.state.turn === AI_COLOR, `${game.startedAt}:${game.moves.length}`, async () => {
     setAiThinking(true);
     try {
-      const move = await requestGridMove(checkersPosition(game.state), game.level, AI_TIME_MS[game.level]);
+      const position = checkersPosition(game.state);
+      const positionKey = gridPositionKey(position);
+      const bans = [
+        ...(game.manualBans ?? []).map((to) => ({ to })),
+        ...(game.aiReplies?.[positionKey] ?? []),
+      ];
+      const move = await requestGridMove(position, game.level, AI_TIME_MS[game.level], bans);
       if (move.kind !== 'move') throw new Error('AI 返回的着法无法识别');
       setGame((previous) => {
         const color = previous.state.board[move.from];
@@ -128,6 +145,10 @@ export function CheckersPage() {
             ...previous.moves,
             { from: move.from, to: move.to, color, ply: previous.moves.length + 1 },
           ],
+          aiReplies: {
+            ...(previous.aiReplies ?? {}),
+            [positionKey]: [...(previous.aiReplies?.[positionKey] ?? []), { from: move.from, to: move.to }],
+          },
         };
       });
       clearSelection();
@@ -138,6 +159,19 @@ export function CheckersPage() {
       setAiThinking(false);
     }
   });
+
+  function toggleBan(hole: number) {
+    const banned = (game.manualBans ?? []).includes(hole);
+    setGame((previous) => {
+      const list = previous.manualBans ?? [];
+      return {
+        ...previous,
+        manualBans: banned ? list.filter((item) => item !== hole) : [...list, hole],
+      };
+    });
+    clearSelection();
+    setMessage(banned ? `已解除 ${holeLabel(hole)}` : `已禁位置 ${holeLabel(hole)}`);
+  }
 
   function clearSelection() {
     setSelected(null);
@@ -259,16 +293,20 @@ export function CheckersPage() {
           <div className="board-toolbar">
             <div className={`turn-chip${aiThinking ? ' is-thinking' : ''}`} aria-live="polite">
               <span className={`turn-disc ${game.state.turn}`} />
-              {finished
-                ? resultText(game.state)
-                : aiThinking
-                  ? 'AI 思考中…'
-                  : isAi && game.state.turn === AI_COLOR
-                    ? 'AI 行棋'
-                    : isAi
-                      ? '轮到你走'
-                      : `${turnName}行棋`}
-              {!finished && <span className="turn-sub">十枚棋子全部进入对面营区即胜</span>}
+              {banMode
+                ? '禁着模式'
+                : finished
+                  ? resultText(game.state)
+                  : aiThinking
+                    ? 'AI 思考中…'
+                    : isAi && game.state.turn === AI_COLOR
+                      ? 'AI 行棋'
+                      : isAi
+                        ? '轮到你走'
+                        : `${turnName}行棋`}
+              {!finished && (
+                <span className="turn-sub">{banMode ? '点格子标记/解除禁点' : '十枚棋子全部进入对面营区即胜'}</span>
+              )}
             </div>
             <span className="local-game-rule-chip">连跳 · 借桥 · 十子归营</span>
           </div>
@@ -278,8 +316,8 @@ export function CheckersPage() {
             selected={selected}
             targets={targets}
             lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null}
-            disabled={finished || aiThinking || (isAi && game.state.turn === AI_COLOR)}
-            onPoint={choose}
+            disabled={banMode ? finished || aiThinking : finished || aiThinking || (isAi && game.state.turn === AI_COLOR)}
+            onPoint={banMode ? toggleBan : choose}
           />
 
           {message && (
@@ -328,6 +366,16 @@ export function CheckersPage() {
             >
               <Undo2 size={18} aria-hidden="true" />
               <span>悔棋</span>
+            </button>
+            <button
+              type="button"
+              className={`control-button${banMode ? ' is-active' : ''}`}
+              disabled={finished}
+              onClick={() => setBanMode((value) => !value)}
+              title="标记任何子都不会走到的孔位"
+            >
+              <ShieldCheck size={18} aria-hidden="true" />
+              <span>禁着</span>
             </button>
             <button type="button" className="control-button" disabled={finished} onClick={() => setDialog('new')}>
               <RotateCcw size={18} aria-hidden="true" />
@@ -380,6 +428,27 @@ export function CheckersPage() {
               <span>已走 {game.moves.length} 手</span>
               <span>{formatDuration(elapsed)}</span>
             </div>
+          </section>
+
+          <section className="side-card">
+            <div className="side-heading">
+              <span className="eyebrow">禁着</span>
+              <span className="side-level">{(game.manualBans ?? []).length} 个</span>
+            </div>
+            {(game.manualBans ?? []).length === 0 ? (
+              <p className="muted small">按下「禁着」后点棋盘孔位，标记任何子都不会走到的位置；再点一次解除。</p>
+            ) : (
+              <div className="local-move-list">
+                {(game.manualBans ?? []).map((hole) => (
+                  <div className="local-move-row" key={hole}>
+                    <span>{holeLabel(hole)}</span>
+                    <button type="button" className="text-button" onClick={() => toggleBan(hole)}>
+                      解除
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
 
           <section className="side-card">
