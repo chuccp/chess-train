@@ -468,37 +468,6 @@ export const useGameStore = create<GameState>((set, get) => ({
       set({ notice: '当前被将军，设置要求先应将' });
       return;
     }
-    if (fromHistory) {
-      if (game.moves.length === 0) {
-        set({ notice: '还没有可悔的棋' });
-        return;
-      }
-      const keep = game.moves.length - 1;
-      const { position, hashes } = replayTo(game.moves, keep);
-      const next = snapshotWithGame(game, {
-        position,
-        positionHashes: hashes,
-        moves: game.moves.slice(0, keep),
-        phase: 'playing',
-        result: { status: 'playing' },
-        updatedAt: new Date().toISOString(),
-        historyResume: true,
-      });
-      set({
-        current: next,
-        selected: null,
-        legalTargets: [],
-        notice: null,
-        hint: null,
-        hintLoading: false,
-        aiInFlight: false,
-        aiError: null,
-        aiToken: get().aiToken + 1,
-        hintToken: get().hintToken + 1,
-      });
-      persist(next);
-      return;
-    }
     const last = game.moves[game.moves.length - 1];
     if (!last) {
       set({ notice: '还没有可悔的棋' });

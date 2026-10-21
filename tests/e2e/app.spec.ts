@@ -175,7 +175,7 @@ test('history review can undo and resume', async ({ page }) => {
   const undo = page.locator('.side-controls .control-button').first();
   await expect(undo).toBeEnabled();
   await undo.click();
-  await expect(page.locator('.move-item')).toHaveCount(1);
+  await expect(page.locator('.move-item')).toHaveCount(0);
   await expect(page.locator('.result-card')).toHaveCount(0);
 });
 test('starts a game, gets an AI reply, and restores the game', async ({ page }) => {
