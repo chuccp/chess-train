@@ -508,6 +508,17 @@ test('mobile tactics success keeps the next action in view', async ({ page }) =>
   expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(844);
 });
 
+test('mobile back link has a comfortable tap target', async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  const page = await context.newPage();
+  await page.goto('/local');
+  const box = await page.locator('.back-link').boundingBox();
+  expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
+  expect(box?.width ?? 0).toBeGreaterThanOrEqual(100);
+  await page.locator('.back-link').click();
+  await expect(page).toHaveURL(/\/$/);
+  await context.close();
+});
 test('mobile layout has no horizontal overflow and an immersive game', async ({ browser }) => {
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },

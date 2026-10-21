@@ -5029,3 +5029,26 @@ p {
   stroke-width: 4;
   filter: drop-shadow(0 0 6px rgba(198, 154, 77, 0.45));
 }
+
+@media (max-width: 560px) {
+  .back-link {
+    min-height: 44px;
+    margin-left: -0.7rem;
+    margin-bottom: 0.85rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 10px;
+    font-size: 0.86rem;
+    touch-action: manipulation;
+  }
+
+  .back-link svg {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+  }
+
+  .back-link:active {
+    background: rgba(45, 86, 70, 0.08);
+    color: var(--ink);
+  }
+}
