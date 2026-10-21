@@ -21,12 +21,20 @@ interface MoveAnimation {
   key: string;
 }
 
+export interface BoardUndoAnimation {
+  from: number;
+  to: number;
+  piece: Piece;
+  key: string;
+}
+
 interface BoardProps {
   position: Position;
   orientation?: Color;
   selected?: number | null;
   legalTargets?: number[];
   lastMove?: { from: number; to: number } | null;
+  undoAnimation?: BoardUndoAnimation | null;
   hint?: { from: number; to: number } | null;
   checkedSquare?: number | null;
   checkmate?: boolean;
@@ -56,6 +64,7 @@ export function Board({
   selected = null,
   legalTargets = [],
   lastMove = null,
+  undoAnimation = null,
   hint = null,
   checkedSquare = null,
   checkmate = false,
@@ -69,15 +78,24 @@ export function Board({
   });
   const buttonRefs = useRef(new Map<number, HTMLButtonElement>());
   const [moveAnimation, setMoveAnimation] = useState<MoveAnimation | null>(null);
+  const [rollbackAnimation, setRollbackAnimation] = useState<BoardUndoAnimation | null>(null);
   const previousBoardRef = useRef(position.board);
   const mountedRef = useRef(false);
   const animationKeyRef = useRef<string | null>(null);
   const ghostRef = useRef<SVGGElement | null>(null);
+  const undoGhostRef = useRef<SVGGElement | null>(null);
 
   useLayoutEffect(() => {
     if (preview) {
       previousBoardRef.current = position.board;
       mountedRef.current = true;
+      return;
+    }
+
+    if (undoAnimation) {
+      previousBoardRef.current = position.board;
+      animationKeyRef.current = lastMove ? `${lastMove.from}-${lastMove.to}` : null;
+      setMoveAnimation(null);
       return;
     }
 
@@ -120,7 +138,41 @@ export function Board({
     return () => {
       window.clearTimeout(timer);
     };
-  }, [lastMove?.from, lastMove?.to, position.board, preview]);
+  }, [lastMove?.from, lastMove?.to, position.board, preview, undoAnimation]);
+
+  useLayoutEffect(() => {
+    if (!undoAnimation || preview) {
+      setRollbackAnimation(null);
+      return;
+    }
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      setRollbackAnimation(null);
+      return;
+    }
+    setRollbackAnimation(undoAnimation);
+    const timer = window.setTimeout(() => {
+      setRollbackAnimation((current) => (current?.key === undoAnimation.key ? null : current));
+    }, 260);
+    return () => window.clearTimeout(timer);
+  }, [undoAnimation, preview]);
+
+  useEffect(() => {
+    if (!rollbackAnimation) return;
+    const from = displayPoint(rollbackAnimation.to, orientation);
+    const to = displayPoint(rollbackAnimation.from, orientation);
+    const started = performance.now();
+    let frame = 0;
+    const step = (now: number) => {
+      const t = Math.min(1, (now - started) / 230);
+      const eased = 1 - (1 - t) ** 3;
+      const x = from.x + (to.x - from.x) * eased;
+      const y = from.y + (to.y - from.y) * eased;
+      undoGhostRef.current?.setAttribute('transform', `translate(${x} ${y})`);
+      if (t < 1) frame = requestAnimationFrame(step);
+    };
+    frame = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frame);
+  }, [rollbackAnimation, orientation]);
 
   useEffect(() => {
     if (!moveAnimation) return;
@@ -289,7 +341,7 @@ export function Board({
 
         {points.map(({ square, x, y, piece }) => {
           if (!piece) return null;
-          if (moveAnimation && square === moveAnimation.to) return null;
+          if ((moveAnimation && square === moveAnimation.to) || (rollbackAnimation && square === rollbackAnimation.from)) return null;
           const isSelected = selected === square;
           const isChecked = checkedSquare === square;
           const isHintTarget = hint?.to === square;
@@ -348,6 +400,25 @@ export function Board({
               <circle r="36" className="piece-ring" />
               <text className="piece-glyph" textAnchor="middle" dominantBaseline="central">
                 {PIECE_GLYPHS[moveAnimation.piece.color][moveAnimation.piece.type]}
+              </text>
+            </g>
+          );
+        })()}
+        {rollbackAnimation && (() => {
+          const from = displayPoint(rollbackAnimation.to, orientation);
+          return (
+            <g
+              key={`undo-ghost-${rollbackAnimation.key}`}
+              className={`piece piece-ghost piece-rollback ${rollbackAnimation.piece.color === 'r' ? 'piece-red' : 'piece-black'}`}
+              aria-hidden="true"
+              filter="url(#piece-shadow)"
+              ref={undoGhostRef}
+              transform={`translate(${from.x} ${from.y})`}
+            >
+              <circle r="43" className="piece-disc" />
+              <circle r="36" className="piece-ring" />
+              <text className="piece-glyph" textAnchor="middle" dominantBaseline="central">
+                {PIECE_GLYPHS[rollbackAnimation.piece.color][rollbackAnimation.piece.type]}
               </text>
             </g>
           );

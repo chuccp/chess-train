@@ -25,7 +25,7 @@ import {
   toFen,
   type Color,
 } from '@qilian/xiangqi';
-import { Board } from '../components/Board';
+import { Board, type BoardUndoAnimation } from '../components/Board';
 import { Dialog } from '../components/Dialog';
 import { MoveList } from '../components/MoveList';
 import { formatDuration } from '../lib/format';
@@ -105,6 +105,13 @@ export function LocalPlayPage() {
   const [targets, setTargets] = useState<number[]>([]);
   const [message, setMessage] = useState<string | null>(null);
   const [captureNotice, setCaptureNotice] = useState<string | null>(null);
+  const [undoAnimation, setUndoAnimation] = useState<BoardUndoAnimation | null>(null);
+
+  useEffect(() => {
+    if (!undoAnimation) return;
+    const timer = window.setTimeout(() => setUndoAnimation(null), 320);
+    return () => window.clearTimeout(timer);
+  }, [undoAnimation]);
   const settings = useSettingsStore();
   const [dialog, setDialog] = useState<DialogAction>(null);
   const [now, setNow] = useState(Date.now());
@@ -237,6 +244,7 @@ export function LocalPlayPage() {
 
   function undo() {
     if (!canUndo) return;
+    const undone = game.moves[game.moves.length - 1];
     const moves = game.moves.slice(0, -undoPlies);
     let position = parseFen(START_FEN);
     const positionHashes = [hashPosition(position)];
@@ -247,6 +255,17 @@ export function LocalPlayPage() {
       positionHashes.push(hashPosition(position));
     }
     setCaptureNotice(null);
+    const undonePiece = undone ? position.board[undone.from] : null;
+    setUndoAnimation(
+      undone && undonePiece
+        ? {
+            from: undone.from,
+            to: undone.to,
+            piece: undonePiece,
+            key: `${undone.ucci}-${Date.now()}`,
+          }
+        : null,
+    );
     setGame((previous) => ({
       ...previous,
       fen: toFen(position),
@@ -337,6 +356,7 @@ export function LocalPlayPage() {
               game.result.winner === finishedWinner
             }
             interactive={!finished}
+            undoAnimation={undoAnimation}
             onPoint={handlePoint}
           />
 

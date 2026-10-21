@@ -5246,3 +5246,13 @@ p {
     width: 100%;
   }
 }
+
+.piece-ghost {
+  pointer-events: none;
+}
+
+.piece-rollback .piece-disc {
+  stroke: var(--gold);
+  stroke-width: 4;
+  filter: drop-shadow(0 0 6px rgba(198, 154, 77, 0.45));
+}

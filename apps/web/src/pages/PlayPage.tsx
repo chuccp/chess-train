@@ -19,7 +19,7 @@ import {
   isInCheck,
   type Color,
 } from '@qilian/xiangqi';
-import { Board } from '../components/Board';
+import { Board, type BoardUndoAnimation } from '../components/Board';
 import { EnginePrepCard } from '../components/EnginePrepCard';
 import { Dialog } from '../components/Dialog';
 import { MoveList } from '../components/MoveList';
@@ -61,6 +61,13 @@ export function PlayPage() {
   const [starting, setStarting] = useState(false);
   const [now, setNow] = useState(Date.now());
   const [captureNotice, setCaptureNotice] = useState<string | null>(null);
+  const [undoAnimation, setUndoAnimation] = useState<BoardUndoAnimation | null>(null);
+
+  useEffect(() => {
+    if (!undoAnimation) return;
+    const timer = window.setTimeout(() => setUndoAnimation(null), 320);
+    return () => window.clearTimeout(timer);
+  }, [undoAnimation]);
   const seenMoveCountRef = useRef(current?.moves.length ?? 0);
 
   useEffect(() => {
@@ -97,6 +104,7 @@ export function PlayPage() {
 
   useEffect(() => {
     setDialog(null);
+    setUndoAnimation(null);
   }, [current?.id]);
 
   const checked = useMemo(() => {
@@ -152,6 +160,24 @@ export function PlayPage() {
         current.moves.length > 0 &&
         (lastMoveColor === playerColor ||
           (current.moves.length >= 2 && current.moves[current.moves.length - 2]?.color === playerColor))));
+
+  function handleUndo() {
+    if (!current || !canUndo) {
+      undo();
+      return;
+    }
+    const last = current.moves[current.moves.length - 1];
+    const piece = last ? current.position.board[last.to] : null;
+    if (last && piece) {
+      setUndoAnimation({
+        from: last.from,
+        to: last.to,
+        piece,
+        key: `${last.ucci}-${Date.now()}`,
+      });
+    }
+    undo();
+  }
 
   const statusText = isFinished
     ? resultLabel(current.result, playerColor)
@@ -212,6 +238,7 @@ export function PlayPage() {
             checkedSquare={checked}
             checkmate={isFinished && current.result.status === 'win' && current.result.reason === 'checkmate'}
             interactive={interactive}
+            undoAnimation={undoAnimation}
             onPoint={playSquare}
           />
 
@@ -304,7 +331,7 @@ export function PlayPage() {
               type="button"
               className="control-button"
               disabled={!canUndo}
-              onClick={undo}
+              onClick={handleUndo}
               title={lastMoveColor === playerColor ? '退一手' : '退两步（含机器应手）'}
             >
               <Undo2 size={18} aria-hidden="true" />
