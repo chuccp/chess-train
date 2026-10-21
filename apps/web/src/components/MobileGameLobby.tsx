@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, GraduationCap, Play, ShieldCheck, Swords, Users } from 'lucide-react';
+import { ArrowRight, GraduationCap, Play, ShieldCheck, Swords } from 'lucide-react';
 import { createInitialPosition, type Color } from '@qilian/xiangqi';
 import { Board } from './Board';
 import { levelLabel, resultLabel } from '../stores/game';
@@ -158,26 +158,11 @@ export function MobileGameLobby({
         )}
       </div>
 
-      <Link to="/local" className="mobile-lobby-local">
-        <span className="mobile-lobby-local-icon" aria-hidden="true">
-          <Users size={18} />
-        </span>
-        <span className="mobile-lobby-local-copy">
-          <strong>线下双人</strong>
-          <small>5 张棋桌 · 同一台设备</small>
-        </span>
-        <ArrowRight size={17} aria-hidden="true" />
-      </Link>
-
       <div className="mobile-lobby-foot">
         <span>
           <ShieldCheck size={14} aria-hidden="true" />
           {offlineReady ? '断网也能下' : '首次需准备约 4.6 MB 棋力'}
         </span>
-        <Link to="/local" className="text-link">
-          <Users size={14} aria-hidden="true" />
-          双人对弈
-        </Link>
         <Link to="/train" className="text-link">
           <GraduationCap size={14} aria-hidden="true" />
           先去训练

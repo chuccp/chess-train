@@ -12,11 +12,14 @@ test('home loads with the offline engine ready', async ({ page }) => {
   await expect(page.locator('.desktop-nav')).toBeVisible();
 });
 
-test('home surfaces the offline two-player entry', async ({ page }) => {
+test('home has one offline two-player entry', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.home-local-banner')).toBeVisible();
-  await expect(page.locator('.home-local-banner')).toContainText('两个人，一台设备');
-  await page.locator('.home-local-banner').click();
+  await expect(page.locator('.home-local-banner')).toHaveCount(0);
+  await expect(page.locator('.mobile-lobby-local')).toHaveCount(0);
+  const localEntry = page.locator('.nav-link-local');
+  await expect(localEntry).toHaveCount(1);
+  await expect(localEntry).toBeVisible();
+  await localEntry.click();
   await expect(page).toHaveURL(/\/local$/);
   await expect(page.locator('.local-game-card')).toHaveCount(5);
 });

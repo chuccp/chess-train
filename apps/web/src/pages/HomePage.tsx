@@ -16,7 +16,6 @@ import {
   Swords,
   Target,
   Trophy,
-  Users,
 } from 'lucide-react';
 import { contentStats, trainingKindLabels } from '@qilian/content';
 import type { Color } from '@qilian/xiangqi';
@@ -148,11 +147,6 @@ export function HomePage() {
               <GraduationCap size={18} aria-hidden="true" />
               去训练
             </Link>
-            <Link to="/local" className="btn btn-local btn-large">
-              <Users size={18} aria-hidden="true" />
-              线下双人
-              <span className="btn-local-badge">5 种</span>
-            </Link>
           </div>
 
           <div className="hero-note">
@@ -191,21 +185,6 @@ export function HomePage() {
           </div>
         </div>
       </section>
-
-      <Link to="/local" className="home-local-banner">
-        <span className="home-local-mark" aria-hidden="true">
-          <Users size={24} />
-        </span>
-        <span className="home-local-copy">
-          <span className="home-local-eyebrow">线下棋桌 · 5 种棋</span>
-          <strong>两个人，一台设备</strong>
-          <small>中国象棋、五子棋、斗兽棋、跳棋、四子棋，不用登录，轮流落子。</small>
-        </span>
-        <span className="home-local-cta">
-          选一张棋桌
-          <ArrowRight size={17} aria-hidden="true" />
-        </span>
-      </Link>
 
       {!engineReady && (
         <section className="section">
