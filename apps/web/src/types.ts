@@ -36,6 +36,12 @@ export interface GameSnapshot {
   updatedAt: string;
   elapsedMs: number;
   historyResume?: boolean;
+  /** 手动禁点：被禁止的落点格子（AI 与提示都不会走） */
+  manualBans?: number[];
+  /** 每个局面哈希下 AI 曾走过的着法（uci）；悔棋后重试时禁掉，让 AI 换思路 */
+  aiReplies?: Record<string, string[]>;
+  /** 当前局面已给出的提示着法（uci）；「换一个提示」时排除 */
+  hintBans?: string[];
 }
 
 export interface FinishedGame {

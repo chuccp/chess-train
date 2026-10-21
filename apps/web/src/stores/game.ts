@@ -6,7 +6,9 @@ import {
   generateLegalMoves,
   hashPosition,
   isInCheck,
+  moveToUcci,
   parseFen,
+  parseUcci,
   parseUcciMove,
   pieceAt,
   opposite,
@@ -15,7 +17,7 @@ import {
   type Color,
   type Position,
 } from '@qilian/xiangqi';
-import { engineApi } from '../engine/api';
+import { engineApi, type ApiForbiddenMove } from '../engine/api';
 import { useEngineStore } from './engine';
 import { useSettingsStore } from './settings';
 import {
@@ -117,6 +119,69 @@ function feedback(kind: 'move' | 'capture' | 'check' | 'win' | 'error'): void {
   if (settings.haptics) vibrate(kind === 'error' ? [20, 30, 20] : 10);
 }
 
+function matchesBan(ucci: string, ban: ApiForbiddenMove): boolean {
+  if (ban.uci !== undefined) return ban.uci === ucci;
+  const parsed = parseUcci(ucci);
+  if (!parsed) return false;
+  if (ban.from !== undefined && ban.from !== parsed.from) return false;
+  if (ban.to !== undefined && ban.to !== parsed.to) return false;
+  return ban.from !== undefined || ban.to !== undefined;
+}
+
+/** 丢掉无效禁着；覆盖全部合法着法时整体放弃（接口会 400）。 */
+function pruneBans(legalUccis: string[], bans: ApiForbiddenMove[]): ApiForbiddenMove[] {
+  if (bans.length === 0 || legalUccis.length === 0) return [];
+  const blocked = new Set<string>();
+  for (const ban of bans) {
+    for (const ucci of legalUccis) {
+      if (matchesBan(ucci, ban)) blocked.add(ucci);
+    }
+  }
+  if (blocked.size === 0 || blocked.size >= legalUccis.length) return [];
+  return bans;
+}
+
+/** 长将禁着：走这步继续将军且局面已出现过两次以上 → 该由长将方变着。 */
+function isPerpetualCheckMove(position: Position, hashes: string[], ucci: string): boolean {
+  const move = parseUcciMove(position, ucci);
+  if (!move) return false;
+  const result = applyMove(position, move.from, move.to);
+  if (!result.ok || !result.givesCheck) return false;
+  const hash = hashPosition(result.position);
+  return hashes.filter((item) => item === hash).length >= 2;
+}
+
+/**
+ * 带禁着的引擎搜索：
+ * - baseBans（手动禁点 / 历史应手 / 已给提示）直接传给接口；
+ * - 命中长将禁着时把该着法追加进禁着重新请求，最多三次。
+ */
+async function searchWithBans(
+  position: Position,
+  hashes: string[],
+  baseBans: ApiForbiddenMove[],
+  level: Level,
+  timeLimitMs: number,
+): Promise<string> {
+  const legalUccis = generateLegalMoves(position).map((move) => moveToUcci(move.from, move.to));
+  const extra: ApiForbiddenMove[] = [];
+  let ucci = '';
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const result = await engineApi.search({
+      game: 'xiangqi',
+      fen: toFen(position),
+      level,
+      timeLimitMs,
+      forbiddenMoves: pruneBans(legalUccis, [...baseBans, ...extra]),
+    });
+    ucci = result.move.uci ?? '';
+    if (!ucci) throw new Error('AI 未返回着法');
+    if (!isPerpetualCheckMove(position, hashes, ucci)) return ucci;
+    extra.push({ uci: ucci });
+  }
+  return ucci;
+}
+
 interface GameState {
   current: GameSnapshot | null;
   hydrated: boolean;
@@ -134,6 +199,7 @@ interface GameState {
   startNewGame: (playerColor: Color, level: Level, opponent?: GameMode) => Promise<boolean>;
   resumeFinishedGame: (record: FinishedGame, keepMoves: number) => boolean;
   playSquare: (square: number) => void;
+  toggleManualBan: (square: number) => void;
   requestAi: () => Promise<void>;
   requestHint: () => Promise<void>;
   clearHint: () => void;
@@ -325,6 +391,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       moves: [...game.moves, record],
       phase: finished ? 'finished' : game.mode === 'human' ? 'playing' : 'ai_thinking',
       result: end,
+      hintBans: [],
     });
 
     set({
@@ -348,6 +415,27 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
   },
 
+  toggleManualBan(square) {
+    const state = get();
+    const game = state.current;
+    if (!game || game.phase === 'finished') return;
+    const current = game.manualBans ?? [];
+    const manualBans = current.includes(square)
+      ? current.filter((item) => item !== square)
+      : [...current, square];
+    const wasThinking = game.phase === 'ai_thinking';
+    if (wasThinking || state.aiInFlight) engineApi.stop();
+    const next = snapshotWithGame(game, { manualBans, hintBans: [] });
+    set({
+      current: next,
+      hint: null,
+      hintToken: get().hintToken + 1,
+      // 取消在途搜索并让 App 的触发器带新禁着重新请求
+      ...(wasThinking ? { aiInFlight: false, aiToken: get().aiToken + 1 } : {}),
+    });
+    persist(next);
+  },
+
   async requestAi() {
     const state = get();
     const game = state.current;
@@ -361,14 +449,18 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ aiInFlight: true, aiError: null, aiToken: token });
 
     try {
-      const search = await engineApi.search({
-        game: 'xiangqi',
-        fen: toFen(game.position),
-        level: game.level,
-        timeLimitMs: AI_TIME_MS[game.level],
-      });
-      const ucci = search.move.uci;
-      if (!ucci) throw new Error('AI 未返回着法');
+      const positionKey = hashPosition(game.position);
+      const baseBans: ApiForbiddenMove[] = [
+        ...(game.manualBans ?? []).map((to) => ({ to })),
+        ...(game.aiReplies?.[positionKey] ?? []).map((uci) => ({ uci })),
+      ];
+      const ucci = await searchWithBans(
+        game.position,
+        game.positionHashes,
+        baseBans,
+        game.level,
+        AI_TIME_MS[game.level],
+      );
       const latest = get();
       if (!latest.current || latest.current.id !== game.id || latest.aiToken !== token) return;
       if (latest.current.phase !== 'ai_thinking') return;
@@ -394,6 +486,11 @@ export const useGameStore = create<GameState>((set, get) => ({
         moves: [...latest.current.moves, record],
         phase: finished ? 'finished' : 'playing',
         result: end,
+        hintBans: [],
+        aiReplies: {
+          ...(latest.current.aiReplies ?? {}),
+          [positionKey]: [...(latest.current.aiReplies?.[positionKey] ?? []), ucci],
+        },
       });
 
       set({ current: next, aiInFlight: false, aiError: null, aiToken: get().aiToken + 1, hint: null });
@@ -434,20 +531,22 @@ export const useGameStore = create<GameState>((set, get) => ({
     const token = ++hintTokenSeq;
     set({ hintLoading: true, hint: null, hintToken: token });
     try {
-      const result = await engineApi.search({
-        game: 'xiangqi',
-        fen: toFen(game.position),
-        level: 3,
-        timeLimitMs: 900,
-      });
-      const ucci = result.move.uci;
-      if (!ucci) throw new Error('AI 未返回着法');
+      const shown = game.hintBans ?? [];
+      const baseBans: ApiForbiddenMove[] = [
+        ...(game.manualBans ?? []).map((to) => ({ to })),
+        ...shown.map((uci) => ({ uci })),
+      ];
+      const ucci = await searchWithBans(game.position, game.positionHashes, baseBans, 3, 900);
       const latest = get();
       if (!latest.current || latest.current.id !== game.id || latest.hintToken !== token) return;
       if (latest.current.moves.length !== game.moves.length) return;
       const legal = parseUcciMove(latest.current.position, ucci);
       if (!legal) throw new Error('提示着法不合法');
-      set({ hint: { from: legal.from, to: legal.to }, hintLoading: false });
+      set({
+        current: snapshotWithGame(latest.current, { hintBans: [...shown, ucci] }),
+        hint: { from: legal.from, to: legal.to },
+        hintLoading: false,
+      });
     } catch (error) {
       const latest = get();
       if (latest.hintToken !== token) return;
@@ -507,6 +606,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       moves: game.moves.slice(0, keep),
       phase: 'playing',
       result: end,
+      hintBans: [],
     });
     set({
       current: next,

@@ -21,6 +21,14 @@ export interface ApiMove {
   notation?: string;
 }
 
+/** 禁着条目：未填的字段视为通配（如只填 to 表示禁走该落点）。 */
+export interface ApiForbiddenMove {
+  uci?: string;
+  index?: number;
+  from?: number;
+  to?: number;
+}
+
 export interface EngineMoveInput {
   game: EngineGame;
   /** FEN 棋种（象棋）传局面 FEN */
@@ -30,6 +38,8 @@ export interface EngineMoveInput {
   turn?: string;
   level: 1 | 2 | 3;
   timeLimitMs?: number;
+  /** 禁着列表：引擎不会走这些着法 */
+  forbiddenMoves?: ApiForbiddenMove[];
 }
 
 export interface EngineMoveResult {
@@ -84,6 +94,7 @@ class EngineApi {
           ...(input.turn ? { turn: input.turn } : {}),
           difficulty: LEVEL_DIFFICULTY[input.level],
           timeLimitMs: input.timeLimitMs,
+          ...(input.forbiddenMoves?.length ? { forbiddenMoves: input.forbiddenMoves } : {}),
         }),
       });
       const body = (await res.json().catch(() => null)) as

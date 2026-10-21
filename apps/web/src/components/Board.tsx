@@ -36,6 +36,7 @@ interface BoardProps {
   lastMove?: { from: number; to: number } | null;
   undoAnimation?: BoardUndoAnimation | null;
   hint?: { from: number; to: number } | null;
+  bannedPoints?: number[];
   checkedSquare?: number | null;
   checkmate?: boolean;
   interactive?: boolean;
@@ -66,6 +67,7 @@ export function Board({
   lastMove = null,
   undoAnimation = null,
   hint = null,
+  bannedPoints = [],
   checkedSquare = null,
   checkmate = false,
   interactive = true,
@@ -338,6 +340,17 @@ export function Board({
             />
           </g>
         )}
+
+        {bannedPoints.map((square) => {
+          const point = displayPoint(square, orientation);
+          return (
+            <g key={`ban-${square}`} className="ban-marker" transform={`translate(${point.x} ${point.y})`} aria-hidden="true">
+              <circle r="14" className="ban-marker-ring" />
+              <line x1="-7" y1="-7" x2="7" y2="7" className="ban-marker-cross" />
+              <line x1="-7" y1="7" x2="7" y2="-7" className="ban-marker-cross" />
+            </g>
+          );
+        })}
 
         {points.map(({ square, x, y, piece }) => {
           if (!piece) return null;

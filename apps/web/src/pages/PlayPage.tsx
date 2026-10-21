@@ -31,6 +31,10 @@ import type { GameMode, Level } from '../types';
 
 type DialogAction = 'resign' | 'new' | 'switch' | null;
 
+function squareLabel(square: number): string {
+  return `${'abcdefghi'[square % 9]}${Math.floor(square / 9)}`;
+}
+
 export function PlayPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -49,6 +53,8 @@ export function PlayPage() {
   const aiInFlight = useGameStore((state) => state.aiInFlight);
   const aiError = useGameStore((state) => state.aiError);
   const playSquare = useGameStore((state) => state.playSquare);
+  const toggleManualBan = useGameStore((state) => state.toggleManualBan);
+  const manualBans = useGameStore((state) => state.current?.manualBans);
   const requestHint = useGameStore((state) => state.requestHint);
   const undo = useGameStore((state) => state.undo);
   const resign = useGameStore((state) => state.resign);
@@ -59,6 +65,7 @@ export function PlayPage() {
 
   const [dialog, setDialog] = useState<DialogAction>(null);
   const [starting, setStarting] = useState(false);
+  const [banMode, setBanMode] = useState(false);
   const [now, setNow] = useState(Date.now());
   const [captureNotice, setCaptureNotice] = useState<string | null>(null);
   const [undoAnimation, setUndoAnimation] = useState<BoardUndoAnimation | null>(null);
@@ -223,10 +230,12 @@ export function PlayPage() {
           <div className="board-toolbar">
             <div className={`turn-chip${current.phase === 'ai_thinking' ? ' is-thinking' : ''}`} aria-live="polite">
               <span className={`turn-disc ${current.position.turn}`} />
-              {statusText}
-              {!isFinished && current.phase === 'playing' && (
+              {banMode ? '禁着模式' : statusText}
+              {!isFinished && (banMode ? (
+                <span className="turn-sub">点格子标记/解除禁点</span>
+              ) : current.phase === 'playing' && (
                 <span className="turn-sub">{playerTurn ? '请落子' : '请稍候'}</span>
-              )}
+              ))}
             </div>
             <button
               type="button"
@@ -253,11 +262,12 @@ export function PlayPage() {
             legalTargets={legalTargets}
             lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null}
             hint={hint}
+            bannedPoints={manualBans ?? []}
             checkedSquare={checked}
             checkmate={isFinished && current.result.status === 'win' && current.result.reason === 'checkmate'}
-            interactive={interactive}
+            interactive={banMode ? !isFinished : interactive}
             undoAnimation={undoAnimation}
-            onPoint={playSquare}
+            onPoint={banMode ? toggleManualBan : playSquare}
           />
 
           {captureNotice && (
@@ -372,7 +382,17 @@ export function PlayPage() {
               onClick={() => void requestHint()}
             >
               {hintLoading ? <Loader2 size={18} className="spin" aria-hidden="true" /> : <Lightbulb size={18} aria-hidden="true" />}
-              <span>{hintLoading ? '思考中' : '提示'}</span>
+              <span>{hintLoading ? '思考中' : hint ? '换一个' : '提示'}</span>
+            </button>
+            <button
+              type="button"
+              className={`control-button${banMode ? ' is-active' : ''}`}
+              disabled={isFinished}
+              onClick={() => setBanMode((value) => !value)}
+              title="标记 AI 与提示都不会走的位置"
+            >
+              <ShieldCheck size={18} aria-hidden="true" />
+              <span>禁着</span>
             </button>
             <button
               type="button"
@@ -444,7 +464,30 @@ export function PlayPage() {
             {hint && (
               <div className="hint-note">
                 <Lightbulb size={15} aria-hidden="true" />
-                提示：看棋盘上的金色箭头。
+                提示：看棋盘上的金色箭头。再按「换一个」可看别的候选。
+              </div>
+            )}
+          </section>
+
+          <section className="side-card">
+            <div className="side-heading">
+              <span className="eyebrow">禁着</span>
+              <span className="side-level">{(manualBans ?? []).length} 个</span>
+            </div>
+            {(manualBans ?? []).length === 0 ? (
+              <p className="muted small">
+                按下「禁着」后点棋盘格子，标记 AI 和提示都不会走的落点；再点一次解除。
+              </p>
+            ) : (
+              <div className="local-move-list">
+                {(manualBans ?? []).map((square) => (
+                  <div className="local-move-row" key={square}>
+                    <span>{squareLabel(square)}</span>
+                    <button type="button" className="text-button" onClick={() => toggleManualBan(square)}>
+                      解除
+                    </button>
+                  </div>
+                ))}
               </div>
             )}
           </section>

@@ -1,6 +1,6 @@
 // 各棋类与 auto-chess 接口之间的棋盘/着法适配。
 // 棋盘都是「从上到下、从左到右」的扁平数组，与接口约定一致（index = row * cols + col）。
-import { engineApi, type EngineMoveResult } from './api';
+import { engineApi, type ApiForbiddenMove, type EngineMoveResult } from './api';
 import type { GomokuState } from '../games/gomoku';
 import type { Connect4State } from '../games/connect4';
 import type { JungleState } from '../games/jungle';
@@ -29,9 +29,24 @@ export async function requestGridMove(
   position: GridPosition,
   level: 1 | 2 | 3,
   timeLimitMs?: number,
+  forbiddenMoves?: ApiForbiddenMove[],
 ): Promise<GridAiMove> {
-  const result = await engineApi.search({ ...position, level, timeLimitMs });
+  const result = await engineApi.search({ ...position, level, timeLimitMs, forbiddenMoves });
   return gridMoveFromResult(result);
+}
+
+/** 局面标识：同一局面重试 AI 时用它禁掉上次的应手（悔棋后换思路）。 */
+export function gridPositionKey(position: GridPosition): string {
+  return `${position.turn}|${JSON.stringify(position.board)}`;
+}
+
+/** 落子类棋种：禁点覆盖全部空位时整体放弃（接口会 400）。 */
+export function prunePlacementBans(board: string[], bans: ApiForbiddenMove[]): ApiForbiddenMove[] {
+  const empty = board.reduce((count, cell) => (cell ? count : count + 1), 0);
+  const bannedCells = new Set(bans.map((ban) => ban.index).filter((index): index is number => index !== undefined));
+  const blocked = board.reduce((count, cell, index) => (!cell && bannedCells.has(index) ? count + 1 : count), 0);
+  if (blocked === 0 || blocked >= empty) return [];
+  return bans;
 }
 
 export function gomokuPosition(state: GomokuState): GridPosition {
