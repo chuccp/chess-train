@@ -4,7 +4,8 @@ import { EngineBadge } from './EngineBadge';
 
 const desktopNav = [
   { to: '/', label: '练习', icon: Home, end: true },
-  { to: '/local', label: '人人', icon: Users },
+  { to: '/play', label: '象棋', icon: Swords },
+  { to: '/local', label: '其它棋', icon: Users },
   { to: '/train', label: '训练', icon: GraduationCap },
   { to: '/history', label: '棋谱', icon: History },
   { to: '/settings', label: '设置', icon: Settings },
@@ -12,8 +13,8 @@ const desktopNav = [
 
 const mobileNav = [
   { to: '/', label: '首页', icon: Home, end: true },
-  { to: '/play', label: '人机', icon: Swords },
-  { to: '/local', label: '人人', icon: Users },
+  { to: '/play', label: '象棋', icon: Swords },
+  { to: '/local', label: '其它棋', icon: Users },
   { to: '/train', label: '训练', icon: GraduationCap },
   { to: '/history', label: '棋谱', icon: History },
   { to: '/settings', label: '设置', icon: Settings },

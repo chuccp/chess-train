@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Flag, RotateCcw, ShieldCheck, Undo2 } from 'lucide-react';
+import { ArrowLeft, Flag, Loader2, RotateCcw, ShieldCheck, Undo2 } from 'lucide-react';
 import {
   GOMOKU_SIZE,
   createGomokuInitial,
@@ -11,6 +11,9 @@ import {
 } from '../games/gomoku';
 import { GomokuBoard } from '../components/GomokuBoard';
 import { Dialog } from '../components/Dialog';
+import { OpponentPicker, type OpponentMode } from '../components/OpponentPicker';
+import { gomokuPosition, requestGridMove } from '../engine/adapters';
+import { useAiTurn } from '../lib/useAiTurn';
 import { formatDuration } from '../lib/format';
 
 type DialogAction = 'new' | 'resign' | null;
@@ -26,12 +29,18 @@ interface LocalGomoku {
   moves: GomokuMoveRecord[];
   startedAt: string;
   endedAt?: string;
+  mode: OpponentMode;
+  level: 1 | 2 | 3;
 }
 
 const STORAGE_KEY = 'qilian.local-gomoku.v1';
+/** 人机模式：你执黑先行，AI 执白。 */
+const HUMAN_COLOR: GomokuColor = 'b';
+const AI_COLOR: GomokuColor = 'w';
+const AI_TIME_MS: Record<1 | 2 | 3, number> = { 1: 300, 2: 700, 3: 1200 };
 
-function freshGame(): LocalGomoku {
-  return { state: createGomokuInitial(), moves: [], startedAt: new Date().toISOString() };
+function freshGame(mode: OpponentMode = 'ai', level: 1 | 2 | 3 = 2): LocalGomoku {
+  return { state: createGomokuInitial(), moves: [], startedAt: new Date().toISOString(), mode, level };
 }
 
 function loadGame(): LocalGomoku {
@@ -42,7 +51,11 @@ function loadGame(): LocalGomoku {
     if (!saved?.state || saved.state.board?.length !== GOMOKU_SIZE * GOMOKU_SIZE || !Array.isArray(saved.moves)) {
       return freshGame();
     }
-    return saved;
+    return {
+      ...saved,
+      mode: saved.mode === 'local' ? 'local' : 'ai',
+      level: saved.level === 1 || saved.level === 3 ? saved.level : 2,
+    };
   } catch {
     return freshGame();
   }
@@ -64,11 +77,14 @@ export function GomokuPage() {
   const [message, setMessage] = useState<string | null>(null);
   const [dialog, setDialog] = useState<DialogAction>(null);
   const [now, setNow] = useState(Date.now());
+  const [aiThinking, setAiThinking] = useState(false);
 
   const finished = game.state.status.status !== 'playing';
+  const isAi = game.mode === 'ai';
   const elapsed = new Date(game.endedAt ?? now).getTime() - new Date(game.startedAt).getTime();
   const turnName = game.state.turn === 'b' ? '黑方' : '白方';
   const winningLine = game.state.status.status === 'win' ? game.state.status.line : [];
+  const modeLocked = game.moves.length > 0 && !finished;
 
   useEffect(() => {
     try {
@@ -84,9 +100,33 @@ export function GomokuPage() {
     return () => window.clearInterval(timer);
   }, [finished]);
 
+  useAiTurn(isAi && !finished && game.state.turn === AI_COLOR, `${game.startedAt}:${game.moves.length}`, async () => {
+    setAiThinking(true);
+    try {
+      const move = await requestGridMove(gomokuPosition(game.state), game.level, AI_TIME_MS[game.level]);
+      if (move.kind !== 'place') throw new Error('AI 返回的着法无法识别');
+      setGame((previous) => {
+        const next = placeGomokuStone(previous.state, move.index);
+        if (next === previous.state) return previous;
+        return {
+          ...previous,
+          state: next,
+          endedAt: next.status.status === 'playing' ? undefined : new Date().toISOString(),
+          moves: [...previous.moves, { index: move.index, color: AI_COLOR, ply: previous.moves.length + 1 }],
+        };
+      });
+      setMessage(null);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : String(error));
+    } finally {
+      setAiThinking(false);
+    }
+  });
+
   function play(index: number) {
-    if (finished || game.state.board[index]) {
-      if (game.state.board[index]) setMessage('这个交叉点已经有棋子了。');
+    if (finished || (isAi && game.state.turn !== HUMAN_COLOR) || aiThinking) return;
+    if (game.state.board[index]) {
+      setMessage('这个交叉点已经有棋子了。');
       return;
     }
     const color = game.state.turn;
@@ -103,17 +143,31 @@ export function GomokuPage() {
 
   function undo() {
     if (finished || game.moves.length === 0) return;
+    // 人机模式：若最后一手是 AI 走的，连退两手把回合还给玩家。
+    const removeCount = isAi && game.moves[game.moves.length - 1]?.color === AI_COLOR ? 2 : 1;
+    const keep = game.moves.slice(0, Math.max(0, game.moves.length - removeCount));
     let state = createGomokuInitial();
-    for (const move of game.moves.slice(0, -1)) {
+    for (const move of keep) {
       state = placeGomokuStone(state, move.index);
     }
     setGame((previous) => ({
       ...previous,
       state,
-      moves: previous.moves.slice(0, -1),
+      moves: keep,
       endedAt: undefined,
     }));
     setMessage(null);
+  }
+
+  function changeMode(mode: OpponentMode) {
+    if (mode === game.mode) return;
+    setGame(freshGame(mode, game.level));
+    setMessage(null);
+  }
+
+  function changeLevel(level: 1 | 2 | 3) {
+    if (level === game.level) return;
+    setGame((previous) => ({ ...previous, level }));
   }
 
   function resign() {
@@ -123,7 +177,8 @@ export function GomokuPage() {
         ...previous.state,
         status: {
           status: 'win',
-          winner: oppositeGomokuColor(previous.state.turn),
+          // 人机模式玩家认输；双人模式行棋方认输。
+          winner: previous.mode === 'ai' ? AI_COLOR : oppositeGomokuColor(previous.state.turn),
           line: [],
           reason: 'resign',
         },
@@ -134,7 +189,7 @@ export function GomokuPage() {
   }
 
   function newGame() {
-    setGame(freshGame());
+    setGame(freshGame(game.mode, game.level));
     setMessage(null);
     setDialog(null);
   }
@@ -146,7 +201,7 @@ export function GomokuPage() {
       <div className="play-topline">
         <Link to="/local" className="back-link">
           <ArrowLeft size={15} aria-hidden="true" />
-          线下棋桌
+          其它棋类
         </Link>
         <div className="play-topline-right">
           <span className="mobile-engine-status is-ready">
@@ -154,7 +209,7 @@ export function GomokuPage() {
             五子棋
           </span>
           <span className="play-meta">
-            同一设备轮流走 · {turnName}行棋 · {formatDuration(elapsed)}
+            {isAi ? `人机对战 · 你执黑` : '双人对战'} · {formatDuration(elapsed)}
           </span>
         </div>
       </div>
@@ -162,9 +217,17 @@ export function GomokuPage() {
       <div className="play-layout local-game-layout">
         <section className="board-column">
           <div className="board-toolbar">
-            <div className="turn-chip" aria-live="polite">
+            <div className={`turn-chip${aiThinking ? ' is-thinking' : ''}`} aria-live="polite">
               <span className={`turn-disc ${game.state.turn === 'b' ? 'b' : 'w'}`} />
-              {finished ? resultText(game.state) : `${turnName}行棋`}
+              {finished
+                ? resultText(game.state)
+                : aiThinking
+                  ? 'AI 思考中…'
+                  : isAi && game.state.turn === AI_COLOR
+                    ? 'AI 行棋'
+                    : isAi
+                      ? '轮到你走'
+                      : `${turnName}行棋`}
               {!finished && <span className="turn-sub">先连成五子的一方获胜</span>}
             </div>
             <span className="local-game-rule-chip">15 × 15 · 黑先</span>
@@ -174,7 +237,7 @@ export function GomokuPage() {
             state={game.state}
             winningLine={winningLine}
             lastMove={game.state.lastMove}
-            disabled={finished}
+            disabled={finished || aiThinking || (isAi && game.state.turn === AI_COLOR)}
             onPoint={play}
           />
 
@@ -241,22 +304,30 @@ export function GomokuPage() {
           <section className="side-card">
             <div className="side-heading">
               <span className="eyebrow">五子棋</span>
-              <span className="side-level">双人</span>
+              <span className="side-level">{isAi ? '人机' : '双人'}</span>
             </div>
+            <OpponentPicker
+              mode={game.mode}
+              level={game.level}
+              modeLocked={modeLocked}
+              onMode={changeMode}
+              onLevel={changeLevel}
+            />
             <div className="player-row">
               <div className={`player-avatar black ${game.state.turn === 'b' ? 'active' : ''}`}>黑</div>
               <div>
-                <strong>黑方</strong>
-                <span>本机棋手 · 先行</span>
+                <strong>{isAi ? '你' : '黑方'}</strong>
+                <span>{isAi ? '执黑 · 先行' : '本机棋手 · 先行'}</span>
               </div>
             </div>
             <div className="vs-line"><span /><em>VS</em><span /></div>
             <div className="player-row">
               <div className={`player-avatar ${game.state.turn === 'w' ? 'active' : ''}`}>白</div>
               <div>
-                <strong>白方</strong>
-                <span>本机棋手 · 后行</span>
+                <strong>{isAi ? 'AI' : '白方'}</strong>
+                <span>{isAi ? `AI · ${game.level === 1 ? '入门' : game.level === 2 ? '进阶' : '挑战'}` : '本机棋手 · 后行'}</span>
               </div>
+              {isAi && aiThinking && <Loader2 size={16} className="spin" aria-label="思考中" />}
             </div>
             <div className="side-meta">
               <span>已走 {game.moves.length} 手</span>

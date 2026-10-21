@@ -3,17 +3,10 @@ import { ArrowLeft, ShieldCheck } from 'lucide-react';
 
 const games = [
   {
-    to: '/local/chess',
-    title: '中国象棋',
-    subtitle: '完整规则 · 红先',
-    description: '两个人轮流走，支持悔棋、翻转、认输和棋谱记录。',
-    tone: 'red',
-  },
-  {
     to: '/local/gomoku',
     title: '五子棋',
     subtitle: '15 × 15 · 五子连珠',
-    description: '横、竖、斜任意方向连成五子，简单直接。',
+    description: '横、竖、斜任意方向连成五子。可选人机对战或本地双人。',
     tone: 'green',
   },
   {
@@ -48,12 +41,12 @@ export function LocalGamesPage() {
       </Link>
 
       <div className="local-games-heading">
-        <span className="eyebrow">线下棋桌</span>
+        <span className="eyebrow">其它棋类</span>
         <h1>
-          两个人，
-          <span className="text-red">一台设备</span>
+          换个玩法，
+          <span className="text-red">轻松一盘</span>
         </h1>
-        <p>不用实体棋盘，也不用两台手机。选一个，轮流落子。</p>
+        <p>每种棋都可以选人机对战或双人同屏。象棋请到「人机对战」。</p>
       </div>
 
       <div className="local-games-grid">
@@ -74,10 +67,10 @@ export function LocalGamesPage() {
         })}
       </div>
 
-      <div className="local-games-note">
-        <ShieldCheck size={16} aria-hidden="true" />
-        所有对局都在本机进行，不需要登录，也不需要等引擎。
-      </div>
+      <p className="local-games-note">
+        <ShieldCheck size={15} aria-hidden="true" />
+        双人模式完全离线；人机对战需要联网获取 AI 走子，棋局只保存在本机。
+      </p>
     </div>
   );
 }

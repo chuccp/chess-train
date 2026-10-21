@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Flag, RotateCcw, ShieldCheck, Undo2 } from 'lucide-react';
+import { ArrowLeft, Flag, Loader2, RotateCcw, ShieldCheck, Undo2 } from 'lucide-react';
 import {
   CHECKERS_HOLES,
   applyCheckersMove,
@@ -13,6 +13,9 @@ import {
 } from '../games/checkers';
 import { CheckersBoard } from '../components/CheckersBoard';
 import { Dialog } from '../components/Dialog';
+import { OpponentPicker, type OpponentMode } from '../components/OpponentPicker';
+import { checkersPosition, requestGridMove } from '../engine/adapters';
+import { useAiTurn } from '../lib/useAiTurn';
 import { formatDuration } from '../lib/format';
 
 type DialogAction = 'new' | 'resign' | null;
@@ -29,12 +32,18 @@ interface LocalCheckers {
   moves: CheckersMoveRecord[];
   startedAt: string;
   endedAt?: string;
+  mode: OpponentMode;
+  level: 1 | 2 | 3;
 }
 
 const STORAGE_KEY = 'qilian.local-checkers.v1';
+/** 人机模式：你执红先行，AI 执黑。 */
+const HUMAN_COLOR: CheckersColor = 'r';
+const AI_COLOR: CheckersColor = 'b';
+const AI_TIME_MS: Record<1 | 2 | 3, number> = { 1: 300, 2: 700, 3: 1200 };
 
-function freshGame(): LocalCheckers {
-  return { state: createCheckersInitial(), moves: [], startedAt: new Date().toISOString() };
+function freshGame(mode: OpponentMode = 'ai', level: 1 | 2 | 3 = 2): LocalCheckers {
+  return { state: createCheckersInitial(), moves: [], startedAt: new Date().toISOString(), mode, level };
 }
 
 function loadGame(): LocalCheckers {
@@ -46,7 +55,11 @@ function loadGame(): LocalCheckers {
       return freshGame();
     }
     if (saved.state.turn !== 'r' && saved.state.turn !== 'b') return freshGame();
-    return saved;
+    return {
+      ...saved,
+      mode: saved.mode === 'local' ? 'local' : 'ai',
+      level: saved.level === 1 || saved.level === 3 ? saved.level : 2,
+    };
   } catch {
     return freshGame();
   }
@@ -71,11 +84,14 @@ export function CheckersPage() {
   const [message, setMessage] = useState<string | null>(null);
   const [dialog, setDialog] = useState<DialogAction>(null);
   const [now, setNow] = useState(Date.now());
+  const [aiThinking, setAiThinking] = useState(false);
 
   const finished = game.state.status.status !== 'playing';
+  const isAi = game.mode === 'ai';
   const lastMove = game.moves.length > 0 ? game.moves[game.moves.length - 1] : null;
   const elapsed = new Date(game.endedAt ?? now).getTime() - new Date(game.startedAt).getTime();
   const turnName = game.state.turn === 'r' ? '红方' : '黑方';
+  const modeLocked = game.moves.length > 0 && !finished;
   const destinations = useMemo(
     () => (selected === null ? [] : checkersDestinations(game.state, selected)),
     [game.state, selected],
@@ -95,13 +111,41 @@ export function CheckersPage() {
     return () => window.clearInterval(timer);
   }, [finished]);
 
+  useAiTurn(isAi && !finished && game.state.turn === AI_COLOR, `${game.startedAt}:${game.moves.length}`, async () => {
+    setAiThinking(true);
+    try {
+      const move = await requestGridMove(checkersPosition(game.state), game.level, AI_TIME_MS[game.level]);
+      if (move.kind !== 'move') throw new Error('AI 返回的着法无法识别');
+      setGame((previous) => {
+        const color = previous.state.board[move.from];
+        if (color !== AI_COLOR) return previous;
+        const next = applyCheckersMove(previous.state, { from: move.from, to: move.to });
+        return {
+          ...previous,
+          state: next,
+          endedAt: next.status.status === 'playing' ? undefined : new Date().toISOString(),
+          moves: [
+            ...previous.moves,
+            { from: move.from, to: move.to, color, ply: previous.moves.length + 1 },
+          ],
+        };
+      });
+      clearSelection();
+      setMessage(null);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : String(error));
+    } finally {
+      setAiThinking(false);
+    }
+  });
+
   function clearSelection() {
     setSelected(null);
     setTargets([]);
   }
 
   function choose(hole: number) {
-    if (finished) return;
+    if (finished || (isAi && game.state.turn !== HUMAN_COLOR) || aiThinking) return;
     const piece = game.state.board[hole];
     if (piece === game.state.turn) {
       setSelected(hole);
@@ -135,8 +179,11 @@ export function CheckersPage() {
 
   function undo() {
     if (finished || game.moves.length === 0) return;
+    // 人机模式：若最后一手是 AI 走的，连退两手把回合还给玩家。
+    const removeCount = isAi && game.moves[game.moves.length - 1]?.color === AI_COLOR ? 2 : 1;
+    const keep = game.moves.slice(0, Math.max(0, game.moves.length - removeCount));
     let state = createCheckersInitial();
-    for (const move of game.moves.slice(0, -1)) {
+    for (const move of keep) {
       const next = applyCheckersMove(state, { from: move.from, to: move.to });
       if (next.status.status !== 'playing') break;
       state = next;
@@ -144,11 +191,23 @@ export function CheckersPage() {
     setGame((previous) => ({
       ...previous,
       state,
-      moves: previous.moves.slice(0, -1),
+      moves: keep,
       endedAt: undefined,
     }));
     clearSelection();
     setMessage(null);
+  }
+
+  function changeMode(mode: OpponentMode) {
+    if (mode === game.mode) return;
+    setGame(freshGame(mode, game.level));
+    clearSelection();
+    setMessage(null);
+  }
+
+  function changeLevel(level: 1 | 2 | 3) {
+    if (level === game.level) return;
+    setGame((previous) => ({ ...previous, level }));
   }
 
   function resign() {
@@ -158,7 +217,8 @@ export function CheckersPage() {
         ...previous.state,
         status: {
           status: 'win',
-          winner: oppositeCheckersColor(previous.state.turn),
+          // 人机模式玩家认输；双人模式行棋方认输。
+          winner: previous.mode === 'ai' ? AI_COLOR : oppositeCheckersColor(previous.state.turn),
           reason: 'resign',
         },
       },
@@ -168,7 +228,7 @@ export function CheckersPage() {
   }
 
   function newGame() {
-    setGame(freshGame());
+    setGame(freshGame(game.mode, game.level));
     clearSelection();
     setMessage(null);
     setDialog(null);
@@ -181,7 +241,7 @@ export function CheckersPage() {
       <div className="play-topline">
         <Link to="/local" className="back-link">
           <ArrowLeft size={15} aria-hidden="true" />
-          线下棋桌
+          其它棋类
         </Link>
         <div className="play-topline-right">
           <span className="mobile-engine-status is-ready">
@@ -189,7 +249,7 @@ export function CheckersPage() {
             中国跳棋
           </span>
           <span className="play-meta">
-            同一设备轮流走 · {turnName}行棋 · {formatDuration(elapsed)}
+            {isAi ? '人机对战 · 你执红' : '双人对战'} · {formatDuration(elapsed)}
           </span>
         </div>
       </div>
@@ -197,9 +257,17 @@ export function CheckersPage() {
       <div className="play-layout local-game-layout">
         <section className="board-column">
           <div className="board-toolbar">
-            <div className="turn-chip" aria-live="polite">
+            <div className={`turn-chip${aiThinking ? ' is-thinking' : ''}`} aria-live="polite">
               <span className={`turn-disc ${game.state.turn}`} />
-              {finished ? resultText(game.state) : `${turnName}行棋`}
+              {finished
+                ? resultText(game.state)
+                : aiThinking
+                  ? 'AI 思考中…'
+                  : isAi && game.state.turn === AI_COLOR
+                    ? 'AI 行棋'
+                    : isAi
+                      ? '轮到你走'
+                      : `${turnName}行棋`}
               {!finished && <span className="turn-sub">十枚棋子全部进入对面营区即胜</span>}
             </div>
             <span className="local-game-rule-chip">连跳 · 借桥 · 十子归营</span>
@@ -210,7 +278,7 @@ export function CheckersPage() {
             selected={selected}
             targets={targets}
             lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null}
-            disabled={finished}
+            disabled={finished || aiThinking || (isAi && game.state.turn === AI_COLOR)}
             onPoint={choose}
           />
 
@@ -279,13 +347,20 @@ export function CheckersPage() {
           <section className="side-card">
             <div className="side-heading">
               <span className="eyebrow">中国跳棋</span>
-              <span className="side-level">双人</span>
+              <span className="side-level">{isAi ? '人机' : '双人'}</span>
             </div>
+            <OpponentPicker
+              mode={game.mode}
+              level={game.level}
+              modeLocked={modeLocked}
+              onMode={changeMode}
+              onLevel={changeLevel}
+            />
             <div className="player-row">
               <div className={`player-avatar red ${game.state.turn === 'r' ? 'active' : ''}`}>红</div>
               <div>
-                <strong>红方</strong>
-                <span>下方营区 · 前往上方</span>
+                <strong>{isAi ? '你' : '红方'}</strong>
+                <span>{isAi ? '执红 · 下方营区' : '下方营区 · 前往上方'}</span>
               </div>
             </div>
             <div className="vs-line">
@@ -296,9 +371,10 @@ export function CheckersPage() {
             <div className="player-row">
               <div className={`player-avatar black ${game.state.turn === 'b' ? 'active' : ''}`}>黑</div>
               <div>
-                <strong>黑方</strong>
-                <span>上方营区 · 前往下方</span>
+                <strong>{isAi ? 'AI' : '黑方'}</strong>
+                <span>{isAi ? `AI · ${game.level === 1 ? '入门' : game.level === 2 ? '进阶' : '挑战'}` : '上方营区 · 前往下方'}</span>
               </div>
+              {isAi && aiThinking && <Loader2 size={16} className="spin" aria-label="思考中" />}
             </div>
             <div className="side-meta">
               <span>已走 {game.moves.length} 手</span>
