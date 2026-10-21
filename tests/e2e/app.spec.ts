@@ -16,8 +16,10 @@ test('home has one offline two-player entry', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.home-local-banner')).toHaveCount(0);
   await expect(page.locator('.mobile-lobby-local')).toHaveCount(0);
-  const localEntry = page.locator('.nav-link-local');
+  const localEntry = page.locator('.desktop-nav a[href="/local"]');
   await expect(localEntry).toHaveCount(1);
+  await expect(localEntry).toHaveText('人人');
+  await expect(page.locator('.nav-local-badge')).toHaveCount(0);
   await expect(localEntry).toBeVisible();
   await localEntry.click();
   await expect(page).toHaveURL(/\/local$/);
