@@ -17,11 +17,12 @@ import {
 import { JungleBoard } from '../components/JungleBoard';
 import { Dialog } from '../components/Dialog';
 import { OpponentPicker, type OpponentMode } from '../components/OpponentPicker';
-import { junglePosition, requestGridMove } from '../engine/adapters';
+import { gridPositionKey, junglePosition, requestGridMove } from '../engine/adapters';
 import { useAiTurn } from '../lib/useAiTurn';
 import { formatDuration } from '../lib/format';
 
 type DialogAction = 'new' | 'resign' | null;
+type AiReply = { index?: number; from?: number; to?: number };
 
 interface JungleMoveRecord extends JungleMove {
   color: JungleColor;
@@ -36,6 +37,10 @@ interface LocalJungle {
   endedAt?: string;
   mode: OpponentMode;
   level: 1 | 2 | 3;
+  /** 手动禁点：任何子都不许落到的格子下标 */
+  manualBans?: number[];
+  /** 局面键 → AI 曾走过的着法；同局面重试时禁掉，换思路 */
+  aiReplies?: Record<string, AiReply[]>;
 }
 
 const STORAGE_KEY = 'qilian.local-jungle.v1';
@@ -91,6 +96,7 @@ export function JunglePage() {
   const [dialog, setDialog] = useState<DialogAction>(null);
   const [now, setNow] = useState(Date.now());
   const [aiThinking, setAiThinking] = useState(false);
+  const [banMode, setBanMode] = useState(false);
 
   useEffect(() => {
     if (!captureNotice) return;
@@ -123,7 +129,13 @@ export function JunglePage() {
   useAiTurn(isAi && !finished && game.state.turn === AI_COLOR, `${game.startedAt}:${game.moves.length}`, async () => {
     setAiThinking(true);
     try {
-      const move = await requestGridMove(junglePosition(game.state), game.level, AI_TIME_MS[game.level]);
+      const position = junglePosition(game.state);
+      const positionKey = gridPositionKey(position);
+      const bans = [
+        ...(game.manualBans ?? []).map((to) => ({ to })),
+        ...(game.aiReplies?.[positionKey] ?? []),
+      ];
+      const move = await requestGridMove(position, game.level, AI_TIME_MS[game.level], bans);
       if (move.kind !== 'move') throw new Error('AI 返回的着法无法识别');
       const full = generateJungleMoves(game.state).find((c) => c.from === move.from && c.to === move.to);
       const pieceAtFrom = full ? game.state.board[full.from] : null;
@@ -150,6 +162,10 @@ export function JunglePage() {
               ply: previous.moves.length + 1,
             },
           ],
+          aiReplies: {
+            ...(previous.aiReplies ?? {}),
+            [positionKey]: [...(previous.aiReplies?.[positionKey] ?? []), { from: full.from, to: full.to }],
+          },
         };
       });
       clearSelection();
@@ -160,6 +176,19 @@ export function JunglePage() {
       setAiThinking(false);
     }
   });
+
+  function toggleBan(index: number) {
+    const banned = (game.manualBans ?? []).includes(index);
+    setGame((previous) => {
+      const list = previous.manualBans ?? [];
+      return {
+        ...previous,
+        manualBans: banned ? list.filter((item) => item !== index) : [...list, index],
+      };
+    });
+    clearSelection();
+    setMessage(banned ? `已解除 ${coordLabel(index)}` : `已禁位置 ${coordLabel(index)}`);
+  }
 
   function clearSelection() {
     setSelected(null);

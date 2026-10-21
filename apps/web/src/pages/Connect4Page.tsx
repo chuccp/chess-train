@@ -13,11 +13,12 @@ import {
 import { Connect4Board } from '../components/Connect4Board';
 import { Dialog } from '../components/Dialog';
 import { OpponentPicker, type OpponentMode } from '../components/OpponentPicker';
-import { connect4Position, requestGridMove } from '../engine/adapters';
+import { connect4Position, gridPositionKey, prunePlacementBans, requestGridMove } from '../engine/adapters';
 import { useAiTurn } from '../lib/useAiTurn';
 import { formatDuration } from '../lib/format';
 
 type DialogAction = 'new' | 'resign' | null;
+type AiReply = { index?: number; from?: number; to?: number };
 
 interface Connect4MoveRecord {
   column: number;
@@ -33,6 +34,10 @@ interface LocalConnect4 {
   endedAt?: string;
   mode: OpponentMode;
   level: 1 | 2 | 3;
+  /** 手动禁点：AI 不会落子的格子下标 */
+  manualBans?: number[];
+  /** 局面键 → AI 曾走过的着法；同局面重试时禁掉，换思路 */
+  aiReplies?: Record<string, AiReply[]>;
 }
 
 const STORAGE_KEY = 'qilian.local-connect4.v1';
@@ -74,12 +79,26 @@ function resultText(state: Connect4State): string {
   return `${winner}胜 · ${state.status.reason === 'resign' ? '对方认输' : '四子连线'}`;
 }
 
+function columnLabel(index: number): string {
+  return `第 ${(index % CONNECT4_COLS) + 1} 列`;
+}
+
+/** 该列当前的落点格子下标；列满返回 null。 */
+function landingIndex(state: Connect4State, column: number): number | null {
+  for (let row = CONNECT4_ROWS - 1; row >= 0; row -= 1) {
+    const index = row * CONNECT4_COLS + column;
+    if (!state.board[index]) return index;
+  }
+  return null;
+}
+
 export function Connect4Page() {
   const [game, setGame] = useState<LocalConnect4>(() => loadGame());
   const [message, setMessage] = useState<string | null>(null);
   const [dialog, setDialog] = useState<DialogAction>(null);
   const [now, setNow] = useState(Date.now());
   const [aiThinking, setAiThinking] = useState(false);
+  const [banMode, setBanMode] = useState(false);
 
   const finished = game.state.status.status !== 'playing';
   const isAi = game.mode === 'ai';
@@ -105,7 +124,18 @@ export function Connect4Page() {
   useAiTurn(isAi && !finished && game.state.turn === AI_COLOR, `${game.startedAt}:${game.moves.length}`, async () => {
     setAiThinking(true);
     try {
-      const move = await requestGridMove(connect4Position(game.state), game.level, AI_TIME_MS[game.level]);
+      const position = connect4Position(game.state);
+      const positionKey = gridPositionKey(position);
+      const bans = [
+        ...(game.manualBans ?? []).map((index) => ({ index })),
+        ...(game.aiReplies?.[positionKey] ?? []),
+      ];
+      const move = await requestGridMove(
+        position,
+        game.level,
+        AI_TIME_MS[game.level],
+        prunePlacementBans(position.board, bans),
+      );
       if (move.kind !== 'place') throw new Error('AI 返回的着法无法识别');
       setGame((previous) => {
         // 接口返回格子下标（0-41），落子函数要列号。
@@ -119,6 +149,10 @@ export function Connect4Page() {
           state: next,
           endedAt: next.status.status === 'playing' ? undefined : new Date().toISOString(),
           moves: [...previous.moves, { column, index, color: AI_COLOR, ply: previous.moves.length + 1 }],
+          aiReplies: {
+            ...(previous.aiReplies ?? {}),
+            [positionKey]: [...(previous.aiReplies?.[positionKey] ?? []), { index }],
+          },
         };
       });
       setMessage(null);
@@ -128,6 +162,31 @@ export function Connect4Page() {
       setAiThinking(false);
     }
   });
+
+  function toggleBan(column: number) {
+    const index = landingIndex(game.state, column);
+    if (index === null) {
+      setMessage('这一列已经满了。');
+      return;
+    }
+    const banned = (game.manualBans ?? []).includes(index);
+    setGame((previous) => {
+      const list = previous.manualBans ?? [];
+      return {
+        ...previous,
+        manualBans: banned ? list.filter((item) => item !== index) : [...list, index],
+      };
+    });
+    setMessage(banned ? `已解除 ${columnLabel(index)}` : `已禁位置 ${columnLabel(index)}`);
+  }
+
+  function removeBan(index: number) {
+    setGame((previous) => ({
+      ...previous,
+      manualBans: (previous.manualBans ?? []).filter((item) => item !== index),
+    }));
+    setMessage(`已解除 ${columnLabel(index)}`);
+  }
 
   function drop(column: number) {
     if (finished || (isAi && game.state.turn !== HUMAN_COLOR) || aiThinking) return;
@@ -226,16 +285,20 @@ export function Connect4Page() {
           <div className="board-toolbar">
             <div className={`turn-chip${aiThinking ? ' is-thinking' : ''}`} aria-live="polite">
               <span className={`turn-disc ${game.state.turn}`} />
-              {finished
-                ? resultText(game.state)
-                : aiThinking
-                  ? 'AI 思考中…'
-                  : isAi && game.state.turn === AI_COLOR
-                    ? 'AI 行棋'
-                    : isAi
-                      ? '轮到你走'
-                      : `${turnName}行棋`}
-              {!finished && <span className="turn-sub">先连成四子的一方获胜</span>}
+              {banMode
+                ? '禁着模式'
+                : finished
+                  ? resultText(game.state)
+                  : aiThinking
+                    ? 'AI 思考中…'
+                    : isAi && game.state.turn === AI_COLOR
+                      ? 'AI 行棋'
+                      : isAi
+                        ? '轮到你走'
+                        : `${turnName}行棋`}
+              {!finished && (
+                <span className="turn-sub">{banMode ? '点列标记/解除禁点' : '先连成四子的一方获胜'}</span>
+              )}
             </div>
             <span className="local-game-rule-chip">7 × 6 · 重力落子</span>
           </div>
@@ -244,8 +307,8 @@ export function Connect4Page() {
             state={game.state}
             winningLine={winningLine}
             lastMove={game.state.lastMove}
-            disabled={finished || aiThinking || (isAi && game.state.turn === AI_COLOR)}
-            onColumn={drop}
+            disabled={banMode ? finished || aiThinking : finished || aiThinking || (isAi && game.state.turn === AI_COLOR)}
+            onColumn={banMode ? toggleBan : drop}
           />
 
           {message && (
@@ -292,6 +355,16 @@ export function Connect4Page() {
             >
               <Undo2 size={18} aria-hidden="true" />
               <span>悔棋</span>
+            </button>
+            <button
+              type="button"
+              className={`control-button${banMode ? ' is-active' : ''}`}
+              disabled={finished}
+              onClick={() => setBanMode((value) => !value)}
+              title="标记 AI 不会走的落点"
+            >
+              <ShieldCheck size={18} aria-hidden="true" />
+              <span>禁着</span>
             </button>
             <button type="button" className="control-button" disabled={finished} onClick={() => setDialog('new')}>
               <RotateCcw size={18} aria-hidden="true" />
@@ -340,6 +413,27 @@ export function Connect4Page() {
               <span>已走 {game.moves.length} 手</span>
               <span>{formatDuration(elapsed)}</span>
             </div>
+          </section>
+
+          <section className="side-card">
+            <div className="side-heading">
+              <span className="eyebrow">禁着</span>
+              <span className="side-level">{(game.manualBans ?? []).length} 个</span>
+            </div>
+            {(game.manualBans ?? []).length === 0 ? (
+              <p className="muted small">按下「禁着」后点棋盘列，标记 AI 不会走的落点；再点一次解除。</p>
+            ) : (
+              <div className="local-move-list">
+                {(game.manualBans ?? []).map((index) => (
+                  <div className="local-move-row" key={index}>
+                    <span>{columnLabel(index)}</span>
+                    <button type="button" className="text-button" onClick={() => removeBan(index)}>
+                      解除
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
 
           <section className="side-card">
