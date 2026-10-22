@@ -215,16 +215,19 @@ test('AI undo takes back the player and machine moves together', async ({ page }
   await expect(page.locator('.move-item')).toHaveCount(0);
   await expect(page.locator('.turn-chip')).toContainText('轮到你走');
 });
-test('switching sides starts a new game with the AI moving first', async ({ page }) => {
+test('switching sides keeps the current game and swaps colours', async ({ page }) => {
   await waitForOfflineReady(page);
   await page.getByRole('button', { name: /和 AI 下一盘/ }).click();
   await page.waitForSelector('.board-hit');
-  await page.getByRole('button', { name: '换边并开始新局' }).click();
-  await expect(page.getByRole('dialog')).toContainText('换边重开');
-  await page.getByRole('button', { name: '换边开局' }).click();
+  await page.getByRole('button', { name: '换边，换成另一方继续当前棋局' }).click();
+  await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page.locator('.play-meta').first()).toContainText('你执黑');
-  await expect(page.locator('.move-item')).toHaveCount(1, { timeout: 15_000 });
-  await expect(page.locator('.turn-chip')).toContainText('轮到你走');
+  // 只弹一条会自动消失的 toast，不占正文位置
+  await expect(page.locator('.board-toast')).toContainText('已换成执黑，当前棋局继续');
+  await expect(page.locator('.inline-alert')).toHaveCount(0);
+  // 同一盘棋继续：AI 改执红先走，走完仍轮到执黑的玩家
+  await expect(page.locator('.turn-chip')).toContainText('轮到你走', { timeout: 30_000 });
+  await expect(page.locator('.board-hit')).toHaveCount(90);
 });
 
 test('stays usable after going offline', async ({ page, context }) => {

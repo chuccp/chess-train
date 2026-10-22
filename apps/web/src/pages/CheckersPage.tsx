@@ -17,6 +17,8 @@ import { OpponentPicker, type OpponentMode } from '../components/OpponentPicker'
 import { checkersPosition, gridPositionKey, requestGridMove } from '../engine/adapters';
 import { useAiTurn } from '../lib/useAiTurn';
 import { formatDuration } from '../lib/format';
+import { useSettingsStore } from '../stores/settings';
+import { Robot } from '../components/Robot';
 
 type DialogAction = 'new' | 'resign' | null;
 type AiReply = { index?: number; from?: number; to?: number };
@@ -96,6 +98,8 @@ export function CheckersPage() {
   const [now, setNow] = useState(Date.now());
   const [aiThinking, setAiThinking] = useState(false);
   const [aiSince, setAiSince] = useState<number | null>(null);
+  // 难度全局即时生效：设置里改了立刻影响本局 AI，不用开新局
+  const preferredLevel = useSettingsStore((s) => s.preferredLevel);
   const [banMode, setBanMode] = useState(false);
 
   const finished = game.state.status.status !== 'playing';
@@ -133,7 +137,7 @@ export function CheckersPage() {
         ...(game.manualBans ?? []).map((to) => ({ to })),
         ...(game.aiReplies?.[positionKey] ?? []),
       ];
-      const move = await requestGridMove(position, game.level, AI_TIME_MS[game.level], bans);
+      const move = await requestGridMove(position, preferredLevel, AI_TIME_MS[preferredLevel], bans);
       if (move.kind !== 'move') throw new Error('AI 返回的着法无法识别');
       setGame((previous) => {
         const color = previous.state.board[move.from];
@@ -237,14 +241,13 @@ export function CheckersPage() {
 
   function changeMode(mode: OpponentMode) {
     if (mode === game.mode) return;
-    setGame(freshGame(mode, game.level));
+    setGame(freshGame(mode, preferredLevel));
     clearSelection();
     setMessage(null);
   }
 
   function changeLevel(level: 1 | 2 | 3) {
-    if (level === game.level) return;
-    setGame((previous) => ({ ...previous, level }));
+    useSettingsStore.getState().setPreferredLevel(level);
   }
 
   function resign() {
@@ -265,7 +268,7 @@ export function CheckersPage() {
   }
 
   function newGame() {
-    setGame(freshGame(game.mode, game.level));
+    setGame(freshGame(game.mode, preferredLevel));
     clearSelection();
     setMessage(null);
     setDialog(null);
@@ -301,7 +304,7 @@ export function CheckersPage() {
                 : finished
                   ? resultText(game.state)
                   : aiThinking
-                    ? `AI 思考中 ${aiSince ? Math.min(10, Math.floor((now - aiSince) / 1000)) : 0}s`
+                    ? 'AI 思考中…'
                     : isAi && game.state.turn === AI_COLOR
                       ? 'AI 行棋'
                       : isAi
@@ -313,6 +316,11 @@ export function CheckersPage() {
             </div>
             <span className="local-game-rule-chip">连跳 · 借桥 · 十子归营</span>
           </div>
+
+          <Robot
+            thinking={aiThinking}
+            seconds={aiSince ? Math.min(10, Math.floor((now - aiSince) / 1000)) : undefined}
+          />
 
           <CheckersBoard
             state={game.state}
@@ -402,7 +410,7 @@ export function CheckersPage() {
             </div>
             <OpponentPicker
               mode={game.mode}
-              level={game.level}
+              level={preferredLevel}
               modeLocked={modeLocked}
               onMode={changeMode}
               onLevel={changeLevel}
@@ -423,7 +431,7 @@ export function CheckersPage() {
               <div className={`player-avatar black ${game.state.turn === 'b' ? 'active' : ''}`}>黑</div>
               <div>
                 <strong>{isAi ? 'AI' : '黑方'}</strong>
-                <span>{isAi ? `AI · ${game.level === 1 ? '入门' : game.level === 2 ? '进阶' : '挑战'}` : '上方营区 · 前往下方'}</span>
+                <span>{isAi ? `AI · ${preferredLevel === 1 ? '入门' : preferredLevel === 2 ? '进阶' : '挑战'}` : '上方营区 · 前往下方'}</span>
               </div>
               {isAi && aiThinking && <Loader2 size={16} className="spin" aria-label="思考中" />}
             </div>

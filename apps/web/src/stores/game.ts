@@ -201,6 +201,8 @@ interface GameState {
   aiProgress: EngineMoveProgress | null;
   hydrate: () => Promise<void>;
   startNewGame: (playerColor: Color, level: Level, opponent?: GameMode) => Promise<boolean>;
+  /** 人机对局中改执另一方，当前局面与棋谱原样保留；返回新的执子方，未换边时返回 null。 */
+  switchSides: () => Color | null;
   resumeFinishedGame: (record: FinishedGame, keepMoves: number) => boolean;
   playSquare: (square: number) => void;
   toggleManualBan: (square: number) => void;
@@ -291,6 +293,39 @@ export const useGameStore = create<GameState>((set, get) => ({
     });
     persist(game);
     return true;
+  },
+
+  switchSides() {
+    const state = get();
+    const game = state.current;
+    // 只有进行中的人机对局才能换边；换边 = 改执另一方，棋盘、棋谱、用时都保留
+    if (!game || game.mode !== 'ai' || game.phase === 'finished') return null;
+    if (state.aiInFlight || state.hintLoading || game.phase === 'ai_thinking') engineApi.stop();
+    const playerColor = opposite(game.playerColor);
+    const next = snapshotWithGame(game, {
+      playerColor,
+      // 换边后轮到谁，就让谁走：轮到 AI 就重新进入思考，轮到玩家就交还操作
+      phase: game.position.turn === playerColor ? 'playing' : 'ai_thinking',
+      hintBans: [],
+    });
+    useSettingsStore.getState().setPreferredColor(playerColor);
+    set({
+      current: next,
+      selected: null,
+      legalTargets: [],
+      error: null,
+      hint: null,
+      hintLoading: false,
+      // 作废在途的 AI 请求，让 App 的触发器按新的执子方重新请求
+      aiInFlight: false,
+      aiError: null,
+      aiThinkingSince: null,
+      aiProgress: null,
+      aiToken: get().aiToken + 1,
+      hintToken: get().hintToken + 1,
+    });
+    persist(next);
+    return playerColor;
   },
 
   resumeFinishedGame(record, keepMoves) {
@@ -468,7 +503,8 @@ export const useGameStore = create<GameState>((set, get) => ({
         game.position,
         game.positionHashes,
         baseBans,
-        game.level,
+        // 难度实时读设置：改设置立即对当前对局生效，不用开新局
+        useSettingsStore.getState().preferredLevel,
         (progress) => {
           if (get().aiToken === token) set({ aiProgress: progress });
         },
@@ -558,7 +594,12 @@ export const useGameStore = create<GameState>((set, get) => ({
         ...(game.manualBans ?? []).map((to) => ({ to })),
         ...shown.map((uci) => ({ uci })),
       ];
-      const ucci = await searchWithBans(game.position, game.positionHashes, baseBans, 3);
+      const ucci = await searchWithBans(
+        game.position,
+        game.positionHashes,
+        baseBans,
+        useSettingsStore.getState().preferredLevel,
+      );
       const latest = get();
       if (!latest.current || latest.current.id !== game.id || latest.hintToken !== token) return;
       if (latest.current.moves.length !== game.moves.length) return;
@@ -589,16 +630,9 @@ export const useGameStore = create<GameState>((set, get) => ({
       set({ notice: '当前设置不允许悔棋' });
       return;
     }
-    const fromHistory = Boolean(game.historyResume);
-    if (game.phase === 'finished' && !fromHistory) {
-      set({ notice: '棋局已结束，暂时不能悔棋' });
-      return;
-    }
-    if (game.phase !== 'playing' && game.phase !== 'ai_thinking' && !fromHistory) {
-      set({ notice: 'AI 正在准备，暂时不能悔棋' });
-      return;
-    }
-    if (!settings.allowUndoWhenChecked && isInCheck(game.position, game.position.turn)) {
+    if (game.phase === 'ai_thinking') engineApi.stop();
+    // 终局（绝杀/认输/和棋）也允许悔棋；被将军锁悔棋仅作用于对局进行中
+    if (!settings.allowUndoWhenChecked && game.phase !== 'finished' && isInCheck(game.position, game.position.turn)) {
       set({ notice: '当前被将军，设置要求先应将' });
       return;
     }
@@ -617,16 +651,17 @@ export const useGameStore = create<GameState>((set, get) => ({
           : game.moves.length >= 2 && game.moves[game.moves.length - 2]?.color === game.playerColor
             ? 2
             : 1;
-    if (game.phase === 'ai_thinking') engineApi.stop();
 
     const keep = game.moves.length - removeCount;
     const { position, hashes } = replayTo(game.moves, keep);
     const end = resultOf(position, hashes);
+    // 换边后可能出现“退完轮到 AI”的情况，按实际轮次决定是继续等玩家还是让 AI 走
+    const aiTurn = game.mode === 'ai' && position.turn !== game.playerColor;
     const next = snapshotWithGame(game, {
       position,
       positionHashes: hashes,
       moves: game.moves.slice(0, keep),
-      phase: 'playing',
+      phase: aiTurn ? 'ai_thinking' : 'playing',
       result: end,
       hintBans: [],
     });
@@ -645,7 +680,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       hintToken: get().hintToken + 1,
     });
     persist(next);
-    if (game.mode === 'ai' && next.position.turn !== next.playerColor) void get().requestAi();
+    if (aiTurn) void get().requestAi();
   },
 
   async resign() {

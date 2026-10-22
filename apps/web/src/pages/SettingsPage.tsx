@@ -89,8 +89,8 @@ export function SettingsPage() {
             </div>
             <div className="settings-row">
               <div>
-                <strong>默认难度</strong>
-                <p>入门更短思考，挑战使用完整强度。</p>
+                <strong>难度</strong>
+                <p>入门更短思考，挑战使用完整强度；修改立即生效，不用开新局。</p>
               </div>
               <div className="segmented small">
                 {([1, 2, 3] as Level[]).map((value) => (

@@ -15,6 +15,8 @@ import { OpponentPicker, type OpponentMode } from '../components/OpponentPicker'
 import { gomokuPosition, gridPositionKey, prunePlacementBans, requestGridMove } from '../engine/adapters';
 import { useAiTurn } from '../lib/useAiTurn';
 import { formatDuration } from '../lib/format';
+import { useSettingsStore } from '../stores/settings';
+import { Robot } from '../components/Robot';
 
 type DialogAction = 'new' | 'resign' | null;
 type AiReply = { index?: number; from?: number; to?: number };
@@ -84,6 +86,8 @@ export function GomokuPage() {
   const [now, setNow] = useState(Date.now());
   const [aiThinking, setAiThinking] = useState(false);
   const [aiSince, setAiSince] = useState<number | null>(null);
+  // 难度全局即时生效：设置里改了立刻影响本局 AI，不用开新局
+  const preferredLevel = useSettingsStore((s) => s.preferredLevel);
   const [banMode, setBanMode] = useState(false);
 
   const finished = game.state.status.status !== 'playing';
@@ -119,8 +123,8 @@ export function GomokuPage() {
       ];
       const move = await requestGridMove(
         position,
-        game.level,
-        AI_TIME_MS[game.level],
+        preferredLevel,
+        AI_TIME_MS[preferredLevel],
         prunePlacementBans(position.board, bans),
       );
       if (move.kind !== 'place') throw new Error('AI 返回的着法无法识别');
@@ -197,13 +201,12 @@ export function GomokuPage() {
 
   function changeMode(mode: OpponentMode) {
     if (mode === game.mode) return;
-    setGame(freshGame(mode, game.level));
+    setGame(freshGame(mode, preferredLevel));
     setMessage(null);
   }
 
   function changeLevel(level: 1 | 2 | 3) {
-    if (level === game.level) return;
-    setGame((previous) => ({ ...previous, level }));
+    useSettingsStore.getState().setPreferredLevel(level);
   }
 
   function resign() {
@@ -225,7 +228,7 @@ export function GomokuPage() {
   }
 
   function newGame() {
-    setGame(freshGame(game.mode, game.level));
+    setGame(freshGame(game.mode, preferredLevel));
     setMessage(null);
     setDialog(null);
   }
@@ -260,7 +263,7 @@ export function GomokuPage() {
                 : finished
                   ? resultText(game.state)
                   : aiThinking
-                    ? `AI 思考中 ${aiSince ? Math.min(10, Math.floor((now - aiSince) / 1000)) : 0}s`
+                    ? 'AI 思考中…'
                     : isAi && game.state.turn === AI_COLOR
                       ? 'AI 行棋'
                       : isAi
@@ -272,6 +275,11 @@ export function GomokuPage() {
             </div>
             <span className="local-game-rule-chip">15 × 15 · 黑先</span>
           </div>
+
+          <Robot
+            thinking={aiThinking}
+            seconds={aiSince ? Math.min(10, Math.floor((now - aiSince) / 1000)) : undefined}
+          />
 
           <GomokuBoard
             state={game.state}
@@ -358,7 +366,7 @@ export function GomokuPage() {
             </div>
             <OpponentPicker
               mode={game.mode}
-              level={game.level}
+              level={preferredLevel}
               modeLocked={modeLocked}
               onMode={changeMode}
               onLevel={changeLevel}
@@ -375,7 +383,7 @@ export function GomokuPage() {
               <div className={`player-avatar ${game.state.turn === 'w' ? 'active' : ''}`}>白</div>
               <div>
                 <strong>{isAi ? 'AI' : '白方'}</strong>
-                <span>{isAi ? `AI · ${game.level === 1 ? '入门' : game.level === 2 ? '进阶' : '挑战'}` : '本机棋手 · 后行'}</span>
+                <span>{isAi ? `AI · ${preferredLevel === 1 ? '入门' : preferredLevel === 2 ? '进阶' : '挑战'}` : '本机棋手 · 后行'}</span>
               </div>
               {isAi && aiThinking && <Loader2 size={16} className="spin" aria-label="思考中" />}
             </div>

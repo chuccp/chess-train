@@ -20,6 +20,8 @@ import { OpponentPicker, type OpponentMode } from '../components/OpponentPicker'
 import { gridPositionKey, junglePosition, requestGridMove } from '../engine/adapters';
 import { useAiTurn } from '../lib/useAiTurn';
 import { formatDuration } from '../lib/format';
+import { useSettingsStore } from '../stores/settings';
+import { Robot } from '../components/Robot';
 
 type DialogAction = 'new' | 'resign' | null;
 type AiReply = { index?: number; from?: number; to?: number };
@@ -97,6 +99,8 @@ export function JunglePage() {
   const [now, setNow] = useState(Date.now());
   const [aiThinking, setAiThinking] = useState(false);
   const [aiSince, setAiSince] = useState<number | null>(null);
+  // 难度全局即时生效：设置里改了立刻影响本局 AI，不用开新局
+  const preferredLevel = useSettingsStore((s) => s.preferredLevel);
   const [banMode, setBanMode] = useState(false);
 
   useEffect(() => {
@@ -137,7 +141,7 @@ export function JunglePage() {
         ...(game.manualBans ?? []).map((to) => ({ to })),
         ...(game.aiReplies?.[positionKey] ?? []),
       ];
-      const move = await requestGridMove(position, game.level, AI_TIME_MS[game.level], bans);
+      const move = await requestGridMove(position, preferredLevel, AI_TIME_MS[preferredLevel], bans);
       if (move.kind !== 'move') throw new Error('AI 返回的着法无法识别');
       const full = generateJungleMoves(game.state).find((c) => c.from === move.from && c.to === move.to);
       const pieceAtFrom = full ? game.state.board[full.from] : null;
@@ -272,15 +276,14 @@ export function JunglePage() {
 
   function changeMode(mode: OpponentMode) {
     if (mode === game.mode) return;
-    setGame(freshGame(mode, game.level));
+    setGame(freshGame(mode, preferredLevel));
     clearSelection();
     setCaptureNotice(null);
     setMessage(null);
   }
 
   function changeLevel(level: 1 | 2 | 3) {
-    if (level === game.level) return;
-    setGame((previous) => ({ ...previous, level }));
+    useSettingsStore.getState().setPreferredLevel(level);
   }
 
   function resign() {
@@ -302,7 +305,7 @@ export function JunglePage() {
   }
 
   function newGame() {
-    setGame(freshGame(game.mode, game.level));
+    setGame(freshGame(game.mode, preferredLevel));
     clearSelection();
     setCaptureNotice(null);
     setMessage(null);
@@ -339,7 +342,7 @@ export function JunglePage() {
                 : finished
                   ? resultText(game.state)
                   : aiThinking
-                    ? `AI 思考中 ${aiSince ? Math.min(10, Math.floor((now - aiSince) / 1000)) : 0}s`
+                    ? 'AI 思考中…'
                     : isAi && game.state.turn === AI_COLOR
                       ? 'AI 行棋'
                       : isAi
@@ -351,6 +354,11 @@ export function JunglePage() {
             </div>
             <span className="local-game-rule-chip">象 &gt; 狮 &gt; 虎 &gt; 豹 &gt; 狼 &gt; 狗 &gt; 猫 &gt; 鼠</span>
           </div>
+
+          <Robot
+            thinking={aiThinking}
+            seconds={aiSince ? Math.min(10, Math.floor((now - aiSince) / 1000)) : undefined}
+          />
 
           <JungleBoard
             state={game.state}
@@ -447,7 +455,7 @@ export function JunglePage() {
             </div>
             <OpponentPicker
               mode={game.mode}
-              level={game.level}
+              level={preferredLevel}
               modeLocked={modeLocked}
               onMode={changeMode}
               onLevel={changeLevel}
@@ -468,7 +476,7 @@ export function JunglePage() {
               <div className={`player-avatar black ${game.state.turn === 'b' ? 'active' : ''}`}>虎</div>
               <div>
                 <strong>{isAi ? 'AI' : '黑方'}</strong>
-                <span>{isAi ? `AI · ${game.level === 1 ? '入门' : game.level === 2 ? '进阶' : '挑战'}` : '本机棋手 · 后行'}</span>
+                <span>{isAi ? `AI · ${preferredLevel === 1 ? '入门' : preferredLevel === 2 ? '进阶' : '挑战'}` : '本机棋手 · 后行'}</span>
               </div>
               {isAi && aiThinking && <Loader2 size={16} className="spin" aria-label="思考中" />}
             </div>

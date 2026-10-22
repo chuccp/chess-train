@@ -20,20 +20,16 @@ import {
   type Color,
 } from '@qilian/xiangqi';
 import { Board, type BoardUndoAnimation } from '../components/Board';
+import { Robot } from '../components/Robot';
 import { EnginePrepCard } from '../components/EnginePrepCard';
 import { Dialog } from '../components/Dialog';
-import { MoveList } from '../components/MoveList';
 import { useEngineStore } from '../stores/engine';
 import { useGameStore, levelLabel, resultLabel } from '../stores/game';
 import { useSettingsStore } from '../stores/settings';
 import { formatDuration } from '../lib/format';
 import type { GameMode, Level } from '../types';
 
-type DialogAction = 'resign' | 'new' | 'switch' | null;
-
-function squareLabel(square: number): string {
-  return `${'abcdefghi'[square % 9]}${Math.floor(square / 9)}`;
-}
+type DialogAction = 'resign' | 'new' | null;
 
 export function PlayPage() {
   const navigate = useNavigate();
@@ -51,7 +47,6 @@ export function PlayPage() {
   const hintLoading = useGameStore((state) => state.hintLoading);
   const aiInFlight = useGameStore((state) => state.aiInFlight);
   const aiThinkingSince = useGameStore((state) => state.aiThinkingSince);
-  const aiProgress = useGameStore((state) => state.aiProgress);
   const aiError = useGameStore((state) => state.aiError);
   const playSquare = useGameStore((state) => state.playSquare);
   const toggleManualBan = useGameStore((state) => state.toggleManualBan);
@@ -60,6 +55,7 @@ export function PlayPage() {
   const undo = useGameStore((state) => state.undo);
   const resign = useGameStore((state) => state.resign);
   const startNewGame = useGameStore((state) => state.startNewGame);
+  const switchSides = useGameStore((state) => state.switchSides);
   const retryAi = useGameStore((state) => state.retryAi);
   const dismissNotice = useGameStore((state) => state.dismissNotice);
   const settings = useSettingsStore();
@@ -70,6 +66,14 @@ export function PlayPage() {
   const [now, setNow] = useState(Date.now());
   const [captureNotice, setCaptureNotice] = useState<string | null>(null);
   const [undoAnimation, setUndoAnimation] = useState<BoardUndoAnimation | null>(null);
+  const [toast, setToast] = useState<{ id: number; text: string } | null>(null);
+  const toastIdRef = useRef(0);
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(null), 2400);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
 
   useEffect(() => {
     if (!undoAnimation) return;
@@ -144,7 +148,6 @@ export function PlayPage() {
         }}
         starting={starting}
         initialColor={settings.preferredColor}
-        initialLevel={settings.preferredLevel}
         hasActiveGame={Boolean(current && current.phase !== 'finished')}
       />
     );
@@ -153,7 +156,6 @@ export function PlayPage() {
   const isHuman = current.mode === 'human';
   const playerColor = current.playerColor;
   const aiColor: Color = playerColor === 'r' ? 'b' : 'r';
-  const nextPlayerColor: Color = playerColor === 'r' ? 'b' : 'r';
   const orientation: Color =
     settings.boardOrientation === 'auto'
       ? isHuman
@@ -167,16 +169,18 @@ export function PlayPage() {
   const lastMove = current.moves.length > 0 ? current.moves[current.moves.length - 1] : null;
   const isFinished = current.phase === 'finished';
   const elapsed = current.elapsedMs + (isFinished ? 0 : now - new Date(current.startedAt).getTime() - current.elapsedMs);
+  const metaText = `${isHuman ? '双人对局' : `${levelLabel(settings.preferredLevel)} · 你执${playerColor === 'r' ? '红' : '黑'}`} · ${formatDuration(elapsed)}`;
   const lastMoveColor = current.moves[current.moves.length - 1]?.color;
   const canUndo =
     settings.allowUndo &&
-    (!checked || settings.allowUndoWhenChecked) &&
-    ((current.historyResume && current.moves.length > 0) ||
-      ((current.phase === 'playing' || current.phase === 'ai_thinking') &&
-        current.moves.length > 0 &&
+    current.moves.length > 0 &&
+    (isFinished
+      ? // 终局（绝杀/认输/和棋）随时可以悔棋，退回去继续下
+        true
+      : (!checked || settings.allowUndoWhenChecked) &&
         (isHuman ||
           lastMoveColor === playerColor ||
-          (current.moves.length >= 2 && current.moves[current.moves.length - 2]?.color === playerColor))));
+          (current.moves.length >= 2 && current.moves[current.moves.length - 2]?.color === playerColor)));
 
   function handleUndo() {
     if (!current || !canUndo) {
@@ -197,12 +201,12 @@ export function PlayPage() {
   }
 
   const thinkingSeconds = aiThinkingSince
-    ? Math.min(10, Math.floor((now - aiThinkingSince) / 1000))
+    ? Math.max(0, Math.min(10, Math.floor((now - aiThinkingSince) / 1000)))
     : 0;
   const statusText = isFinished
     ? resultLabel(current.result, playerColor, current.mode)
     : current.phase === 'ai_thinking'
-      ? `AI 思考中 ${thinkingSeconds}s${aiProgress ? ` · 深度 ${aiProgress.depth}` : ''}`
+      ? `AI 思考中 ${thinkingSeconds}s`
       : isHuman
         ? `轮到${current.position.turn === 'r' ? '红方' : '黑方'}`
         : playerTurn
@@ -222,15 +226,11 @@ export function PlayPage() {
             <i aria-hidden="true" />
             {engineReady ? '在线 AI' : 'AI 未连接'}
           </span>
-          <span className="play-meta">
-            {isHuman ? '双人对局' : `${levelLabel(current.level)} · 你执${playerColor === 'r' ? '红' : '黑'}`} ·{' '}
-            {formatDuration(elapsed)}
-          </span>
+          <span className="play-meta play-topline-meta">{metaText}</span>
         </div>
       </div>
 
       <div className="play-layout">
-        <section className="board-column">
           <div className="board-toolbar">
             <div className={`turn-chip${current.phase === 'ai_thinking' ? ' is-thinking' : ''}`} aria-live="polite">
               <span className={`turn-disc ${current.position.turn}`} />
@@ -241,6 +241,7 @@ export function PlayPage() {
                 <span className="turn-sub">{playerTurn ? '请落子' : '请稍候'}</span>
               ))}
             </div>
+            <span className="play-meta board-meta">{metaText}</span>
             <button
               type="button"
               className="btn btn-ghost btn-small"
@@ -248,16 +249,25 @@ export function PlayPage() {
                 if (isHuman) {
                   settings.setBoardOrientation(orientation === 'r' ? 'black' : 'red');
                 } else {
-                  setDialog('switch');
+                  const nextColor = switchSides();
+                  if (nextColor) {
+                    toastIdRef.current += 1;
+                    setToast({
+                      id: toastIdRef.current,
+                      text: `已换成执${nextColor === 'r' ? '红' : '黑'}，当前棋局继续`,
+                    });
+                  }
                 }
               }}
-              aria-label={isHuman ? '翻转棋盘' : '换边并开始新局'}
-              disabled={isHuman ? isFinished : !engineReady || starting}
+              aria-label={isHuman ? '翻转棋盘' : '换边，换成另一方继续当前棋局'}
+              title={isHuman ? '翻转棋盘' : '换成另一方，当前棋局继续'}
+              disabled={isHuman ? isFinished : isFinished || !engineReady}
             >
               <ArrowLeftRight size={15} aria-hidden="true" />
               {isHuman ? '翻转' : '换边'}
             </button>
           </div>
+        <section className="board-column">
 
           <Board
             position={current.position}
@@ -274,6 +284,18 @@ export function PlayPage() {
             onPoint={banMode ? toggleManualBan : playSquare}
           />
 
+          {toast && (
+            <div className="board-toast" role="status" aria-live="polite" key={toast.id}>
+              <span className="board-toast-pill">
+                <ArrowLeftRight size={15} aria-hidden="true" />
+                <span>{toast.text}</span>
+              </span>
+            </div>
+          )}
+        </section>
+
+        {/* 棋盘下方的提示与终局信息。结构上独立于棋盘的网格行，PC 侧栏才能与棋盘严格等高。 */}
+        <div className="board-under">
           {captureNotice && (
             <div className="capture-banner" role="status">
               <Swords size={17} aria-hidden="true" />
@@ -331,7 +353,7 @@ export function PlayPage() {
                 <h2>{resultLabel(current.result, playerColor, current.mode)}</h2>
                 <p>
                   {current.moves.length} 手 · {formatDuration(current.elapsedMs)} ·{' '}
-                  {isHuman ? '双人对局' : `${levelLabel(current.level)}难度`}
+                  {isHuman ? '双人对局' : `${levelLabel(settings.preferredLevel)}难度`}
                 </p>
               </div>
               <div className="result-actions">
@@ -354,12 +376,10 @@ export function PlayPage() {
             </div>
           )}
 
-
-
           <p className="board-help">
             点击棋子，再点目标位置；也可用 Tab 聚焦棋格、方向键移动、回车落子。
           </p>
-        </section>
+        </div>
 
         <aside className="play-side">
           <div className="board-controls side-controls">
@@ -420,15 +440,23 @@ export function PlayPage() {
           <section className="side-card">
             <div className="side-heading">
               <span className="eyebrow">对局</span>
-              <span className="side-level">{isHuman ? '双人' : levelLabel(current.level)}</span>
+              <span className="side-level">{isHuman ? '双人' : levelLabel(settings.preferredLevel)}</span>
             </div>
             <div className="player-row">
-              <div className={`player-avatar ${aiColor === 'r' ? 'red' : 'black'} ${current.position.turn === aiColor ? 'active' : ''}`}>
-                {PIECE_GLYPHS[aiColor].K}
-              </div>
+              {isHuman ? (
+                <div className={`player-avatar ${aiColor === 'r' ? 'red' : 'black'} ${current.position.turn === aiColor ? 'active' : ''}`}>
+                  {PIECE_GLYPHS[aiColor].K}
+                </div>
+              ) : (
+                <Robot inline thinking={current.phase === 'ai_thinking' || hintLoading} />
+              )}
               <div>
                 <strong>{isHuman ? (aiColor === 'r' ? '红方' : '黑方') : '在线 AI'}</strong>
-                <span>{isHuman ? '本地棋手' : `${levelLabel(current.level)} AI`}</span>
+                <span>
+                  {isHuman
+                    ? '本地棋手'
+                    : `执${aiColor === 'r' ? '红' : '黑'} · ${levelLabel(settings.preferredLevel)} AI`}
+                </span>
               </div>
               {current.phase === 'ai_thinking' && <Loader2 size={16} className="spin" aria-label="思考中" />}
             </div>
@@ -458,53 +486,6 @@ export function PlayPage() {
               <span>{formatDuration(elapsed)}</span>
             </div>
           </section>
-
-          <section className="side-card move-card">
-            <div className="side-heading">
-              <span className="eyebrow">棋谱</span>
-              <span className="side-level">本局</span>
-            </div>
-            <MoveList moves={current.moves} emptyText="落子后，棋谱会显示在这里。" />
-            {hint && (
-              <div className="hint-note">
-                <Lightbulb size={15} aria-hidden="true" />
-                提示：看棋盘上的金色箭头。再按「换一个」可看别的候选。
-              </div>
-            )}
-          </section>
-
-          <section className="side-card">
-            <div className="side-heading">
-              <span className="eyebrow">禁着</span>
-              <span className="side-level">{(manualBans ?? []).length} 个</span>
-            </div>
-            {(manualBans ?? []).length === 0 ? (
-              <p className="muted small">
-                按下「禁着」后点棋盘格子，标记 AI 和提示都不会走的落点；再点一次解除。
-              </p>
-            ) : (
-              <div className="local-move-list">
-                {(manualBans ?? []).map((square) => (
-                  <div className="local-move-row" key={square}>
-                    <span>{squareLabel(square)}</span>
-                    <button type="button" className="text-button" onClick={() => toggleManualBan(square)}>
-                      解除
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </section>
-
-          <section className="side-card engine-note">
-            <span className="eyebrow">说明</span>
-            <p>
-              AI 走子由在线 AI 服务计算，只发送当前局面，棋谱保存在本机。
-            </p>
-            <Link to="/settings#engine" className="text-link">
-              AI 服务状态
-            </Link>
-          </section>
         </aside>
       </div>
 
@@ -531,33 +512,6 @@ export function PlayPage() {
         }
       >
         <p>认输后本局会保存到棋谱，不能再继续落子。</p>
-      </Dialog>
-
-      <Dialog
-        open={dialog === 'switch'}
-        title="换边重开？"
-        onClose={() => setDialog(null)}
-        footer={
-          <>
-            <button type="button" className="btn btn-ghost" onClick={() => setDialog(null)}>
-              取消
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary"
-              disabled={!engineReady || starting}
-              onClick={() => void handleSwitchSides()}
-            >
-              {starting ? '正在摆棋…' : '换边开局'}
-            </button>
-          </>
-        }
-      >
-        <p>
-          你会改执{nextPlayerColor === 'r' ? '红' : '黑'}。
-          {nextPlayerColor === 'b' ? 'AI 会自动先走。' : '你先走。'}
-          若当前棋局已经落子，会以“未完成”保存到棋谱。
-        </p>
       </Dialog>
 
       <Dialog
@@ -595,13 +549,6 @@ export function PlayPage() {
       setDialog(null);
     }
   }
-
-  async function handleSwitchSides() {
-    setStarting(true);
-    const ok = await startNewGame(nextPlayerColor, settings.preferredLevel);
-    setStarting(false);
-    if (ok) setDialog(null);
-  }
 }
 
 function NewGameSetup({
@@ -610,7 +557,6 @@ function NewGameSetup({
   onStart,
   starting,
   initialColor,
-  initialLevel,
   hasActiveGame,
 }: {
   engineReady: boolean;
@@ -618,12 +564,12 @@ function NewGameSetup({
   onStart: (color: Color, level: Level, opponent: GameMode) => Promise<boolean>;
   starting: boolean;
   initialColor: Color;
-  initialLevel: Level;
   hasActiveGame: boolean;
 }) {
   const [opponent, setOpponent] = useState<GameMode>('ai');
   const [color, setColor] = useState<Color>(initialColor);
-  const [level, setLevel] = useState<Level>(initialLevel);
+  const settingsStore = useSettingsStore();
+  const level = settingsStore.preferredLevel;
   const isHuman = opponent === 'human';
 
   return (
@@ -699,7 +645,7 @@ function NewGameSetup({
                     type="button"
                     key={value}
                     className={`level-row${level === value ? ' is-selected' : ''}`}
-                    onClick={() => setLevel(value)}
+                    onClick={() => settingsStore.setPreferredLevel(value)}
                   >
                     <span className="level-number">0{value}</span>
                     <span>

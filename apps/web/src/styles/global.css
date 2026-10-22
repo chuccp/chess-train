@@ -1374,8 +1374,14 @@ p {
 
 /* ---------- Board ---------- */
 
-.board-column {
+.board-column,
+.board-under {
   min-width: 0;
+}
+
+/* 需要给棋盘上的居中浮层（toast）当定位参照 */
+.board-column {
+  position: relative;
 }
 
 .board-toolbar {
@@ -1394,6 +1400,7 @@ p {
   color: var(--ink-soft);
   font-size: 0.8rem;
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 
 .turn-chip.is-thinking {
@@ -1640,6 +1647,258 @@ p {
   color: var(--red-deep);
 }
 
+/* ===== 常驻 3D 思考机器人 ===== */
+
+.robot-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 0.75rem 0;
+  padding: 0.55rem 1rem 0.55rem 0.75rem;
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-soft) 100%);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 10px 26px rgba(29, 36, 32, 0.08);
+}
+
+.robot-stage {
+  perspective: 520px;
+  width: 64px;
+  height: 66px;
+  flex-shrink: 0;
+}
+
+.robot-inline {
+  width: 48px;
+  height: 50px;
+  flex-shrink: 0;
+}
+
+.robot-inline .robot-stage,
+.robot-inline .robot {
+  width: 48px;
+  height: 50px;
+}
+
+.robot {
+  width: 64px;
+  height: 66px;
+  overflow: visible;
+}
+
+.robot-body {
+  transform: rotateX(9deg);
+  transform-origin: 60px 72px;
+  transform-box: view-box;
+  animation: robot-breathe 3.6s ease-in-out infinite;
+}
+
+.robot-torso {
+  transform-origin: 60px 100px;
+  transform-box: view-box;
+}
+
+.robot-shadow {
+  fill: rgba(29, 36, 32, 0.16);
+  animation: robot-shadow-pulse 3.6s ease-in-out infinite;
+}
+
+.robot-shine {
+  fill: #ffffff;
+  opacity: 0.16;
+}
+
+.robot-antenna {
+  stroke: var(--gold);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+}
+
+.robot-antenna-ball {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: robot-glow 3.2s ease-in-out infinite;
+}
+
+.robot-pupils {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.robot-lid {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: robot-blink 5s ease-in-out infinite;
+}
+
+.robot-mouth circle {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0.5;
+}
+
+/* 思考中：3D 摇摆 + 眼睛扫视 + 打点加速 */
+.robot-card.is-thinking .robot-body,
+.robot-inline.is-thinking .robot-body {
+  animation: robot-sway 2.2s ease-in-out infinite;
+}
+
+.robot-card.is-thinking .robot-shadow,
+.robot-inline.is-thinking .robot-shadow {
+  animation: robot-shadow-think 2.2s ease-in-out infinite;
+}
+
+.robot-card.is-thinking .robot-antenna-ball,
+.robot-inline.is-thinking .robot-antenna-ball {
+  animation: robot-glow 1s ease-in-out infinite;
+}
+
+.robot-card.is-thinking .robot-pupils,
+.robot-inline.is-thinking .robot-pupils {
+  animation: robot-scan 1.7s ease-in-out infinite;
+}
+
+.robot-card.is-thinking .robot-lid,
+.robot-inline.is-thinking .robot-lid {
+  animation: robot-blink 3.2s ease-in-out infinite;
+}
+
+.robot-card.is-thinking .robot-mouth circle,
+.robot-inline.is-thinking .robot-mouth circle {
+  opacity: 1;
+  animation: robot-dot 1.15s ease-in-out infinite;
+}
+
+.robot-card.is-thinking .robot-mouth circle,
+.robot-inline.is-thinking .robot-mouth circle:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.robot-card.is-thinking .robot-mouth circle,
+.robot-inline.is-thinking .robot-mouth circle:nth-child(3) {
+  animation-delay: 0.36s;
+}
+
+.robot-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  color: var(--ink-soft);
+}
+
+.robot-card-text strong {
+  color: var(--ink);
+  font-size: 0.92rem;
+}
+
+.robot-card-text span {
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+@keyframes robot-breathe {
+  0%,
+  100% {
+    transform: rotateX(9deg) translateY(1px);
+  }
+  50% {
+    transform: rotateX(9deg) translateY(-2px);
+  }
+}
+
+@keyframes robot-sway {
+  0%,
+  100% {
+    transform: rotateX(9deg) rotateY(-11deg) translateY(1px);
+  }
+  50% {
+    transform: rotateX(9deg) rotateY(11deg) translateY(-3px);
+  }
+}
+
+@keyframes robot-shadow-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.92);
+    opacity: 0.75;
+  }
+}
+
+@keyframes robot-shadow-think {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.86);
+    opacity: 0.62;
+  }
+}
+
+@keyframes robot-scan {
+  0%,
+  100% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes robot-glow {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.88);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+@keyframes robot-dot {
+  0%,
+  100% {
+    transform: translateY(1.5px) scale(0.9);
+  }
+  50% {
+    transform: translateY(-2px) scale(1.12);
+  }
+}
+
+@keyframes robot-blink {
+  0%,
+  42%,
+  48%,
+  100% {
+    transform: scaleY(0);
+  }
+  45% {
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .robot-body,
+  .robot-card.is-thinking .robot-body,
+.robot-inline.is-thinking .robot-body,
+  .robot-shadow,
+  .robot-card.is-thinking .robot-shadow,
+.robot-inline.is-thinking .robot-shadow,
+  .robot-antenna-ball,
+  .robot-pupils,
+  .robot-lid,
+  .robot-mouth circle {
+    animation: none;
+  }
+}
+
 .control-button.primary {
   background: var(--green);
   color: var(--white);
@@ -1697,7 +1956,13 @@ p {
   gap: 0.3rem;
   color: var(--muted);
   font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
   flex-wrap: wrap;
+}
+
+/* 桌面端把对局信息放进工具条居中显示，手机端仍用顶部那一行 */
+.board-meta {
+  display: none;
 }
 
 .play-layout {
@@ -1711,8 +1976,6 @@ p {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  position: sticky;
-  top: 92px;
 }
 
 .side-card {
@@ -2675,6 +2938,59 @@ p {
   margin-bottom: 0.3rem;
 }
 
+/* ---------- Toast ---------- */
+
+/* 棋盘中央的浮层提示：绝对定位盖在棋盘上，不占正文高度 */
+.board-toast {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  padding: 0 12%;
+  pointer-events: none;
+}
+
+.board-toast-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  max-width: 100%;
+  padding: 0.62rem 1rem;
+  border: 1px solid rgba(198, 154, 77, 0.32);
+  border-radius: 999px;
+  background: rgba(16, 36, 30, 0.94);
+  color: var(--white);
+  font-size: 0.82rem;
+  line-height: 1.25;
+  text-align: left;
+  box-shadow: 0 14px 34px rgba(29, 36, 32, 0.26);
+  backdrop-filter: blur(10px);
+  animation: toast-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.board-toast-pill svg {
+  flex: 0 0 auto;
+  color: var(--gold);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .board-toast-pill {
+    animation: none;
+  }
+}
+
 /* ---------- Dialog / review ---------- */
 
 .dialog {
@@ -2763,10 +3079,6 @@ p {
   color: var(--muted);
   font-size: 0.72rem;
   font-variant-numeric: tabular-nums;
-}
-
-.review-layout .play-side {
-  top: 92px;
 }
 
 /* ---------- History ---------- */
@@ -3359,7 +3671,6 @@ p {
   }
 
   .play-side {
-    position: static;
     display: grid;
     grid-template-columns: 1fr;
   }
@@ -3921,10 +4232,20 @@ p {
     margin: 0 auto;
   }
 
-  .app-shell.is-game-route .board-column {
+  .app-shell.is-game-route .board-column,
+  .app-shell.is-game-route .board-under {
     width: 100%;
     max-width: min(560px, calc((100vh - 190px) * 0.9));
     margin: 0 auto;
+  }
+
+  .app-shell.is-game-route .board-under > :first-child {
+    margin-top: 0;
+  }
+
+  /* 手机上提示行默认隐藏；没有横幅/终局卡时整行不占位，避免多出一个网格间距 */
+  .app-shell.is-game-route .board-under:not(:has(> :not(.board-help))) {
+    display: none;
   }
 
   .app-shell.is-game-route .play-topline {
@@ -5071,5 +5392,90 @@ p {
   .back-link:active {
     background: rgba(45, 86, 70, 0.08);
     color: var(--ink);
+  }
+}
+
+/* PC：右侧操作卡与棋盘顶边平齐，并随棋盘等高（工具条独占第一行，仅工具条直接位于 play-layout 下时生效） */
+@media (min-width: 881px) {
+  .play-layout:has(> .board-toolbar) {
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    row-gap: 0.75rem;
+  }
+
+  .play-layout:has(> .board-toolbar) > .board-toolbar {
+    grid-column: 1;
+    grid-row: 1;
+    margin-bottom: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .play-layout:has(> .board-toolbar) > .board-toolbar > .turn-chip {
+    justify-self: start;
+    min-width: 0;
+  }
+
+  /* 对局信息与「换边」同一行，居中显示在棋盘上方 */
+  .play-layout:has(> .board-toolbar) > .board-toolbar > .board-meta {
+    display: inline-flex;
+    justify-self: center;
+    white-space: nowrap;
+  }
+
+  .play-layout:has(> .board-toolbar) > .board-toolbar > .btn {
+    justify-self: end;
+    white-space: nowrap;
+  }
+
+  /* 桌面端信息已经移到棋盘上方，顶部不再重复显示 */
+  .play-topline-meta {
+    display: none;
+  }
+
+  .play-layout:has(> .board-toolbar) > .board-column {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  /* 棋盘下方提示单独占一行，保证第二行的高度只由棋盘决定 */
+  .play-layout:has(> .board-toolbar) > .board-under {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .play-layout:has(> .board-toolbar) > .board-under > :first-child {
+    margin-top: 0;
+  }
+
+  .play-layout:has(> .board-toolbar) > .play-side {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+/* 高度足够时让右侧整列与棋盘上下平齐，信息卡吃满剩余高度（矮窗口保持紧凑，避免内容挤出棋盘） */
+@media (min-width: 881px) and (min-height: 760px) {
+  .play-layout:has(> .board-toolbar) > .play-side {
+    align-self: stretch;
+  }
+
+  .play-layout:has(> .board-toolbar) > .play-side > .side-card:last-child {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .play-layout:has(> .board-toolbar) > .play-side > .side-card:last-child > .side-heading {
+    margin-bottom: 0;
+  }
+}
+
+/* 矮窗口：操作卡本身就比棋盘高，让它跨到提示行，避免把棋盘和提示顶开 */
+@media (min-width: 881px) and (max-height: 759px) {
+  .play-layout:has(> .board-toolbar) > .play-side {
+    grid-row: 2 / span 2;
   }
 }
