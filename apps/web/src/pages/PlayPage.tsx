@@ -583,13 +583,14 @@ export function PlayPage() {
           </>
         }
       >
-        <p>当前棋局会以“未完成”保存到棋谱，然后按相同执子和难度重新开局。</p>
+        <p>当前棋局会以“未完成”保存到棋谱，然后按相同执子、按设置里的默认难度重新开局。</p>
       </Dialog>
     </div>
   );
 
   async function handleNewGame() {
-    const ok = await startNewGame(current!.playerColor, current!.level, current!.mode);
+    // 新局跟随设置里的默认难度，避免沿用旧局难度把设置覆盖回去
+    const ok = await startNewGame(current!.playerColor, settings.preferredLevel, current!.mode);
     if (ok) {
       setDialog(null);
     }
@@ -597,7 +598,7 @@ export function PlayPage() {
 
   async function handleSwitchSides() {
     setStarting(true);
-    const ok = await startNewGame(nextPlayerColor, current!.level);
+    const ok = await startNewGame(nextPlayerColor, settings.preferredLevel);
     setStarting(false);
     if (ok) setDialog(null);
   }
