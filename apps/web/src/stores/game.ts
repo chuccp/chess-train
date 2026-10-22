@@ -17,7 +17,7 @@ import {
   type Color,
   type Position,
 } from '@qilian/xiangqi';
-import { engineApi, type ApiForbiddenMove } from '../engine/api';
+import { engineApi, type ApiForbiddenMove, type EngineMoveProgress } from '../engine/api';
 import { useEngineStore } from './engine';
 import { useSettingsStore } from './settings';
 import {
@@ -35,7 +35,7 @@ import type {
   MoveRecord,
 } from '../types';
 
-const AI_TIME_MS: Record<Level, number> = { 1: 300, 2: 700, 3: 1200 };
+// 思考不设小预算：走 SSE 流式接口，引擎跑到 10 秒上限为止（接口内部默认值）。
 
 let aiTokenSeq = 0;
 let hintTokenSeq = 0;
@@ -161,7 +161,7 @@ async function searchWithBans(
   hashes: string[],
   baseBans: ApiForbiddenMove[],
   level: Level,
-  timeLimitMs: number,
+  onProgress?: (progress: EngineMoveProgress) => void,
 ): Promise<string> {
   const legalUccis = generateLegalMoves(position).map((move) => moveToUcci(move.from, move.to));
   const extra: ApiForbiddenMove[] = [];
@@ -171,7 +171,7 @@ async function searchWithBans(
       game: 'xiangqi',
       fen: toFen(position),
       level,
-      timeLimitMs,
+      onProgress,
       forbiddenMoves: pruneBans(legalUccis, [...baseBans, ...extra]),
     });
     ucci = result.move.uci ?? '';
@@ -195,6 +195,10 @@ interface GameState {
   aiError: string | null;
   aiToken: number;
   hintToken: number;
+  /** AI 开始思考的时间戳（毫秒），用于界面上的思考计时 */
+  aiThinkingSince: number | null;
+  /** SSE 最近一层搜索进度 */
+  aiProgress: EngineMoveProgress | null;
   hydrate: () => Promise<void>;
   startNewGame: (playerColor: Color, level: Level, opponent?: GameMode) => Promise<boolean>;
   resumeFinishedGame: (record: FinishedGame, keepMoves: number) => boolean;
@@ -222,6 +226,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   aiError: null,
   aiToken: 0,
   hintToken: 0,
+  aiThinkingSince: null,
+  aiProgress: null,
 
   async hydrate() {
     if (get().hydrated) return;
@@ -278,6 +284,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       hintLoading: false,
       aiInFlight: false,
       aiError: null,
+      aiThinkingSince: null,
+      aiProgress: null,
       aiToken: get().aiToken + 1,
       hintToken: get().hintToken + 1,
     });
@@ -329,6 +337,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       hintLoading: false,
       aiInFlight: false,
       aiError: null,
+      aiThinkingSince: null,
+      aiProgress: null,
       aiToken: get().aiToken + 1,
       hintToken: get().hintToken + 1,
     });
@@ -446,7 +456,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
 
     const token = ++aiTokenSeq;
-    set({ aiInFlight: true, aiError: null, aiToken: token });
+    set({ aiInFlight: true, aiError: null, aiToken: token, aiThinkingSince: Date.now(), aiProgress: null });
 
     try {
       const positionKey = hashPosition(game.position);
@@ -459,7 +469,9 @@ export const useGameStore = create<GameState>((set, get) => ({
         game.positionHashes,
         baseBans,
         game.level,
-        AI_TIME_MS[game.level],
+        (progress) => {
+          if (get().aiToken === token) set({ aiProgress: progress });
+        },
       );
       const latest = get();
       if (!latest.current || latest.current.id !== game.id || latest.aiToken !== token) return;
@@ -493,7 +505,15 @@ export const useGameStore = create<GameState>((set, get) => ({
         },
       });
 
-      set({ current: next, aiInFlight: false, aiError: null, aiToken: get().aiToken + 1, hint: null });
+      set({
+        current: next,
+        aiInFlight: false,
+        aiError: null,
+        aiToken: get().aiToken + 1,
+        hint: null,
+        aiThinkingSince: null,
+        aiProgress: null,
+      });
       persist(next);
       if (result.givesCheck) feedback('check');
       else if (record.capturedType) feedback('capture');
@@ -508,6 +528,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       set({
         aiInFlight: false,
         aiError: error instanceof Error ? error.message : String(error),
+        aiThinkingSince: null,
+        aiProgress: null,
       });
     }
   },
@@ -536,7 +558,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         ...(game.manualBans ?? []).map((to) => ({ to })),
         ...shown.map((uci) => ({ uci })),
       ];
-      const ucci = await searchWithBans(game.position, game.positionHashes, baseBans, 3, 900);
+      const ucci = await searchWithBans(game.position, game.positionHashes, baseBans, 3);
       const latest = get();
       if (!latest.current || latest.current.id !== game.id || latest.hintToken !== token) return;
       if (latest.current.moves.length !== game.moves.length) return;
@@ -617,6 +639,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       hintLoading: false,
       aiInFlight: false,
       aiError: null,
+      aiThinkingSince: null,
+      aiProgress: null,
       aiToken: get().aiToken + 1,
       hintToken: get().hintToken + 1,
     });

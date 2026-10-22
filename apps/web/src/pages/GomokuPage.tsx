@@ -42,7 +42,7 @@ const STORAGE_KEY = 'qilian.local-gomoku.v1';
 /** 人机模式：你执黑先行，AI 执白。 */
 const HUMAN_COLOR: GomokuColor = 'b';
 const AI_COLOR: GomokuColor = 'w';
-const AI_TIME_MS: Record<1 | 2 | 3, number> = { 1: 300, 2: 700, 3: 1200 };
+const AI_TIME_MS: Record<1 | 2 | 3, number> = { 1: 10_000, 2: 10_000, 3: 10_000 }; // SSE 思考，上限 10s
 
 function freshGame(mode: OpponentMode = 'ai', level: 1 | 2 | 3 = 2): LocalGomoku {
   return { state: createGomokuInitial(), moves: [], startedAt: new Date().toISOString(), mode, level };
@@ -83,6 +83,7 @@ export function GomokuPage() {
   const [dialog, setDialog] = useState<DialogAction>(null);
   const [now, setNow] = useState(Date.now());
   const [aiThinking, setAiThinking] = useState(false);
+  const [aiSince, setAiSince] = useState<number | null>(null);
   const [banMode, setBanMode] = useState(false);
 
   const finished = game.state.status.status !== 'playing';
@@ -108,6 +109,7 @@ export function GomokuPage() {
 
   useAiTurn(isAi && !finished && game.state.turn === AI_COLOR, `${game.startedAt}:${game.moves.length}`, async () => {
     setAiThinking(true);
+    setAiSince(Date.now());
     try {
       const position = gomokuPosition(game.state);
       const positionKey = gridPositionKey(position);
@@ -141,6 +143,7 @@ export function GomokuPage() {
       setMessage(error instanceof Error ? error.message : String(error));
     } finally {
       setAiThinking(false);
+      setAiSince(null);
     }
   });
 
@@ -257,7 +260,7 @@ export function GomokuPage() {
                 : finished
                   ? resultText(game.state)
                   : aiThinking
-                    ? 'AI 思考中…'
+                    ? `AI 思考中 ${aiSince ? Math.min(10, Math.floor((now - aiSince) / 1000)) : 0}s`
                     : isAi && game.state.turn === AI_COLOR
                       ? 'AI 行棋'
                       : isAi

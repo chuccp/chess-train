@@ -50,6 +50,8 @@ export function PlayPage() {
   const hint = useGameStore((state) => state.hint);
   const hintLoading = useGameStore((state) => state.hintLoading);
   const aiInFlight = useGameStore((state) => state.aiInFlight);
+  const aiThinkingSince = useGameStore((state) => state.aiThinkingSince);
+  const aiProgress = useGameStore((state) => state.aiProgress);
   const aiError = useGameStore((state) => state.aiError);
   const playSquare = useGameStore((state) => state.playSquare);
   const toggleManualBan = useGameStore((state) => state.toggleManualBan);
@@ -194,10 +196,13 @@ export function PlayPage() {
     undo();
   }
 
+  const thinkingSeconds = aiThinkingSince
+    ? Math.min(10, Math.floor((now - aiThinkingSince) / 1000))
+    : 0;
   const statusText = isFinished
     ? resultLabel(current.result, playerColor, current.mode)
     : current.phase === 'ai_thinking'
-      ? 'AI 正在思考…'
+      ? `AI 思考中 ${thinkingSeconds}s${aiProgress ? ` · 深度 ${aiProgress.depth}` : ''}`
       : isHuman
         ? `轮到${current.position.turn === 'r' ? '红方' : '黑方'}`
         : playerTurn
