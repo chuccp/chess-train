@@ -96,7 +96,7 @@ export function TrainHomePage() {
           训练场
         </div>
         <h1>把棋感练出来</h1>
-        <p>三种模式，三种看法：找杀、收残局、走开局。训练内容不需要联网，断网也能照常练。</p>
+        <p>三种模式，三种看法：找杀、收残局、走开局。</p>
       </section>
 
       <div className="training-grid training-grid-large">

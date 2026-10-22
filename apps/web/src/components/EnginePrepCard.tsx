@@ -1,4 +1,4 @@
-import { AlertCircle, CheckCircle2, Loader2, RotateCw, Wifi } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Loader2, RotateCw } from 'lucide-react';
 import { useEngineStore } from '../stores/engine';
 
 interface EnginePrepProps {
@@ -21,7 +21,7 @@ export function EnginePrepCard({ compact = false, showReady = true }: EnginePrep
         <CheckCircle2 size={20} aria-hidden="true" />
         <div>
           <strong>在线 AI 已连接</strong>
-          <p>走子由在线 AI 服务计算；双人对局与训练内容离线也能使用。</p>
+          <p>走子由在线 AI 服务计算。</p>
         </div>
       </div>
     );
@@ -51,9 +51,7 @@ export function EnginePrepCard({ compact = false, showReady = true }: EnginePrep
       </div>
       <div className="prep-body">
         <strong>正在连接在线 AI…</strong>
-        <p>
-          <Wifi size={14} aria-hidden="true" /> 人机对弈需要联网；{version ? `服务版本 ${version}。` : '很快就好。'}
-        </p>
+        {version && <p>服务版本 {version}。</p>}
       </div>
     </div>
   );

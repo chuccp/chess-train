@@ -69,7 +69,7 @@ export function LocalGamesPage() {
 
       <p className="local-games-note">
         <ShieldCheck size={15} aria-hidden="true" />
-        双人模式完全离线；人机对战需要联网获取 AI 走子，棋局只保存在本机。
+        棋局只保存在本机。
       </p>
     </div>
   );

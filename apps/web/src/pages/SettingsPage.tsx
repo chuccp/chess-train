@@ -212,7 +212,7 @@ export function SettingsPage() {
               </span>
             </div>
             <p className="settings-lede">
-              <Wifi size={14} aria-hidden="true" /> 人机走子由在线 AI 服务计算，只发送当前局面，不保存棋谱。双人对局与训练可离线使用。
+              <Wifi size={14} aria-hidden="true" /> 人机走子由在线 AI 服务计算，只发送当前局面，不保存棋谱。
             </p>
 
             {!engine.engineReady && (

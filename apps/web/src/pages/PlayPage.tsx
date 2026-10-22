@@ -40,7 +40,6 @@ export function PlayPage() {
   const [searchParams] = useSearchParams();
   const setupRequested = searchParams.get('setup') === '1';
   const engineReady = useEngineStore((state) => state.engineReady);
-  const offlineReady = useEngineStore((state) => state.offlineReady);
   const enginePhase = useEngineStore((state) => state.phase);
   const current = useGameStore((state) => state.current);
   const hydrated = useGameStore((state) => state.hydrated);
@@ -495,7 +494,7 @@ export function PlayPage() {
           <section className="side-card engine-note">
             <span className="eyebrow">说明</span>
             <p>
-              AI 走子由在线 AI 服务计算，只发送当前局面，棋谱保存在本机。双人对局与训练可离线使用。
+              AI 走子由在线 AI 服务计算，只发送当前局面，棋谱保存在本机。
             </p>
             <Link to="/settings#engine" className="text-link">
               AI 服务状态
@@ -632,7 +631,7 @@ function NewGameSetup({
         <h1>{isHuman ? '两个人，一盘棋' : '和 AI 下一盘'}</h1>
         <p>
           {isHuman
-            ? '同屏轮流落子，支持悔棋、翻转和棋谱记录，不需要联网。'
+            ? '同屏轮流落子，支持悔棋、翻转和棋谱记录。'
             : '选择一个执子方向与难度。棋局只保存在本机，随时可以回看。'}
         </p>
       </div>
@@ -743,12 +742,12 @@ function NewGameSetup({
               ? '双人模式红先；随时可以在设置里打开声音与震动反馈。'
               : engineReady
                 ? '执黑时，AI 会自动先走。'
-                : '人机对弈需要联网获取 AI 走子；准备完成后按钮会自动可用。'}
+                : '准备完成后按钮会自动可用。'}
           </p>
         </section>
 
         <aside className="setup-side">
-          <EnginePrepCard />
+          <EnginePrepCard showReady={false} />
           <section className="side-card setup-about">
             <span className="eyebrow">这一局</span>
             <ul className="plain-list">

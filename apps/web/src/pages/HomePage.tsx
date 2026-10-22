@@ -31,7 +31,6 @@ import type { FinishedGame, GameMode, Level } from '../types';
 export function HomePage() {
   const navigate = useNavigate();
   const engineReady = useEngineStore((state) => state.engineReady);
-  const offlineReady = useEngineStore((state) => state.offlineReady);
   const enginePhase = useEngineStore((state) => state.phase);
   const engineError = useEngineStore((state) => state.error);
   const current = useGameStore((state) => state.current);
@@ -89,7 +88,6 @@ export function HomePage() {
       <MobileGameLobby
         current={current}
         engineReady={engineReady}
-        offlineReady={offlineReady}
         enginePhase={enginePhase}
         engineError={engineError}
         hydrated={hydrated}
@@ -149,15 +147,6 @@ export function HomePage() {
               <GraduationCap size={18} aria-hidden="true" />
               去训练
             </Link>
-          </div>
-
-          <div className="hero-note">
-            <ShieldCheck size={16} aria-hidden="true" />
-            {engineReady
-              ? offlineReady
-                ? '在线 AI 已连接；页面可离线打开，人机对弈需联网。'
-                : '在线 AI 已连接，可以开始人机对弈。'
-              : '正在连接在线 AI…双人对局与训练不受影响。'}
           </div>
         </div>
 
@@ -455,7 +444,7 @@ export function HomePage() {
       <section className="home-footnote">
         <div>
           <GraduationCap size={18} aria-hidden="true" />
-          <span>三种训练模式，内容独立于 AI，离线也能练。</span>
+          <span>三种训练模式，内容独立于 AI。</span>
         </div>
         <div>
           <ShieldCheck size={18} aria-hidden="true" />

@@ -9,7 +9,6 @@ import type { GameSnapshot, Level } from '../types';
 interface MobileGameLobbyProps {
   current: GameSnapshot | null;
   engineReady: boolean;
-  offlineReady: boolean;
   enginePhase: string;
   engineError: string | null;
   hydrated: boolean;
@@ -25,7 +24,6 @@ interface MobileGameLobbyProps {
 export function MobileGameLobby({
   current,
   engineReady,
-  offlineReady,
   enginePhase,
   engineError,
   hydrated,
@@ -155,10 +153,6 @@ export function MobileGameLobby({
       </div>
 
       <div className="mobile-lobby-foot">
-        <span>
-          <ShieldCheck size={14} aria-hidden="true" />
-          {offlineReady ? '页面可离线打开，人机需联网' : '人机对弈需要联网'}
-        </span>
         <Link to="/train" className="text-link">
           <GraduationCap size={14} aria-hidden="true" />
           先去训练
