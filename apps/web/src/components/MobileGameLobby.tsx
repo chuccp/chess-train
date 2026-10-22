@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, GraduationCap, Play, ShieldCheck, Swords } from 'lucide-react';
+import { ArrowRight, GraduationCap, Play, RotateCcw, ShieldCheck, Swords } from 'lucide-react';
 import { createInitialPosition, type Color } from '@qilian/xiangqi';
 import { Board } from './Board';
 import { levelLabel, resultLabel } from '../stores/game';
@@ -18,6 +18,7 @@ interface MobileGameLobbyProps {
   onColor: (color: Color) => void;
   onLevel: (level: Level) => void;
   onStart: () => void;
+  onNewGame: () => void;
   onOpenCurrent: () => void;
 }
 
@@ -33,6 +34,7 @@ export function MobileGameLobby({
   onColor,
   onLevel,
   onStart,
+  onNewGame,
   onOpenCurrent,
 }: MobileGameLobbyProps) {
   const initial = useMemo(() => createInitialPosition(), []);
@@ -79,43 +81,60 @@ export function MobileGameLobby({
         </span>
       </div>
 
-      <div className="mobile-board-stage" aria-hidden="true">
-        <Board position={position} orientation={orientation} preview />
+      <div className="mobile-board-stage">
+        <div className="mobile-board-surface">
+          <div aria-hidden="true">
+            <Board position={position} orientation={orientation} preview />
+          </div>
+          <div className="mobile-lobby-float-actions">
+            {active || finished ? (
+              <>
+                <button type="button" className="btn btn-primary mobile-lobby-cta is-floating" onClick={onOpenCurrent}>
+                  {active ? <Play size={18} aria-hidden="true" /> : <ShieldCheck size={18} aria-hidden="true" />}
+                  {active ? '继续对局' : '查看这盘棋'}
+                  <ArrowRight size={17} aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  className="btn mobile-lobby-cta is-floating is-secondary"
+                  onClick={onNewGame}
+                  disabled={starting || (!isHuman && !engineReady)}
+                >
+                  <RotateCcw size={16} aria-hidden="true" />
+                  开新局
+                </button>
+              </>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-primary mobile-lobby-cta is-floating"
+                onClick={onStart}
+                disabled={!engineReady || !hydrated || starting}
+              >
+                <Swords size={18} aria-hidden="true" />
+                {starting ? '正在摆棋…' : engineReady ? '和 AI 下一盘' : '等待在线 AI'}
+                <ArrowRight size={17} aria-hidden="true" />
+              </button>
+            )}
+          </div>
+        </div>
         <span className="mobile-board-caption">{statusText}</span>
       </div>
 
-      <div className="mobile-lobby-actions">
-        {active || finished ? (
-          <>
-            <button type="button" className="btn btn-primary mobile-lobby-cta" onClick={onOpenCurrent}>
-              {active ? <Play size={18} aria-hidden="true" /> : <ShieldCheck size={18} aria-hidden="true" />}
-              {active ? '继续对局' : '查看这盘棋'}
-              <ArrowRight size={17} aria-hidden="true" />
-            </button>
-            <div className="mobile-lobby-secondary">
-              <span>
-                {isHuman
-                  ? '双人对局'
-                  : `你执${current!.playerColor === 'r' ? '红' : '黑'} · ${levelLabel(current!.level)}`}
-              </span>
-              <Link to="/play?setup=1" className="text-link">
-                换个对手
-              </Link>
-            </div>
-          </>
-        ) : (
-          <>
-            <button
-              type="button"
-              className="btn btn-primary mobile-lobby-cta"
-              onClick={onStart}
-              disabled={!engineReady || !hydrated || starting}
-            >
-              <Swords size={18} aria-hidden="true" />
-              {starting ? '正在摆棋…' : engineReady ? '和 AI 下一盘' : '等待在线 AI'}
-              <ArrowRight size={17} aria-hidden="true" />
-            </button>
-            <div className="mobile-lobby-options">
+      {active || finished ? (
+        <div className="mobile-lobby-secondary">
+          <span>
+            {isHuman
+              ? '双人对局'
+              : `你执${current!.playerColor === 'r' ? '红' : '黑'} · ${levelLabel(current!.level)}`}
+          </span>
+          <Link to="/play?setup=1" className="text-link">
+            换个对手
+          </Link>
+        </div>
+      ) : (
+        <div className="mobile-lobby-actions">
+          <div className="mobile-lobby-options">
               <div className="mobile-option-row">
                 <span className="mobile-option-label">执子</span>
                 <div className="segmented small">
@@ -148,9 +167,8 @@ export function MobileGameLobby({
                 {engineError} · <Link to="/settings#engine">去设置重试</Link>
               </p>
             )}
-          </>
-        )}
-      </div>
+        </div>
+      )}
 
       <div className="mobile-lobby-foot">
         <Link to="/train" className="text-link">

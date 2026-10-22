@@ -79,6 +79,15 @@ export function HomePage() {
     if (ok) navigate('/play');
   }
 
+  async function startFresh() {
+    setStarting(true);
+    const mode: GameMode = current?.mode ?? opponent;
+    const nextColor: Color = current?.playerColor ?? color;
+    const ok = await startNewGame(nextColor, settings.preferredLevel, mode);
+    setStarting(false);
+    if (ok) navigate('/play');
+  }
+
   function openCurrent() {
     navigate('/play');
   }
@@ -97,6 +106,7 @@ export function HomePage() {
         onColor={setColor}
         onLevel={setLevel}
         onStart={() => void start()}
+        onNewGame={() => void startFresh()}
         onOpenCurrent={openCurrent}
       />
 
@@ -419,7 +429,13 @@ export function HomePage() {
           ) : recentGames.length === 0 ? (
             <div className="empty-mini">
               <Swords size={20} aria-hidden="true" />
-              <p>还没有完成的棋局。下完一盘，它会出现在这里。</p>
+              <div className="empty-mini-copy">
+                <p>还没有完成的棋局。下完一盘，它会出现在这里。</p>
+                <Link to="/play?setup=1" className="btn btn-ghost btn-small">
+                  开始下棋
+                  <ArrowRight size={15} aria-hidden="true" />
+                </Link>
+              </div>
             </div>
           ) : (
             <div className="recent-list">
