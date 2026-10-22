@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import {
   AlertTriangle,
@@ -34,6 +34,40 @@ import type { GameMode, Level } from '../types';
 type DialogAction = 'resign' | 'new' | null;
 
 const MOVE_TIPS = '点击棋子，再点目标位置；也可用 Tab 聚焦棋格、方向键移动、回车落子。';
+
+function ComicTip({
+  id,
+  role,
+  notice = false,
+  closeLabel,
+  onClose,
+  children,
+}: {
+  id?: string;
+  role: 'status' | 'note';
+  notice?: boolean;
+  closeLabel: string;
+  onClose: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <div
+      className={`comic-tip${notice ? ' is-notice' : ''}`}
+      id={id}
+      role={role}
+      aria-live={role === 'status' ? 'polite' : undefined}
+    >
+      <svg className="comic-tip-tail" viewBox="0 0 16 34" aria-hidden="true">
+        <path className="comic-tip-tail-fill" d="M16 0 L16 12 L2 30 Z" />
+        <path className="comic-tip-tail-line" d="M14 12 L2 30 L14 0" />
+      </svg>
+      <p>{children}</p>
+      <button type="button" className="comic-tip-close" onClick={onClose} aria-label={closeLabel}>
+        <X size={13} aria-hidden="true" />
+      </button>
+    </div>
+  );
+}
 
 export function PlayPage() {
   const navigate = useNavigate();
@@ -111,6 +145,34 @@ export function PlayPage() {
     const timer = window.setTimeout(() => setResultVisible(true), delay);
     return () => window.clearTimeout(timer);
   }, [current?.id, current?.phase, current?.result]);
+
+  // 双人模式：刚吃子的那一方冒个对话气泡
+  const [captureSay, setCaptureSay] = useState<{ side: Color; glyph: string; color: Color } | null>(null);
+  const captureSeenRef = useRef(current?.moves.length ?? 0);
+  useEffect(() => {
+    const count = current?.moves.length ?? 0;
+    if (count <= captureSeenRef.current) {
+      captureSeenRef.current = count;
+      setCaptureSay(null);
+      return;
+    }
+    captureSeenRef.current = count;
+    if (current?.mode !== 'human') {
+      setCaptureSay(null);
+      return;
+    }
+    const move = current.moves[count - 1];
+    if (!move?.capturedType) {
+      setCaptureSay(null);
+      return;
+    }
+    const capturedColor: Color = move.color === 'r' ? 'b' : 'r';
+    const glyph =
+      PIECE_GLYPHS[capturedColor][move.capturedType as keyof (typeof PIECE_GLYPHS)['r']] ?? move.capturedType;
+    setCaptureSay({ side: move.color, glyph, color: capturedColor });
+    const timer = window.setTimeout(() => setCaptureSay(null), 2400);
+    return () => window.clearTimeout(timer);
+  }, [current?.moves.length, current?.id]);
 
   useEffect(() => {
     if (!undoAnimation) return;
@@ -538,30 +600,27 @@ export function PlayPage() {
                 {current.phase === 'ai_thinking' && <Loader2 size={16} className="spin" aria-label="思考中" />}
               </div>
               {!isHuman && (robotSay || tipsOpen) && (
-                <div
-                  className={`comic-tip${robotSay ? ' is-notice' : ''}`}
+                <ComicTip
                   id="play-tips"
                   role={robotSay ? 'status' : 'note'}
-                  aria-live={robotSay ? 'polite' : undefined}
+                  notice={Boolean(robotSay)}
+                  closeLabel={robotSay ? '关闭提示' : '收起操作提示'}
+                  onClose={() => {
+                    setRobotSay(null);
+                    setTipsOpen(false);
+                    dismissNotice();
+                  }}
                 >
-                  <svg className="comic-tip-tail" viewBox="0 0 16 34" aria-hidden="true">
-                    <path className="comic-tip-tail-fill" d="M16 0 L16 12 L2 30 Z" />
-                    <path className="comic-tip-tail-line" d="M14 12 L2 30 L14 0" />
-                  </svg>
-                  <p>{robotSay ?? MOVE_TIPS}</p>
-                  <button
-                    type="button"
-                    className="comic-tip-close"
-                    onClick={() => {
-                      setRobotSay(null);
-                      setTipsOpen(false);
-                      dismissNotice();
-                    }}
-                    aria-label={robotSay ? '关闭提示' : '收起操作提示'}
-                  >
-                    <X size={13} aria-hidden="true" />
-                  </button>
-                </div>
+                  {robotSay ?? MOVE_TIPS}
+                </ComicTip>
+              )}
+              {isHuman && captureSay?.side === aiColor && (
+                <ComicTip role="status" closeLabel="关闭提示" onClose={() => setCaptureSay(null)}>
+                  吃你一个
+                  <span className={`capture-glyph ${captureSay.color === 'r' ? 'red' : 'black'}`}>
+                    {captureSay.glyph}
+                  </span>
+                </ComicTip>
               )}
             </div>
             <div className="vs-line">
@@ -569,20 +628,30 @@ export function PlayPage() {
               <em>VS</em>
               <span />
             </div>
-            <div className="player-row">
-              <div className={`player-avatar ${playerColor === 'r' ? 'red' : 'black'} ${current.position.turn === playerColor ? 'active' : ''}`}>
-                {PIECE_GLYPHS[playerColor].K}
+            <div className="player-block">
+              <div className="player-row">
+                <div className={`player-avatar ${playerColor === 'r' ? 'red' : 'black'} ${current.position.turn === playerColor ? 'active' : ''}`}>
+                  {PIECE_GLYPHS[playerColor].K}
+                </div>
+                <div>
+                  <strong>{isHuman ? (playerColor === 'r' ? '红方' : '黑方') : '你'}</strong>
+                  <span>
+                    {isHuman
+                      ? '本地棋手'
+                      : `执${playerColor === 'r' ? '红' : '黑'} · 本地棋手`}
+                  </span>
+                </div>
+                {(isHuman ? current.phase === 'playing' : playerTurn && current.phase === 'playing') && (
+                  <Check size={16} aria-label="轮到走棋" />
+                )}
               </div>
-              <div>
-                <strong>{isHuman ? (playerColor === 'r' ? '红方' : '黑方') : '你'}</strong>
-                <span>
-                  {isHuman
-                    ? '本地棋手'
-                    : `执${playerColor === 'r' ? '红' : '黑'} · 本地棋手`}
-                </span>
-              </div>
-              {(isHuman ? current.phase === 'playing' : playerTurn && current.phase === 'playing') && (
-                <Check size={16} aria-label="轮到走棋" />
+              {isHuman && captureSay?.side === playerColor && (
+                <ComicTip role="status" closeLabel="关闭提示" onClose={() => setCaptureSay(null)}>
+                  吃你一个
+                  <span className={`capture-glyph ${captureSay.color === 'r' ? 'red' : 'black'}`}>
+                    {captureSay.glyph}
+                  </span>
+                </ComicTip>
               )}
             </div>
             <div className="side-meta">

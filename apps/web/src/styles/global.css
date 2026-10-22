@@ -2008,6 +2008,22 @@ p {
   color: var(--red-deep);
 }
 
+.capture-glyph {
+  padding: 0 0.04em;
+  font-family: var(--serif);
+  font-style: normal;
+  font-size: 1.06em;
+  font-weight: 700;
+}
+
+.capture-glyph.red {
+  color: var(--red);
+}
+
+.capture-glyph.black {
+  color: var(--green-3);
+}
+
 .comic-tip p {
   margin: 0;
 }
