@@ -1526,6 +1526,14 @@ p {
   stroke-width: 5;
 }
 
+/* 可能被吃掉的棋子：外圈绿框 */
+.piece-capture-ring {
+  fill: none;
+  stroke-width: 5.5;
+  opacity: 0.82;
+  pointer-events: none;
+}
+
 .legal-dot {
   fill: rgba(45, 86, 70, 0.5);
   stroke: rgba(255, 250, 240, 0.82);
@@ -5495,31 +5503,6 @@ p {
   margin: 0.35rem 0 0.75rem;
   padding-left: 0.65rem;
   border-left: 2px solid var(--gold);
-}
-
-.capture-banner {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin-top: 0.55rem;
-  padding: 0.6rem 0.8rem;
-  border: 1px solid rgba(183, 133, 55, 0.35);
-  border-radius: 9px;
-  background: rgba(183, 133, 55, 0.12);
-  color: var(--gold-deep, #7a5b24);
-  font-size: 0.8rem;
-  font-weight: 600;
-  animation: capture-pop 220ms ease-out both;
-}
-
-.capture-banner svg {
-  flex: 0 0 auto;
-  color: var(--gold);
-}
-
-@keyframes capture-pop {
-  from { opacity: 0; transform: translateY(-3px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .jungle-cell.is-capture .jungle-piece {

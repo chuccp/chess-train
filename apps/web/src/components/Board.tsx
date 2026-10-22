@@ -37,6 +37,8 @@ interface BoardProps {
   undoAnimation?: BoardUndoAnimation | null;
   hint?: { from: number; to: number } | null;
   bannedPoints?: number[];
+  /** 当前轮次可能被吃掉的棋子（落点/棋子所在格），用绿色边框提示 */
+  capturableSquares?: number[];
   checkedSquare?: number | null;
   checkmate?: boolean;
   interactive?: boolean;
@@ -68,6 +70,7 @@ export function Board({
   undoAnimation = null,
   hint = null,
   bannedPoints = [],
+  capturableSquares = [],
   checkedSquare = null,
   checkmate = false,
   interactive = true,
@@ -253,6 +256,14 @@ export function Board({
           <filter id="piece-shadow" x="-30%" y="-30%" width="160%" height="180%">
             <feDropShadow dx="0" dy="5" stdDeviation="3" floodColor="#3f2a1a" floodOpacity="0.24" />
           </filter>
+          <linearGradient id="capture-ring-gradient" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#c3efdc" />
+            <stop offset="45%" stopColor="#8ad4b3" />
+            <stop offset="100%" stopColor="#5aa184" />
+          </linearGradient>
+          <filter id="capture-glow" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="2.6" />
+          </filter>
           <pattern id="wood-grain" width="70" height="70" patternUnits="userSpaceOnUse">
             <path d="M 0 34 Q 20 22 38 34 T 70 34" stroke="rgba(125, 82, 44, 0.09)" fill="none" strokeWidth="1.2" />
             <path d="M 10 18 Q 28 8 50 18 T 82 18" stroke="rgba(125, 82, 44, 0.07)" fill="none" strokeWidth="1" />
@@ -358,6 +369,7 @@ export function Board({
           const isSelected = selected === square;
           const isChecked = checkedSquare === square;
           const isHintTarget = hint?.to === square;
+          const isCapturable = capturableSquares.includes(square);
           return (
             <g
               key={`piece-${square}-${piece.color}-${piece.type}`}
@@ -367,12 +379,21 @@ export function Board({
                 isSelected ? 'piece-selected' : '',
                 isChecked ? 'piece-checked' : '',
                 isHintTarget ? 'piece-hint' : '',
+                isCapturable ? 'piece-capturable' : '',
               ]
                 .filter(Boolean)
                 .join(' ')}
               transform={`translate(${x} ${y})`}
               filter="url(#piece-shadow)"
             >
+              {isCapturable && (
+                <circle
+                  r="47"
+                  className="piece-capture-ring"
+                  stroke="url(#capture-ring-gradient)"
+                  filter="url(#capture-glow)"
+                />
+              )}
               <circle r="43" className="piece-disc" />
               <circle r="36" className="piece-ring" />
               <text className="piece-glyph" textAnchor="middle" dominantBaseline="central">

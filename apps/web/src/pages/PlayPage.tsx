@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import {
   PIECE_GLYPHS,
+  generateLegalMoves,
   getKingSquare,
   isInCheck,
   type Color,
@@ -67,7 +68,6 @@ export function PlayPage() {
   const [starting, setStarting] = useState(false);
   const [banMode, setBanMode] = useState(false);
   const [now, setNow] = useState(Date.now());
-  const [captureNotice, setCaptureNotice] = useState<string | null>(null);
   const [undoAnimation, setUndoAnimation] = useState<BoardUndoAnimation | null>(null);
   const [toast, setToast] = useState<{ id: number; text: string } | null>(null);
   const [tipsOpen, setTipsOpen] = useState(true);
@@ -79,23 +79,6 @@ export function PlayPage() {
     const timer = window.setTimeout(() => setToast(null), 2400);
     return () => window.clearTimeout(timer);
   }, [toast]);
-
-  // 走子/悔棋等提示由机器人说出来，不再占用棋盘下方的位置
-  const noticeText = notice || error;
-  useEffect(() => {
-    if (!noticeText) {
-      setRobotSay(null);
-      return;
-    }
-    if (current?.mode === 'human') return;
-    setRobotSay(noticeText);
-    setTipsOpen(false);
-    const timer = window.setTimeout(() => {
-      setRobotSay(null);
-      dismissNotice();
-    }, 4000);
-    return () => window.clearTimeout(timer);
-  }, [noticeText, current?.mode, dismissNotice]);
 
   // 操作提示展示一会儿自动收起，避免一直盖住对局面板
   useEffect(() => {
@@ -111,44 +94,33 @@ export function PlayPage() {
     setRobotSay(null);
   }, [current?.phase]);
 
+  // 将死时先让棋盘播完「将死」动画，再浮出结果面板
+  const [resultVisible, setResultVisible] = useState(false);
+  useEffect(() => {
+    if (!current || current.phase !== 'finished') {
+      setResultVisible(false);
+      return;
+    }
+    const checkmate = current.result.status === 'win' && current.result.reason === 'checkmate';
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const delay = checkmate && !reduced ? 1950 : 0;
+    if (delay === 0) {
+      setResultVisible(true);
+      return;
+    }
+    const timer = window.setTimeout(() => setResultVisible(true), delay);
+    return () => window.clearTimeout(timer);
+  }, [current?.id, current?.phase, current?.result]);
+
   useEffect(() => {
     if (!undoAnimation) return;
     const timer = window.setTimeout(() => setUndoAnimation(null), 320);
     return () => window.clearTimeout(timer);
   }, [undoAnimation]);
-  const seenMoveCountRef = useRef(current?.moves.length ?? 0);
-
   useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(timer);
   }, []);
-
-  useEffect(() => {
-    const count = current?.moves.length ?? 0;
-    if (count <= seenMoveCountRef.current) {
-      seenMoveCountRef.current = count;
-      setCaptureNotice(null);
-      return;
-    }
-    seenMoveCountRef.current = count;
-    const move = current?.moves[count - 1];
-    if (!move?.capturedType) {
-      setCaptureNotice(null);
-      return;
-    }
-    const capturedColor = move.color === 'r' ? 'b' : 'r';
-    const glyph = (color: Color, type: string) =>
-      PIECE_GLYPHS[color][type as keyof (typeof PIECE_GLYPHS)['r']] ?? type;
-    setCaptureNotice(
-      `${move.color === 'r' ? '红' : '黑'}${glyph(move.color, move.pieceType)} 吃 ${capturedColor === 'r' ? '红' : '黑'}${glyph(capturedColor, move.capturedType)}`,
-    );
-  }, [current?.id, current?.moves.length]);
-
-  useEffect(() => {
-    if (!captureNotice) return;
-    const timer = window.setTimeout(() => setCaptureNotice(null), 1800);
-    return () => window.clearTimeout(timer);
-  }, [captureNotice]);
 
   useEffect(() => {
     setDialog(null);
@@ -161,6 +133,56 @@ export function PlayPage() {
     if (!isInCheck(current.position, current.position.turn)) return null;
     return getKingSquare(current.position.board, current.position.turn);
   }, [current]);
+
+  // 被将军也由机器人来说
+  const checkMessage =
+    current && current.phase !== 'finished' && checked !== null
+      ? current.mode === 'human'
+        ? `${current.position.turn === 'r' ? '红方' : '黑方'}被将军了。`
+        : current.position.turn === current.playerColor
+          ? '你被将军了。'
+          : '将军！'
+      : null;
+
+  // 走子/悔棋/将军等提示由机器人说出来，不再占用棋盘下方的位置
+  const robotMessage = notice || error || checkMessage;
+  useEffect(() => {
+    if (!robotMessage) {
+      setRobotSay(null);
+      return;
+    }
+    if (current?.mode === 'human') return;
+    setRobotSay(robotMessage);
+    setTipsOpen(false);
+    const timer = window.setTimeout(() => {
+      setRobotSay(null);
+      dismissNotice();
+    }, 4000);
+    return () => window.clearTimeout(timer);
+  }, [robotMessage, current?.mode, dismissNotice]);
+
+  // 只提示“最新一步”这枚棋子接下来能吃的子，短暂显示后自动消失
+  const [capturableSquares, setCapturableSquares] = useState<number[]>([]);
+  useEffect(() => {
+    if (!current || current.phase === 'finished' || current.moves.length === 0) {
+      setCapturableSquares([]);
+      return;
+    }
+    const last = current.moves[current.moves.length - 1];
+    if (!last) {
+      setCapturableSquares([]);
+      return;
+    }
+    const probe = { ...current.position, turn: last.color };
+    const targets = new Set<number>();
+    for (const move of generateLegalMoves(probe)) {
+      if (move.from === last.to && move.captured && move.captured.type !== 'K') targets.add(move.to);
+    }
+    setCapturableSquares([...targets]);
+    if (targets.size === 0) return;
+    const timer = window.setTimeout(() => setCapturableSquares([]), 2400);
+    return () => window.clearTimeout(timer);
+  }, [current?.moves.length, current?.position, current?.phase]);
 
   if (!hydrated) {
     return (
@@ -321,6 +343,7 @@ export function PlayPage() {
             hint={hint}
             bannedPoints={manualBans ?? []}
             checkedSquare={checked}
+            capturableSquares={capturableSquares}
             checkmate={isFinished && current.result.status === 'win' && current.result.reason === 'checkmate'}
             interactive={banMode ? !isFinished : interactive}
             undoAnimation={undoAnimation}
@@ -336,7 +359,7 @@ export function PlayPage() {
             </div>
           )}
 
-          {isFinished && (
+          {resultVisible && isFinished && (
             <div className="board-result-layer">
               <div className={`board-result${resultTone}`} role="status" aria-live="polite">
                 <div className="board-result-head">
@@ -379,21 +402,10 @@ export function PlayPage() {
 
         {/* 棋盘下方的提示与横幅。结构上独立于棋盘的网格行，PC 侧栏才能与棋盘严格等高。 */}
         <div className="board-under">
-          {captureNotice && (
-            <div className="capture-banner" role="status">
-              <Swords size={17} aria-hidden="true" />
-              <span>{captureNotice}</span>
-            </div>
-          )}
-
-          {checked && !isFinished && (
+          {isHuman && checked !== null && !isFinished && (
             <div className="check-banner" role="status">
               <AlertTriangle size={17} aria-hidden="true" />
-              {isHuman
-                ? `${current.position.turn === 'r' ? '红方' : '黑方'}被将军了。`
-                : current.position.turn === playerColor
-                  ? '你被将军了。'
-                  : '将军！'}
+              {current.position.turn === 'r' ? '红方' : '黑方'}被将军了。
             </div>
           )}
 
