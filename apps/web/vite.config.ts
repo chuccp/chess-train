@@ -17,7 +17,7 @@ export default defineConfig({
       manifest: {
         name: '棋练 · 中国象棋',
         short_name: '棋练',
-        description: '和 Pikafish 人机对弈，也能双人同屏；练习杀法、残局定式与开局。',
+        description: '和在线 AI 人机对弈，也能双人同屏；练习杀法、残局定式与开局。',
         lang: 'zh-CN',
         start_url: base,
         scope: base,

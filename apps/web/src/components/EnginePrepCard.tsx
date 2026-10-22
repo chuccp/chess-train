@@ -6,7 +6,7 @@ interface EnginePrepProps {
   showReady?: boolean;
 }
 
-/** AI 引擎（auto-chess 服务）连接状态。 */
+/** 在线 AI（auto-chess 服务）连接状态。 */
 export function EnginePrepCard({ compact = false, showReady = true }: EnginePrepProps) {
   const phase = useEngineStore((state) => state.phase);
   const engineReady = useEngineStore((state) => state.engineReady);
@@ -20,8 +20,8 @@ export function EnginePrepCard({ compact = false, showReady = true }: EnginePrep
       <div className={`prep-card prep-ready${compact ? ' prep-compact' : ''}`}>
         <CheckCircle2 size={20} aria-hidden="true" />
         <div>
-          <strong>AI 引擎已连接</strong>
-          <p>走子由服务端 Pikafish 计算；双人对局与训练内容离线也能使用。</p>
+          <strong>在线 AI 已连接</strong>
+          <p>走子由在线 AI 服务计算；双人对局与训练内容离线也能使用。</p>
         </div>
       </div>
     );
@@ -32,7 +32,7 @@ export function EnginePrepCard({ compact = false, showReady = true }: EnginePrep
       <div className={`prep-card prep-error${compact ? ' prep-compact' : ''}`} role="alert">
         <AlertCircle size={20} aria-hidden="true" />
         <div>
-          <strong>AI 引擎不可用</strong>
+          <strong>在线 AI 不可用</strong>
           <p>{error || '无法连接 AI 服务，请检查网络。'}</p>
           <p className="prep-meta">双人对局与训练内容不受影响。</p>
         </div>
@@ -50,7 +50,7 @@ export function EnginePrepCard({ compact = false, showReady = true }: EnginePrep
         <Loader2 size={20} className="spin" aria-hidden="true" />
       </div>
       <div className="prep-body">
-        <strong>正在连接 AI 引擎…</strong>
+        <strong>正在连接在线 AI…</strong>
         <p>
           <Wifi size={14} aria-hidden="true" /> 人机对弈需要联网；{version ? `服务版本 ${version}。` : '很快就好。'}
         </p>

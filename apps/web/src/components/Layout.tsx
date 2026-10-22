@@ -97,9 +97,9 @@ export function Layout() {
       </nav>
 
       <footer className="site-footer">
-        <span>棋练 · 单机练习版</span>
+        <span>棋练 · 在线 AI 对弈</span>
         <span className="footer-sep">·</span>
-        <span>本地运行，不上传棋谱</span>
+        <span>棋谱只存本机，不上传</span>
         <span className="footer-sep">·</span>
         <NavLink to="/about">关于与许可</NavLink>
         <span className="footer-sep">·</span>

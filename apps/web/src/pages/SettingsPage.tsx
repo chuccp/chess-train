@@ -204,15 +204,15 @@ export function SettingsPage() {
           <section className="panel settings-section" id="engine">
             <div className="section-heading compact">
               <div>
-                <span className="eyebrow">AI 引擎</span>
-                <h2>服务端 Pikafish</h2>
+                <span className="eyebrow">在线 AI</span>
+                <h2>AI 服务连接</h2>
               </div>
               <span className={`status-pill ${engine.engineReady ? 'ready' : engine.phase === 'error' ? 'error' : 'busy'}`}>
                 {engine.engineReady ? '已连接' : engine.phase === 'error' ? '不可用' : '连接中'}
               </span>
             </div>
             <p className="settings-lede">
-              <Wifi size={14} aria-hidden="true" /> 人机走子由服务端 Pikafish（NNUE）计算，只发送当前局面，不保存棋谱。双人对局与训练可离线使用。
+              <Wifi size={14} aria-hidden="true" /> 人机走子由在线 AI 服务计算，只发送当前局面，不保存棋谱。双人对局与训练可离线使用。
             </p>
 
             {!engine.engineReady && (
@@ -269,14 +269,14 @@ export function SettingsPage() {
                 清除所有本地数据
               </button>
             </div>
-            <p className="fine-print"><AlertTriangle size={14} aria-hidden="true" /> 清除数据只影响本机棋谱与进度，不影响 AI 引擎服务。</p>
+            <p className="fine-print"><AlertTriangle size={14} aria-hidden="true" /> 清除数据只影响本机棋谱与进度，不影响在线 AI 服务。</p>
           </section>
         </div>
 
         <aside className="settings-side">
           <section className="side-card">
             <span className="eyebrow">关于棋练</span>
-            <h2>一个安静的单机练习场</h2>
+            <h2>一个安静的象棋练习场</h2>
             <p>不做账号、不做匹配、不做排行榜。棋局和训练进度留在本机。</p>
             <Link to="/about" className="text-link">
               关于与许可
@@ -300,7 +300,7 @@ export function SettingsPage() {
         </aside>
       </div>
 
-      <p className="settings-version">棋练 v0.1 · 单机练习版 · GPL-3.0</p>
+      <p className="settings-version">棋练 v0.1 · 在线 AI · GPL-3.0</p>
     </div>
   );
 }

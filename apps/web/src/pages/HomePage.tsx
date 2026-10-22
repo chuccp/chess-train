@@ -113,7 +113,7 @@ export function HomePage() {
             下一盘<span className="text-red">好棋</span>。
           </h1>
           <p className="hero-lede">
-            和 Pikafish 人机对弈，也能双人同屏；练杀法、拆残局、走开局。没有匹配、没有催促，棋谱和进度只留在这台设备。
+            和在线 AI 对弈，也能双人同屏；练杀法、拆残局、走开局。没有匹配、没有催促，棋谱和进度只留在这台设备。
           </p>
 
           <div className="hero-actions">
@@ -142,7 +142,7 @@ export function HomePage() {
                     ? '双人对局'
                     : engineReady
                       ? '和 AI 下一盘'
-                      : 'AI 引擎连接中…'}
+                      : '在线 AI 连接中…'}
               </button>
             )}
             <Link to="/train" className="btn btn-ghost btn-large">
@@ -155,9 +155,9 @@ export function HomePage() {
             <ShieldCheck size={16} aria-hidden="true" />
             {engineReady
               ? offlineReady
-                ? 'AI 引擎已连接；页面可离线打开，人机对弈需联网。'
-                : 'AI 引擎已连接，可以开始人机对弈。'
-              : '正在连接 AI 引擎…双人对局与训练不受影响。'}
+                ? '在线 AI 已连接；页面可离线打开，人机对弈需联网。'
+                : '在线 AI 已连接，可以开始人机对弈。'
+              : '正在连接在线 AI…双人对局与训练不受影响。'}
           </div>
         </div>
 
@@ -183,7 +183,7 @@ export function HomePage() {
           </div>
           <div className="hero-side-caption">
             <span className="tiny-rule" />
-            <span>Pikafish · 云端棋力</span>
+            <span>在线 AI · 服务端算力</span>
           </div>
         </div>
       </section>
@@ -266,7 +266,7 @@ export function HomePage() {
               disabled={(opponent === 'ai' && !engineReady) || !hydrated || starting}
               onClick={() => void start()}
             >
-              {opponent === 'human' ? '开始双人对局' : engineReady ? '开始对局' : '等待 AI 引擎'}
+              {opponent === 'human' ? '开始双人对局' : engineReady ? '开始对局' : '等待在线 AI'}
               <ChevronRight size={16} aria-hidden="true" />
             </button>
           </div>
@@ -455,7 +455,7 @@ export function HomePage() {
       <section className="home-footnote">
         <div>
           <GraduationCap size={18} aria-hidden="true" />
-          <span>三种训练模式，内容独立于引擎，离线也能练。</span>
+          <span>三种训练模式，内容独立于 AI，离线也能练。</span>
         </div>
         <div>
           <ShieldCheck size={18} aria-hidden="true" />

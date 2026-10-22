@@ -198,12 +198,12 @@ export function PlayPage() {
   const statusText = isFinished
     ? resultLabel(current.result, playerColor, current.mode)
     : current.phase === 'ai_thinking'
-      ? 'Pikafish 正在思考…'
+      ? 'AI 正在思考…'
       : isHuman
         ? `轮到${current.position.turn === 'r' ? '红方' : '黑方'}`
         : playerTurn
           ? '轮到你走'
-          : '等待引擎';
+          : '等待 AI';
 
   return (
     <div className="page play-page">
@@ -216,7 +216,7 @@ export function PlayPage() {
         <div className="play-topline-right">
           <span className={`mobile-engine-status${engineReady ? ' is-ready' : ''}`}>
             <i aria-hidden="true" />
-            {engineReady ? 'AI 引擎' : 'AI 离线'}
+            {engineReady ? '在线 AI' : 'AI 未连接'}
           </span>
           <span className="play-meta">
             {isHuman ? '双人对局' : `${levelLabel(current.level)} · 你执${playerColor === 'r' ? '红' : '黑'}`} ·{' '}
@@ -423,8 +423,8 @@ export function PlayPage() {
                 {PIECE_GLYPHS[aiColor].K}
               </div>
               <div>
-                <strong>{isHuman ? (aiColor === 'r' ? '红方' : '黑方') : 'Pikafish'}</strong>
-                <span>{isHuman ? '本地棋手' : `${levelLabel(current.level)}引擎`}</span>
+                <strong>{isHuman ? (aiColor === 'r' ? '红方' : '黑方') : '在线 AI'}</strong>
+                <span>{isHuman ? '本地棋手' : `${levelLabel(current.level)} AI`}</span>
               </div>
               {current.phase === 'ai_thinking' && <Loader2 size={16} className="spin" aria-label="思考中" />}
             </div>
@@ -495,10 +495,10 @@ export function PlayPage() {
           <section className="side-card engine-note">
             <span className="eyebrow">说明</span>
             <p>
-              AI 走子由服务端 Pikafish 计算，只发送当前局面，棋谱保存在本机。双人对局与训练可离线使用。
+              AI 走子由在线 AI 服务计算，只发送当前局面，棋谱保存在本机。双人对局与训练可离线使用。
             </p>
             <Link to="/settings#engine" className="text-link">
-              引擎状态
+              AI 服务状态
             </Link>
           </section>
         </aside>
@@ -551,7 +551,7 @@ export function PlayPage() {
       >
         <p>
           你会改执{nextPlayerColor === 'r' ? '红' : '黑'}。
-          {nextPlayerColor === 'b' ? 'Pikafish 会自动先走。' : '你先走。'}
+          {nextPlayerColor === 'b' ? 'AI 会自动先走。' : '你先走。'}
           若当前棋局已经落子，会以“未完成”保存到棋谱。
         </p>
       </Dialog>
@@ -629,7 +629,7 @@ function NewGameSetup({
       </Link>
       <div className="setup-heading">
         <span className="eyebrow">象棋对弈</span>
-        <h1>{isHuman ? '两个人，一盘棋' : '和 Pikafish 下一盘'}</h1>
+        <h1>{isHuman ? '两个人，一盘棋' : '和 AI 下一盘'}</h1>
         <p>
           {isHuman
             ? '同屏轮流落子，支持悔棋、翻转和棋谱记录，不需要联网。'
@@ -733,8 +733,8 @@ function NewGameSetup({
                 : engineReady
                   ? '开始对局'
                   : enginePhase === 'error'
-                    ? 'AI 引擎不可用'
-                    : '等待 AI 引擎'}
+                    ? '在线 AI 不可用'
+                    : '等待在线 AI'}
           </button>
           <p className="setup-footnote">
             {hasActiveGame && '开始新局会把当前未完成棋局保存为“未完成”。'}
@@ -742,7 +742,7 @@ function NewGameSetup({
             {isHuman
               ? '双人模式红先；随时可以在设置里打开声音与震动反馈。'
               : engineReady
-                ? '执黑时，Pikafish 会自动先走。'
+                ? '执黑时，AI 会自动先走。'
                 : '人机对弈需要联网获取 AI 走子；准备完成后按钮会自动可用。'}
           </p>
         </section>

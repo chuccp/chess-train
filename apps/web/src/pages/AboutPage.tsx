@@ -26,7 +26,7 @@ export function AboutPage() {
           <div className="eyebrow">关于棋练</div>
           <h1>一个安静的象棋练习场</h1>
           <p>
-            棋练把对弈、杀法、残局和开局放在一张棋桌上。人机走子由服务端 Pikafish 计算，
+            棋练把对弈、杀法、残局和开局放在一张棋桌上。人机走子由在线 AI 服务计算，
             但没有账号、匹配或排行榜；棋局与训练进度留在本机。
           </p>
         </div>
@@ -36,10 +36,10 @@ export function AboutPage() {
         <section className="panel about-section">
           <div className="about-icon"><Cpu size={22} aria-hidden="true" /></div>
           <div>
-            <span className="eyebrow">引擎</span>
-            <h2>Pikafish，服务端棋力</h2>
+            <span className="eyebrow">服务</span>
+            <h2>在线 AI，服务端算力</h2>
             <p>
-              人机走子由服务端 Pikafish（NNUE）与多棋类引擎计算，页面不再下载引擎文件。
+              人机走子由在线 AI 服务计算，页面不下载、也不缓存任何引擎文件。
               每次请求只发送当前局面，服务端不创建对局、不保存棋谱。
             </p>
             <dl className="info-list">
@@ -68,7 +68,8 @@ export function AboutPage() {
             <span className="eyebrow">许可</span>
             <h2>开源与第三方声明</h2>
             <p>
-              棋练代码以 <strong>GPL-3.0</strong> 发布。Pikafish 代码同为 GPL-3.0；
+              人机走子由服务端运行的开源引擎计算（象棋为 Pikafish + NNUE）。
+              棋练代码以 <strong>GPL-3.0</strong> 发布；Pikafish 代码同为 GPL-3.0，
               NNUE 权重遵循 Pikafish NNUE-License，允许免费使用，未经许可不得商业使用。
             </p>
             <div className="license-links">

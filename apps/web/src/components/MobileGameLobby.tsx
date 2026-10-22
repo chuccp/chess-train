@@ -56,7 +56,7 @@ export function MobileGameLobby({
     ? 'AI 已就绪'
     : enginePhase === 'error'
       ? 'AI 不可用'
-      : '连接引擎中';
+      : '连接 AI 中';
 
   return (
     <section className="mobile-game-lobby" aria-labelledby="mobile-lobby-title">
@@ -114,7 +114,7 @@ export function MobileGameLobby({
               disabled={!engineReady || !hydrated || starting}
             >
               <Swords size={18} aria-hidden="true" />
-              {starting ? '正在摆棋…' : engineReady ? '和 AI 下一盘' : '等待 AI 引擎'}
+              {starting ? '正在摆棋…' : engineReady ? '和 AI 下一盘' : '等待在线 AI'}
               <ArrowRight size={17} aria-hidden="true" />
             </button>
             <div className="mobile-lobby-options">

@@ -234,7 +234,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   async startNewGame(playerColor, level, opponent = 'ai') {
     if (opponent === 'ai' && !useEngineStore.getState().engineReady) {
-      set({ error: 'AI 引擎尚未就绪，暂时不能开始与 AI 的对局' });
+      set({ error: '在线 AI 尚未就绪，暂时不能开始与 AI 的对局' });
       return false;
     }
     useSettingsStore.getState().setPreferredColor(playerColor);
@@ -441,7 +441,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     const game = state.current;
     if (!game || game.phase !== 'ai_thinking' || state.aiInFlight) return;
     if (!useEngineStore.getState().engineReady) {
-      set({ aiError: '引擎尚未就绪' });
+      set({ aiError: '在线 AI 尚未就绪' });
       return;
     }
 
@@ -466,7 +466,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       if (latest.current.phase !== 'ai_thinking') return;
 
       const legalMove = parseUcciMove(latest.current.position, ucci);
-      if (!legalMove) throw new Error('引擎返回了不合法的着法');
+      if (!legalMove) throw new Error('AI 返回了不合法的着法');
       const result = applyMove(latest.current.position, legalMove.from, legalMove.to);
       if (!result.ok) throw new Error(result.message);
 
@@ -525,7 +525,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       return;
     }
     if (!useEngineStore.getState().engineReady) {
-      set({ notice: '引擎尚未就绪' });
+      set({ notice: '在线 AI 尚未就绪' });
       return;
     }
     const token = ++hintTokenSeq;
