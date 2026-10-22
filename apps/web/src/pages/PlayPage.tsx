@@ -12,6 +12,7 @@ import {
   ShieldCheck,
   Swords,
   Undo2,
+  X,
 } from 'lucide-react';
 import {
   PIECE_GLYPHS,
@@ -67,6 +68,7 @@ export function PlayPage() {
   const [captureNotice, setCaptureNotice] = useState<string | null>(null);
   const [undoAnimation, setUndoAnimation] = useState<BoardUndoAnimation | null>(null);
   const [toast, setToast] = useState<{ id: number; text: string } | null>(null);
+  const [tipsOpen, setTipsOpen] = useState(true);
   const toastIdRef = useRef(0);
 
   useEffect(() => {
@@ -74,6 +76,13 @@ export function PlayPage() {
     const timer = window.setTimeout(() => setToast(null), 2400);
     return () => window.clearTimeout(timer);
   }, [toast]);
+
+  // 机器人提示展示一会儿自动收起，避免一直盖住对局面板
+  useEffect(() => {
+    if (!tipsOpen) return;
+    const timer = window.setTimeout(() => setTipsOpen(false), 6000);
+    return () => window.clearTimeout(timer);
+  }, [tipsOpen, current?.id]);
 
   useEffect(() => {
     if (!undoAnimation) return;
@@ -117,6 +126,7 @@ export function PlayPage() {
   useEffect(() => {
     setDialog(null);
     setUndoAnimation(null);
+    setTipsOpen(true);
   }, [current?.id]);
 
   const checked = useMemo(() => {
@@ -376,9 +386,11 @@ export function PlayPage() {
             </div>
           )}
 
-          <p className="board-help">
-            点击棋子，再点目标位置；也可用 Tab 聚焦棋格、方向键移动、回车落子。
-          </p>
+          {isHuman && (
+            <p className="board-help">
+              点击棋子，再点目标位置；也可用 Tab 聚焦棋格、方向键移动、回车落子。
+            </p>
+          )}
         </div>
 
         <aside className="play-side">
@@ -442,23 +454,53 @@ export function PlayPage() {
               <span className="eyebrow">对局</span>
               <span className="side-level">{isHuman ? '双人' : levelLabel(settings.preferredLevel)}</span>
             </div>
-            <div className="player-row">
-              {isHuman ? (
-                <div className={`player-avatar ${aiColor === 'r' ? 'red' : 'black'} ${current.position.turn === aiColor ? 'active' : ''}`}>
-                  {PIECE_GLYPHS[aiColor].K}
+            <div className="player-block">
+              <div className="player-row">
+                {isHuman ? (
+                  <div className={`player-avatar ${aiColor === 'r' ? 'red' : 'black'} ${current.position.turn === aiColor ? 'active' : ''}`}>
+                    {PIECE_GLYPHS[aiColor].K}
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    className="robot-speak"
+                    onClick={() => setTipsOpen((open) => !open)}
+                    aria-label="查看操作提示"
+                    aria-expanded={tipsOpen}
+                    aria-controls="play-tips"
+                    title="操作提示"
+                  >
+                    <Robot inline thinking={current.phase === 'ai_thinking' || hintLoading} />
+                    <span className="robot-speak-badge" aria-hidden="true">?</span>
+                  </button>
+                )}
+                <div>
+                  <strong>{isHuman ? (aiColor === 'r' ? '红方' : '黑方') : '在线 AI'}</strong>
+                  <span>
+                    {isHuman
+                      ? '本地棋手'
+                      : `执${aiColor === 'r' ? '红' : '黑'} · ${levelLabel(settings.preferredLevel)} AI`}
+                  </span>
                 </div>
-              ) : (
-                <Robot inline thinking={current.phase === 'ai_thinking' || hintLoading} />
-              )}
-              <div>
-                <strong>{isHuman ? (aiColor === 'r' ? '红方' : '黑方') : '在线 AI'}</strong>
-                <span>
-                  {isHuman
-                    ? '本地棋手'
-                    : `执${aiColor === 'r' ? '红' : '黑'} · ${levelLabel(settings.preferredLevel)} AI`}
-                </span>
+                {current.phase === 'ai_thinking' && <Loader2 size={16} className="spin" aria-label="思考中" />}
               </div>
-              {current.phase === 'ai_thinking' && <Loader2 size={16} className="spin" aria-label="思考中" />}
+              {!isHuman && tipsOpen && (
+                <div className="comic-tip" id="play-tips" role="note">
+                  <svg className="comic-tip-tail" viewBox="0 0 16 34" aria-hidden="true">
+                    <path className="comic-tip-tail-fill" d="M16 0 L16 12 L2 30 Z" />
+                    <path className="comic-tip-tail-line" d="M14 12 L2 30 L14 0" />
+                  </svg>
+                  <p>点击棋子，再点目标位置；也可用 Tab 聚焦棋格、方向键移动、回车落子。</p>
+                  <button
+                    type="button"
+                    className="comic-tip-close"
+                    onClick={() => setTipsOpen(false)}
+                    aria-label="收起操作提示"
+                  >
+                    <X size={13} aria-hidden="true" />
+                  </button>
+                </div>
+              )}
             </div>
             <div className="vs-line">
               <span />
