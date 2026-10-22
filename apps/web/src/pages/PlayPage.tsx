@@ -32,6 +32,8 @@ import type { GameMode, Level } from '../types';
 
 type DialogAction = 'resign' | 'new' | null;
 
+const MOVE_TIPS = '点击棋子，再点目标位置；也可用 Tab 聚焦棋格、方向键移动、回车落子。';
+
 export function PlayPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -69,6 +71,7 @@ export function PlayPage() {
   const [undoAnimation, setUndoAnimation] = useState<BoardUndoAnimation | null>(null);
   const [toast, setToast] = useState<{ id: number; text: string } | null>(null);
   const [tipsOpen, setTipsOpen] = useState(true);
+  const [robotSay, setRobotSay] = useState<string | null>(null);
   const toastIdRef = useRef(0);
 
   useEffect(() => {
@@ -77,12 +80,36 @@ export function PlayPage() {
     return () => window.clearTimeout(timer);
   }, [toast]);
 
-  // 机器人提示展示一会儿自动收起，避免一直盖住对局面板
+  // 走子/悔棋等提示由机器人说出来，不再占用棋盘下方的位置
+  const noticeText = notice || error;
   useEffect(() => {
-    if (!tipsOpen) return;
+    if (!noticeText) {
+      setRobotSay(null);
+      return;
+    }
+    if (current?.mode === 'human') return;
+    setRobotSay(noticeText);
+    setTipsOpen(false);
+    const timer = window.setTimeout(() => {
+      setRobotSay(null);
+      dismissNotice();
+    }, 4000);
+    return () => window.clearTimeout(timer);
+  }, [noticeText, current?.mode, dismissNotice]);
+
+  // 操作提示展示一会儿自动收起，避免一直盖住对局面板
+  useEffect(() => {
+    if (!tipsOpen || robotSay) return;
     const timer = window.setTimeout(() => setTipsOpen(false), 6000);
     return () => window.clearTimeout(timer);
-  }, [tipsOpen, current?.id]);
+  }, [tipsOpen, robotSay, current?.id]);
+
+  // 终局时收起机器人提示，把注意力留给结果浮层
+  useEffect(() => {
+    if (current?.phase !== 'finished') return;
+    setTipsOpen(false);
+    setRobotSay(null);
+  }, [current?.phase]);
 
   useEffect(() => {
     if (!undoAnimation) return;
@@ -178,6 +205,12 @@ export function PlayPage() {
   const interactive = current.phase === 'playing' && (isHuman || playerTurn);
   const lastMove = current.moves.length > 0 ? current.moves[current.moves.length - 1] : null;
   const isFinished = current.phase === 'finished';
+  const resultTone =
+    current.result.status === 'win'
+      ? current.result.winner === playerColor
+        ? ' is-win'
+        : ' is-loss'
+      : ' is-draw';
   const elapsed = current.elapsedMs + (isFinished ? 0 : now - new Date(current.startedAt).getTime() - current.elapsedMs);
   const metaText = `${isHuman ? '双人对局' : `${levelLabel(settings.preferredLevel)} · 你执${playerColor === 'r' ? '红' : '黑'}`} · ${formatDuration(elapsed)}`;
   const lastMoveColor = current.moves[current.moves.length - 1]?.color;
@@ -302,9 +335,49 @@ export function PlayPage() {
               </span>
             </div>
           )}
+
+          {isFinished && (
+            <div className="board-result-layer">
+              <div className={`board-result${resultTone}`} role="status" aria-live="polite">
+                <div className="board-result-head">
+                  <span className="board-result-mark" aria-hidden="true">
+                    {current.result.status === 'win' && current.result.winner === playerColor ? (
+                      <ShieldCheck size={20} />
+                    ) : (
+                      <Flag size={20} />
+                    )}
+                  </span>
+                  <div className="board-result-copy">
+                    <strong>{resultLabel(current.result, playerColor, current.mode)}</strong>
+                    <span>
+                      {current.moves.length} 手 · {formatDuration(current.elapsedMs)} ·{' '}
+                      {isHuman ? '双人对局' : `${levelLabel(settings.preferredLevel)}难度`}
+                    </span>
+                  </div>
+                </div>
+                <div className="board-result-actions">
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-small"
+                    disabled={!isHuman && !engineReady}
+                    onClick={() => void handleNewGame()}
+                  >
+                    <RotateCcw size={15} aria-hidden="true" />
+                    再来一盘
+                  </button>
+                  <Link to={`/review/${current.id}`} className="btn btn-ghost btn-small">
+                    复盘
+                  </Link>
+                  <Link to="/play?setup=1" className="btn btn-ghost btn-small">
+                    调整对手
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
         </section>
 
-        {/* 棋盘下方的提示与终局信息。结构上独立于棋盘的网格行，PC 侧栏才能与棋盘严格等高。 */}
+        {/* 棋盘下方的提示与横幅。结构上独立于棋盘的网格行，PC 侧栏才能与棋盘严格等高。 */}
         <div className="board-under">
           {captureNotice && (
             <div className="capture-banner" role="status">
@@ -324,7 +397,8 @@ export function PlayPage() {
             </div>
           )}
 
-          {(notice || error) && (
+          {/* 双人模式没有机器人，仍用棋盘下方的提示条；人机模式由机器人气泡来说 */}
+          {isHuman && (notice || error) && (
             <div className="inline-alert" role="status">
               <span>{notice || error}</span>
               <button type="button" className="text-button" onClick={dismissNotice}>
@@ -349,48 +423,7 @@ export function PlayPage() {
             </div>
           )}
 
-          {isFinished && (
-            <div className={`result-card result-${current.result.status}`}>
-              <div className="result-mark">
-                {current.result.status === 'win' && current.result.winner === playerColor ? (
-                  <ShieldCheck size={26} aria-hidden="true" />
-                ) : (
-                  <Flag size={26} aria-hidden="true" />
-                )}
-              </div>
-              <div>
-                <span className="eyebrow">棋局结束</span>
-                <h2>{resultLabel(current.result, playerColor, current.mode)}</h2>
-                <p>
-                  {current.moves.length} 手 · {formatDuration(current.elapsedMs)} ·{' '}
-                  {isHuman ? '双人对局' : `${levelLabel(settings.preferredLevel)}难度`}
-                </p>
-              </div>
-              <div className="result-actions">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  disabled={!isHuman && !engineReady}
-                  onClick={() => void handleNewGame()}
-                >
-                  <RotateCcw size={16} aria-hidden="true" />
-                  再来一盘
-                </button>
-                <Link to={`/review/${current.id}`} className="btn btn-ghost">
-                  复盘
-                </Link>
-                <Link to="/play?setup=1" className="btn btn-ghost">
-                  调整对手
-                </Link>
-              </div>
-            </div>
-          )}
-
-          {isHuman && (
-            <p className="board-help">
-              点击棋子，再点目标位置；也可用 Tab 聚焦棋格、方向键移动、回车落子。
-            </p>
-          )}
+          {isHuman && <p className="board-help">{MOVE_TIPS}</p>}
         </div>
 
         <aside className="play-side">
@@ -464,9 +497,17 @@ export function PlayPage() {
                   <button
                     type="button"
                     className="robot-speak"
-                    onClick={() => setTipsOpen((open) => !open)}
+                    onClick={() => {
+                      if (robotSay) {
+                        setRobotSay(null);
+                        setTipsOpen(false);
+                        dismissNotice();
+                        return;
+                      }
+                      setTipsOpen((open) => !open);
+                    }}
                     aria-label="查看操作提示"
-                    aria-expanded={tipsOpen}
+                    aria-expanded={Boolean(robotSay) || tipsOpen}
                     aria-controls="play-tips"
                     title="操作提示"
                   >
@@ -484,18 +525,27 @@ export function PlayPage() {
                 </div>
                 {current.phase === 'ai_thinking' && <Loader2 size={16} className="spin" aria-label="思考中" />}
               </div>
-              {!isHuman && tipsOpen && (
-                <div className="comic-tip" id="play-tips" role="note">
+              {!isHuman && (robotSay || tipsOpen) && (
+                <div
+                  className={`comic-tip${robotSay ? ' is-notice' : ''}`}
+                  id="play-tips"
+                  role={robotSay ? 'status' : 'note'}
+                  aria-live={robotSay ? 'polite' : undefined}
+                >
                   <svg className="comic-tip-tail" viewBox="0 0 16 34" aria-hidden="true">
                     <path className="comic-tip-tail-fill" d="M16 0 L16 12 L2 30 Z" />
                     <path className="comic-tip-tail-line" d="M14 12 L2 30 L14 0" />
                   </svg>
-                  <p>点击棋子，再点目标位置；也可用 Tab 聚焦棋格、方向键移动、回车落子。</p>
+                  <p>{robotSay ?? MOVE_TIPS}</p>
                   <button
                     type="button"
                     className="comic-tip-close"
-                    onClick={() => setTipsOpen(false)}
-                    aria-label="收起操作提示"
+                    onClick={() => {
+                      setRobotSay(null);
+                      setTipsOpen(false);
+                      dismissNotice();
+                    }}
+                    aria-label={robotSay ? '关闭提示' : '收起操作提示'}
                   >
                     <X size={13} aria-hidden="true" />
                   </button>

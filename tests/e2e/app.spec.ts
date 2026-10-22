@@ -176,12 +176,12 @@ test('history review can undo and resume', async ({ page }) => {
   await expect(page).toHaveURL(/\/play$/);
   await expect(page.locator('.board-hit')).toHaveCount(90);
   await expect(page.locator('.move-item')).toHaveCount(2);
-  await expect(page.locator('.result-card')).toBeVisible();
+  await expect(page.locator('.board-result')).toBeVisible();
   const undo = page.locator('.side-controls .control-button').first();
   await expect(undo).toBeEnabled();
   await undo.click();
   await expect(page.locator('.move-item')).toHaveCount(0);
-  await expect(page.locator('.result-card')).toHaveCount(0);
+  await expect(page.locator('.board-result')).toHaveCount(0);
 });
 test('starts a game, gets an AI reply, and restores the game', async ({ page }) => {
   await waitForOfflineReady(page);
