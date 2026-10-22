@@ -38,9 +38,6 @@ jobs:
       - name: Unit tests
         run: pnpm test
 
-      - name: Fetch pinned engine pack
-        run: pnpm fetch:engine
-
       - name: Build for project Pages
         run: pnpm build
         env:
