@@ -107,7 +107,7 @@ export function MobileAppActions() {
   async function share() {
     const data = {
       title: '棋练 · 中国象棋',
-      text: '和在线 AI 下中国象棋，也能练杀法、残局和开局。',
+      text: '和 AI 下中国象棋，也能练杀法、残局和开局。',
       url: window.location.href,
     };
 

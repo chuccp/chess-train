@@ -33,6 +33,7 @@ export function HomePage() {
   const engineReady = useEngineStore((state) => state.engineReady);
   const enginePhase = useEngineStore((state) => state.phase);
   const engineError = useEngineStore((state) => state.error);
+  const engineBackend = useEngineStore((state) => state.backend);
   const current = useGameStore((state) => state.current);
   const hydrated = useGameStore((state) => state.hydrated);
   const startNewGame = useGameStore((state) => state.startNewGame);
@@ -97,6 +98,7 @@ export function HomePage() {
       <MobileGameLobby
         current={current}
         engineReady={engineReady}
+        engineBackend={engineBackend}
         enginePhase={enginePhase}
         engineError={engineError}
         hydrated={hydrated}
@@ -121,7 +123,7 @@ export function HomePage() {
             下一盘<span className="text-red">好棋</span>。
           </h1>
           <p className="hero-lede">
-            和在线 AI 对弈，也能双人同屏；练杀法、拆残局、走开局。没有匹配、没有催促，棋谱和进度只留在这台设备。
+            和 AI 对弈，也能双人同屏；练杀法、拆残局、走开局。没有匹配、没有催促，棋谱和进度只留在这台设备。
           </p>
 
           <div className="hero-actions">
@@ -150,7 +152,7 @@ export function HomePage() {
                     ? '双人对局'
                     : engineReady
                       ? '和 AI 下一盘'
-                      : '在线 AI 连接中…'}
+                      : 'AI 准备中…'}
               </button>
             )}
             <Link to="/train" className="btn btn-ghost btn-large">
@@ -182,7 +184,7 @@ export function HomePage() {
           </div>
           <div className="hero-side-caption">
             <span className="tiny-rule" />
-            <span>在线 AI · 服务端算力</span>
+            <span>在线 AI · 本地备用</span>
           </div>
         </div>
       </section>
@@ -265,7 +267,7 @@ export function HomePage() {
               disabled={(opponent === 'ai' && !engineReady) || !hydrated || starting}
               onClick={() => void start()}
             >
-              {opponent === 'human' ? '开始双人对局' : engineReady ? '开始对局' : '等待在线 AI'}
+              {opponent === 'human' ? '开始双人对局' : engineReady ? '开始对局' : '准备 AI 中'}
               <ChevronRight size={16} aria-hidden="true" />
             </button>
           </div>

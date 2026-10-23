@@ -10,6 +10,7 @@ import {
   ExternalLink,
   Lightbulb,
   RotateCcw,
+  ShieldCheck,
   Timer,
 } from 'lucide-react';
 import {
@@ -33,12 +34,16 @@ import { Board } from '../components/Board';
 import { getTrainingProgress, saveTrainingProgress } from '../lib/storage';
 import { formatDuration } from '../lib/format';
 import { playCue, vibrate } from '../lib/feedback';
+import { chooseTrainingDefense } from '../lib/trainingOpponent';
 import { useSettingsStore } from '../stores/settings';
 import type { TrainingProgress } from '../types';
 
 interface LessonPlayPageProps {
   kind: 'endgame' | 'opening';
 }
+
+const FREE_PLAY_MESSAGE =
+  '已偏离主线，继续自由走子；自研规则库校验合法性与终局，对手不随机应手。';
 
 function positionAt(fen: string, moves: string[], count: number): Position {
   let position = parseFen(fen);
@@ -151,17 +156,70 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     return () => window.clearInterval(timer);
   }, [completed]);
 
-  // Automatically play the scripted opponent moves. This is a guided line, not
-  // free play, so the opponent side never searches.
+  // Follow the verified script on the main line. If the user leaves the book,
+  // use a deterministic, rules-validated defensive search for the opponent.
   useEffect(() => {
-    if (!lesson || !line || !position || completed || freeMode || failed || loading) return;
-    if (ply >= total) return;
+    if (!lesson || !line || !position || completed || failed || loading) return;
+    if (!freeMode && ply >= total) return;
     if (position.turn === lesson.userColor) return;
     if (autoMoving) return;
 
     setAutoMoving(true);
-    const move = moves[ply];
+    let cancelled = false;
     const timer = window.setTimeout(() => {
+      void (async () => {
+      if (freeMode) {
+        const defense = await chooseTrainingDefense(position, lesson.userColor, lesson.level);
+        if (cancelled) return;
+        if (!defense) {
+          const end = evaluateBoard(position, { positionHashes: [] });
+          if (end.status === 'win' && end.winner === lesson.userColor) {
+            setAutoMoving(false);
+            finishLine(freeUsed, 'win');
+          } else {
+            setAutoMoving(false);
+            setFailed(true);
+            setMessage('自研规则库没有找到可用的防守应手，本局暂停。可以重来。');
+          }
+          return;
+        }
+        const ucci = defense.move;
+        const reply = parseUcci(ucci);
+        const result = reply ? applyMove(position, reply.from, reply.to) : null;
+        if (!reply || !result?.ok) {
+          setAutoMoving(false);
+          setFailed(true);
+          setMessage('自研规则库返回的应手未通过规则校验，本局暂停。可以重来。');
+          return;
+        }
+        const nextUsed = Math.min(total, freeUsed + 1);
+        setPosition(result.position);
+        setFreeUsed(nextUsed);
+        setLastMove({ from: reply.from, to: reply.to });
+        setAutoMoving(false);
+        feedback(result.givesCheck ? 'check' : result.move.captured ? 'capture' : 'move');
+
+        const end = evaluateBoard(result.position, { positionHashes: [] });
+        if (end.status === 'win' && end.winner !== lesson.userColor) {
+          setFailed(true);
+          setMessage('对手已形成将死，本局挑战失败。可以重来或自由复盘。');
+        } else if (end.status === 'draw') {
+          setFailed(true);
+          setMessage('局面已和棋，未能在限定步数内将死，本局挑战失败。可以重来。');
+        } else if (nextUsed >= total) {
+          setFailed(true);
+          setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以重来。');
+        } else {
+          setMessage(
+            defense.engine === 'eleeye'
+              ? '本地 AI 已完成防守应手；自研规则库已校验该着法合法。'
+              : '内置引擎暂不可用，已使用轻量规则搜索应手；自研规则库已校验该着法。',
+          );
+        }
+        return;
+      }
+
+      const move = moves[ply];
       if (!move) {
         setAutoMoving(false);
         return;
@@ -187,14 +245,16 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       if (nextPly >= total) {
         finishLine(nextPly);
       }
-    }, 650);
+      })();
+    }, freeMode ? 420 : 650);
 
     return () => {
+      cancelled = true;
       window.clearTimeout(timer);
       setAutoMoving(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lesson, line, position, ply, total, completed, freeMode, failed, loading]);
+  }, [lesson, line, position, ply, total, completed, freeMode, freeUsed, failed, loading]);
 
   if (!lesson) {
     return (
@@ -283,9 +343,8 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
 
   function handlePoint(square: number) {
     if (!position || completed || autoMoving) return;
-    // 自由走子：先走完本关步数，再判定是否将死。
-    if (!freeMode && !failed && !userTurn) return;
-    const movableColor = freeMode || failed ? position.turn : userColor;
+    if (position.turn !== userColor) return;
+    const movableColor = userColor;
     const piece = pieceAt(position, square);
     if (selected === null) {
       if (piece?.color === movableColor) {
@@ -349,7 +408,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
         setFailed(true);
         setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以重来。');
       } else {
-        setMessage(null);
+        setMessage(FREE_PLAY_MESSAGE);
       }
       return;
     }
@@ -357,17 +416,8 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     const expected = moves[ply]?.ucci;
     const actual = `${'abcdefghi'[selected % 9]}${Math.floor(selected / 9)}${'abcdefghi'[square % 9]}${Math.floor(square / 9)}`;
 
-    if (actual !== expected && kind === 'opening') {
-      setSelected(null);
-      setTargets([]);
-      setHint(null);
-      setMessage('开局训练要按主线逐步走。请按提示走下一步。');
-      feedback('error');
-      return;
-    }
-
     if (actual !== expected) {
-      // 不拦这步：先落子；如果直接形成将死，这是更短的解法，不记错试。
+      // 不限制用户尝试：偏离主线后进入自由走子，并明确规则库能判断什么。
       const result = applyMove(position, selected, square);
       setSelected(null);
       setTargets([]);
@@ -392,7 +442,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
         setFailed(true);
         setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以重来。');
       } else {
-        setMessage(null);
+        setMessage(FREE_PLAY_MESSAGE);
       }
       if (result.ok) {
         feedback(result.givesCheck ? 'check' : result.move.captured ? 'capture' : 'move');
@@ -574,7 +624,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
                 ? completedByWin
                   ? '将死成功，本关已完成。'
                   : '挑战完成，本关已完成。'
-                : '在限定步数内将死即完成；步数用完未将死则判定失败。')}
+                : '主线中对手按固定应手；可自由尝试，规则库只校验合法性与终局。')}
           </div>
 
           <div className="line-progress">
@@ -638,9 +688,15 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
             <p className="lesson-intro">{lesson.intro}</p>
             {kind === 'opening' && (
               <p className="muted small lesson-flow-note">
-                你走红方，黑方自动应手；请按主线一步一步走。
+                你走红方，主线中黑方按预设应手；也可以自由尝试，偏离后由自研规则库校验。
               </p>
             )}
+            <p className="fine-print lesson-rule-note">
+              <ShieldCheck size={14} aria-hidden="true" />
+              <span>
+                自研规则库负责合法走法、将军、将死和终局判定；不评价棋力或课程线路，也不会随机替对手应手。
+              </span>
+            </p>
             <div className="key-points">
               <span className="eyebrow">记住这几点</span>
               <ul className="plain-list compact-list">

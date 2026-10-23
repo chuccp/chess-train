@@ -97,7 +97,7 @@ export function Layout() {
       </nav>
 
       <footer className="site-footer">
-        <span>棋练 · 在线 AI 对弈</span>
+        <span>棋练 · AI 对弈</span>
         <span className="footer-sep">·</span>
         <span>棋谱只存本机，不上传</span>
         <span className="footer-sep">·</span>

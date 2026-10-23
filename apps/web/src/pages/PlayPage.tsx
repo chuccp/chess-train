@@ -75,6 +75,7 @@ export function PlayPage() {
   const setupRequested = searchParams.get('setup') === '1';
   const engineReady = useEngineStore((state) => state.engineReady);
   const enginePhase = useEngineStore((state) => state.phase);
+  const engineBackend = useEngineStore((state) => state.backend);
   const current = useGameStore((state) => state.current);
   const hydrated = useGameStore((state) => state.hydrated);
   const selected = useGameStore((state) => state.selected);
@@ -351,7 +352,7 @@ export function PlayPage() {
         <div className="play-topline-right">
           <span className={`mobile-engine-status${engineReady ? ' is-ready' : ''}`}>
             <i aria-hidden="true" />
-            {engineReady ? '在线 AI' : 'AI 未连接'}
+            {engineReady ? (engineBackend === 'local' ? '本地 AI' : '在线 AI') : 'AI 未连接'}
           </span>
           <span className="play-meta play-topline-meta">{metaText}</span>
         </div>
@@ -599,7 +600,11 @@ export function PlayPage() {
                   </button>
                 )}
                 <div>
-                  <strong>{isHuman ? (aiColor === 'r' ? '红方' : '黑方') : '在线 AI'}</strong>
+                  <strong>
+                    {isHuman
+                      ? (aiColor === 'r' ? '红方' : '黑方')
+                      : engineBackend === 'local' ? '本地 AI' : '在线 AI'}
+                  </strong>
                   <span>
                     {isHuman
                       ? '本地棋手'
@@ -866,8 +871,8 @@ function NewGameSetup({
                 : engineReady
                   ? '开始对局'
                   : enginePhase === 'error'
-                    ? '在线 AI 不可用'
-                    : '等待在线 AI'}
+                    ? 'AI 不可用'
+                    : '准备 AI 中'}
           </button>
           <p className="setup-footnote">
             {hasActiveGame && '开始新局会把当前未完成棋局保存为“未完成”。'}

@@ -5730,6 +5730,14 @@ p {
   border-left: 2px solid var(--gold);
 }
 
+.lesson-rule-note {
+  margin: 0.75rem 0;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid rgba(45, 86, 70, 0.14);
+  border-radius: 9px;
+  background: rgba(45, 86, 70, 0.05);
+}
+
 .jungle-cell.is-capture .jungle-piece {
   box-shadow: 0 0 0 3px #2f7a53, 0 4px 8px -4px rgba(24, 55, 39, 0.5);
 }

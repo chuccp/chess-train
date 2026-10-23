@@ -204,15 +204,20 @@ export function SettingsPage() {
           <section className="panel settings-section" id="engine">
             <div className="section-heading compact">
               <div>
-                <span className="eyebrow">在线 AI</span>
-                <h2>AI 服务连接</h2>
+                <span className="eyebrow">AI 引擎</span>
+                <h2>在线 AI 与本地备用</h2>
               </div>
               <span className={`status-pill ${engine.engineReady ? 'ready' : engine.phase === 'error' ? 'error' : 'busy'}`}>
-                {engine.engineReady ? '已连接' : engine.phase === 'error' ? '不可用' : '连接中'}
+                {engine.engineReady
+                  ? engine.backend === 'local' ? '本地 AI' : '在线 AI'
+                  : engine.phase === 'error' ? '不可用' : '准备中'}
               </span>
             </div>
             <p className="settings-lede">
-              <Wifi size={14} aria-hidden="true" /> 人机走子由在线 AI 服务计算，只发送当前局面，不保存棋谱。
+              <Wifi size={14} aria-hidden="true" />
+              {engine.backend === 'local'
+                ? '当前使用本地 AI，象棋人机对弈不需要联网。'
+                : '当前使用在线 AI；网络异常时会自动切换到本地 AI。'}
             </p>
 
             {!engine.engineReady && (
@@ -228,8 +233,9 @@ export function SettingsPage() {
             {engine.engineReady && (
               <div className="engine-details">
                 <dl className="info-list">
-                  <div><dt>服务版本</dt><dd>{engine.version || 'auto-chess'}</dd></div>
-                  <div><dt>棋类</dt><dd>{engine.games || 7} 种（象棋、五子棋、四子棋、斗兽棋、跳棋等）</dd></div>
+                  <div><dt>当前模式</dt><dd>{engine.backend === 'local' ? '本地 AI' : '在线 AI'}</dd></div>
+                  <div><dt>运行位置</dt><dd>{engine.backend === 'local' ? '浏览器 Web Worker' : '在线服务'}</dd></div>
+                  <div><dt>棋类</dt><dd>{engine.backend === 'local' ? '中国象棋' : `${engine.games || 7} 种`}</dd></div>
                   <div><dt>离线缓存</dt><dd>{engine.offlineReady ? '应用外壳已缓存' : '等待 Service Worker 接管'}</dd></div>
                   <div><dt>隐私</dt><dd>只上传当前局面，棋谱留在本机</dd></div>
                 </dl>
@@ -248,7 +254,7 @@ export function SettingsPage() {
 
             <p className="fine-print">
               <Info size={14} aria-hidden="true" />
-              断网时人机对弈不可用，双人对局、训练和棋谱回放不受影响。
+              网页不下载大型引擎文件；其他棋类仍需要联网。双人对局、训练和棋谱回放不受影响。
             </p>
           </section>
 
@@ -286,7 +292,7 @@ export function SettingsPage() {
           <section className="side-card license-note">
             <ShieldCheck size={20} aria-hidden="true" />
             <span className="eyebrow">授权</span>
-            <p>应用代码 GPL-3.0；Pikafish GPL-3.0；NNUE 权重免费非商业使用。</p>
+            <p>应用代码 GPL-3.0；Pikafish GPL-3.0；NNUE 权重免费非商业使用；ElephantEye LGPL-2.1。</p>
             <Link to="/about#licenses" className="text-link">查看第三方声明</Link>
           </section>
           <section className="side-card">
@@ -300,7 +306,7 @@ export function SettingsPage() {
         </aside>
       </div>
 
-      <p className="settings-version">棋练 v0.1 · 在线 AI · GPL-3.0</p>
+      <p className="settings-version">棋练 v0.1 · 在线 AI / 本地 AI · GPL-3.0</p>
     </div>
   );
 }

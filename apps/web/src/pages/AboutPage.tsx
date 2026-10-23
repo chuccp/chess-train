@@ -26,7 +26,8 @@ export function AboutPage() {
           <div className="eyebrow">关于棋练</div>
           <h1>一个安静的象棋练习场</h1>
           <p>
-            棋练把对弈、杀法、残局和开局放在一张棋桌上。人机走子由在线 AI 服务计算，
+            棋练把对弈、杀法、残局和开局放在一张棋桌上。人机走子优先使用在线 AI，
+            连接异常时由本地 AI 接替，
             但没有账号、匹配或排行榜；棋局与训练进度留在本机。
           </p>
         </div>
@@ -37,15 +38,15 @@ export function AboutPage() {
           <div className="about-icon"><Cpu size={22} aria-hidden="true" /></div>
           <div>
             <span className="eyebrow">服务</span>
-            <h2>在线 AI，服务端算力</h2>
+            <h2>在线 AI，本地备用</h2>
             <p>
-              人机走子由在线 AI 服务计算，页面不下载、也不缓存任何引擎文件。
-              每次请求只发送当前局面，服务端不创建对局、不保存棋谱。
+              象棋优先调用在线 AI，页面不下载大型引擎文件。
+              网络不可用时改用浏览器内置的小型 AI；训练分支始终使用本地 AI。
             </p>
             <dl className="info-list">
               <div><dt>棋类</dt><dd>象棋、五子棋、四子棋、斗兽棋、跳棋等</dd></div>
               <div><dt>协议</dt><dd>UCCI / UCI 风格着法</dd></div>
-              <div><dt>运行</dt><dd>服务端计算 · 无需下载</dd></div>
+              <div><dt>运行</dt><dd>在线 AI · 本地 AI 备用</dd></div>
             </dl>
           </div>
         </section>
@@ -56,8 +57,8 @@ export function AboutPage() {
             <span className="eyebrow">离线</span>
             <h2>双人与训练，断网也能用</h2>
             <p>
-              应用壳与训练内容缓存在浏览器中，断网后仍可双人对弈、做杀法、看棋谱回放。
-              人机对弈需要联网获取 AI 走子；浏览器清理站点缓存后会重新加载页面资源。
+              应用壳、训练内容和本地 AI 资源缓存在浏览器中，断网后仍可双人对弈、
+              做训练并使用本地分支应手。常规人机对弈仍优先使用在线 AI；浏览器清理站点缓存后会重新加载页面资源。
             </p>
           </div>
         </section>
@@ -68,12 +69,13 @@ export function AboutPage() {
             <span className="eyebrow">许可</span>
             <h2>开源与第三方声明</h2>
             <p>
-              人机走子由服务端运行的开源引擎计算（象棋为 Pikafish + NNUE）。
+              常规人机走子由在线 AI 计算；训练分支和离线降级使用本地 AI。
               棋练代码以 <strong>GPL-3.0</strong> 发布；Pikafish 代码同为 GPL-3.0，
-              NNUE 权重遵循 Pikafish NNUE-License，允许免费使用，未经许可不得商业使用。
+              NNUE 权重遵循 Pikafish NNUE-License；ElephantEye 使用 LGPL-2.1。
             </p>
             <div className="license-links">
               <a href={`${baseUrl}licenses/GPL-3.0.txt`} {...external}>GPL-3.0 全文</a>
+              <a href={`${baseUrl}licenses/LGPL-2.1.txt`} {...external}>LGPL-2.1 全文</a>
               <a href={`${baseUrl}licenses/NNUE-License.txt`} {...external}>NNUE-License</a>
               <a href={`${baseUrl}licenses/THIRD_PARTY.md`} {...external}>第三方组件</a>
               <a href={`${baseUrl}licenses/SOURCE-OFFER.md`} {...external}>源码与构建信息</a>
@@ -114,6 +116,14 @@ export function AboutPage() {
           </a>
           <a href="https://github.com/official-pikafish/Networks" {...external}>
             Pikafish NNUE 网络与许可
+            <ExternalLink size={13} aria-hidden="true" />
+          </a>
+          <a href="https://github.com/xqbase/eleeye" {...external}>
+            ElephantEye 源码
+            <ExternalLink size={13} aria-hidden="true" />
+          </a>
+          <a href="https://github.com/billzi2016/Chinese-Chess-AI" {...external}>
+            ElephantEye WASM 构建参考
             <ExternalLink size={13} aria-hidden="true" />
           </a>
           <a href="https://www.pikafish.com/wiki/reference/uci-options.html" {...external}>

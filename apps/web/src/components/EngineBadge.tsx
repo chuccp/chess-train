@@ -5,6 +5,7 @@ export function EngineBadge() {
   const phase = useEngineStore((state) => state.phase);
   const engineReady = useEngineStore((state) => state.engineReady);
   const error = useEngineStore((state) => state.error);
+  const backend = useEngineStore((state) => state.backend);
 
   let label = '连接 AI';
   let detail = '';
@@ -15,8 +16,8 @@ export function EngineBadge() {
     detail = error ? ` · ${error}` : '';
     tone = 'error';
   } else if (engineReady) {
-    label = 'AI 已就绪';
-    detail = ' · 在线';
+    label = backend === 'local' ? '本地 AI' : '在线 AI';
+    detail = ' · 已就绪';
     tone = 'ready';
   } else if (phase === 'checking') {
     label = '连接 AI';

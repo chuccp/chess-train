@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 async function waitForOfflineReady(page: import('@playwright/test').Page) {
   await page.goto('/');
-  await expect(page.locator('.engine-badge')).toContainText('离线就绪', { timeout: 60_000 });
+  await expect(page.locator('.engine-badge')).toContainText(/(?:在线|本地) AI/, { timeout: 60_000 });
 }
 
 test('home loads with the offline engine ready', async ({ page }) => {
@@ -10,6 +10,14 @@ test('home loads with the offline engine ready', async ({ page }) => {
   await expect(page.locator('.home-hero h1')).toContainText('静下来');
   await expect(page.getByRole('button', { name: /和 AI 下一盘/ })).toBeEnabled();
   await expect(page.locator('.desktop-nav')).toBeVisible();
+});
+
+test('home preloads the local fallback engine in the background', async ({ page }) => {
+  await page.goto('/');
+  await expect.poll(
+    () => page.workers().some((worker) => worker.url().includes('/engines/eleeye/worker.js')),
+    { timeout: 15_000 },
+  ).toBe(true);
 });
 
 test('home has one offline two-player entry', async ({ page }) => {
@@ -234,7 +242,7 @@ test('stays usable after going offline', async ({ page, context }) => {
   await waitForOfflineReady(page);
   await context.setOffline(true);
   await page.reload();
-  await expect(page.locator('.engine-badge')).toContainText('离线就绪');
+  await expect(page.locator('.engine-badge')).toContainText(/(?:在线|本地) AI/);
   await expect(page.locator('.home-hero h1')).toContainText('静下来');
   await page.goto('/train');
   await expect(page.locator('h1')).toContainText('把棋感练出来');
@@ -258,7 +266,7 @@ test('training board and controls fit a 1080p browser viewport', async ({ page }
   expect(controls?.x ?? 0).toBeGreaterThan((board?.x ?? 0) + (board?.width ?? 0));
 });
 
-test('lesson deviation waits for the move budget before failing', async ({ page }) => {
+test('lesson deviation gets an automatic rules-validated reply', async ({ page }) => {
   await page.setViewportSize({ width: 1920, height: 950 });
   await page.goto('/train/endgame/endgame-01');
   await page.waitForTimeout(400);
@@ -270,11 +278,15 @@ test('lesson deviation waits for the move budget before failing', async ({ page 
   // Deviate on the first move: free play starts, but failure is not declared yet.
   await page.locator('[data-square="58"]').click();
   await page.locator('[data-square="67"]').click();
-  await expect(page.locator('.lesson-status')).toContainText('限定步数内将死');
-  await expect(page.locator('.lesson-status')).not.toContainText('偏离');
   await expect(page.locator('.lesson-status')).not.toContainText('挑战失败');
   await expect(page.getByRole('button', { name: '提示' })).toBeDisabled();
   await expect(page.locator('.turn-chip')).toContainText('自由走子');
+  await expect(page.locator('.turn-chip')).toContainText('自由走子 · 红方');
+  await expect(page.locator('.lesson-status')).toContainText('本地 AI');
+  await expect(page.locator('.lesson-status')).toContainText('规则库');
+  await expect.poll(
+    () => page.workers().some((worker) => worker.url().includes('/engines/eleeye/worker.js')),
+  ).toBe(true);
 
   const boardAfter = await page.locator('.board-shell').boundingBox();
   const statusAfter = await page.locator('.lesson-status').boundingBox();
@@ -285,19 +297,11 @@ test('lesson deviation waits for the move budget before failing', async ({ page 
   expect(statusAfter?.height).toBe(statusBefore?.height);
   expect(scrollAfter).toBe(scrollBefore);
 
-  // Use the remaining two plies freely; failure appears only when the budget is exhausted.
-  await page.locator('[data-square="66"]').click();
-  await page.locator('[data-square="75"]').click();
-  await expect(page.locator('.line-progress-label')).toContainText('2 / 3 步');
-  await expect(page.locator('.lesson-status')).not.toContainText('偏离');
+  await expect(page.locator('.turn-chip')).toContainText('自由走子 · 红方');
+  await expect(page.locator('.lesson-status')).toContainText('本地 AI');
   await expect(page.locator('.lesson-status')).not.toContainText('挑战失败');
-
-  await page.locator('[data-square="67"]').click();
-  await page.locator('[data-square="76"]').click();
-  await expect(page.locator('.lesson-status')).toContainText('步数已用完');
-  await expect(page.locator('.lesson-status')).toContainText('未能在限定步数内将死');
-  await expect(page.locator('.lesson-status')).toContainText('挑战失败');
-  await expect(page.locator('.line-progress-label')).toContainText('3 / 3 步');
+  await expect(page.locator('.lesson-rule-note')).toContainText('自研规则库');
+  await expect(page.locator('.lesson-rule-note')).toContainText('不会随机替对手应手');
   await expect(page.locator('.lesson-status')).toHaveJSProperty('offsetHeight', statusBefore?.height ?? 0);
 });
 
@@ -469,15 +473,19 @@ test('classic endgame shows its original source', async ({ page }) => {
 test('opening training follows the line with one automatic side', async ({ page }) => {
   await page.goto('/train/opening/opening-classic-01');
   await expect(page.locator('.turn-chip')).toContainText('请你走这一步');
-  await expect(page.locator('.lesson-flow-note')).toContainText('黑方自动应手');
+  await expect(page.locator('.lesson-flow-note')).toContainText('黑方按预设应手');
+  await expect(page.locator('.lesson-rule-note')).toContainText('自研规则库');
+  await expect(page.locator('.lesson-rule-note')).toContainText('不会随机替对手应手');
 
-  // A legal but non-line move should not advance the lesson.
+  // A legal but non-line move is allowed and switches to rule-validated free play.
   await page.locator('[data-square="29"]').click();
   await page.locator('[data-square="38"]').click();
-  await expect(page.locator('.line-progress-label')).toContainText('0 / 20 步');
-  await expect(page.locator('.inline-alert')).toContainText('按主线逐步走');
+  await expect(page.locator('.line-progress-label')).toContainText('2 / 20 步');
+  await expect(page.locator('.turn-chip')).toContainText('自由走子 · 红方');
+  await expect(page.locator('.inline-alert')).toContainText('本地 AI');
 
-  // The scripted red move advances by one red + one automatic black reply.
+  // Restarting restores the scripted line and its automatic reply.
+  await page.getByRole('button', { name: '重来' }).click();
   await page.locator('[data-square="25"]').click();
   await page.locator('[data-square="22"]').click();
   await expect(page.locator('.line-progress-label')).toContainText('2 / 20 步');
@@ -672,6 +680,48 @@ test('built mobile board preview keeps its backdrop blur', async ({ browser }) =
   expect(backdropFilter).not.toBe('none');
   expect(backdropFilter).toContain('blur');
   await context.close();
+});
+
+test('ElephantEye assets are available from the offline cache', async ({ browser }) => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+  });
+  const page = await context.newPage();
+  await page.goto('/');
+
+  const assets = ['/engines/eleeye/worker.js', '/engines/eleeye/eleeye.js', '/engines/eleeye/eleeye.wasm'];
+  await expect.poll(
+    () =>
+      page.evaluate(async (paths) => {
+        await navigator.serviceWorker.ready;
+        return Promise.all(
+          paths.map(async (path) => {
+            return Boolean(
+              await caches.match(new URL(path, location.origin).href, { ignoreSearch: true }),
+            );
+          }),
+        );
+      }, assets),
+    { timeout: 15_000 },
+  ).toEqual([true, true, true]);
+  await context.close();
+});
+
+test('xiangqi falls back to ElephantEye when the Pikafish API is unavailable', async ({ page }) => {
+  await page.route('**/auto-chess/api/v1/**', (route) => route.abort());
+  await page.goto('/');
+
+  await expect(page.locator('.engine-badge')).toContainText('本地 AI', { timeout: 20_000 });
+  const start = page.getByRole('button', { name: /和 AI 下一盘/ });
+  await expect(start).toBeEnabled();
+  await start.click();
+  await expect(page).toHaveURL(/\/play$/);
+
+  await page.locator('[data-square="25"]').click();
+  await page.locator('[data-square="22"]').click();
+  await expect(page.locator('.play-side').getByText(/已走 2 手/)).toBeVisible({ timeout: 15_000 });
 });
 
 test('active mobile game hides the continue heading in the title row', async ({ browser }) => {

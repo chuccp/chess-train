@@ -242,7 +242,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   async startNewGame(playerColor, level, opponent = 'ai') {
     if (opponent === 'ai' && !useEngineStore.getState().engineReady) {
-      set({ error: '在线 AI 尚未就绪，暂时不能开始与 AI 的对局' });
+      set({ error: 'AI 尚未就绪，暂时不能开始与 AI 的对局' });
       return false;
     }
     useSettingsStore.getState().setPreferredColor(playerColor);
@@ -486,7 +486,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     const game = state.current;
     if (!game || game.phase !== 'ai_thinking' || state.aiInFlight) return;
     if (!useEngineStore.getState().engineReady) {
-      set({ aiError: '在线 AI 尚未就绪' });
+      set({ aiError: 'AI 尚未就绪' });
       return;
     }
 
@@ -583,7 +583,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       return;
     }
     if (!useEngineStore.getState().engineReady) {
-      set({ notice: '在线 AI 尚未就绪' });
+      set({ notice: 'AI 尚未就绪' });
       return;
     }
     const token = ++hintTokenSeq;

@@ -1,5 +1,8 @@
 // AI 走子接口：调用 auto-chess 正式服务。
-// 象棋走 Pikafish NNUE，其余棋类走服务端内置引擎；页面不再下载引擎文件。
+// 象棋走内置 ElephantEye；其余棋类走服务端引擎。
+import { moveToUcci, parseFen, parseUcciMove, START_FEN } from '@qilian/xiangqi';
+import { chooseFallbackXiangqiMove } from '../lib/trainingOpponent';
+import { elephantEye } from './eleeye';
 const API_BASE = ((import.meta.env.VITE_ENGINE_API_BASE as string | undefined) ??
   'https://home.usercao.com/auto-chess/api/v1'
 ).replace(/\/+$/, '');
@@ -129,12 +132,65 @@ class EngineApi {
     return { version: this.version, games: body.data?.games ?? 0 };
   }
 
+  async localHealth(): Promise<{ version: string; games: number }> {
+    await elephantEye.search(START_FEN, { depth: 1, timeoutMs: 6_000 });
+    return { version: 'ElephantEye 3.3 · 内置', games: 1 };
+  }
+
+  private async localXiangqiSearch(input: EngineMoveInput): Promise<EngineMoveResult> {
+    if (!input.fen) throw new Error('本地象棋引擎缺少局面 FEN');
+    const position = parseFen(input.fen);
+    const forbidden = input.forbiddenMoves ?? [];
+    const isForbidden = (from: number, to: number) => {
+      const ucci = moveToUcci(from, to);
+      return forbidden.some(
+        (item) =>
+          item.uci === ucci ||
+          ((item.from === undefined || item.from === from) &&
+            (item.to === undefined || item.to === to) &&
+            (item.from !== undefined || item.to !== undefined)),
+      );
+    };
+
+    if (forbidden.length === 0) {
+      try {
+        const depth = input.level === 1 ? 4 : input.level === 2 ? 5 : 6;
+        const result = await elephantEye.search(input.fen, {
+          depth,
+          timeoutMs: Math.min(input.timeLimitMs ?? 6_000, 10_000),
+          onProgress: input.onProgress,
+        });
+        if (parseUcciMove(position, result.move)) {
+          return {
+            move: { uci: result.move },
+            engine: 'ElephantEye 3.3',
+            difficulty: LEVEL_DIFFICULTY[input.level],
+          };
+        }
+      } catch {
+        // Fall through to the smaller in-app search.
+      }
+    }
+
+    const move = chooseFallbackXiangqiMove(position, isForbidden);
+    if (!move) throw new Error('当前局面没有可用的本地 AI 着法');
+    return {
+      move: { uci: move },
+      engine: '棋练本地搜索',
+      difficulty: LEVEL_DIFFICULTY[input.level],
+    };
+  }
+
   /** 走 SSE 流式接口取最优着法：逐层进度走 onProgress，思考上限默认 10 秒。 */
   async search(input: EngineMoveInput): Promise<EngineMoveResult> {
     const controller = new AbortController();
     this.inflight.add(controller);
     const timeLimitMs = Math.min(input.timeLimitMs ?? MAX_THINK_MS, MAX_THINK_MS);
-    const timer = setTimeout(() => controller.abort(), timeLimitMs + 1_000);
+    let timedOut = false;
+    const timer = setTimeout(() => {
+      timedOut = true;
+      controller.abort();
+    }, timeLimitMs + 1_000);
     try {
       const res = await fetch(`${API_BASE}/move/stream`, {
         method: 'POST',
@@ -157,7 +213,17 @@ class EngineApi {
       return await readSseResult(res.body, input.onProgress);
     } catch (error) {
       if (controller.signal.aborted) {
+        if (timedOut && input.game === 'xiangqi' && input.fen) {
+          return await this.localXiangqiSearch(input);
+        }
         throw new Error('AI 思考超时（10 秒），可以点重试');
+      }
+      if (input.game === 'xiangqi' && input.fen) {
+        try {
+          return await this.localXiangqiSearch(input);
+        } catch {
+          // Report the original connectivity error when local fallback also fails.
+        }
       }
       if (error instanceof TypeError) {
         throw new Error('网络异常，无法连接 AI 服务');
@@ -173,6 +239,7 @@ class EngineApi {
   stop(): void {
     for (const controller of this.inflight) controller.abort();
     this.inflight.clear();
+    elephantEye.stop();
   }
 
   reset(): void {

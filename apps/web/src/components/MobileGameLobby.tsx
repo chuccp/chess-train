@@ -10,6 +10,7 @@ import type { GameSnapshot, Level } from '../types';
 interface MobileGameLobbyProps {
   current: GameSnapshot | null;
   engineReady: boolean;
+  engineBackend: 'online' | 'local' | null;
   enginePhase: string;
   engineError: string | null;
   hydrated: boolean;
@@ -26,6 +27,7 @@ interface MobileGameLobbyProps {
 export function MobileGameLobby({
   current,
   engineReady,
+  engineBackend,
   enginePhase,
   engineError,
   hydrated,
@@ -54,7 +56,7 @@ export function MobileGameLobby({
       : `${color === 'r' ? '执红先行' : '执黑后行'} · ${levelLabel(level)}`;
 
   const engineLabel = engineReady
-    ? 'AI 已就绪'
+    ? engineBackend === 'local' ? '本地 AI' : '在线 AI'
     : enginePhase === 'error'
       ? 'AI 不可用'
       : '连接 AI 中';
@@ -115,7 +117,7 @@ export function MobileGameLobby({
                   disabled={!engineReady || !hydrated || starting}
                 >
                   <Swords size={18} aria-hidden="true" />
-                  {starting ? '正在摆棋…' : engineReady ? '和 AI 下一盘' : '等待在线 AI'}
+                {starting ? '正在摆棋…' : engineReady ? '和 AI 下一盘' : '准备 AI 中'}
                   <ArrowRight size={17} aria-hidden="true" />
                 </button>
               )}
