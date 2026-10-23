@@ -1,6 +1,7 @@
 ﻿import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Flag, Loader2, RotateCcw, ShieldCheck, Swords, Undo2 } from 'lucide-react';
+import { useRef } from 'react';
+import { ArrowLeft, Flag, Loader2, RotateCcw, ShieldCheck, Undo2 } from 'lucide-react';
 import {
   JUNGLE_GLYPHS,
   applyJungleMove,
@@ -15,10 +16,12 @@ import {
   type JungleState,
 } from '../games/jungle';
 import { JungleBoard } from '../components/JungleBoard';
+import { BoardToast } from '../components/BoardToast';
 import { Dialog } from '../components/Dialog';
 import { OpponentPicker, type OpponentMode } from '../components/OpponentPicker';
 import { gridPositionKey, junglePosition, requestGridMove } from '../engine/adapters';
 import { useAiTurn } from '../lib/useAiTurn';
+import { useMobileInView } from '../lib/useMobileInView';
 import { formatDuration } from '../lib/format';
 import { useSettingsStore } from '../stores/settings';
 import { Robot } from '../components/Robot';
@@ -110,6 +113,8 @@ export function JunglePage() {
   }, [captureNotice]);
 
   const finished = game.state.status.status !== 'playing';
+  const resultRef = useRef<HTMLDivElement>(null);
+  useMobileInView(resultRef, finished);
   const isAi = game.mode === 'ai';
   const lastMove = game.moves.length > 0 ? game.moves[game.moves.length - 1] : null;
   const elapsed = new Date(game.endedAt ?? now).getTime() - new Date(game.startedAt).getTime();
@@ -360,33 +365,27 @@ export function JunglePage() {
             seconds={aiSince ? Math.min(10, Math.floor((now - aiSince) / 1000)) : undefined}
           />
 
-          <JungleBoard
-            state={game.state}
-            selected={selected}
-            targets={targets}
-            lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null}
-            disabled={banMode ? finished || aiThinking : finished || aiThinking || (isAi && game.state.turn === AI_COLOR)}
-            onPoint={banMode ? toggleBan : choose}
-          />
-
-          {captureNotice && (
-            <div className="capture-banner" role="status">
-              <Swords size={17} aria-hidden="true" />
-              <span>{captureNotice}</span>
-            </div>
-          )}
-
-          {message && (
-            <div className="inline-alert" role="status">
-              <span>{message}</span>
-              <button type="button" className="text-button" onClick={() => setMessage(null)}>
-                知道了
-              </button>
-            </div>
-          )}
+          <div className="board-frame">
+            <JungleBoard
+              state={game.state}
+              selected={selected}
+              targets={targets}
+              lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null}
+              disabled={banMode ? finished || aiThinking : finished || aiThinking || (isAi && game.state.turn === AI_COLOR)}
+              onPoint={banMode ? toggleBan : choose}
+            />
+            <BoardToast
+              message={message ?? captureNotice}
+              tone={message ? 'error' : 'info'}
+              onDismiss={() => {
+                setMessage(null);
+                setCaptureNotice(null);
+              }}
+            />
+          </div>
 
           {finished && (
-            <div className="result-card result-win">
+            <div className="result-card result-win" ref={resultRef}>
               <div className="result-mark">
                 <ShieldCheck size={26} aria-hidden="true" />
               </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Flag, Loader2, RotateCcw, ShieldCheck, Undo2 } from 'lucide-react';
 import {
@@ -11,11 +11,13 @@ import {
   type Connect4State,
 } from '../games/connect4';
 import { Connect4Board } from '../components/Connect4Board';
+import { BoardToast } from '../components/BoardToast';
 import { Dialog } from '../components/Dialog';
 import { OpponentPicker, type OpponentMode } from '../components/OpponentPicker';
 import { connect4Position, gridPositionKey, prunePlacementBans, requestGridMove } from '../engine/adapters';
 import { useAiTurn } from '../lib/useAiTurn';
 import { formatDuration } from '../lib/format';
+import { useMobileInView } from '../lib/useMobileInView';
 import { useSettingsStore } from '../stores/settings';
 import { Robot } from '../components/Robot';
 
@@ -106,6 +108,8 @@ export function Connect4Page() {
   const [banMode, setBanMode] = useState(false);
 
   const finished = game.state.status.status !== 'playing';
+  const resultRef = useRef<HTMLDivElement>(null);
+  useMobileInView(resultRef, finished);
   const isAi = game.mode === 'ai';
   const elapsed = new Date(game.endedAt ?? now).getTime() - new Date(game.startedAt).getTime();
   const turnName = game.state.turn === 'r' ? '红方' : '黄方';
@@ -314,25 +318,19 @@ export function Connect4Page() {
             seconds={aiSince ? Math.min(10, Math.floor((now - aiSince) / 1000)) : undefined}
           />
 
-          <Connect4Board
-            state={game.state}
-            winningLine={winningLine}
-            lastMove={game.state.lastMove}
-            disabled={banMode ? finished || aiThinking : finished || aiThinking || (isAi && game.state.turn === AI_COLOR)}
-            onColumn={banMode ? toggleBan : drop}
-          />
-
-          {message && (
-            <div className="inline-alert" role="status">
-              <span>{message}</span>
-              <button type="button" className="text-button" onClick={() => setMessage(null)}>
-                知道了
-              </button>
-            </div>
-          )}
+          <div className="board-frame">
+            <Connect4Board
+              state={game.state}
+              winningLine={winningLine}
+              lastMove={game.state.lastMove}
+              disabled={banMode ? finished || aiThinking : finished || aiThinking || (isAi && game.state.turn === AI_COLOR)}
+              onColumn={banMode ? toggleBan : drop}
+            />
+            <BoardToast message={message} tone="error" onDismiss={() => setMessage(null)} />
+          </div>
 
           {finished && (
-            <div className="result-card result-win">
+            <div className="result-card result-win" ref={resultRef}>
               <div className="result-mark">
                 <ShieldCheck size={26} aria-hidden="true" />
               </div>

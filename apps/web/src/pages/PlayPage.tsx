@@ -22,6 +22,7 @@ import {
   type Color,
 } from '@qilian/xiangqi';
 import { Board, type BoardUndoAnimation } from '../components/Board';
+import { BoardToast } from '../components/BoardToast';
 import { Robot } from '../components/Robot';
 import { EnginePrepCard } from '../components/EnginePrepCard';
 import { Dialog } from '../components/Dialog';
@@ -76,6 +77,8 @@ export function PlayPage() {
   const engineReady = useEngineStore((state) => state.engineReady);
   const enginePhase = useEngineStore((state) => state.phase);
   const engineBackend = useEngineStore((state) => state.backend);
+  const engineError = useEngineStore((state) => state.error);
+  const retryEngine = useEngineStore((state) => state.retry);
   const current = useGameStore((state) => state.current);
   const hydrated = useGameStore((state) => state.hydrated);
   const selected = useGameStore((state) => state.selected);
@@ -104,16 +107,51 @@ export function PlayPage() {
   const [banMode, setBanMode] = useState(false);
   const [now, setNow] = useState(Date.now());
   const [undoAnimation, setUndoAnimation] = useState<BoardUndoAnimation | null>(null);
-  const [toast, setToast] = useState<{ id: number; text: string } | null>(null);
+  const [toast, setToast] = useState<{
+    id: number;
+    text: string;
+    tone?: 'info' | 'warning' | 'error';
+    actionLabel?: string;
+    onAction?: () => void;
+    sticky?: boolean;
+  } | null>(null);
   const [tipsOpen, setTipsOpen] = useState(true);
   const [robotSay, setRobotSay] = useState<string | null>(null);
   const toastIdRef = useRef(0);
 
+  // 走子错误、AI 状态和可重试故障统一显示在棋盘上方。
   useEffect(() => {
-    if (!toast) return;
-    const timer = window.setTimeout(() => setToast(null), 2400);
-    return () => window.clearTimeout(timer);
-  }, [toast]);
+    const retryable = aiError || (enginePhase === 'error' ? engineError : null);
+    const message = notice || error || retryable ||
+      (!engineReady && enginePhase === 'checking' ? '正在准备 AI…' : null);
+    if (!message) return;
+    toastIdRef.current += 1;
+    setToast({
+      id: toastIdRef.current,
+      text: message,
+      tone: retryable ? 'error' : !engineReady ? 'warning' : 'error',
+      actionLabel: retryable ? '重试' : undefined,
+      onAction: retryable
+        ? () => {
+            setToast(null);
+            if (aiError) retryAi();
+            else void retryEngine();
+          }
+        : undefined,
+      sticky: Boolean(retryable),
+    });
+    if (notice) dismissNotice();
+  }, [
+    notice,
+    error,
+    aiError,
+    engineReady,
+    enginePhase,
+    engineError,
+    dismissNotice,
+    retryAi,
+    retryEngine,
+  ]);
 
   // 操作提示展示一会儿自动收起，避免一直盖住对局面板
   useEffect(() => {
@@ -397,30 +435,32 @@ export function PlayPage() {
           </div>
         <section className="board-column">
 
-          <Board
-            position={current.position}
-            orientation={orientation}
-            selected={selected}
-            legalTargets={legalTargets}
-            lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null}
-            hint={hint}
-            bannedPoints={manualBans ?? []}
-            checkedSquare={checked}
-            capturableSquares={capturableSquares}
-            checkmate={isFinished && current.result.status === 'win' && current.result.reason === 'checkmate'}
-            interactive={banMode ? !isFinished : interactive}
-            undoAnimation={undoAnimation}
-            onPoint={banMode ? toggleManualBan : playSquare}
-          />
+          <div className="board-frame">
+            <Board
+              position={current.position}
+              orientation={orientation}
+              selected={selected}
+              legalTargets={legalTargets}
+              lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null}
+              hint={hint}
+              bannedPoints={manualBans ?? []}
+              checkedSquare={checked}
+              capturableSquares={capturableSquares}
+              checkmate={isFinished && current.result.status === 'win' && current.result.reason === 'checkmate'}
+              interactive={banMode ? !isFinished : interactive}
+              undoAnimation={undoAnimation}
+              onPoint={banMode ? toggleManualBan : playSquare}
+            />
 
-          {toast && (
-            <div className="board-toast" role="status" aria-live="polite" key={toast.id}>
-              <span className="board-toast-pill">
-                <ArrowLeftRight size={15} aria-hidden="true" />
-                <span>{toast.text}</span>
-              </span>
-            </div>
-          )}
+            <BoardToast
+              message={toast?.text ?? null}
+              tone={toast?.tone}
+              actionLabel={toast?.actionLabel}
+              onAction={toast?.onAction}
+              sticky={toast?.sticky}
+              onDismiss={() => setToast(null)}
+            />
+          </div>
 
           {resultVisible && isFinished && (
             <div className="board-result-layer">
@@ -469,32 +509,6 @@ export function PlayPage() {
             <div className="check-banner" role="status">
               <AlertTriangle size={17} aria-hidden="true" />
               {current.position.turn === 'r' ? '红方' : '黑方'}被将军了。
-            </div>
-          )}
-
-          {/* 双人模式没有机器人，仍用棋盘下方的提示条；人机模式由机器人气泡来说 */}
-          {isHuman && (notice || error) && (
-            <div className="inline-alert" role="status">
-              <span>{notice || error}</span>
-              <button type="button" className="text-button" onClick={dismissNotice}>
-                知道了
-              </button>
-            </div>
-          )}
-
-          {aiError && (
-            <div className="inline-alert inline-alert-error" role="alert">
-              <AlertTriangle size={17} aria-hidden="true" />
-              <span>{aiError}</span>
-              <button type="button" className="text-button" onClick={retryAi}>
-                重试
-              </button>
-            </div>
-          )}
-
-          {!engineReady && (
-            <div className="engine-inline">
-              <EnginePrepCard compact />
             </div>
           )}
 

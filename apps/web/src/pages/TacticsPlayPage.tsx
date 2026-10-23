@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -27,9 +26,11 @@ import {
   tacticById,
 } from '@qilian/content';
 import { Board } from '../components/Board';
+import { BoardToast } from '../components/BoardToast';
 import { getTrainingProgress, saveTrainingProgress } from '../lib/storage';
 import { playCue, vibrate } from '../lib/feedback';
 import { formatDuration } from '../lib/format';
+import { useMobileInView } from '../lib/useMobileInView';
 import { useSettingsStore } from '../stores/settings';
 import type { TrainingProgress } from '../types';
 
@@ -60,11 +61,15 @@ export function TacticsPlayPage() {
   const [message, setMessage] = useState<string | null>(null);
   const [solvedNotation, setSolvedNotation] = useState<string | null>(null);
   const [lastMove, setLastMove] = useState<{ from: number; to: number } | null>(null);
+  const [successBarVisible, setSuccessBarVisible] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [loadedProgress, setLoadedProgress] = useState<TrainingProgress | null>(null);
   const [loading, setLoading] = useState(true);
   const startRef = useRef(Date.now());
   const solvedElapsedRef = useRef(0);
+  const boardFrameRef = useRef<HTMLDivElement>(null);
+
+  useMobileInView(boardFrameRef, successBarVisible);
 
   useEffect(() => {
     setPosition(initial);
@@ -97,6 +102,20 @@ export function TacticsPlayPage() {
       alive = false;
     };
   }, [exercise]);
+
+  useEffect(() => {
+    if (phase === 'solving') {
+      setSuccessBarVisible(false);
+      return;
+    }
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      setSuccessBarVisible(true);
+      return;
+    }
+    const timer = window.setTimeout(() => setSuccessBarVisible(true), 1950);
+    return () => window.clearTimeout(timer);
+  }, [phase]);
 
   useEffect(() => {
     if (phase !== 'solving') return;
@@ -283,6 +302,7 @@ export function TacticsPlayPage() {
     setMessage(null);
     setSolvedNotation(null);
     setLastMove(null);
+    setSuccessBarVisible(false);
     setElapsed(0);
     startRef.current = Date.now();
     solvedElapsedRef.current = 0;
@@ -313,24 +333,49 @@ export function TacticsPlayPage() {
             </span>
           </div>
 
-          <Board
-            position={position}
-            orientation="r"
-            selected={selected}
-            legalTargets={targets}
-            hint={hint}
-            lastMove={lastMove}
-            checkedSquare={checked}
-            checkmate={isSolved && checked !== null}
-            interactive={!isSolved}
-            onPoint={handlePoint}
-          />
-
-          {message && (
-            <div className={`inline-alert${phase === 'solving' && message.includes('不是') ? ' inline-alert-error' : ''}`} role="status">
-              {message}
-            </div>
-          )}
+          <div className="board-frame" ref={boardFrameRef}>
+            <Board
+              position={position}
+              orientation="r"
+              selected={selected}
+              legalTargets={targets}
+              hint={hint}
+              lastMove={lastMove}
+              checkedSquare={checked}
+              checkmate={isSolved && checked !== null}
+              interactive={!isSolved}
+              onPoint={handlePoint}
+            />
+            <BoardToast
+              message={message}
+              tone={phase === 'solving' && message?.includes('不是') ? 'error' : 'info'}
+              onDismiss={() => setMessage(null)}
+            />
+            {isSolved && successBarVisible && (
+              <div className="mobile-success-bar" role="status" aria-live="polite">
+                <div className="mobile-success-copy">
+                  <span className="mobile-success-icon">
+                    {phase === 'revealed' ? <Eye size={19} aria-hidden="true" /> : <CheckCircle2 size={19} aria-hidden="true" />}
+                  </span>
+                  <span>
+                    <strong>{phase === 'revealed' ? '参考答案' : '杀法成立'}</strong>
+                    <small>{solvedNotation}</small>
+                  </span>
+                </div>
+                {next ? (
+                  <button type="button" className="btn btn-primary btn-small" onClick={() => navigate(`/train/tactics/${next.id}`)}>
+                    下一题
+                    <ArrowRight size={16} aria-hidden="true" />
+                  </button>
+                ) : (
+                  <Link to="/train/tactics" className="btn btn-primary btn-small">
+                    返回列表
+                    <ArrowRight size={16} aria-hidden="true" />
+                  </Link>
+                )}
+              </div>
+            )}
+          </div>
 
           {isSolved && (
             <div className={`tactic-result ${phase === 'revealed' ? 'revealed' : ''}`}>
@@ -434,32 +479,6 @@ export function TacticsPlayPage() {
         </aside>
       </div>
 
-      {isSolved &&
-        createPortal(
-        <div className="mobile-success-bar" role="status" aria-live="polite">
-          <div className="mobile-success-copy">
-            <span className="mobile-success-icon">
-              {phase === 'revealed' ? <Eye size={19} aria-hidden="true" /> : <CheckCircle2 size={19} aria-hidden="true" />}
-            </span>
-            <span>
-              <strong>{phase === 'revealed' ? '参考答案' : '杀法成立'}</strong>
-              <small>{solvedNotation}</small>
-            </span>
-          </div>
-          {next ? (
-            <button type="button" className="btn btn-primary btn-small" onClick={() => navigate(`/train/tactics/${next.id}`)}>
-              下一题
-              <ArrowRight size={16} aria-hidden="true" />
-            </button>
-          ) : (
-            <Link to="/train/tactics" className="btn btn-primary btn-small">
-              返回列表
-              <ArrowRight size={16} aria-hidden="true" />
-            </Link>
-          )}
-        </div>,
-        document.body,
-      )}
     </div>
   );
 }

@@ -117,7 +117,7 @@ test('undo distance 10 means unlimited', async ({ page }) => {
   await page.locator('[data-square="67"]').click();
   await page.locator('.side-controls .control-button').first().click();
   await expect(page.locator('.move-item')).toHaveCount(0);
-  await expect(page.locator('.turn-chip')).toContainText('红方行棋');
+  await expect(page.locator('.turn-chip')).toContainText('轮到红方');
 });
 test('history review can undo and resume', async ({ page }) => {
   await page.goto('/');
@@ -282,8 +282,8 @@ test('lesson deviation gets an automatic rules-validated reply', async ({ page }
   await expect(page.getByRole('button', { name: '提示' })).toBeDisabled();
   await expect(page.locator('.turn-chip')).toContainText('自由走子');
   await expect(page.locator('.turn-chip')).toContainText('自由走子 · 红方');
-  await expect(page.locator('.lesson-status')).toContainText('本地 AI');
-  await expect(page.locator('.lesson-status')).toContainText('规则库');
+  await expect(page.locator('.board-toast')).toContainText('本地 AI');
+  await expect(page.locator('.board-toast')).toContainText('规则库');
   await expect.poll(
     () => page.workers().some((worker) => worker.url().includes('/engines/eleeye/worker.js')),
   ).toBe(true);
@@ -298,7 +298,7 @@ test('lesson deviation gets an automatic rules-validated reply', async ({ page }
   expect(scrollAfter).toBe(scrollBefore);
 
   await expect(page.locator('.turn-chip')).toContainText('自由走子 · 红方');
-  await expect(page.locator('.lesson-status')).toContainText('本地 AI');
+  await expect(page.locator('.board-toast')).toContainText('本地 AI');
   await expect(page.locator('.lesson-status')).not.toContainText('挑战失败');
   await expect(page.locator('.lesson-rule-note')).toContainText('自研规则库');
   await expect(page.locator('.lesson-rule-note')).toContainText('不会随机替对手应手');
@@ -334,6 +334,27 @@ test('local two-player game alternates turns and undoes a round', async ({ page 
   await expect(page.locator('.turn-chip')).toContainText('红方行棋');
   await expect(page.locator('.move-item')).toHaveCount(0);
 });
+
+test('invalid moves show a board toast instead of a notice below the board', async ({ page }) => {
+  await page.goto('/play?setup=1');
+  await page.getByRole('button', { name: '双人对战' }).click();
+  await page.getByRole('button', { name: '开始双人对局' }).click();
+  await expect(page.locator('.turn-chip')).toContainText('轮到红方');
+  await page.locator('[data-square="25"]').click();
+  await page.locator('[data-square="40"]').click();
+
+  const toast = page.locator('.board-toast');
+  await expect(toast).toContainText('这步棋不能走');
+  await expect(page.locator('.board-under .inline-alert')).toHaveCount(0);
+
+  const board = await page.locator('.board-shell').boundingBox();
+  const toastBox = await toast.locator('.board-toast-pill').boundingBox();
+  expect((toastBox?.y ?? Infinity)).toBeGreaterThan(board?.y ?? 0);
+  expect((toastBox?.y ?? Infinity) + (toastBox?.height ?? 0)).toBeLessThan(
+    (board?.y ?? 0) + (board?.height ?? 0) / 2,
+  );
+});
+
 test('local chess allows undo while in check', async ({ page }) => {
   const now = new Date().toISOString();
   await page.addInitScript((startedAt) => {
@@ -482,7 +503,7 @@ test('opening training follows the line with one automatic side', async ({ page 
   await page.locator('[data-square="38"]').click();
   await expect(page.locator('.line-progress-label')).toContainText('2 / 20 步');
   await expect(page.locator('.turn-chip')).toContainText('自由走子 · 红方');
-  await expect(page.locator('.inline-alert')).toContainText('本地 AI');
+  await expect(page.locator('.board-toast')).toContainText('本地 AI');
 
   // Restarting restores the scripted line and its automatic reply.
   await page.getByRole('button', { name: '重来' }).click();
@@ -511,12 +532,26 @@ test('mobile tactics success keeps the next action in view', async ({ page }) =>
   await page.goto('/train/tactics/tactic-01');
   await page.getByRole('button', { name: '看答案' }).click();
   const bar = page.locator('.mobile-success-bar');
-  await page.waitForTimeout(450);
-  await expect(bar).toBeVisible();
+  await expect(bar).toBeHidden();
+  await expect(bar).toBeVisible({ timeout: 4_000 });
   await expect(bar.getByRole('button', { name: /下一题/ })).toBeInViewport();
   const box = await bar.boundingBox();
   expect(box?.y).toBeGreaterThanOrEqual(0);
   expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(844);
+  const board = await page.locator('.board-shell').boundingBox();
+  expect((box?.y ?? 0) + (box?.height ?? 0) / 2).toBeCloseTo(
+    (board?.y ?? 0) + (board?.height ?? 0) / 2,
+    0,
+  );
+});
+
+test('tactics mistakes use a board toast instead of an inline alert', async ({ page }) => {
+  await page.goto('/train/tactics/tactic-01');
+  await page.locator('[data-square="49"]').click();
+  await page.locator('[data-square="40"]').click();
+
+  await expect(page.locator('.board-toast')).toContainText('这步没有形成将死');
+  await expect(page.locator('.inline-alert')).toHaveCount(0);
 });
 
 test('mobile back link has a comfortable tap target', async ({ browser }) => {

@@ -31,10 +31,12 @@ import {
   trainingKindLabels,
 } from '@qilian/content';
 import { Board } from '../components/Board';
+import { BoardToast } from '../components/BoardToast';
 import { getTrainingProgress, saveTrainingProgress } from '../lib/storage';
 import { formatDuration } from '../lib/format';
 import { playCue, vibrate } from '../lib/feedback';
 import { chooseTrainingDefense } from '../lib/trainingOpponent';
+import { useMobileInView } from '../lib/useMobileInView';
 import { useSettingsStore } from '../stores/settings';
 import type { TrainingProgress } from '../types';
 
@@ -87,6 +89,9 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   const startRef = useRef(Date.now());
   const completedElapsedRef = useRef(0);
   const initializedRef = useRef('');
+  const resultRef = useRef<HTMLDivElement>(null);
+
+  useMobileInView(resultRef, completed);
 
   const line = lesson?.lines.find((item) => item.id === lineId) ?? lesson?.lines[0];
   const moves = line?.moves ?? [];
@@ -600,31 +605,37 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
             </span>
           </div>
 
-          <Board
-            position={boardPosition}
-            orientation={userColor}
-            selected={selected}
-            legalTargets={targets}
-            hint={hint}
-            lastMove={lastMove}
-            checkedSquare={checked}
-            checkmate={completed && checked !== null}
-            interactive={!completed && (freeMode || failed || userTurn) && !autoMoving}
-            onPoint={handlePoint}
-          />
+          <div className="board-frame">
+            <Board
+              position={boardPosition}
+              orientation={userColor}
+              selected={selected}
+              legalTargets={targets}
+              hint={hint}
+              lastMove={lastMove}
+              checkedSquare={checked}
+              checkmate={completed && checked !== null}
+              interactive={!completed && (freeMode || failed || userTurn) && !autoMoving}
+              onPoint={handlePoint}
+            />
+            <BoardToast
+              message={message}
+              tone={failed ? 'error' : 'info'}
+              onDismiss={() => setMessage(null)}
+            />
+          </div>
 
           {/* 固定高度的状态槽：提示出现/消失不改变棋盘与整页高度，避免“页面上下一晃” */}
           <div
-            className={`inline-alert lesson-status${message ? '' : completed ? ' is-success' : ' is-hint'}${failed ? ' inline-alert-error' : ''}`}
+            className={`inline-alert lesson-status${completed ? ' is-success' : ' is-hint'}${failed ? ' inline-alert-error' : ''}`}
             role="status"
             aria-live="polite"
           >
-            {message ??
-              (completed
-                ? completedByWin
-                  ? '将死成功，本关已完成。'
-                  : '挑战完成，本关已完成。'
-                : '主线中对手按固定应手；可自由尝试，规则库只校验合法性与终局。')}
+            {completed
+              ? completedByWin
+                ? '将死成功，本关已完成。'
+                : '挑战完成，本关已完成。'
+              : '主线中对手按固定应手；可自由尝试，规则库只校验合法性与终局。'}
           </div>
 
           <div className="line-progress">
@@ -638,7 +649,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
           </div>
 
           {completed && (
-            <div className="tactic-result">
+            <div className="tactic-result" ref={resultRef}>
               <div className="result-mark"><CheckCircle2 size={24} aria-hidden="true" /></div>
               <div>
                 <span className="eyebrow">{completedByWin ? '将死成功' : '挑战完成'}</span>
