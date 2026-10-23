@@ -3,14 +3,11 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   ArrowLeft,
   ArrowRight,
-  BookOpen,
   CheckCircle2,
   ChevronRight,
-  Crown,
   ExternalLink,
   Lightbulb,
   RotateCcw,
-  ShieldCheck,
   Timer,
   Undo2,
 } from 'lucide-react';
@@ -287,7 +284,6 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     : null;
   const next = nextTrainingItem(kind, lesson.id);
   const lastComment = !completedByWin && ply > 0 ? moves[ply - 1]?.comment : undefined;
-  const recordCompleted = loadedProgress?.status === 'completed';
   const hasWon = (next: Position): boolean => {
     if (lesson?.objective !== 'win') return false;
     const end = evaluateBoard(next, { positionHashes: [] });
@@ -638,7 +634,6 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   }
 
   const boardPosition = position ?? initial;
-  const Icon = kind === 'endgame' ? Crown : BookOpen;
 
   return (
     <div className="page training-play-page lesson-play-page">
@@ -647,10 +642,6 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
           <ArrowLeft size={15} aria-hidden="true" />
           {trainingKindLabels[kind]}
         </Link>
-        <span className="play-meta">
-          <Icon size={14} aria-hidden="true" /> {lesson.title}
-          {recordCompleted && <span className="done-label">已完成</span>}
-        </span>
       </div>
 
       <div className="play-layout training-layout">
@@ -787,12 +778,6 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
                 你走红方，主线中黑方按预设应手；也可以自由尝试，偏离后由自研规则库校验。
               </p>
             )}
-            <p className="fine-print lesson-rule-note">
-              <ShieldCheck size={14} aria-hidden="true" />
-              <span>
-                自研规则库负责合法走法、将军、将死和终局判定；不评价棋力或课程线路，也不会随机替对手应手。
-              </span>
-            </p>
             <div className="key-points">
               <span className="eyebrow">记住这几点</span>
               <ul className="plain-list compact-list">

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Bot, ShieldCheck, Users } from 'lucide-react';
+import { Bot, ShieldCheck, Users } from 'lucide-react';
 
 const games = [
   {
@@ -35,11 +35,6 @@ const games = [
 export function LocalGamesPage() {
   return (
     <div className="page local-games-page">
-      <Link to="/" className="back-link">
-        <ArrowLeft size={15} aria-hidden="true" />
-        返回首页
-      </Link>
-
       <div className="local-games-heading">
         <span className="eyebrow">其它棋类</span>
         <h1>

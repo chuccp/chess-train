@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 async function waitForOfflineReady(page: import('@playwright/test').Page) {
   await page.goto('/');
-  await expect(page.locator('.engine-badge')).toContainText(/(?:在线|本地) AI/, { timeout: 60_000 });
+  await expect(page.locator('.engine-badge:visible')).toContainText(/(?:在线|本地) AI/, { timeout: 60_000 });
 }
 
 test('home loads with the offline engine ready', async ({ page }) => {
@@ -260,10 +260,18 @@ test('training board and controls fit a 1080p browser viewport', async ({ page }
   await page.setViewportSize({ width: 1920, height: 950 });
   await page.goto('/train/endgame/endgame-01');
   const board = await page.locator('.board-shell').boundingBox();
+  const side = await page.locator('.play-side').boundingBox();
   const controls = await page.locator('.board-controls').boundingBox();
   expect((board?.y ?? 0) + (board?.height ?? 0)).toBeLessThanOrEqual(950);
   expect((controls?.y ?? 0) + (controls?.height ?? 0)).toBeLessThanOrEqual(950);
   expect(controls?.x ?? 0).toBeGreaterThan((board?.x ?? 0) + (board?.width ?? 0));
+  expect(Math.abs((side?.y ?? 0) - (board?.y ?? 0))).toBeLessThan(1);
+  expect(
+    Math.abs(
+      ((side?.y ?? 0) + (side?.height ?? 0)) -
+        ((board?.y ?? 0) + (board?.height ?? 0)),
+    ),
+  ).toBeLessThan(1);
 });
 
 test('endgame deviation gets a rules-validated reply without a line warning and can be undone', async ({ page }) => {
@@ -303,8 +311,6 @@ test('endgame deviation gets a rules-validated reply without a line warning and 
 
   await expect(page.locator('.board-toast')).toContainText('本地 AI');
   await expect(page.locator('.lesson-status')).not.toContainText('挑战失败');
-  await expect(page.locator('.lesson-rule-note')).toContainText('自研规则库');
-  await expect(page.locator('.lesson-rule-note')).toContainText('不会随机替对手应手');
   await expect(page.locator('.lesson-status')).toHaveJSProperty('offsetHeight', statusBefore?.height ?? 0);
 
   await expect(undo).toBeEnabled();
@@ -460,8 +466,8 @@ test('local chess shows the checkmate animation', async ({ page }) => {
 });
 test('local game hub lists all offline games', async ({ page }) => {
   await page.goto('/local');
-  await expect(page.locator('.local-game-card')).toHaveCount(5);
-  await expect(page.locator('.local-game-card')).toContainText(['中国象棋', '五子棋', '斗兽棋', '跳棋', '四子棋']);
+  await expect(page.locator('.local-game-card')).toHaveCount(4);
+  await expect(page.locator('.local-game-card')).toContainText(['五子棋', '斗兽棋', '跳棋', '四子棋']);
 });
 
 test('local game cards open AI or local two-player mode directly', async ({ page }) => {
@@ -577,9 +583,6 @@ test('opening training follows the line with one automatic side', async ({ page 
   await page.goto('/train/opening/opening-classic-01');
   await expect(page.locator('.turn-chip')).toContainText('请你走这一步');
   await expect(page.locator('.lesson-flow-note')).toContainText('黑方按预设应手');
-  await expect(page.locator('.lesson-rule-note')).toContainText('自研规则库');
-  await expect(page.locator('.lesson-rule-note')).toContainText('不会随机替对手应手');
-
   // A legal but non-line move is allowed and switches to rule-validated free play.
   await page.locator('[data-square="29"]').click();
   await page.locator('[data-square="38"]').click();

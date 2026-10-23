@@ -2769,6 +2769,7 @@ p {
 
 .page-heading h1 {
   margin-top: 0.3rem;
+  text-wrap: balance;
 }
 
 .page-heading p {
@@ -3777,11 +3778,6 @@ p {
   height: auto;
 }
 
-.history-back {
-  margin-top: 1.3rem;
-  margin-bottom: 0;
-}
-
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -3984,7 +3980,7 @@ p {
 
 .about-hero h1 {
   margin: 0.3rem 0 0.45rem;
-  font-size: clamp(2rem, 4vw, 3rem);
+  text-wrap: balance;
 }
 
 .about-hero p {
@@ -3992,6 +3988,11 @@ p {
   font-size: 0.85rem;
   max-width: 720px;
   margin: 0;
+}
+
+.about-hero > div:last-child {
+  flex: 1;
+  min-width: 0;
 }
 
 .about-grid {
@@ -4523,7 +4524,7 @@ p {
   }
 
   .about-hero h1 {
-    font-size: 1.9rem;
+    font-size: 1.68rem;
   }
 
   .about-section {
@@ -5363,7 +5364,7 @@ p {
   }
 
   .app-shell.is-training-play .training-layout {
-    grid-template-columns: minmax(0, clamp(360px, calc((100vh - 350px) * 0.9), 640px)) minmax(290px, 340px);
+    grid-template-columns: minmax(0, clamp(360px, calc((100vh - 260px) * 0.9), 680px)) minmax(290px, 340px);
     justify-content: center;
   }
 }
@@ -5603,19 +5604,17 @@ p {
 
 /* Local board-game hub and alternate games */
 .local-games-page {
-  max-width: 1080px;
+  max-width: none;
 }
 
 .local-games-heading {
-  max-width: 720px;
-  margin: 1.6rem 0 2rem;
+  max-width: 700px;
+  margin: 0 0 1.6rem;
 }
 
 .local-games-heading h1 {
-  margin: 0.45rem 0 0.7rem;
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
-  line-height: 1.08;
-  font-weight: 500;
+  margin: 0.3rem 0 0.45rem;
+  text-wrap: balance;
 }
 
 .local-games-heading p {
@@ -5632,7 +5631,7 @@ p {
 .local-game-card {
   position: relative;
   display: flex;
-  min-height: 295px;
+  min-height: 255px;
   flex-direction: column;
   justify-content: space-between;
   gap: 1.2rem;
@@ -5678,22 +5677,24 @@ p {
 
 .local-game-kicker {
   color: var(--muted);
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .local-game-card h2 {
   margin: 0.25rem 0 0.45rem;
   color: var(--ink);
   font-family: var(--serif);
-  font-size: 1.55rem;
-  font-weight: 500;
+  font-size: 1.35rem;
+  font-weight: 600;
 }
 
 .local-game-card p {
   margin: 0;
-  color: var(--muted);
-  font-size: 0.8rem;
+  color: var(--ink-soft);
+  font-size: 0.79rem;
   line-height: 1.7;
 }
 
@@ -5711,6 +5712,8 @@ p {
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
   margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(53, 43, 29, 0.1);
 }
 
 .local-game-mode-button {
@@ -5973,7 +5976,6 @@ p {
 }
 
 @media (max-width: 560px) {
-  .local-games-heading h1 { font-size: 2.35rem; }
   .jungle-board { border-radius: 12px; }
   .checkers-board { border-radius: 12px; }
   .checkers-hole { width: 6%; }
@@ -6105,14 +6107,6 @@ p {
   margin: 0.35rem 0 0.75rem;
   padding-left: 0.65rem;
   border-left: 2px solid var(--gold);
-}
-
-.lesson-rule-note {
-  margin: 0.75rem 0;
-  padding: 0.6rem 0.7rem;
-  border: 1px solid rgba(45, 86, 70, 0.14);
-  border-radius: 9px;
-  background: rgba(45, 86, 70, 0.05);
 }
 
 .jungle-cell.is-capture .jungle-piece {
@@ -6285,6 +6279,61 @@ p {
   .play-layout:has(> .board-toolbar) > .play-side {
     grid-column: 2;
     grid-row: 2;
+  }
+}
+
+/* Game and training pages share one desktop rail: toolbar, board, then notes. */
+@media (min-width: 881px) {
+  .play-layout:has(> .board-column > .board-toolbar) {
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
+    row-gap: 0.75rem;
+  }
+
+  /* Split the board column into grid items so the side rail starts at the board edge. */
+  .play-layout:has(> .board-column > .board-toolbar) > .board-column {
+    display: contents;
+  }
+
+  .play-layout:has(> .board-column > .board-toolbar) > .board-column > .board-toolbar {
+    grid-column: 1;
+    grid-row: 1;
+    margin-bottom: 0;
+  }
+
+  .play-layout:has(> .board-column > .board-toolbar) > .board-column > .board-frame {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .play-layout:has(> .board-column > .board-toolbar) > .board-column > .board-help,
+  .play-layout:has(> .board-column > .board-toolbar) > .board-column > .lesson-status,
+  .play-layout:has(> .board-column > .board-toolbar) > .board-column > .tactic-result {
+    grid-column: 1;
+    grid-row: 3;
+    margin-top: 0;
+  }
+
+  .play-layout:has(> .board-column > .board-toolbar) > .board-column > .line-progress {
+    grid-column: 1;
+    grid-row: 4;
+  }
+
+  .play-layout:has(> .board-column > .board-toolbar) > .play-side {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+@media (min-width: 881px) and (min-height: 760px) {
+  .play-layout:has(> .board-column > .board-toolbar) > .play-side {
+    align-self: stretch;
+  }
+
+  .play-layout:has(> .board-column > .board-toolbar) > .play-side > .side-card:last-child {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 }
 

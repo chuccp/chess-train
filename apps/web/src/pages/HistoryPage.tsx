@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, CalendarDays, ChevronRight, Clock3, History, Swords, Trash2 } from 'lucide-react';
+import { CalendarDays, ChevronRight, Clock3, History, Swords, Trash2 } from 'lucide-react';
 import { deleteFinishedGame, listFinishedGames } from '../lib/storage';
 import { formatDate, formatDuration } from '../lib/format';
 import { levelLabel, resultLabel } from '../stores/game';
@@ -99,10 +99,6 @@ export function HistoryPage() {
         </div>
       )}
 
-      <Link to="/" className="back-link history-back">
-        <ArrowLeft size={15} aria-hidden="true" />
-        回到首页
-      </Link>
     </div>
   );
 }
