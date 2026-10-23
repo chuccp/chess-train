@@ -63,7 +63,7 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
           <h1>{kind === 'endgame' ? '把少子下成胜势' : '把开局顺序走顺'}</h1>
           <p>
             {kind === 'endgame'
-              ? '古谱与短课都在限定步数内完成；先看目标，再跟着主线走。'
+              ? '古谱与短课都以将死为目标；可以跟主线，也可以自由尝试。'
               : '你走红方，黑方自动应手；按主线一步一步走出开局顺序。'}
           </p>
         </div>

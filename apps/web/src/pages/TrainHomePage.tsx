@@ -44,7 +44,7 @@ const kindCards: Array<{
     kind: 'endgame',
     eyebrow: '残局定式',
     title: '把少子下成胜势',
-    description: '古谱短局与原创短课，在限定步数内找到将死。每一步都有解释。',
+    description: '古谱短局与原创短课，围绕将死目标自由尝试。每一步都有解释。',
     detail: `${contentStats.endgame} 节残局 · 含古谱`,
     icon: Crown,
     tone: 'green',

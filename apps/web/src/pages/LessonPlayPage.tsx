@@ -203,7 +203,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
           setMessage('自研规则库返回的应手未通过规则校验，本局暂停。可以悔棋或重来。');
           return;
         }
-        const nextUsed = Math.min(total, freeUsed + 1);
+        const nextUsed = kind === 'endgame' ? freeUsed + 1 : Math.min(total, freeUsed + 1);
         setPosition(result.position);
         setFreeUsed(nextUsed);
         setLastMove({ from: reply.from, to: reply.to });
@@ -216,8 +216,12 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
           setMessage('对手已形成将死，本局挑战失败。可以悔棋或重来。');
         } else if (end.status === 'draw') {
           setFailed(true);
-          setMessage('局面已和棋，未能在限定步数内将死，本局挑战失败。可以悔棋或重来。');
-        } else if (nextUsed >= total) {
+          setMessage(
+            kind === 'endgame'
+              ? '局面已和棋，本局挑战失败。可以悔棋或重来。'
+              : '局面已和棋，未能在限定步数内将死，本局挑战失败。可以悔棋或重来。',
+          );
+        } else if (kind !== 'endgame' && nextUsed >= total) {
           setFailed(true);
           setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以悔棋或重来。');
         }
@@ -456,14 +460,15 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       }
 
       if (hasWon(free.position)) {
-        setFreeUsed(Math.min(total, freeUsed + 1));
-        finishLine(Math.min(total, freeUsed + 1), 'win');
+        const nextUsed = kind === 'endgame' ? freeUsed + 1 : Math.min(total, freeUsed + 1);
+        setFreeUsed(nextUsed);
+        finishLine(nextUsed, 'win');
         return;
       }
 
-      const used = Math.min(total, freeUsed + 1);
+      const used = kind === 'endgame' ? freeUsed + 1 : Math.min(total, freeUsed + 1);
       setFreeUsed(used);
-      if (used >= total) {
+      if (kind !== 'endgame' && used >= total) {
         setFailed(true);
         setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以悔棋或重来。');
       } else {
@@ -496,9 +501,9 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
         setPosition(result.position);
         setLastMove({ from: result.move.from, to: result.move.to });
       }
-      const used = Math.min(total, ply + 1);
+      const used = kind === 'endgame' ? ply + 1 : Math.min(total, ply + 1);
       setFreeUsed(used);
-      if (used >= total) {
+      if (kind !== 'endgame' && used >= total) {
         setFailed(true);
         setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以悔棋或重来。');
       } else {
@@ -689,7 +694,11 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
                   <span className="eyebrow">{completedByWin ? '将死成功' : '挑战完成'}</span>
                   <h2>{completedByWin ? '找到将死，完成。' : lesson.completionText}</h2>
                   <p>
-                    {completedByWin ? '你在限定步数内完成了将死，本关已按胜利完成。' : '跟练完成。'}
+                    {completedByWin
+                      ? kind === 'endgame'
+                        ? '你完成了将死，本关已按胜利完成。'
+                        : '你在限定步数内完成了将死，本关已按胜利完成。'
+                      : '跟练完成。'}
                     用了 {formatDuration(completedElapsedRef.current)}，错试 {attempts} 次，提示 {hintsUsed} 次。
                   </p>
                 </div>
@@ -712,15 +721,17 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
                 : '主线中对手按固定应手；可自由尝试，规则库只校验合法性与终局。'}
           </div>
 
-          <div className="line-progress">
-            <div className="line-progress-label">
-              <span>{completedByWin ? '将死成功' : freeMode ? '本关进度' : (line?.label ?? '主线')}</span>
-              <span>{completedByWin ? '已完成' : `${stepsUsed} / ${total} 步`}</span>
+          {kind === 'opening' && (
+            <div className="line-progress">
+              <div className="line-progress-label">
+                <span>{completedByWin ? '将死成功' : freeMode ? '本关进度' : (line?.label ?? '主线')}</span>
+                <span>{completedByWin ? '已完成' : `${stepsUsed} / ${total} 步`}</span>
+              </div>
+              <div className="progress-track">
+                <span style={{ width: completedByWin ? '100%' : `${total ? Math.min(100, (stepsUsed / total) * 100) : 0}%` }} />
+              </div>
             </div>
-            <div className="progress-track">
-              <span style={{ width: completedByWin ? '100%' : `${total ? Math.min(100, (stepsUsed / total) * 100) : 0}%` }} />
-            </div>
-          </div>
+          )}
 
         </section>
 

@@ -284,6 +284,7 @@ test('endgame deviation gets a rules-validated reply without a line warning and 
   const scrollYBefore = await page.evaluate(() => window.scrollY);
   const undo = page.getByRole('button', { name: '悔棋' });
   await expect(undo).toBeDisabled();
+  await expect(page.locator('.line-progress')).toHaveCount(0);
 
   // Deviate on the first move: no line warning is shown, but the reply stays legal.
   await page.locator('[data-square="58"]').click();
@@ -329,7 +330,7 @@ test('a faster mate completes the endgame lesson', async ({ page }) => {
   await expect(page.locator('.checkmate-stamp')).toBeVisible();
   await expect(page.locator('.tactic-result')).toContainText('找到将死，完成');
   await expect(page.locator('.tactic-result')).toContainText('错试 0 次');
-  await expect(page.locator('.line-progress-label')).toContainText('已完成');
+  await expect(page.locator('.line-progress')).toHaveCount(0);
   await expect(page.getByRole('button', { name: '提示' })).toBeDisabled();
 });
 
