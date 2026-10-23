@@ -7,8 +7,9 @@ export type EngineBackend = 'online' | 'local';
 interface EngineState {
   phase: EnginePhase;
   engineReady: boolean;
-  /** 应用外壳已缓存，可离线打开（人机对弈仍需联网）。 */
+  /** 应用与本地 AI 资源已由 Service Worker 接管，可离线打开。 */
   offlineReady: boolean;
+  localEngineReady: boolean;
   error: string | null;
   version: string;
   games: number;
@@ -48,6 +49,7 @@ export const useEngineStore = create<EngineState>((set, get) => ({
   phase: 'idle',
   engineReady: false,
   offlineReady: false,
+  localEngineReady: false,
   error: null,
   version: '',
   games: 0,
@@ -59,7 +61,13 @@ export const useEngineStore = create<EngineState>((set, get) => ({
 
     bootstrapPromise = (async () => {
       set({ phase: 'checking', error: null });
-      const localReady = engineApi.localHealth();
+      const localReady = engineApi.localHealth().then((info) => {
+        set({ localEngineReady: true });
+        return info;
+      }).catch((error) => {
+        set({ localEngineReady: false });
+        throw error;
+      });
       try {
         let backend: EngineBackend = 'online';
         let info: { version: string; games: number };
@@ -104,7 +112,7 @@ export const useEngineStore = create<EngineState>((set, get) => ({
 
   async retry() {
     engineApi.reset();
-    set({ phase: 'checking', engineReady: false, backend: null, error: null });
+    set({ phase: 'checking', engineReady: false, localEngineReady: false, backend: null, error: null });
     await get().bootstrap();
   },
 

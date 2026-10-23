@@ -236,13 +236,22 @@ export function SettingsPage() {
                   <div><dt>当前模式</dt><dd>{engine.backend === 'local' ? '本地 AI' : '在线 AI'}</dd></div>
                   <div><dt>运行位置</dt><dd>{engine.backend === 'local' ? '浏览器 Web Worker' : '在线服务'}</dd></div>
                   <div><dt>棋类</dt><dd>{engine.backend === 'local' ? '中国象棋' : `${engine.games || 7} 种`}</dd></div>
-                  <div><dt>离线缓存</dt><dd>{engine.offlineReady ? '应用外壳已缓存' : '等待 Service Worker 接管'}</dd></div>
+                  <div>
+                    <dt>本地引擎</dt>
+                    <dd>
+                      {engine.localEngineReady
+                        ? '已加载'
+                        : engine.offlineReady
+                          ? '已保存'
+                          : '未保存'}
+                    </dd>
+                  </div>
                   <div><dt>隐私</dt><dd>只上传当前局面，棋谱留在本机</dd></div>
                 </dl>
                 <div className="engine-actions">
                   <button type="button" className="btn btn-ghost" onClick={() => void engine.refreshOffline()}>
                     <RefreshCw size={15} aria-hidden="true" />
-                    重新检查离线
+                    检查离线资源
                   </button>
                   <button type="button" className="btn btn-ghost" disabled={busy === 'engine'} onClick={() => void reconnectEngine()}>
                     <Wifi size={15} aria-hidden="true" />
