@@ -293,9 +293,7 @@ test('endgame deviation gets a rules-validated reply without a line warning and 
   await expect(page.locator('.turn-chip')).toContainText('请你走这一步');
   await expect(page.locator('.turn-chip')).not.toContainText('偏离主线');
   await expect(page.locator('.lesson-status')).not.toContainText('偏离主线');
-  await expect(page.locator('.board-toast')).toContainText('本地 AI');
-  await expect(page.locator('.board-toast')).toContainText('规则库');
-  await expect(page.locator('.board-toast')).not.toContainText('偏离主线');
+  await expect(page.locator('.board-toast')).toHaveCount(0);
   await expect.poll(
     () => page.workers().some((worker) => worker.url().includes('/engines/eleeye/worker.js')),
   ).toBe(true);
@@ -309,7 +307,6 @@ test('endgame deviation gets a rules-validated reply without a line warning and 
   expect(statusAfter?.height).toBe(statusBefore?.height);
   expect(scrollAfter).toBe(scrollBefore);
 
-  await expect(page.locator('.board-toast')).toContainText('本地 AI');
   await expect(page.locator('.lesson-status')).not.toContainText('挑战失败');
   await expect(page.locator('.lesson-status')).toHaveJSProperty('offsetHeight', statusBefore?.height ?? 0);
 
@@ -588,7 +585,7 @@ test('opening training follows the line with one automatic side', async ({ page 
   await page.locator('[data-square="38"]').click();
   await expect(page.locator('.line-progress-label')).toContainText('2 / 20 步');
   await expect(page.locator('.turn-chip')).toContainText('自由走子 · 红方');
-  await expect(page.locator('.board-toast')).toContainText('本地 AI');
+  await expect(page.locator('.board-toast')).toContainText('偏离主线');
 
   // Restarting restores the scripted line and its automatic reply.
   await page.getByRole('button', { name: '重来' }).click();

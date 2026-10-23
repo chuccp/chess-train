@@ -220,12 +220,6 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
         } else if (nextUsed >= total) {
           setFailed(true);
           setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以悔棋或重来。');
-        } else {
-          setMessage(
-            defense.engine === 'eleeye'
-              ? '本地 AI 已完成防守应手；自研规则库已校验该着法合法。'
-              : '内置引擎暂不可用，已使用轻量规则搜索应手；自研规则库已校验该着法。',
-          );
         }
         return;
       }
