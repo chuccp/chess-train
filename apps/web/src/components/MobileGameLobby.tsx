@@ -134,9 +134,14 @@ export function MobileGameLobby({
               ? '双人对局'
               : `你执${current!.playerColor === 'r' ? '红' : '黑'} · ${levelLabel(current!.level)}`}
           </span>
-          <Link to="/play?setup=1" className="btn btn-ghost btn-small">
-            换个对手
-          </Link>
+          <div className="mobile-lobby-opponents">
+            <Link to="/play?setup=1&mode=human" className="btn btn-ghost btn-small">
+              人人
+            </Link>
+            <Link to="/play?setup=1&mode=ai" className="btn btn-ghost btn-small">
+              人机切换
+            </Link>
+          </div>
         </div>
       ) : (
         <div className="mobile-lobby-actions">

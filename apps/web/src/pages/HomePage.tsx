@@ -16,6 +16,7 @@ import {
   Swords,
   Target,
   Trophy,
+  Users,
 } from 'lucide-react';
 import { contentStats, trainingKindLabels } from '@qilian/content';
 import type { Color } from '@qilian/xiangqi';
@@ -292,8 +293,12 @@ export function HomePage() {
             </p>
           </div>
           <div className="continue-actions">
-            <Link to="/play?setup=1" className="btn btn-ghost" title="换成人人对战或更换 AI 难度">
-              换个对手
+            <Link to="/play?setup=1&mode=human" className="btn btn-ghost" title="换成人人对战">
+              <Users size={15} aria-hidden="true" />
+              人人
+            </Link>
+            <Link to="/play?setup=1&mode=ai" className="btn btn-ghost" title="切换人机对战与 AI 难度">
+              人机切换
             </Link>
             <button type="button" className="btn btn-primary" onClick={openCurrent}>
               继续
@@ -316,8 +321,12 @@ export function HomePage() {
             </p>
           </div>
           <div className="continue-actions">
-            <Link to="/play?setup=1" className="btn btn-ghost" title="换成人人对战或更换 AI 难度">
-              换个对手
+            <Link to="/play?setup=1&mode=human" className="btn btn-ghost" title="换成人人对战">
+              <Users size={15} aria-hidden="true" />
+              人人
+            </Link>
+            <Link to="/play?setup=1&mode=ai" className="btn btn-ghost" title="切换人机对战与 AI 难度">
+              人机切换
             </Link>
             <button type="button" className="btn btn-dark" onClick={openCurrent}>
               查看棋局

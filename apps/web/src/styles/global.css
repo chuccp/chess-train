@@ -4811,10 +4811,18 @@ p {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 0.7rem;
     margin-top: 0.55rem;
     color: var(--muted);
     font-size: 0.7rem;
+  }
+
+  .mobile-lobby-opponents {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-left: auto;
   }
 
   .mobile-lobby-secondary .btn {
@@ -6293,5 +6301,114 @@ p {
 @media (min-width: 881px) and (max-height: 759px) {
   .play-layout:has(> .board-toolbar) > .play-side {
     grid-row: 2 / span 2;
+  }
+}
+
+/* Compact phone layout for the quick-game setup screen. */
+@media (max-width: 560px) {
+  .setup-page .back-link {
+    margin-bottom: 0.65rem;
+  }
+
+  .setup-grid {
+    gap: 0.65rem;
+  }
+
+  .setup-panel {
+    gap: 0.72rem;
+    padding: 0.82rem;
+    border-radius: 14px;
+  }
+
+  .setup-panel .field {
+    gap: 0.35rem;
+  }
+
+  .setup-panel > .field > .segmented {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  .setup-panel > .field > .segmented button {
+    min-height: 36px;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .setup-page .choice-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.42rem;
+  }
+
+  .setup-page .choice-card {
+    min-height: 0;
+    padding: 0.55rem 0.65rem;
+    border-radius: 10px;
+  }
+
+  .setup-page .choice-emblem {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 0.08rem;
+    border-radius: 7px;
+    font-size: 1rem;
+  }
+
+  .setup-page .choice-card strong {
+    font-size: 0.78rem;
+  }
+
+  .setup-page .choice-card > span:last-child {
+    display: none;
+  }
+
+  .setup-page .level-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
+
+  .setup-page .level-row {
+    justify-content: center;
+    min-height: 42px;
+    padding: 0.42rem 0.25rem;
+    border-color: var(--line);
+    border-radius: 8px;
+    background: var(--surface-soft);
+    text-align: center;
+  }
+
+  .setup-page .level-row .level-number,
+  .setup-page .level-row small,
+  .setup-page .level-row > svg {
+    display: none;
+  }
+
+  .setup-page .level-row strong {
+    font-size: 0.76rem;
+  }
+
+  .setup-page .setup-panel > .btn-large {
+    min-height: 44px;
+    padding-block: 0.55rem;
+  }
+
+  .setup-page .plain-list {
+    gap: 0.34rem;
+    font-size: 0.74rem;
+  }
+
+  .setup-page .setup-footnote,
+  .setup-page .setup-about {
+    display: none;
+  }
+
+  .setup-page .setup-side {
+    display: block;
+  }
+
+  .setup-page .setup-side .prep-card {
+    margin-top: 0.1rem;
+    padding: 0.65rem 0.75rem;
   }
 }

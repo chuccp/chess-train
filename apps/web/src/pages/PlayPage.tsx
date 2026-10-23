@@ -12,6 +12,7 @@ import {
   ShieldCheck,
   Swords,
   Undo2,
+  Users,
   X,
 } from 'lucide-react';
 import {
@@ -74,6 +75,7 @@ export function PlayPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const setupRequested = searchParams.get('setup') === '1';
+  const setupMode = searchParams.get('mode');
   const engineReady = useEngineStore((state) => state.engineReady);
   const enginePhase = useEngineStore((state) => state.phase);
   const engineBackend = useEngineStore((state) => state.backend);
@@ -297,6 +299,7 @@ export function PlayPage() {
   if (!current || setupRequested) {
     return (
       <NewGameSetup
+        key={setupMode ?? 'default'}
         engineReady={engineReady}
         enginePhase={enginePhase}
         onStart={async (color, level, opponent) => {
@@ -307,6 +310,7 @@ export function PlayPage() {
           return ok;
         }}
         starting={starting}
+        initialOpponent={setupMode === 'human' ? 'human' : 'ai'}
         initialColor={settings.preferredColor}
         hasActiveGame={Boolean(current && current.phase !== 'finished')}
       />
@@ -566,11 +570,20 @@ export function PlayPage() {
             <button
               type="button"
               className="control-button"
-              onClick={() => navigate('/play?setup=1')}
-              title="换成人人对战或更换 AI 难度"
+              onClick={() => navigate('/play?setup=1&mode=human')}
+              title="换成人人对战"
             >
-              <ArrowLeftRight size={18} aria-hidden="true" />
-              <span>换对手</span>
+              <Users size={18} aria-hidden="true" />
+              <span>人人</span>
+            </button>
+            <button
+              type="button"
+              className="control-button"
+              onClick={() => navigate('/play?setup=1&mode=ai')}
+              title="切换人机对战与 AI 难度"
+            >
+              <Swords size={18} aria-hidden="true" />
+              <span>人机切换</span>
             </button>
             <button
               type="button"
@@ -759,6 +772,7 @@ function NewGameSetup({
   enginePhase,
   onStart,
   starting,
+  initialOpponent,
   initialColor,
   hasActiveGame,
 }: {
@@ -766,10 +780,11 @@ function NewGameSetup({
   enginePhase: string;
   onStart: (color: Color, level: Level, opponent: GameMode) => Promise<boolean>;
   starting: boolean;
+  initialOpponent: GameMode;
   initialColor: Color;
   hasActiveGame: boolean;
 }) {
-  const [opponent, setOpponent] = useState<GameMode>('ai');
+  const [opponent, setOpponent] = useState<GameMode>(initialOpponent);
   const [color, setColor] = useState<Color>(initialColor);
   const settingsStore = useSettingsStore();
   const level = settingsStore.preferredLevel;
@@ -781,15 +796,6 @@ function NewGameSetup({
         <ArrowLeft size={15} aria-hidden="true" />
         返回首页
       </Link>
-      <div className="setup-heading">
-        <span className="eyebrow">象棋对弈</span>
-        <h1>{isHuman ? '两个人，一盘棋' : '和 AI 下一盘'}</h1>
-        <p>
-          {isHuman
-            ? '同屏轮流落子，支持悔棋、翻转和棋谱记录。'
-            : '选择一个执子方向与难度。棋局只保存在本机，随时可以回看。'}
-        </p>
-      </div>
 
       <div className="setup-grid">
         <section className="panel setup-panel">
