@@ -548,3 +548,163 @@ test('mobile layout has no horizontal overflow and an immersive game', async ({ 
   ).toBe(false);
   await context.close();
 });
+
+test('mobile home exposes working share and shortcut actions', async ({ browser }) => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+  });
+  const page = await context.newPage();
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'share', {
+      configurable: true,
+      value: async (data: ShareData) => {
+        (window as Window & { sharedData?: ShareData }).sharedData = data;
+      },
+    });
+  });
+  await page.goto('/');
+
+  const actions = page.locator('.mobile-lobby-app-actions');
+  await expect(page.locator('#mobile-lobby-title')).toHaveClass(/sr-only/);
+  await expect(actions.getByRole('button', { name: '分享' })).toBeVisible();
+  await expect(actions.getByRole('button', { name: '创建快捷方式' })).toBeVisible();
+  await expect(actions.getByRole('button', { name: '创建快捷方式' })).toHaveText('创建快捷方式');
+  const actionBox = await actions.boundingBox();
+  const primaryBox = await page.getByRole('button', { name: /和 AI 下一盘/ }).boundingBox();
+  expect((primaryBox?.y ?? 0) - ((actionBox?.y ?? 0) + (actionBox?.height ?? 0))).toBeGreaterThanOrEqual(8);
+
+  await actions.getByRole('button', { name: '分享' }).click();
+  await expect.poll(() =>
+    page.evaluate(() => (window as Window & { sharedData?: ShareData }).sharedData?.title),
+  ).toBe('棋练 · 中国象棋');
+
+  await actions.getByRole('button', { name: '创建快捷方式' }).click();
+  const dialog = page.getByRole('dialog', { name: '创建快捷方式' });
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toContainText('选择“安装棋练”');
+  await dialog.getByRole('button', { name: '知道了' }).click();
+  await expect(dialog).toBeHidden();
+  await context.close();
+});
+
+test('iOS shortcut action shows add-to-home-screen guidance', async ({ browser }) => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+    userAgent:
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1',
+  });
+  const page = await context.newPage();
+  await page.goto('/');
+  await page.getByRole('button', { name: '创建快捷方式' }).click();
+
+  const dialog = page.getByRole('dialog', { name: '添加到主屏幕' });
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toContainText('iPhone 和 iPad 需要从 Safari 的分享菜单手动添加');
+  await expect(dialog).toContainText('选择“添加到主屏幕”');
+  await context.close();
+});
+
+test('short phones keep the app actions above the fold', async ({ browser }) => {
+  const context = await browser.newContext({
+    viewport: { width: 320, height: 568 },
+    isMobile: true,
+    hasTouch: true,
+  });
+  const page = await context.newPage();
+  await page.goto('/');
+
+  await expect(page.getByRole('button', { name: '分享' })).toBeInViewport();
+  await expect(page.getByRole('button', { name: '创建快捷方式' })).toBeInViewport();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+    ),
+  ).toBe(false);
+  await context.close();
+});
+
+test('active mobile game hides the continue heading in the title row', async ({ browser }) => {
+  const context = await browser.newContext({
+    viewport: { width: 320, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+  });
+  const page = await context.newPage();
+  await page.goto('/');
+  await page.evaluate(async () => {
+    const fenRows = 'rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR'.split('/');
+    const board: Array<{ color: 'r' | 'b'; type: string } | null> = Array(90).fill(null);
+    fenRows.forEach((row, rowIndex) => {
+      let file = 0;
+      const rank = 9 - rowIndex;
+      for (const token of row) {
+        if (/\d/.test(token)) {
+          file += Number(token);
+        } else {
+          board[rank * 9 + file] = {
+            color: token === token.toUpperCase() ? 'r' : 'b',
+            type: token.toUpperCase(),
+          };
+          file += 1;
+        }
+      }
+    });
+    const now = new Date().toISOString();
+    const game = {
+      id: 'mobile-active-game',
+      mode: 'ai',
+      playerColor: 'r',
+      level: 2,
+      position: { board, turn: 'r', halfmoveClock: 0, fullmove: 1 },
+      positionHashes: ['seed'],
+      moves: [],
+      phase: 'playing',
+      result: { status: 'playing' },
+      startedAt: now,
+      updatedAt: now,
+      elapsedMs: 0,
+    };
+
+    await new Promise<void>((resolve, reject) => {
+      const request = indexedDB.open('qilian', 1);
+      request.onupgradeneeded = () => {
+        const database = request.result;
+        if (!database.objectStoreNames.contains('currentGame')) {
+          database.createObjectStore('currentGame', { keyPath: 'key' });
+        }
+        if (!database.objectStoreNames.contains('games')) {
+          database.createObjectStore('games', { keyPath: 'id' });
+        }
+        if (!database.objectStoreNames.contains('training')) {
+          database.createObjectStore('training', { keyPath: 'key' });
+        }
+      };
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => {
+        const database = request.result;
+        const transaction = database.transaction('currentGame', 'readwrite');
+        transaction.objectStore('currentGame').put({ key: 'current', game });
+        transaction.oncomplete = () => {
+          database.close();
+          resolve();
+        };
+        transaction.onerror = () => reject(transaction.error);
+      };
+    });
+  });
+  await page.reload();
+
+  await expect(page.locator('#mobile-lobby-title')).toHaveClass(/sr-only/);
+  await expect(page.getByRole('button', { name: '继续对局' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '创建快捷方式' })).toBeVisible();
+  const actionBox = await page.locator('.mobile-lobby-float-stack .mobile-lobby-app-actions').boundingBox();
+  const primaryBox = await page.locator('.mobile-lobby-float-cta-row').boundingBox();
+  const boardBox = await page.locator('.mobile-board-stage').boundingBox();
+  expect((primaryBox?.y ?? 0) - ((actionBox?.y ?? 0) + (actionBox?.height ?? 0))).toBeGreaterThanOrEqual(8);
+  expect(actionBox?.y ?? 0).toBeGreaterThan(boardBox?.y ?? 0);
+  await context.close();
+});
