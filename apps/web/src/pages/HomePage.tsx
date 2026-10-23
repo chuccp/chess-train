@@ -343,8 +343,7 @@ export function HomePage() {
       <section className="section">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">训练场</span>
-            <h2>把定式练成直觉</h2>
+            <span className="eyebrow training-section-eyebrow">训练场</span>
           </div>
         </div>
 

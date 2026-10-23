@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, GraduationCap, Play, RotateCcw, ShieldCheck, Swords } from 'lucide-react';
+import { ArrowRight, Play, RotateCcw, ShieldCheck, Swords } from 'lucide-react';
 import { createInitialPosition, type Color } from '@qilian/xiangqi';
 import { Board } from './Board';
 import { MobileAppActions } from './MobileAppActions';
@@ -181,12 +181,6 @@ export function MobileGameLobby({
         </div>
       )}
 
-      <div className="mobile-lobby-foot">
-        <Link to="/train" className="btn btn-ghost btn-small mobile-lobby-train">
-          <GraduationCap size={14} aria-hidden="true" />
-          先去训练
-        </Link>
-      </div>
     </section>
   );
 }

@@ -982,6 +982,11 @@ p {
   margin-bottom: 0;
 }
 
+.training-section-eyebrow {
+  font-size: 0.84rem;
+  letter-spacing: 0.11em;
+}
+
 .quick-options {
   display: flex;
   align-items: flex-end;
@@ -4856,15 +4861,13 @@ p {
     font-size: 0.72rem;
   }
 
-  .mobile-lobby-secondary .btn,
-  .mobile-lobby-foot .btn {
+  .mobile-lobby-secondary .btn {
     background: var(--gold-soft);
     border-color: rgba(198, 154, 77, 0.62);
     color: #6b4d1f;
   }
 
-  .mobile-lobby-secondary .btn:hover,
-  .mobile-lobby-foot .btn:hover {
+  .mobile-lobby-secondary .btn:hover {
     background: #ecd9b3;
     border-color: var(--gold);
   }
@@ -4873,32 +4876,6 @@ p {
     margin: 0.55rem 0 0;
     color: var(--red-deep);
     font-size: 0.7rem;
-  }
-
-  .mobile-lobby-foot {
-    display: grid;
-    gap: 0.55rem;
-    margin-top: 0.7rem;
-    padding-top: 0.65rem;
-    border-top: 1px solid var(--line);
-    color: var(--muted);
-    font-size: 0.68rem;
-  }
-
-  .mobile-lobby-foot > span {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
-
-  .mobile-lobby-foot .lucide {
-    color: inherit;
-  }
-
-  .mobile-lobby-foot .btn {
-    width: 100%;
-    min-height: 40px;
-    font-size: 0.76rem;
   }
 
   .mobile-lobby-app-actions {
@@ -5119,10 +5096,6 @@ p {
 
   .mobile-lobby-head h1 {
     font-size: 1.85rem;
-  }
-
-  .mobile-lobby-train {
-    display: none;
   }
 
   .mobile-app-action {
