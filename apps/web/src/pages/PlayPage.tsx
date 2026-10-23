@@ -12,7 +12,6 @@ import {
   ShieldCheck,
   Swords,
   Undo2,
-  Users,
   X,
 } from 'lucide-react';
 import {
@@ -566,24 +565,6 @@ export function PlayPage() {
             >
               <RotateCcw size={18} aria-hidden="true" />
               <span>新局</span>
-            </button>
-            <button
-              type="button"
-              className="control-button"
-              onClick={() => navigate('/play?setup=1&mode=human')}
-              title="换成人人对战"
-            >
-              <Users size={18} aria-hidden="true" />
-              <span>人人</span>
-            </button>
-            <button
-              type="button"
-              className="control-button"
-              onClick={() => navigate('/play?setup=1&mode=ai')}
-              title="切换人机对战与 AI 难度"
-            >
-              <Swords size={18} aria-hidden="true" />
-              <span>人机切换</span>
             </button>
             <button
               type="button"
