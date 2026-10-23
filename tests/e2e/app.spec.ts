@@ -627,6 +627,23 @@ test('short phones keep the app actions above the fold', async ({ browser }) => 
   await context.close();
 });
 
+test('built mobile board preview keeps its backdrop blur', async ({ browser }) => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+  });
+  const page = await context.newPage();
+  await page.goto('/');
+
+  const backdropFilter = await page.locator('.board-preview').evaluate((element) => {
+    return getComputedStyle(element, '::after').backdropFilter;
+  });
+  expect(backdropFilter).not.toBe('none');
+  expect(backdropFilter).toContain('blur');
+  await context.close();
+});
+
 test('active mobile game hides the continue heading in the title row', async ({ browser }) => {
   const context = await browser.newContext({
     viewport: { width: 320, height: 844 },
