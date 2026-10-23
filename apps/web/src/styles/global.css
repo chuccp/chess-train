@@ -810,8 +810,19 @@ p {
 
 .hero-actions {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   gap: 0.65rem;
+}
+
+.hero-engine-status {
+  display: inline-flex;
+  align-items: center;
+}
+
+.hero-engine-status .engine-badge {
+  letter-spacing: 0.02em;
+  text-transform: none;
 }
 
 .hero-note {
@@ -4126,6 +4137,10 @@ p {
 }
 
 @media (max-width: 880px) {
+  .hero-engine-status {
+    display: none;
+  }
+
   .header-inner,
   .main-content,
   .site-footer {
@@ -5286,6 +5301,10 @@ p {
 
 /* Fit the desktop game board inside the browser viewport. */
 @media (min-width: 881px) {
+  .app-shell.is-home .header-inner > .engine-badge {
+    display: none;
+  }
+
   .app-shell.is-game-route .main-content {
     padding-top: 1.2rem;
   }

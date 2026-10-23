@@ -23,6 +23,7 @@ import type { Color } from '@qilian/xiangqi';
 import { useEngineStore } from '../stores/engine';
 import { useGameStore, levelLabel, resultLabel } from '../stores/game';
 import { useSettingsStore } from '../stores/settings';
+import { EngineBadge } from '../components/EngineBadge';
 import { EnginePrepCard } from '../components/EnginePrepCard';
 import { MobileGameLobby } from '../components/MobileGameLobby';
 import { listFinishedGames, listTrainingProgress } from '../lib/storage';
@@ -160,6 +161,9 @@ export function HomePage() {
               <GraduationCap size={18} aria-hidden="true" />
               去训练
             </Link>
+            <span className="hero-engine-status">
+              <EngineBadge />
+            </span>
           </div>
         </div>
 
