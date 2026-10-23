@@ -388,10 +388,12 @@ export function PlayPage() {
           返回首页
         </Link>
         <div className="play-topline-right">
-          <span className={`mobile-engine-status${engineReady ? ' is-ready' : ''}`}>
-            <i aria-hidden="true" />
-            {engineReady ? (engineBackend === 'local' ? '本地 AI' : '在线 AI') : 'AI 未连接'}
-          </span>
+          {!isHuman && (
+            <span className={`mobile-engine-status${engineReady ? ' is-ready' : ''}`}>
+              <i aria-hidden="true" />
+              {engineReady ? (engineBackend === 'local' ? '本地 AI' : '在线 AI') : 'AI 未连接'}
+            </span>
+          )}
           <span className="play-meta play-topline-meta">{metaText}</span>
         </div>
       </div>

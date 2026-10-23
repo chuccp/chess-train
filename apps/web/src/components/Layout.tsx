@@ -36,6 +36,7 @@ export function Layout() {
     location.pathname.startsWith('/train/endgame/') ||
     location.pathname.startsWith('/train/opening/') ||
     location.pathname.startsWith('/review/');
+  const hideGlobalEngineStatus = isGameRoute;
 
   return (
     <div className={`app-shell${isGameRoute ? ' is-game-route' : ''}${isTrainingPlay ? ' is-training-play' : ''}${isHome ? ' is-home' : ''}`}>
@@ -71,7 +72,7 @@ export function Layout() {
             })}
           </nav>
 
-          <EngineBadge />
+          {!hideGlobalEngineStatus && <EngineBadge />}
         </div>
       </header>
 

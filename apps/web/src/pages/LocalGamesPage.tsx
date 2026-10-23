@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Bot, ShieldCheck, Users } from 'lucide-react';
 
 const games = [
   {
@@ -52,17 +52,23 @@ export function LocalGamesPage() {
       <div className="local-games-grid">
         {games.map((game) => {
           return (
-            <Link to={game.to} className={`local-game-card local-game-${game.tone}`} key={game.to}>
+            <article className={`local-game-card local-game-${game.tone}`} key={game.to}>
               <div>
                 <span className="local-game-kicker">{game.subtitle}</span>
                 <h2>{game.title}</h2>
                 <p>{game.description}</p>
               </div>
-              <span className="local-game-action">
-                开始
-                <span aria-hidden="true">→</span>
-              </span>
-            </Link>
+              <div className="local-game-mode-actions">
+                <Link to={`${game.to}?mode=ai`} className="local-game-mode-button">
+                  <Bot size={16} aria-hidden="true" />
+                  人机
+                </Link>
+                <Link to={`${game.to}?mode=local`} className="local-game-mode-button is-local">
+                  <Users size={16} aria-hidden="true" />
+                  人人
+                </Link>
+              </div>
+            </article>
           );
         })}
       </div>

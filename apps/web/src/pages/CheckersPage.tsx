@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Flag, Loader2, RotateCcw, ShieldCheck, Undo2 } from 'lucide-react';
 import {
   CHECKERS_HOLES,
@@ -18,9 +18,7 @@ import { OpponentPicker, type OpponentMode } from '../components/OpponentPicker'
 import { checkersPosition, gridPositionKey, requestGridMove } from '../engine/adapters';
 import { useAiTurn } from '../lib/useAiTurn';
 import { formatDuration } from '../lib/format';
-import { useMobileInView } from '../lib/useMobileInView';
 import { useSettingsStore } from '../stores/settings';
-import { Robot } from '../components/Robot';
 
 type DialogAction = 'new' | 'resign' | null;
 type AiReply = { index?: number; from?: number; to?: number };
@@ -55,18 +53,22 @@ function freshGame(mode: OpponentMode = 'ai', level: 1 | 2 | 3 = 2): LocalChecke
   return { state: createCheckersInitial(), moves: [], startedAt: new Date().toISOString(), mode, level };
 }
 
-function loadGame(): LocalCheckers {
+function loadGame(requestedMode?: OpponentMode): LocalCheckers {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return freshGame();
+    if (!raw) return freshGame(requestedMode);
     const saved = JSON.parse(raw) as LocalCheckers;
     if (!saved?.state || saved.state.board?.length !== CHECKERS_HOLES.length || !Array.isArray(saved.moves)) {
-      return freshGame();
+      return freshGame(requestedMode);
     }
-    if (saved.state.turn !== 'r' && saved.state.turn !== 'b') return freshGame();
+    if (saved.state.turn !== 'r' && saved.state.turn !== 'b') return freshGame(requestedMode);
+    const savedMode: OpponentMode = saved.mode === 'local' ? 'local' : 'ai';
+    if (requestedMode && requestedMode !== savedMode) {
+      return freshGame(requestedMode, saved.level);
+    }
     return {
       ...saved,
-      mode: saved.mode === 'local' ? 'local' : 'ai',
+      mode: savedMode,
       level: saved.level === 1 || saved.level === 3 ? saved.level : 2,
     };
   } catch {
@@ -92,21 +94,24 @@ function holeLabel(index: number): string {
 }
 
 export function CheckersPage() {
-  const [game, setGame] = useState<LocalCheckers>(() => loadGame());
+  const [searchParams, setSearchParams] = useSearchParams();
+  const requestedMode = searchParams.get('mode') === 'local'
+    ? 'local'
+    : searchParams.get('mode') === 'ai'
+      ? 'ai'
+      : undefined;
+  const [game, setGame] = useState<LocalCheckers>(() => loadGame(requestedMode));
   const [selected, setSelected] = useState<number | null>(null);
   const [targets, setTargets] = useState<number[]>([]);
   const [message, setMessage] = useState<string | null>(null);
   const [dialog, setDialog] = useState<DialogAction>(null);
   const [now, setNow] = useState(Date.now());
   const [aiThinking, setAiThinking] = useState(false);
-  const [aiSince, setAiSince] = useState<number | null>(null);
   // 难度全局即时生效：设置里改了立刻影响本局 AI，不用开新局
   const preferredLevel = useSettingsStore((s) => s.preferredLevel);
   const [banMode, setBanMode] = useState(false);
 
   const finished = game.state.status.status !== 'playing';
-  const resultRef = useRef<HTMLDivElement>(null);
-  useMobileInView(resultRef, finished);
   const isAi = game.mode === 'ai';
   const lastMove = game.moves.length > 0 ? game.moves[game.moves.length - 1] : null;
   const elapsed = new Date(game.endedAt ?? now).getTime() - new Date(game.startedAt).getTime();
@@ -133,7 +138,6 @@ export function CheckersPage() {
 
   useAiTurn(isAi && !finished && game.state.turn === AI_COLOR, `${game.startedAt}:${game.moves.length}`, async () => {
     setAiThinking(true);
-    setAiSince(Date.now());
     try {
       const position = checkersPosition(game.state);
       const positionKey = gridPositionKey(position);
@@ -167,7 +171,6 @@ export function CheckersPage() {
       setMessage(error instanceof Error ? error.message : String(error));
     } finally {
       setAiThinking(false);
-      setAiSince(null);
     }
   });
 
@@ -223,7 +226,7 @@ export function CheckersPage() {
   }
 
   function undo() {
-    if (finished || game.moves.length === 0) return;
+    if (game.moves.length === 0) return;
     // 人机模式：若最后一手是 AI 走的，连退两手把回合还给玩家。
     const removeCount = isAi && game.moves[game.moves.length - 1]?.color === AI_COLOR ? 2 : 1;
     const keep = game.moves.slice(0, Math.max(0, game.moves.length - removeCount));
@@ -246,6 +249,7 @@ export function CheckersPage() {
   function changeMode(mode: OpponentMode) {
     if (mode === game.mode) return;
     setGame(freshGame(mode, preferredLevel));
+    setSearchParams({ mode }, { replace: true });
     clearSelection();
     setMessage(null);
   }
@@ -288,10 +292,12 @@ export function CheckersPage() {
           其它棋类
         </Link>
         <div className="play-topline-right">
-          <span className="mobile-engine-status is-ready">
-            <i aria-hidden="true" />
-            中国跳棋
-          </span>
+          {isAi && (
+            <span className="mobile-engine-status is-ready">
+              <i aria-hidden="true" />
+              在线 AI
+            </span>
+          )}
           <span className="play-meta">
             {isAi ? '人机对战 · 你执红' : '双人对战'} · {formatDuration(elapsed)}
           </span>
@@ -321,11 +327,6 @@ export function CheckersPage() {
             <span className="local-game-rule-chip">连跳 · 借桥 · 十子归营</span>
           </div>
 
-          <Robot
-            thinking={aiThinking}
-            seconds={aiSince ? Math.min(10, Math.floor((now - aiSince) / 1000)) : undefined}
-          />
-
           <div className="board-frame">
             <CheckersBoard
               state={game.state}
@@ -336,29 +337,28 @@ export function CheckersPage() {
               onPoint={banMode ? toggleBan : choose}
             />
             <BoardToast message={message} tone="error" onDismiss={() => setMessage(null)} />
+            {finished && (
+              <div className="result-card result-win">
+                <div className="result-mark">
+                  <ShieldCheck size={26} aria-hidden="true" />
+                </div>
+                <div>
+                  <span className="eyebrow">对局结束</span>
+                  <h2>{resultText(game.state)}</h2>
+                  <p>{game.moves.length} 手 · {formatDuration(elapsed)}</p>
+                </div>
+                <div className="result-actions">
+                  <button type="button" className="btn btn-primary" onClick={newGame}>
+                    <RotateCcw size={16} aria-hidden="true" />
+                    再来一局
+                  </button>
+                  <Link to="/local" className="btn btn-ghost">
+                    返回棋桌
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
-
-          {finished && (
-            <div className="result-card result-win" ref={resultRef}>
-              <div className="result-mark">
-                <ShieldCheck size={26} aria-hidden="true" />
-              </div>
-              <div>
-                <span className="eyebrow">对局结束</span>
-                <h2>{resultText(game.state)}</h2>
-                <p>{game.moves.length} 手 · {formatDuration(elapsed)}</p>
-              </div>
-              <div className="result-actions">
-                <button type="button" className="btn btn-primary" onClick={newGame}>
-                  <RotateCcw size={16} aria-hidden="true" />
-                  再来一局
-                </button>
-                <Link to="/local" className="btn btn-ghost">
-                  返回棋桌
-                </Link>
-              </div>
-            </div>
-          )}
 
           <p className="board-help">
             点击自己的棋子，再点空孔走一步或跳过相邻棋子；可以连续跳。
@@ -370,7 +370,7 @@ export function CheckersPage() {
             <button
               type="button"
               className="control-button"
-              disabled={finished || game.moves.length === 0}
+              disabled={game.moves.length === 0}
               onClick={undo}
             >
               <Undo2 size={18} aria-hidden="true" />
@@ -439,64 +439,6 @@ export function CheckersPage() {
             </div>
           </section>
 
-          <section className="side-card">
-            <div className="side-heading">
-              <span className="eyebrow">禁着</span>
-              <span className="side-level">{(game.manualBans ?? []).length} 个</span>
-            </div>
-            {(game.manualBans ?? []).length === 0 ? (
-              <p className="muted small">按下「禁着」后点棋盘孔位，标记任何子都不会走到的位置；再点一次解除。</p>
-            ) : (
-              <div className="local-move-list">
-                {(game.manualBans ?? []).map((hole) => (
-                  <div className="local-move-row" key={hole}>
-                    <span>{holeLabel(hole)}</span>
-                    <button type="button" className="text-button" onClick={() => toggleBan(hole)}>
-                      解除
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </section>
-
-          <section className="side-card">
-            <div className="side-heading">
-              <span className="eyebrow">规则</span>
-              <span className="side-level">简版</span>
-            </div>
-            <ul className="local-rule-list">
-              <li>每次走一枚棋子：走一格，或跳过相邻棋子。</li>
-              <li>跳过一枚棋子后可继续连跳，落点必须是空孔。</li>
-              <li>被跳过的颜色不限，自己的棋子也能借桥。</li>
-              <li>十枚棋子全部进入对面营区即胜。</li>
-              <li>无棋可走时，当前方判负。</li>
-            </ul>
-          </section>
-
-          <section className="side-card move-card">
-            <div className="side-heading">
-              <span className="eyebrow">棋谱</span>
-              <span className="side-level">{game.moves.length} 手</span>
-            </div>
-            {game.moves.length === 0 ? (
-              <p className="muted small">落子后，走法会显示在这里。</p>
-            ) : (
-              <div className="local-move-list">
-                {game.moves.map((move) => {
-                  const from = CHECKERS_HOLES[move.from]!;
-                  const to = CHECKERS_HOLES[move.to]!;
-                  return (
-                    <div className="local-move-row" key={move.ply}>
-                      <span>{move.ply}.</span>
-                      <span className={`local-move-color ${move.color}`}>{move.color === 'r' ? '红' : '黑'}</span>
-                      <span>{checkersHoleLabel(from)} → {checkersHoleLabel(to)}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </section>
         </aside>
       </div>
 

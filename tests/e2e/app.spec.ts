@@ -441,6 +441,12 @@ test('local chess shows the checkmate animation', async ({ page }) => {
   await page.goto('/local/chess');
   await expect(page.locator('.checkmate-stamp')).toBeVisible();
   await expect(page.locator('.board-checkmate')).toHaveCount(1);
+
+  const undo = page.locator('.side-controls .control-button').first();
+  await expect(undo).toBeEnabled();
+  await undo.click();
+  await expect(page.locator('.checkmate-stamp')).toBeHidden();
+  await expect(page.locator('.move-item')).toHaveCount(0);
 });
 test('local game hub lists all offline games', async ({ page }) => {
   await page.goto('/local');
@@ -448,8 +454,33 @@ test('local game hub lists all offline games', async ({ page }) => {
   await expect(page.locator('.local-game-card')).toContainText(['中国象棋', '五子棋', '斗兽棋', '跳棋', '四子棋']);
 });
 
+test('local game cards open AI or local two-player mode directly', async ({ page }) => {
+  await page.goto('/local');
+  const gomokuCard = page.locator('.local-game-card').filter({ hasText: '五子棋' });
+  await expect(gomokuCard.getByRole('link', { name: '人机' })).toHaveAttribute(
+    'href',
+    '/local/gomoku?mode=ai',
+  );
+  await expect(gomokuCard.getByRole('link', { name: '人人' })).toHaveAttribute(
+    'href',
+    '/local/gomoku?mode=local',
+  );
+
+  await gomokuCard.getByRole('link', { name: '人人' }).click();
+  await expect(page).toHaveURL(/\/local\/gomoku\?mode=local$/);
+  await expect(
+    page.locator('.opponent-picker .segmented').first().getByRole('button', { name: '双人' }),
+  ).toHaveClass(/is-selected/);
+  await expect(page.locator('.engine-badge')).toHaveCount(0);
+  await expect(page.locator('.mobile-engine-status')).toHaveCount(0);
+
+  await page.goto('/local/gomoku?mode=ai');
+  await expect(page.locator('.mobile-engine-status')).toBeVisible();
+  await expect(page.locator('.mobile-engine-status')).toContainText('在线 AI');
+});
+
 test('local gomoku places black and white stones', async ({ page }) => {
-  await page.goto('/local/gomoku');
+  await page.goto('/local/gomoku?mode=local');
   await expect(page.locator('.turn-chip')).toContainText('黑方行棋');
   await page.locator('[data-gomoku-square="112"]').click();
   await expect(page.locator('.turn-chip')).toContainText('白方行棋');
@@ -458,8 +489,49 @@ test('local gomoku places black and white stones', async ({ page }) => {
   await expect(page.locator('.gomoku-stone')).toHaveCount(2);
 });
 
+test('mobile gomoku result is centered on the board without scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.addInitScript(() => {
+    const board = Array(15 * 15).fill(null);
+    for (const index of [112, 113, 114, 115, 116]) board[index] = 'w';
+    const now = new Date().toISOString();
+    localStorage.setItem('qilian.local-gomoku.v1', JSON.stringify({
+      state: {
+        board,
+        turn: 'b',
+        status: { status: 'win', winner: 'w', line: [112, 113, 114, 115, 116], reason: 'five' },
+        lastMove: 116,
+      },
+      moves: [{ index: 112, color: 'w', ply: 1 }],
+      startedAt: now,
+      endedAt: now,
+      mode: 'local',
+      level: 2,
+    }));
+  });
+  await page.goto('/local/gomoku');
+
+  const result = page.locator('.result-card');
+  await expect(result).toBeVisible();
+  await page.waitForTimeout(300);
+  const resultBox = await result.boundingBox();
+  const board = await page.locator('.gomoku-board').boundingBox();
+  expect((resultBox?.y ?? 0) + (resultBox?.height ?? 0) / 2).toBeCloseTo(
+    (board?.y ?? 0) + (board?.height ?? 0) / 2,
+    0,
+  );
+  expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  await expect(result.getByRole('button', { name: '再来一局' })).toBeInViewport();
+
+  const undo = page.locator('.side-controls .control-button').first();
+  await expect(undo).toBeEnabled();
+  await undo.click();
+  await expect(result).toHaveCount(0);
+  await expect(page.locator('.gomoku-stone')).toHaveCount(0);
+});
+
 test('local connect four drops into a column', async ({ page }) => {
-  await page.goto('/local/connect4');
+  await page.goto('/local/connect4?mode=local');
   await expect(page.locator('.turn-chip')).toContainText('红方行棋');
   await page.locator('[data-connect4-column="3"]').first().click();
   await expect(page.locator('.turn-chip')).toContainText('黄方行棋');
@@ -468,12 +540,12 @@ test('local connect four drops into a column', async ({ page }) => {
   await expect(page.locator('.connect4-disc')).toHaveCount(2);
 });
 test('local jungle game alternates turns', async ({ page }) => {
-  await page.goto('/local/jungle');
+  await page.goto('/local/jungle?mode=local');
   await expect(page.locator('.turn-chip')).toContainText('红方行棋');
   await page.locator('[data-jungle-square="50"]').click();
   await page.locator('[data-jungle-square="43"]').click();
   await expect(page.locator('.turn-chip')).toContainText('黑方行棋');
-  await expect(page.locator('.local-move-row')).toHaveCount(1);
+  await expect(page.locator('.side-meta')).toContainText('已走 1 手');
 });
 
 test('local Chinese checkers alternates turns', async ({ page }) => {
@@ -530,7 +602,9 @@ test('large training library paginates and searches', async ({ page }) => {
 test('mobile tactics success keeps the next action in view', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/train/tactics/tactic-01');
-  await page.getByRole('button', { name: '看答案' }).click();
+  const scrollBefore = await page.evaluate(() => window.scrollY);
+  await page.locator('[data-square="49"]').click();
+  await page.locator('[data-square="48"]').click();
   const bar = page.locator('.mobile-success-bar');
   await expect(bar).toBeHidden();
   await expect(bar).toBeVisible({ timeout: 4_000 });
@@ -543,6 +617,7 @@ test('mobile tactics success keeps the next action in view', async ({ page }) =>
     (board?.y ?? 0) + (board?.height ?? 0) / 2,
     0,
   );
+  expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
 });
 
 test('tactics mistakes use a board toast instead of an inline alert', async ({ page }) => {

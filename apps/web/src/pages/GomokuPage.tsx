@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Flag, Loader2, RotateCcw, ShieldCheck, Undo2 } from 'lucide-react';
 import {
   GOMOKU_SIZE,
@@ -16,9 +16,7 @@ import { OpponentPicker, type OpponentMode } from '../components/OpponentPicker'
 import { gomokuPosition, gridPositionKey, prunePlacementBans, requestGridMove } from '../engine/adapters';
 import { useAiTurn } from '../lib/useAiTurn';
 import { formatDuration } from '../lib/format';
-import { useMobileInView } from '../lib/useMobileInView';
 import { useSettingsStore } from '../stores/settings';
-import { Robot } from '../components/Robot';
 
 type DialogAction = 'new' | 'resign' | null;
 type AiReply = { index?: number; from?: number; to?: number };
@@ -52,17 +50,21 @@ function freshGame(mode: OpponentMode = 'ai', level: 1 | 2 | 3 = 2): LocalGomoku
   return { state: createGomokuInitial(), moves: [], startedAt: new Date().toISOString(), mode, level };
 }
 
-function loadGame(): LocalGomoku {
+function loadGame(requestedMode?: OpponentMode): LocalGomoku {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return freshGame();
+    if (!raw) return freshGame(requestedMode);
     const saved = JSON.parse(raw) as LocalGomoku;
     if (!saved?.state || saved.state.board?.length !== GOMOKU_SIZE * GOMOKU_SIZE || !Array.isArray(saved.moves)) {
-      return freshGame();
+      return freshGame(requestedMode);
+    }
+    const savedMode: OpponentMode = saved.mode === 'local' ? 'local' : 'ai';
+    if (requestedMode && requestedMode !== savedMode) {
+      return freshGame(requestedMode, saved.level);
     }
     return {
       ...saved,
-      mode: saved.mode === 'local' ? 'local' : 'ai',
+      mode: savedMode,
       level: saved.level === 1 || saved.level === 3 ? saved.level : 2,
     };
   } catch {
@@ -82,19 +84,22 @@ function resultText(state: GomokuState): string {
 }
 
 export function GomokuPage() {
-  const [game, setGame] = useState<LocalGomoku>(() => loadGame());
+  const [searchParams, setSearchParams] = useSearchParams();
+  const requestedMode = searchParams.get('mode') === 'local'
+    ? 'local'
+    : searchParams.get('mode') === 'ai'
+      ? 'ai'
+      : undefined;
+  const [game, setGame] = useState<LocalGomoku>(() => loadGame(requestedMode));
   const [message, setMessage] = useState<string | null>(null);
   const [dialog, setDialog] = useState<DialogAction>(null);
   const [now, setNow] = useState(Date.now());
   const [aiThinking, setAiThinking] = useState(false);
-  const [aiSince, setAiSince] = useState<number | null>(null);
   // 难度全局即时生效：设置里改了立刻影响本局 AI，不用开新局
   const preferredLevel = useSettingsStore((s) => s.preferredLevel);
   const [banMode, setBanMode] = useState(false);
 
   const finished = game.state.status.status !== 'playing';
-  const resultRef = useRef<HTMLDivElement>(null);
-  useMobileInView(resultRef, finished);
   const isAi = game.mode === 'ai';
   const elapsed = new Date(game.endedAt ?? now).getTime() - new Date(game.startedAt).getTime();
   const turnName = game.state.turn === 'b' ? '黑方' : '白方';
@@ -117,7 +122,6 @@ export function GomokuPage() {
 
   useAiTurn(isAi && !finished && game.state.turn === AI_COLOR, `${game.startedAt}:${game.moves.length}`, async () => {
     setAiThinking(true);
-    setAiSince(Date.now());
     try {
       const position = gomokuPosition(game.state);
       const positionKey = gridPositionKey(position);
@@ -151,7 +155,6 @@ export function GomokuPage() {
       setMessage(error instanceof Error ? error.message : String(error));
     } finally {
       setAiThinking(false);
-      setAiSince(null);
     }
   });
 
@@ -186,7 +189,7 @@ export function GomokuPage() {
   }
 
   function undo() {
-    if (finished || game.moves.length === 0) return;
+    if (game.moves.length === 0) return;
     // 人机模式：若最后一手是 AI 走的，连退两手把回合还给玩家。
     const removeCount = isAi && game.moves[game.moves.length - 1]?.color === AI_COLOR ? 2 : 1;
     const keep = game.moves.slice(0, Math.max(0, game.moves.length - removeCount));
@@ -206,6 +209,7 @@ export function GomokuPage() {
   function changeMode(mode: OpponentMode) {
     if (mode === game.mode) return;
     setGame(freshGame(mode, preferredLevel));
+    setSearchParams({ mode }, { replace: true });
     setMessage(null);
   }
 
@@ -247,10 +251,12 @@ export function GomokuPage() {
           其它棋类
         </Link>
         <div className="play-topline-right">
-          <span className="mobile-engine-status is-ready">
-            <i aria-hidden="true" />
-            五子棋
-          </span>
+          {isAi && (
+            <span className="mobile-engine-status is-ready">
+              <i aria-hidden="true" />
+              在线 AI
+            </span>
+          )}
           <span className="play-meta">
             {isAi ? `人机对战 · 你执黑` : '双人对战'} · {formatDuration(elapsed)}
           </span>
@@ -280,11 +286,6 @@ export function GomokuPage() {
             <span className="local-game-rule-chip">15 × 15 · 黑先</span>
           </div>
 
-          <Robot
-            thinking={aiThinking}
-            seconds={aiSince ? Math.min(10, Math.floor((now - aiSince) / 1000)) : undefined}
-          />
-
           <div className="board-frame">
             <GomokuBoard
               state={game.state}
@@ -294,29 +295,28 @@ export function GomokuPage() {
               onPoint={banMode ? toggleBan : play}
             />
             <BoardToast message={message} tone="error" onDismiss={() => setMessage(null)} />
+            {finished && (
+              <div className="result-card result-win">
+                <div className="result-mark">
+                  <ShieldCheck size={26} aria-hidden="true" />
+                </div>
+                <div>
+                  <span className="eyebrow">对局结束</span>
+                  <h2>{resultText(game.state)}</h2>
+                  <p>{game.moves.length} 手 · {formatDuration(elapsed)}</p>
+                </div>
+                <div className="result-actions">
+                  <button type="button" className="btn btn-primary" onClick={newGame}>
+                    <RotateCcw size={16} aria-hidden="true" />
+                    再来一局
+                  </button>
+                  <Link to="/local" className="btn btn-ghost">
+                    返回棋桌
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
-
-          {finished && (
-            <div className="result-card result-win" ref={resultRef}>
-              <div className="result-mark">
-                <ShieldCheck size={26} aria-hidden="true" />
-              </div>
-              <div>
-                <span className="eyebrow">对局结束</span>
-                <h2>{resultText(game.state)}</h2>
-                <p>{game.moves.length} 手 · {formatDuration(elapsed)}</p>
-              </div>
-              <div className="result-actions">
-                <button type="button" className="btn btn-primary" onClick={newGame}>
-                  <RotateCcw size={16} aria-hidden="true" />
-                  再来一局
-                </button>
-                <Link to="/local" className="btn btn-ghost">
-                  返回棋桌
-                </Link>
-              </div>
-            </div>
-          )}
 
           <p className="board-help">点击空交叉点落子；横、竖、斜任意方向先连成五子即胜。</p>
         </section>
@@ -326,7 +326,7 @@ export function GomokuPage() {
             <button
               type="button"
               className="control-button"
-              disabled={finished || game.moves.length === 0}
+              disabled={game.moves.length === 0}
               onClick={undo}
             >
               <Undo2 size={18} aria-hidden="true" />
@@ -391,60 +391,6 @@ export function GomokuPage() {
             </div>
           </section>
 
-          <section className="side-card">
-            <div className="side-heading">
-              <span className="eyebrow">禁着</span>
-              <span className="side-level">{(game.manualBans ?? []).length} 个</span>
-            </div>
-            {(game.manualBans ?? []).length === 0 ? (
-              <p className="muted small">按下「禁着」后点棋盘格子，标记 AI 不会走的落点；再点一次解除。</p>
-            ) : (
-              <div className="local-move-list">
-                {(game.manualBans ?? []).map((index) => (
-                  <div className="local-move-row" key={index}>
-                    <span>{pointLabel(index)}</span>
-                    <button type="button" className="text-button" onClick={() => toggleBan(index)}>
-                      解除
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </section>
-
-          <section className="side-card">
-            <div className="side-heading">
-              <span className="eyebrow">规则</span>
-              <span className="side-level">简版</span>
-            </div>
-            <ul className="local-rule-list">
-              <li>15 × 15 棋盘，黑方先行。</li>
-              <li>横、竖、斜任意方向连成五子即胜。</li>
-              <li>超过五子也算连成。</li>
-              <li>棋盘下满仍无五子则和棋。</li>
-              <li>不设禁手，适合轻松对弈。</li>
-            </ul>
-          </section>
-
-          <section className="side-card move-card">
-            <div className="side-heading">
-              <span className="eyebrow">棋谱</span>
-              <span className="side-level">{game.moves.length} 手</span>
-            </div>
-            {game.moves.length === 0 ? (
-              <p className="muted small">落子后，坐标会显示在这里。</p>
-            ) : (
-              <div className="local-move-list">
-                {game.moves.map((move) => (
-                  <div className="local-move-row" key={move.ply}>
-                    <span>{move.ply}.</span>
-                    <span className={`local-move-color ${move.color}`}>{move.color === 'b' ? '黑' : '白'}</span>
-                    <span>{pointLabel(move.index)}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </section>
         </aside>
       </div>
 

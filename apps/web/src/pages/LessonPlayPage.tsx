@@ -36,7 +36,6 @@ import { getTrainingProgress, saveTrainingProgress } from '../lib/storage';
 import { formatDuration } from '../lib/format';
 import { playCue, vibrate } from '../lib/feedback';
 import { chooseTrainingDefense } from '../lib/trainingOpponent';
-import { useMobileInView } from '../lib/useMobileInView';
 import { useSettingsStore } from '../stores/settings';
 import type { TrainingProgress } from '../types';
 
@@ -89,9 +88,6 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   const startRef = useRef(Date.now());
   const completedElapsedRef = useRef(0);
   const initializedRef = useRef('');
-  const resultRef = useRef<HTMLDivElement>(null);
-
-  useMobileInView(resultRef, completed);
 
   const line = lesson?.lines.find((item) => item.id === lineId) ?? lesson?.lines[0];
   const moves = line?.moves ?? [];
@@ -623,6 +619,19 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
               tone={failed ? 'error' : 'info'}
               onDismiss={() => setMessage(null)}
             />
+            {completed && (
+              <div className="tactic-result lesson-result-card">
+                <div className="result-mark"><CheckCircle2 size={24} aria-hidden="true" /></div>
+                <div>
+                  <span className="eyebrow">{completedByWin ? '将死成功' : '挑战完成'}</span>
+                  <h2>{completedByWin ? '找到将死，完成。' : lesson.completionText}</h2>
+                  <p>
+                    {completedByWin ? '你在限定步数内完成了将死，本关已按胜利完成。' : '跟练完成。'}
+                    用了 {formatDuration(completedElapsedRef.current)}，错试 {attempts} 次，提示 {hintsUsed} 次。
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* 固定高度的状态槽：提示出现/消失不改变棋盘与整页高度，避免“页面上下一晃” */}
@@ -647,21 +656,6 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
               <span style={{ width: completedByWin ? '100%' : `${total ? Math.min(100, (stepsUsed / total) * 100) : 0}%` }} />
             </div>
           </div>
-
-          {completed && (
-            <div className="tactic-result" ref={resultRef}>
-              <div className="result-mark"><CheckCircle2 size={24} aria-hidden="true" /></div>
-              <div>
-                <span className="eyebrow">{completedByWin ? '将死成功' : '挑战完成'}</span>
-                <h2>{completedByWin ? '找到将死，完成。' : lesson.completionText}</h2>
-                <p>
-                  {completedByWin ? '你在限定步数内完成了将死，本关已按胜利完成。' : '跟练完成。'}
-                  用了 {formatDuration(completedElapsedRef.current)}，错试 {attempts} 次，提示 {hintsUsed} 次。
-                </p>
-              </div>
-            </div>
-          )}
-
 
         </section>
 

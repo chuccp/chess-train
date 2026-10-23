@@ -30,7 +30,6 @@ import { BoardToast } from '../components/BoardToast';
 import { getTrainingProgress, saveTrainingProgress } from '../lib/storage';
 import { playCue, vibrate } from '../lib/feedback';
 import { formatDuration } from '../lib/format';
-import { useMobileInView } from '../lib/useMobileInView';
 import { useSettingsStore } from '../stores/settings';
 import type { TrainingProgress } from '../types';
 
@@ -67,9 +66,6 @@ export function TacticsPlayPage() {
   const [loading, setLoading] = useState(true);
   const startRef = useRef(Date.now());
   const solvedElapsedRef = useRef(0);
-  const boardFrameRef = useRef<HTMLDivElement>(null);
-
-  useMobileInView(boardFrameRef, successBarVisible);
 
   useEffect(() => {
     setPosition(initial);
@@ -333,7 +329,7 @@ export function TacticsPlayPage() {
             </span>
           </div>
 
-          <div className="board-frame" ref={boardFrameRef}>
+          <div className="board-frame">
             <Board
               position={position}
               orientation="r"

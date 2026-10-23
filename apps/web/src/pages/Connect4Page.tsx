@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Flag, Loader2, RotateCcw, ShieldCheck, Undo2 } from 'lucide-react';
 import {
   CONNECT4_COLS,
@@ -17,9 +17,7 @@ import { OpponentPicker, type OpponentMode } from '../components/OpponentPicker'
 import { connect4Position, gridPositionKey, prunePlacementBans, requestGridMove } from '../engine/adapters';
 import { useAiTurn } from '../lib/useAiTurn';
 import { formatDuration } from '../lib/format';
-import { useMobileInView } from '../lib/useMobileInView';
 import { useSettingsStore } from '../stores/settings';
-import { Robot } from '../components/Robot';
 
 type DialogAction = 'new' | 'resign' | null;
 type AiReply = { index?: number; from?: number; to?: number };
@@ -54,21 +52,25 @@ function freshGame(mode: OpponentMode = 'ai', level: 1 | 2 | 3 = 2): LocalConnec
   return { state: createConnect4Initial(), moves: [], startedAt: new Date().toISOString(), mode, level };
 }
 
-function loadGame(): LocalConnect4 {
+function loadGame(requestedMode?: OpponentMode): LocalConnect4 {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return freshGame();
+    if (!raw) return freshGame(requestedMode);
     const saved = JSON.parse(raw) as LocalConnect4;
     if (
       !saved?.state ||
       saved.state.board?.length !== CONNECT4_ROWS * CONNECT4_COLS ||
       !Array.isArray(saved.moves)
     ) {
-      return freshGame();
+      return freshGame(requestedMode);
+    }
+    const savedMode: OpponentMode = saved.mode === 'local' ? 'local' : 'ai';
+    if (requestedMode && requestedMode !== savedMode) {
+      return freshGame(requestedMode, saved.level);
     }
     return {
       ...saved,
-      mode: saved.mode === 'local' ? 'local' : 'ai',
+      mode: savedMode,
       level: saved.level === 1 || saved.level === 3 ? saved.level : 2,
     };
   } catch {
@@ -97,19 +99,22 @@ function landingIndex(state: Connect4State, column: number): number | null {
 }
 
 export function Connect4Page() {
-  const [game, setGame] = useState<LocalConnect4>(() => loadGame());
+  const [searchParams, setSearchParams] = useSearchParams();
+  const requestedMode = searchParams.get('mode') === 'local'
+    ? 'local'
+    : searchParams.get('mode') === 'ai'
+      ? 'ai'
+      : undefined;
+  const [game, setGame] = useState<LocalConnect4>(() => loadGame(requestedMode));
   const [message, setMessage] = useState<string | null>(null);
   const [dialog, setDialog] = useState<DialogAction>(null);
   const [now, setNow] = useState(Date.now());
   const [aiThinking, setAiThinking] = useState(false);
-  const [aiSince, setAiSince] = useState<number | null>(null);
   // 难度全局即时生效：设置里改了立刻影响本局 AI，不用开新局
   const preferredLevel = useSettingsStore((s) => s.preferredLevel);
   const [banMode, setBanMode] = useState(false);
 
   const finished = game.state.status.status !== 'playing';
-  const resultRef = useRef<HTMLDivElement>(null);
-  useMobileInView(resultRef, finished);
   const isAi = game.mode === 'ai';
   const elapsed = new Date(game.endedAt ?? now).getTime() - new Date(game.startedAt).getTime();
   const turnName = game.state.turn === 'r' ? '红方' : '黄方';
@@ -132,7 +137,6 @@ export function Connect4Page() {
 
   useAiTurn(isAi && !finished && game.state.turn === AI_COLOR, `${game.startedAt}:${game.moves.length}`, async () => {
     setAiThinking(true);
-    setAiSince(Date.now());
     try {
       const position = connect4Position(game.state);
       const positionKey = gridPositionKey(position);
@@ -170,7 +174,6 @@ export function Connect4Page() {
       setMessage(error instanceof Error ? error.message : String(error));
     } finally {
       setAiThinking(false);
-      setAiSince(null);
     }
   });
 
@@ -219,7 +222,7 @@ export function Connect4Page() {
   }
 
   function undo() {
-    if (finished || game.moves.length === 0) return;
+    if (game.moves.length === 0) return;
     // 人机模式：若最后一手是 AI 走的，连退两手把回合还给玩家。
     const removeCount = isAi && game.moves[game.moves.length - 1]?.color === AI_COLOR ? 2 : 1;
     const keep = game.moves.slice(0, Math.max(0, game.moves.length - removeCount));
@@ -239,6 +242,7 @@ export function Connect4Page() {
   function changeMode(mode: OpponentMode) {
     if (mode === game.mode) return;
     setGame(freshGame(mode, preferredLevel));
+    setSearchParams({ mode }, { replace: true });
     setMessage(null);
   }
 
@@ -280,10 +284,12 @@ export function Connect4Page() {
           其它棋类
         </Link>
         <div className="play-topline-right">
-          <span className="mobile-engine-status is-ready">
-            <i aria-hidden="true" />
-            四子棋
-          </span>
+          {isAi && (
+            <span className="mobile-engine-status is-ready">
+              <i aria-hidden="true" />
+              在线 AI
+            </span>
+          )}
           <span className="play-meta">
             {isAi ? '人机对战 · 你执红' : '双人对战'} · {formatDuration(elapsed)}
           </span>
@@ -313,11 +319,6 @@ export function Connect4Page() {
             <span className="local-game-rule-chip">7 × 6 · 重力落子</span>
           </div>
 
-          <Robot
-            thinking={aiThinking}
-            seconds={aiSince ? Math.min(10, Math.floor((now - aiSince) / 1000)) : undefined}
-          />
-
           <div className="board-frame">
             <Connect4Board
               state={game.state}
@@ -327,29 +328,28 @@ export function Connect4Page() {
               onColumn={banMode ? toggleBan : drop}
             />
             <BoardToast message={message} tone="error" onDismiss={() => setMessage(null)} />
+            {finished && (
+              <div className="result-card result-win">
+                <div className="result-mark">
+                  <ShieldCheck size={26} aria-hidden="true" />
+                </div>
+                <div>
+                  <span className="eyebrow">对局结束</span>
+                  <h2>{resultText(game.state)}</h2>
+                  <p>{game.moves.length} 手 · {formatDuration(elapsed)}</p>
+                </div>
+                <div className="result-actions">
+                  <button type="button" className="btn btn-primary" onClick={newGame}>
+                    <RotateCcw size={16} aria-hidden="true" />
+                    再来一局
+                  </button>
+                  <Link to="/local" className="btn btn-ghost">
+                    返回棋桌
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
-
-          {finished && (
-            <div className="result-card result-win" ref={resultRef}>
-              <div className="result-mark">
-                <ShieldCheck size={26} aria-hidden="true" />
-              </div>
-              <div>
-                <span className="eyebrow">对局结束</span>
-                <h2>{resultText(game.state)}</h2>
-                <p>{game.moves.length} 手 · {formatDuration(elapsed)}</p>
-              </div>
-              <div className="result-actions">
-                <button type="button" className="btn btn-primary" onClick={newGame}>
-                  <RotateCcw size={16} aria-hidden="true" />
-                  再来一局
-                </button>
-                <Link to="/local" className="btn btn-ghost">
-                  返回棋桌
-                </Link>
-              </div>
-            </div>
-          )}
 
           <p className="board-help">点任意一列，棋子会落在该列最下面的空位。</p>
         </section>
@@ -359,7 +359,7 @@ export function Connect4Page() {
             <button
               type="button"
               className="control-button"
-              disabled={finished || game.moves.length === 0}
+              disabled={game.moves.length === 0}
               onClick={undo}
             >
               <Undo2 size={18} aria-hidden="true" />
@@ -424,60 +424,6 @@ export function Connect4Page() {
             </div>
           </section>
 
-          <section className="side-card">
-            <div className="side-heading">
-              <span className="eyebrow">禁着</span>
-              <span className="side-level">{(game.manualBans ?? []).length} 个</span>
-            </div>
-            {(game.manualBans ?? []).length === 0 ? (
-              <p className="muted small">按下「禁着」后点棋盘列，标记 AI 不会走的落点；再点一次解除。</p>
-            ) : (
-              <div className="local-move-list">
-                {(game.manualBans ?? []).map((index) => (
-                  <div className="local-move-row" key={index}>
-                    <span>{columnLabel(index)}</span>
-                    <button type="button" className="text-button" onClick={() => removeBan(index)}>
-                      解除
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </section>
-
-          <section className="side-card">
-            <div className="side-heading">
-              <span className="eyebrow">规则</span>
-              <span className="side-level">简版</span>
-            </div>
-            <ul className="local-rule-list">
-              <li>7 列 6 行，红方先行。</li>
-              <li>点一列，棋子落到该列最低的空位。</li>
-              <li>横、竖、斜连成四子即胜。</li>
-              <li>棋盘填满仍无四子则和棋。</li>
-              <li>没有禁手，适合轻松对弈。</li>
-            </ul>
-          </section>
-
-          <section className="side-card move-card">
-            <div className="side-heading">
-              <span className="eyebrow">棋谱</span>
-              <span className="side-level">{game.moves.length} 手</span>
-            </div>
-            {game.moves.length === 0 ? (
-              <p className="muted small">落子后，列号会显示在这里。</p>
-            ) : (
-              <div className="local-move-list">
-                {game.moves.map((move) => (
-                  <div className="local-move-row" key={move.ply}>
-                    <span>{move.ply}.</span>
-                    <span className={`local-move-color ${move.color}`}>{move.color === 'r' ? '红' : '黄'}</span>
-                    <span>第 {move.column + 1} 列</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </section>
         </aside>
       </div>
 

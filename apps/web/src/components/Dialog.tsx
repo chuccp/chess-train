@@ -36,9 +36,15 @@ export function Dialog({ open, title, children, footer, onClose, className = '' 
     >
       <div className="dialog-card">
         <div className="dialog-head">
-          <h2 id={titleId}>{title}</h2>
-          <button type="button" className="icon-button" aria-label="关闭" onClick={onClose}>
-            <X size={20} aria-hidden="true" />
+          <div className="dialog-heading">
+            <span className="dialog-seal" aria-hidden="true">棋</span>
+            <div className="dialog-title-group">
+              <span className="dialog-kicker">棋练</span>
+              <h2 id={titleId}>{title}</h2>
+            </div>
+          </div>
+          <button type="button" className="dialog-close" aria-label="关闭" onClick={onClose}>
+            <X size={18} aria-hidden="true" />
           </button>
         </div>
         <div className="dialog-body">{children}</div>
