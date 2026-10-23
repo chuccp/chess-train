@@ -289,10 +289,15 @@ export function HomePage() {
               {formatDateTime(current.updatedAt)}
             </p>
           </div>
-          <button type="button" className="btn btn-primary" onClick={openCurrent}>
-            继续
-            <ArrowRight size={16} aria-hidden="true" />
-          </button>
+          <div className="continue-actions">
+            <Link to="/play?setup=1" className="btn btn-ghost" title="换成人人对战或更换 AI 难度">
+              换个对手
+            </Link>
+            <button type="button" className="btn btn-primary" onClick={openCurrent}>
+              继续
+              <ArrowRight size={16} aria-hidden="true" />
+            </button>
+          </div>
         </section>
       )}
 
@@ -308,10 +313,15 @@ export function HomePage() {
               {current.moves.length} 手 · {formatDuration(current.elapsedMs)} · 已保存到棋谱
             </p>
           </div>
-          <button type="button" className="btn btn-dark" onClick={openCurrent}>
-            查看棋局
-            <ArrowRight size={16} aria-hidden="true" />
-          </button>
+          <div className="continue-actions">
+            <Link to="/play?setup=1" className="btn btn-ghost" title="换成人人对战或更换 AI 难度">
+              换个对手
+            </Link>
+            <button type="button" className="btn btn-dark" onClick={openCurrent}>
+              查看棋局
+              <ArrowRight size={16} aria-hidden="true" />
+            </button>
+          </div>
         </section>
       )}
 
@@ -321,10 +331,6 @@ export function HomePage() {
             <span className="eyebrow">训练场</span>
             <h2>把定式练成直觉</h2>
           </div>
-          <Link to="/train" className="text-link">
-            全部训练
-            <ArrowRight size={15} aria-hidden="true" />
-          </Link>
         </div>
 
         <div className="training-grid">

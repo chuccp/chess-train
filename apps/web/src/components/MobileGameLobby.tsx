@@ -128,7 +128,7 @@ export function MobileGameLobby({
               ? '双人对局'
               : `你执${current!.playerColor === 'r' ? '红' : '黑'} · ${levelLabel(current!.level)}`}
           </span>
-          <Link to="/play?setup=1" className="text-link">
+          <Link to="/play?setup=1" className="btn btn-ghost btn-small">
             换个对手
           </Link>
         </div>
@@ -171,7 +171,7 @@ export function MobileGameLobby({
       )}
 
       <div className="mobile-lobby-foot">
-        <Link to="/train" className="text-link">
+        <Link to="/train" className="btn btn-ghost btn-small mobile-lobby-train">
           <GraduationCap size={14} aria-hidden="true" />
           先去训练
         </Link>

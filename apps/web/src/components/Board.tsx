@@ -240,6 +240,8 @@ export function Board({
   }
 
   const legalSet = new Set(legalTargets);
+  // 最新一步的起点淡影；换边/悔棋/回放时随 lastMove 更新
+  const echoPiece = !preview && lastMove ? position.board[lastMove.to] : null;
 
   return (
     <div className={`board-shell${preview ? ' board-preview' : ''}${checkmate ? ' board-checkmate' : ''}`} role="group" aria-label={preview ? '中国象棋棋盘预览' : '中国象棋棋盘'}>
@@ -327,6 +329,25 @@ export function Board({
             <circle cx={displayPoint(lastMove.to, orientation).x} cy={displayPoint(lastMove.to, orientation).y} r="43" />
           </g>
         )}
+
+        {lastMove && echoPiece && (() => {
+          const point = displayPoint(lastMove.from, orientation);
+          const echoKey = `${lastMove.from}-${lastMove.to}-${echoPiece.color}${echoPiece.type}`;
+          return (
+            <g
+              key={`echo-${echoKey}`}
+              className={`piece piece-echo ${echoPiece.color === 'r' ? 'piece-red' : 'piece-black'}`}
+              transform={`translate(${point.x} ${point.y})`}
+              aria-hidden="true"
+            >
+              <circle r="43" className="piece-disc" />
+              <circle r="36" className="piece-ring" />
+              <text className="piece-glyph" textAnchor="middle" dominantBaseline="central">
+                {PIECE_GLYPHS[echoPiece.color][echoPiece.type]}
+              </text>
+            </g>
+          );
+        })()}
 
         {legalSet.size > 0 &&
           legalTargets.map((square) => {

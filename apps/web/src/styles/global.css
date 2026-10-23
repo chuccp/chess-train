@@ -989,6 +989,13 @@ p {
   flex: 0 0 auto;
 }
 
+.continue-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
 .continue-copy {
   flex: 1;
 }
@@ -4491,8 +4498,24 @@ p {
     font-size: 0.7rem;
   }
 
-  .mobile-lobby-secondary .text-link {
-    font-size: 0.7rem;
+  .mobile-lobby-secondary .btn {
+    flex: 0 0 auto;
+    min-height: 32px;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.72rem;
+  }
+
+  .mobile-lobby-secondary .btn,
+  .mobile-lobby-foot .btn {
+    background: var(--gold-soft);
+    border-color: rgba(198, 154, 77, 0.62);
+    color: #6b4d1f;
+  }
+
+  .mobile-lobby-secondary .btn:hover,
+  .mobile-lobby-foot .btn:hover {
+    background: #ecd9b3;
+    border-color: var(--gold);
   }
 
   .mobile-lobby-error {
@@ -4520,14 +4543,13 @@ p {
   }
 
   .mobile-lobby-foot .lucide {
-    color: var(--gold);
+    color: inherit;
   }
 
-  .mobile-lobby-foot .text-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: 0.68rem;
+  .mobile-lobby-foot .btn {
+    width: 100%;
+    min-height: 40px;
+    font-size: 0.76rem;
   }
 
   .app-shell.is-game-route .site-header,
@@ -5652,6 +5674,27 @@ p {
 
 .piece-ghost {
   pointer-events: none;
+}
+
+/* 走子后起点留下的常驻淡影，直到下一步 */
+.piece-echo {
+  pointer-events: none;
+  opacity: 0.34;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .piece-echo {
+    animation: piece-echo-in 220ms ease-out both;
+  }
+}
+
+@keyframes piece-echo-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.34;
+  }
 }
 
 .piece-rollback .piece-disc {

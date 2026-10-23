@@ -548,6 +548,15 @@ export function PlayPage() {
             </button>
             <button
               type="button"
+              className="control-button"
+              onClick={() => navigate('/play?setup=1')}
+              title="换成人人对战或更换 AI 难度"
+            >
+              <ArrowLeftRight size={18} aria-hidden="true" />
+              <span>换对手</span>
+            </button>
+            <button
+              type="button"
               className="control-button danger"
               disabled={isFinished}
               onClick={() => setDialog('resign')}
