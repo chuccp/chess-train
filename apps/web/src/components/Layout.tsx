@@ -76,7 +76,15 @@ export function Layout() {
         </div>
       </header>
 
-      <main id="main-content" className="main-content">
+      <main
+        id="main-content"
+        className={`main-content${!isGameRoute && !isHome ? ' has-content-engine-status' : ''}`}
+      >
+        {!isGameRoute && !isHome && (
+          <div className="content-engine-status">
+            <EngineBadge />
+          </div>
+        )}
         <Outlet />
       </main>
 

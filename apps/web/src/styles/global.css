@@ -311,6 +311,15 @@ p {
   width: min(1180px, calc(100% - 48px));
   margin: 0 auto;
   padding: 2.8rem 0 4rem;
+  position: relative;
+}
+
+.main-content.has-content-engine-status {
+  padding-top: 3.25rem;
+}
+
+.content-engine-status {
+  display: none;
 }
 
 .page {
@@ -5301,8 +5310,16 @@ p {
 
 /* Fit the desktop game board inside the browser viewport. */
 @media (min-width: 881px) {
-  .app-shell.is-home .header-inner > .engine-badge {
+  .header-inner > .engine-badge {
     display: none;
+  }
+
+  .content-engine-status {
+    display: flex;
+    position: absolute;
+    top: 0.75rem;
+    right: 0;
+    align-items: center;
   }
 
   .app-shell.is-game-route .main-content {
