@@ -4813,10 +4813,6 @@ p {
     font-size: 0.58rem;
   }
 
-  .mobile-app-action .lucide {
-    display: none;
-  }
-
 }
 
 @media (max-width: 340px) and (max-height: 620px) {

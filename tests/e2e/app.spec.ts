@@ -571,6 +571,16 @@ test('mobile home exposes working share and shortcut actions', async ({ browser 
   await expect(actions.getByRole('button', { name: '分享' })).toBeVisible();
   await expect(actions.getByRole('button', { name: '创建快捷方式' })).toBeVisible();
   await expect(actions.getByRole('button', { name: '创建快捷方式' })).toHaveText('创建快捷方式');
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    /^http.*\/icons\/icon-512\.png$/,
+  );
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', /^http.*\/$/);
+  await expect(page.locator('meta[name="apple-mobile-web-app-title"]')).toHaveAttribute('content', '棋练');
+  await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute(
+    'href',
+    /\/icons\/apple-touch-icon\.png$/,
+  );
   const actionBox = await actions.boundingBox();
   const primaryBox = await page.getByRole('button', { name: /和 AI 下一盘/ }).boundingBox();
   expect((primaryBox?.y ?? 0) - ((actionBox?.y ?? 0) + (actionBox?.height ?? 0))).toBeGreaterThanOrEqual(8);
@@ -619,11 +629,31 @@ test('short phones keep the app actions above the fold', async ({ browser }) => 
 
   await expect(page.getByRole('button', { name: '分享' })).toBeInViewport();
   await expect(page.getByRole('button', { name: '创建快捷方式' })).toBeInViewport();
+  await expect(page.getByRole('button', { name: '分享' }).locator('svg')).toBeVisible();
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
     ),
   ).toBe(false);
+  await context.close();
+});
+
+test('installed mobile app hides the shortcut action', async ({ browser }) => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+    userAgent:
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1',
+  });
+  const page = await context.newPage();
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'standalone', { configurable: true, value: true });
+  });
+  await page.goto('/');
+
+  await expect(page.getByRole('button', { name: '分享' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '创建快捷方式' })).toHaveCount(0);
   await context.close();
 });
 

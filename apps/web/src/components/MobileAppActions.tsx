@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Check, Share2, SquarePlus } from 'lucide-react';
+import { Share2, SquarePlus } from 'lucide-react';
 import { Dialog } from './Dialog';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
+}
+
+interface NavigatorWithRelatedApps extends Navigator {
+  getInstalledRelatedApps?: () => Promise<Array<{ id?: string; platform: string; url?: string }>>;
 }
 
 let deferredInstallPrompt: BeforeInstallPromptEvent | null = null;
@@ -62,6 +66,7 @@ export function MobileAppActions() {
 
   useEffect(() => {
     setInstallPrompt(deferredInstallPrompt);
+    const standaloneMedia = window.matchMedia('(display-mode: standalone)');
 
     function capturePrompt() {
       setInstallPrompt(deferredInstallPrompt);
@@ -74,11 +79,28 @@ export function MobileAppActions() {
       setMessage('快捷方式已创建');
     }
 
+    function syncStandalone() {
+      if (standaloneMedia.matches) setInstalled(true);
+    }
+
     window.addEventListener('qilian:install-prompt-ready', capturePrompt);
     window.addEventListener('appinstalled', markInstalled);
+    standaloneMedia.addEventListener('change', syncStandalone);
+    syncStandalone();
+
+    const relatedApps = (navigator as NavigatorWithRelatedApps).getInstalledRelatedApps;
+    if (relatedApps) {
+      void relatedApps.call(navigator).then((apps) => {
+        if (apps.length > 0) setInstalled(true);
+      }).catch(() => {
+        // Installed-app detection is optional and not available in every browser.
+      });
+    }
+
     return () => {
       window.removeEventListener('qilian:install-prompt-ready', capturePrompt);
       window.removeEventListener('appinstalled', markInstalled);
+      standaloneMedia.removeEventListener('change', syncStandalone);
     };
   }, []);
 
@@ -133,16 +155,17 @@ export function MobileAppActions() {
             <Share2 size={14} aria-hidden="true" />
             <span>分享</span>
           </button>
-          <button
-            type="button"
-            className={`mobile-app-action${installed ? ' is-installed' : ''}`}
-            onClick={() => void createShortcut()}
-            disabled={installed}
-            aria-label={installed ? '已创建快捷方式' : '创建快捷方式'}
-          >
-            {installed ? <Check size={14} aria-hidden="true" /> : <SquarePlus size={14} aria-hidden="true" />}
-            <span>{installed ? '已创建快捷方式' : '创建快捷方式'}</span>
-          </button>
+          {!installed && (
+            <button
+              type="button"
+              className="mobile-app-action"
+              onClick={() => void createShortcut()}
+              aria-label="创建快捷方式"
+            >
+              <SquarePlus size={14} aria-hidden="true" />
+              <span>创建快捷方式</span>
+            </button>
+          )}
         </div>
         <span className="mobile-app-action-message" role="status" aria-live="polite">
           {message}

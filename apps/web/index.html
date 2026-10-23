@@ -14,10 +14,37 @@
     </script>
     <meta name="theme-color" content="#10211d" />
     <meta name="description" content="棋练：和在线 AI 人机对弈，也能双人同屏；练习杀法、残局定式与开局。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="棋练" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:title" content="棋练 · 中国象棋" />
+    <meta property="og:description" content="和在线 AI 下中国象棋，也能练杀法、残局和开局。" />
+    <meta property="og:image" content="%BASE_URL%icons/icon-512.png" />
+    <meta property="og:image:alt" content="棋练中国象棋应用图标" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="棋练 · 中国象棋" />
+    <meta name="twitter:description" content="和在线 AI 下中国象棋，也能练杀法、残局和开局。" />
+    <meta name="twitter:image" content="%BASE_URL%icons/icon-512.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="棋练" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="icon" href="%BASE_URL%icons/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="%BASE_URL%icons/apple-touch-icon.png" />
+    <link rel="icon" href="%BASE_URL%icons/icon-192.png" type="image/png" sizes="192x192" />
+    <link rel="icon" href="%BASE_URL%icons/icon-512.png" type="image/png" sizes="512x512" />
+    <link rel="apple-touch-icon" sizes="180x180" href="%BASE_URL%icons/apple-touch-icon.png" />
+    <script>
+      const sharePageUrl = new URL('%BASE_URL%', window.location.origin).href;
+      const shareImageUrl = new URL('%BASE_URL%icons/icon-512.png', window.location.origin).href;
+      document.querySelector('meta[property="og:image"]').setAttribute('content', shareImageUrl);
+      document.querySelector('meta[name="twitter:image"]').setAttribute('content', shareImageUrl);
+      const shareUrl = document.createElement('meta');
+      shareUrl.setAttribute('property', 'og:url');
+      shareUrl.setAttribute('content', sharePageUrl);
+      document.head.appendChild(shareUrl);
+    </script>
     <title>棋练 · 中国象棋</title>
   </head>
   <body>
