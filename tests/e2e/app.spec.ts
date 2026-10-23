@@ -266,7 +266,7 @@ test('training board and controls fit a 1080p browser viewport', async ({ page }
   expect(controls?.x ?? 0).toBeGreaterThan((board?.x ?? 0) + (board?.width ?? 0));
 });
 
-test('lesson deviation gets an automatic rules-validated reply', async ({ page }) => {
+test('endgame deviation gets a rules-validated reply without a line warning and can be undone', async ({ page }) => {
   await page.setViewportSize({ width: 1920, height: 950 });
   await page.goto('/train/endgame/endgame-01');
   await page.waitForTimeout(400);
@@ -274,16 +274,20 @@ test('lesson deviation gets an automatic rules-validated reply', async ({ page }
   const statusBefore = await page.locator('.lesson-status').boundingBox();
   const scrollBefore = await page.evaluate(() => document.documentElement.scrollHeight);
   const scrollYBefore = await page.evaluate(() => window.scrollY);
+  const undo = page.getByRole('button', { name: '悔棋' });
+  await expect(undo).toBeDisabled();
 
-  // Deviate on the first move: free play starts, but failure is not declared yet.
+  // Deviate on the first move: no line warning is shown, but the reply stays legal.
   await page.locator('[data-square="58"]').click();
   await page.locator('[data-square="67"]').click();
   await expect(page.locator('.lesson-status')).not.toContainText('挑战失败');
   await expect(page.getByRole('button', { name: '提示' })).toBeDisabled();
-  await expect(page.locator('.turn-chip')).toContainText('自由走子');
-  await expect(page.locator('.turn-chip')).toContainText('自由走子 · 红方');
+  await expect(page.locator('.turn-chip')).toContainText('请你走这一步');
+  await expect(page.locator('.turn-chip')).not.toContainText('偏离主线');
+  await expect(page.locator('.lesson-status')).not.toContainText('偏离主线');
   await expect(page.locator('.board-toast')).toContainText('本地 AI');
   await expect(page.locator('.board-toast')).toContainText('规则库');
+  await expect(page.locator('.board-toast')).not.toContainText('偏离主线');
   await expect.poll(
     () => page.workers().some((worker) => worker.url().includes('/engines/eleeye/worker.js')),
   ).toBe(true);
@@ -297,12 +301,18 @@ test('lesson deviation gets an automatic rules-validated reply', async ({ page }
   expect(statusAfter?.height).toBe(statusBefore?.height);
   expect(scrollAfter).toBe(scrollBefore);
 
-  await expect(page.locator('.turn-chip')).toContainText('自由走子 · 红方');
   await expect(page.locator('.board-toast')).toContainText('本地 AI');
   await expect(page.locator('.lesson-status')).not.toContainText('挑战失败');
   await expect(page.locator('.lesson-rule-note')).toContainText('自研规则库');
   await expect(page.locator('.lesson-rule-note')).toContainText('不会随机替对手应手');
   await expect(page.locator('.lesson-status')).toHaveJSProperty('offsetHeight', statusBefore?.height ?? 0);
+
+  await expect(undo).toBeEnabled();
+  await undo.click();
+  await expect(page.locator('.board-toast')).toContainText('已悔棋');
+  await expect(page.locator('[data-square="58"]')).toHaveAttribute('aria-label', /红方兵/);
+  await expect(page.locator('[data-square="67"]')).toHaveAttribute('aria-label', /空位/);
+  await expect(undo).toBeDisabled();
 });
 
 test('a faster mate completes the endgame lesson', async ({ page }) => {

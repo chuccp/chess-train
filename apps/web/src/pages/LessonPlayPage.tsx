@@ -12,6 +12,7 @@ import {
   RotateCcw,
   ShieldCheck,
   Timer,
+  Undo2,
 } from 'lucide-react';
 import {
   applyMove,
@@ -41,6 +42,16 @@ import type { TrainingProgress } from '../types';
 
 interface LessonPlayPageProps {
   kind: 'endgame' | 'opening';
+}
+
+interface LessonUndoPoint {
+  position: Position;
+  ply: number;
+  freeMode: boolean;
+  freeUsed: number;
+  failed: boolean;
+  attempts: number;
+  lastMove: { from: number; to: number } | null;
 }
 
 const FREE_PLAY_MESSAGE =
@@ -85,6 +96,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   const [elapsed, setElapsed] = useState(0);
   const [loadedProgress, setLoadedProgress] = useState<TrainingProgress | null>(null);
   const [loading, setLoading] = useState(true);
+  const [undoPoints, setUndoPoints] = useState<LessonUndoPoint[]>([]);
   const startRef = useRef(Date.now());
   const completedElapsedRef = useRef(0);
   const initializedRef = useRef('');
@@ -114,6 +126,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setFreeMode(false);
     setFreeUsed(0);
     setFailed(false);
+    setUndoPoints([]);
     setElapsed(0);
     startRef.current = Date.now();
     completedElapsedRef.current = 0;
@@ -180,7 +193,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
           } else {
             setAutoMoving(false);
             setFailed(true);
-            setMessage('自研规则库没有找到可用的防守应手，本局暂停。可以重来。');
+            setMessage('自研规则库没有找到可用的防守应手，本局暂停。可以悔棋或重来。');
           }
           return;
         }
@@ -190,7 +203,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
         if (!reply || !result?.ok) {
           setAutoMoving(false);
           setFailed(true);
-          setMessage('自研规则库返回的应手未通过规则校验，本局暂停。可以重来。');
+          setMessage('自研规则库返回的应手未通过规则校验，本局暂停。可以悔棋或重来。');
           return;
         }
         const nextUsed = Math.min(total, freeUsed + 1);
@@ -203,13 +216,13 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
         const end = evaluateBoard(result.position, { positionHashes: [] });
         if (end.status === 'win' && end.winner !== lesson.userColor) {
           setFailed(true);
-          setMessage('对手已形成将死，本局挑战失败。可以重来或自由复盘。');
+          setMessage('对手已形成将死，本局挑战失败。可以悔棋或重来。');
         } else if (end.status === 'draw') {
           setFailed(true);
-          setMessage('局面已和棋，未能在限定步数内将死，本局挑战失败。可以重来。');
+          setMessage('局面已和棋，未能在限定步数内将死，本局挑战失败。可以悔棋或重来。');
         } else if (nextUsed >= total) {
           setFailed(true);
-          setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以重来。');
+          setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以悔棋或重来。');
         } else {
           setMessage(
             defense.engine === 'eleeye'
@@ -342,6 +355,60 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     void saveTrainingProgress(record);
   }
 
+  function rememberUndoPoint() {
+    if (kind !== 'endgame' || !position) return;
+    setUndoPoints((points) => [
+      ...points,
+      {
+        position,
+        ply,
+        freeMode,
+        freeUsed,
+        failed,
+        attempts,
+        lastMove,
+      },
+    ]);
+  }
+
+  function undoLastMove() {
+    if (kind !== 'endgame' || completed || autoMoving) return;
+    const previous = undoPoints[undoPoints.length - 1];
+    if (!previous) return;
+
+    setUndoPoints((points) => points.slice(0, -1));
+    setPosition(previous.position);
+    setPly(previous.ply);
+    setFreeMode(previous.freeMode);
+    setFreeUsed(previous.freeUsed);
+    setFailed(previous.failed);
+    setAttempts(previous.attempts);
+    setLastMove(previous.lastMove);
+    setSelected(null);
+    setTargets([]);
+    setHint(null);
+    setAutoMoving(false);
+    setMessage('已悔棋，可以重新选择这一步。');
+    feedback('move');
+
+    if (!lesson || loadedProgress?.status === 'completed') return;
+    const record: TrainingProgress = {
+      key: `${kind}:${lesson.id}`,
+      itemId: lesson.id,
+      kind,
+      status: 'in_progress',
+      lineId: line?.id,
+      completedLineIds: loadedProgress?.completedLineIds ?? [],
+      ply: previous.ply,
+      attempts: previous.attempts,
+      hintsUsed,
+      elapsedMs: Date.now() - startRef.current,
+      updatedAt: new Date().toISOString(),
+    };
+    setLoadedProgress(record);
+    void saveTrainingProgress(record);
+  }
+
   function handlePoint(square: number) {
     if (!position || completed || autoMoving) return;
     if (position.turn !== userColor) return;
@@ -385,6 +452,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
         setMessage(free.message);
         return;
       }
+      rememberUndoPoint();
       setPosition(free.position);
       setSelected(null);
       setTargets([]);
@@ -393,7 +461,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       feedback(free.givesCheck ? 'check' : free.move.captured ? 'capture' : 'move');
 
       if (failed) {
-        setMessage('自由练习中：本局已判定失败，不会记为完成。点「重来」可以重新挑战。');
+        setMessage('本局已暂停，不会记为完成。可以悔棋或重来。');
         return;
       }
 
@@ -407,9 +475,9 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       setFreeUsed(used);
       if (used >= total) {
         setFailed(true);
-        setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以重来。');
+        setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以悔棋或重来。');
       } else {
-        setMessage(FREE_PLAY_MESSAGE);
+        setMessage(kind === 'opening' ? FREE_PLAY_MESSAGE : null);
       }
       return;
     }
@@ -420,6 +488,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     if (actual !== expected) {
       // 不限制用户尝试：偏离主线后进入自由走子，并明确规则库能判断什么。
       const result = applyMove(position, selected, square);
+      if (result.ok) rememberUndoPoint();
       setSelected(null);
       setTargets([]);
       setHint(null);
@@ -441,9 +510,9 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       setFreeUsed(used);
       if (used >= total) {
         setFailed(true);
-        setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以重来。');
+        setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以悔棋或重来。');
       } else {
-        setMessage(FREE_PLAY_MESSAGE);
+        setMessage(kind === 'opening' ? FREE_PLAY_MESSAGE : null);
       }
       if (result.ok) {
         feedback(result.givesCheck ? 'check' : result.move.captured ? 'capture' : 'move');
@@ -461,6 +530,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       setMessage(result.message);
       return;
     }
+    rememberUndoPoint();
     const nextPly = ply + 1;
     setPosition(result.position);
     setPly(nextPly);
@@ -518,6 +588,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setFreeMode(false);
     setFreeUsed(0);
     setFailed(false);
+    setUndoPoints([]);
     setAutoMoving(false);
     setAttempts(0);
     setHintsUsed(0);
@@ -544,6 +615,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setFreeMode(false);
     setFreeUsed(0);
     setFailed(false);
+    setUndoPoints([]);
     setAutoMoving(false);
     setElapsed(0);
     startRef.current = Date.now();
@@ -590,8 +662,14 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
                 ? completedByWin ? '将死成功' : '挑战完成'
                 : autoMoving
                   ? '对手应手…'
-                  : freeMode || failed
-                    ? `自由走子 · ${boardPosition.turn === 'r' ? '红方' : '黑方'}`
+                  : failed
+                    ? kind === 'endgame'
+                      ? '本局已暂停'
+                      : `自由走子 · ${boardPosition.turn === 'r' ? '红方' : '黑方'}`
+                    : freeMode
+                      ? kind === 'endgame'
+                        ? userTurn ? '请你走这一步' : '等待对手'
+                        : `自由走子 · ${boardPosition.turn === 'r' ? '红方' : '黑方'}`
                     : userTurn
                       ? '请你走这一步'
                       : '等待演示'}
@@ -644,7 +722,9 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
               ? completedByWin
                 ? '将死成功，本关已完成。'
                 : '挑战完成，本关已完成。'
-              : '主线中对手按固定应手；可自由尝试，规则库只校验合法性与终局。'}
+              : kind === 'endgame'
+                ? '按你的思路走子；规则库负责合法着法、将军与终局判定。'
+                : '主线中对手按固定应手；可自由尝试，规则库只校验合法性与终局。'}
           </div>
 
           <div className="line-progress">
@@ -661,6 +741,17 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
 
         <aside className="play-side">
           <div className="board-controls side-controls">
+            {kind === 'endgame' && (
+              <button
+                type="button"
+                className="control-button"
+                disabled={undoPoints.length === 0 || completed || autoMoving}
+                onClick={undoLastMove}
+              >
+                <Undo2 size={18} aria-hidden="true" />
+                <span>悔棋</span>
+              </button>
+            )}
             <button type="button" className="control-button" disabled={completed || freeMode || failed || autoMoving} onClick={showHint}>
               <Lightbulb size={18} aria-hidden="true" />
               <span>提示</span>
