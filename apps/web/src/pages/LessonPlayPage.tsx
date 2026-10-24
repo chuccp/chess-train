@@ -45,14 +45,17 @@ interface LessonUndoPoint {
   position: Position;
   ply: number;
   freeMode: boolean;
+  deviationPending: boolean;
   freeUsed: number;
   failed: boolean;
   attempts: number;
   lastMove: { from: number; to: number } | null;
 }
 
-const FREE_PLAY_MESSAGE =
-  '已偏离主线，继续自由走子；自研规则库校验合法性与终局，对手不随机应手。';
+const OPENING_DEVIATION_MESSAGE =
+  '这步不在主线。可以悔棋后点击提示获取下一步；继续走棋将进入自由对弈。';
+const OPENING_FREE_MODE_MESSAGE =
+  '已进入自由对弈模式，后续按人机对弈方式继续。';
 
 function positionAt(fen: string, moves: string[], count: number): Position {
   let position = parseFen(fen);
@@ -87,6 +90,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   const [completed, setCompleted] = useState(false);
   const [completedByWin, setCompletedByWin] = useState(false);
   const [freeMode, setFreeMode] = useState(false);
+  const [deviationPending, setDeviationPending] = useState(false);
   const [freeUsed, setFreeUsed] = useState(0);
   const [failed, setFailed] = useState(false);
   const [autoMoving, setAutoMoving] = useState(false);
@@ -121,6 +125,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setCompleted(false);
     setCompletedByWin(false);
     setFreeMode(false);
+    setDeviationPending(false);
     setFreeUsed(0);
     setFailed(false);
     setUndoPoints([]);
@@ -171,7 +176,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   // use a deterministic, rules-validated defensive search for the opponent.
   useEffect(() => {
     if (!lesson || !line || !position || completed || failed || loading) return;
-    if (!freeMode && ply >= total) return;
+    if (!freeMode && !deviationPending && ply >= total) return;
     if (position.turn === lesson.userColor) return;
     if (autoMoving) return;
 
@@ -179,7 +184,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     let cancelled = false;
     const timer = window.setTimeout(() => {
       void (async () => {
-      if (freeMode) {
+      if (freeMode || deviationPending) {
         const defense = await chooseTrainingDefense(position, lesson.userColor, lesson.level);
         if (cancelled) return;
         if (!defense) {
@@ -263,7 +268,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       setAutoMoving(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lesson, line, position, ply, total, completed, freeMode, freeUsed, failed, loading]);
+  }, [lesson, line, position, ply, total, completed, freeMode, deviationPending, freeUsed, failed, loading]);
 
   if (!lesson) {
     return (
@@ -287,7 +292,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     const end = evaluateBoard(next, { positionHashes: [] });
     return end.status === 'win' && end.winner === userColor;
   };
-  const stepsUsed = Math.min(total, freeMode ? freeUsed : ply);
+  const stepsUsed = Math.min(total, freeMode || deviationPending ? freeUsed : ply);
 
   function feedback(cue: 'move' | 'capture' | 'check' | 'win' | 'error') {
     if (settings.sound) playCue(cue);
@@ -350,13 +355,14 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   }
 
   function rememberUndoPoint() {
-    if (kind !== 'endgame' || !position) return;
+    if (!position) return;
     setUndoPoints((points) => [
       ...points,
       {
         position,
         ply,
         freeMode,
+        deviationPending,
         freeUsed,
         failed,
         attempts,
@@ -366,7 +372,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   }
 
   function undoLastMove() {
-    if (kind !== 'endgame' || completed || autoMoving) return;
+    if (completed || autoMoving) return;
     const previous = undoPoints[undoPoints.length - 1];
     if (!previous) return;
 
@@ -374,6 +380,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setPosition(previous.position);
     setPly(previous.ply);
     setFreeMode(previous.freeMode);
+    setDeviationPending(previous.deviationPending);
     setFreeUsed(previous.freeUsed);
     setFailed(previous.failed);
     setAttempts(previous.attempts);
@@ -440,7 +447,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       return;
     }
 
-    if (freeMode) {
+    if (freeMode || deviationPending) {
       const free = applyMove(position, selected, square);
       if (!free.ok) {
         setMessage(free.message);
@@ -471,8 +478,12 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       if (kind !== 'endgame' && used >= total) {
         setFailed(true);
         setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以悔棋或重来。');
+      } else if (deviationPending) {
+        setDeviationPending(false);
+        setFreeMode(true);
+        setMessage(OPENING_FREE_MODE_MESSAGE);
       } else {
-        setMessage(kind === 'opening' ? FREE_PLAY_MESSAGE : null);
+        setMessage(null);
       }
       return;
     }
@@ -483,11 +494,15 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     if (actual !== expected) {
       // 不限制用户尝试：偏离主线后进入自由走子，并明确规则库能判断什么。
       const result = applyMove(position, selected, square);
-      if (result.ok) rememberUndoPoint();
+      if (!result.ok) {
+        setMessage(result.message);
+        return;
+      }
+      rememberUndoPoint();
       setSelected(null);
       setTargets([]);
       setHint(null);
-      if (result.ok && hasWon(result.position)) {
+      if (hasWon(result.position)) {
         setPosition(result.position);
         setLastMove({ from: result.move.from, to: result.move.to });
         setPly(ply + 1);
@@ -496,22 +511,22 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       }
       const nextAttempts = attempts + 1;
       setAttempts(nextAttempts);
-      setFreeMode(true);
-      if (result.ok) {
-        setPosition(result.position);
-        setLastMove({ from: result.move.from, to: result.move.to });
-      }
+      setPosition(result.position);
+      setLastMove({ from: result.move.from, to: result.move.to });
       const used = kind === 'endgame' ? ply + 1 : Math.min(total, ply + 1);
       setFreeUsed(used);
       if (kind !== 'endgame' && used >= total) {
         setFailed(true);
         setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以悔棋或重来。');
+      } else if (kind === 'endgame') {
+        setFreeMode(true);
+        setDeviationPending(false);
+        setMessage(null);
       } else {
-        setMessage(kind === 'opening' ? FREE_PLAY_MESSAGE : null);
+        setDeviationPending(true);
+        setMessage(OPENING_DEVIATION_MESSAGE);
       }
-      if (result.ok) {
-        feedback(result.givesCheck ? 'check' : result.move.captured ? 'capture' : 'move');
-      }
+      feedback(result.givesCheck ? 'check' : result.move.captured ? 'capture' : 'move');
       setLoadedProgress((record) =>
         record
           ? { ...record, attempts: nextAttempts, updatedAt: new Date().toISOString() }
@@ -541,7 +556,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   }
 
   function showHint() {
-    if (completed || freeMode || failed || !lesson) return;
+    if (completed || freeMode || deviationPending || failed || !lesson) return;
     const expected = moves[ply]?.ucci;
     if (!expected) return;
     const parsed = parseUcci(expected);
@@ -581,6 +596,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setCompleted(false);
     setCompletedByWin(false);
     setFreeMode(false);
+    setDeviationPending(false);
     setFreeUsed(0);
     setFailed(false);
     setUndoPoints([]);
@@ -608,6 +624,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setCompleted(false);
     setCompletedByWin(false);
     setFreeMode(false);
+    setDeviationPending(false);
     setFreeUsed(0);
     setFailed(false);
     setUndoPoints([]);
@@ -652,7 +669,9 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
                 ? completedByWin ? '将死成功' : '挑战完成'
                 : autoMoving
                   ? '对手应手…'
-                  : failed
+                  : deviationPending
+                    ? '偏离主线 · 可悔棋或继续'
+                    : failed
                     ? kind === 'endgame'
                       ? '本局已暂停'
                       : `自由走子 · ${boardPosition.turn === 'r' ? '红方' : '黑方'}`
@@ -724,7 +743,15 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
           {kind === 'opening' && (
             <div className="line-progress">
               <div className="line-progress-label">
-                <span>{completedByWin ? '将死成功' : freeMode ? '本关进度' : (line?.label ?? '主线')}</span>
+                <span>
+                  {completedByWin
+                    ? '将死成功'
+                    : deviationPending
+                      ? '偏离主线'
+                      : freeMode
+                        ? '本关进度'
+                        : (line?.label ?? '主线')}
+                </span>
                 <span>{completedByWin ? '已完成' : `${stepsUsed} / ${total} 步`}</span>
               </div>
               <div className="progress-track">
@@ -737,18 +764,21 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
 
         <aside className="play-side">
           <div className="board-controls side-controls">
-            {kind === 'endgame' && (
-              <button
-                type="button"
-                className="control-button"
-                disabled={undoPoints.length === 0 || completed || autoMoving}
-                onClick={undoLastMove}
-              >
-                <Undo2 size={18} aria-hidden="true" />
-                <span>悔棋</span>
-              </button>
-            )}
-            <button type="button" className="control-button" disabled={completed || freeMode || failed || autoMoving} onClick={showHint}>
+            <button
+              type="button"
+              className="control-button"
+              disabled={undoPoints.length === 0 || completed || autoMoving}
+              onClick={undoLastMove}
+            >
+              <Undo2 size={18} aria-hidden="true" />
+              <span>悔棋</span>
+            </button>
+            <button
+              type="button"
+              className="control-button"
+              disabled={completed || freeMode || deviationPending || failed || autoMoving}
+              onClick={showHint}
+            >
               <Lightbulb size={18} aria-hidden="true" />
               <span>提示</span>
             </button>

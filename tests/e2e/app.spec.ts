@@ -581,12 +581,34 @@ test('opening training follows the line with one automatic side', async ({ page 
   await page.goto('/train/opening/opening-classic-01');
   await expect(page.locator('.turn-chip')).toContainText('请你走这一步');
   await expect(page.locator('.lesson-flow-note')).toContainText('黑方按预设应手');
-  // A legal but non-line move is allowed and switches to rule-validated free play.
+  const undo = page.getByRole('button', { name: '悔棋' });
+  await expect(undo).toBeDisabled();
+
+  // The first non-line move warns before switching to human-vs-AI free play.
   await page.locator('[data-square="29"]').click();
   await page.locator('[data-square="38"]').click();
-  await expect(page.locator('.line-progress-label')).toContainText('2 / 20 步');
+  await expect(page.locator('.turn-chip')).toContainText('偏离主线 · 可悔棋或继续');
+  await expect(page.locator('.line-progress-label')).toContainText('偏离主线');
+  await expect(page.locator('.board-toast')).toContainText('可以悔棋后点击提示获取下一步');
+  await expect(page.getByRole('button', { name: '提示' })).toBeDisabled();
+
+  // Undo restores the line, then hint exposes the expected next move.
+  await expect(undo).toBeEnabled();
+  await undo.click();
+  await expect(page.locator('.board-toast')).toContainText('已悔棋');
+  await expect(page.locator('.turn-chip')).toContainText('请你走这一步');
+  await expect(page.getByRole('button', { name: '提示' })).toBeEnabled();
+  await page.getByRole('button', { name: '提示' }).click();
+  await expect(page.locator('.board-toast')).toContainText('金色箭头');
+
+  // Continuing instead of undoing enters the normal AI free-play mode.
+  await page.locator('[data-square="29"]').click();
+  await page.locator('[data-square="38"]').click();
+  await expect(page.locator('.turn-chip')).toContainText('偏离主线 · 可悔棋或继续');
+  await page.locator('[data-square="25"]').click();
+  await page.locator('[data-square="22"]').click();
+  await expect(page.locator('.board-toast')).toContainText('已进入自由对弈模式');
   await expect(page.locator('.turn-chip')).toContainText('自由走子 · 红方');
-  await expect(page.locator('.board-toast')).toContainText('偏离主线');
 
   // Restarting restores the scripted line and its automatic reply.
   await page.getByRole('button', { name: '重来' }).click();
