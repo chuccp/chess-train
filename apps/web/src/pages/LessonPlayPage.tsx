@@ -226,9 +226,6 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
               ? '局面已和棋，本局挑战失败。可以悔棋或重来。'
               : '局面已和棋，未能在限定步数内将死，本局挑战失败。可以悔棋或重来。',
           );
-        } else if (kind !== 'endgame' && nextUsed >= total) {
-          setFailed(true);
-          setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以悔棋或重来。');
         }
         return;
       }
@@ -475,10 +472,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
 
       const used = kind === 'endgame' ? freeUsed + 1 : Math.min(total, freeUsed + 1);
       setFreeUsed(used);
-      if (kind !== 'endgame' && used >= total) {
-        setFailed(true);
-        setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以悔棋或重来。');
-      } else if (deviationPending) {
+      if (deviationPending) {
         setDeviationPending(false);
         setFreeMode(true);
         setMessage(OPENING_FREE_MODE_MESSAGE);
@@ -515,10 +509,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       setLastMove({ from: result.move.from, to: result.move.to });
       const used = kind === 'endgame' ? ply + 1 : Math.min(total, ply + 1);
       setFreeUsed(used);
-      if (kind !== 'endgame' && used >= total) {
-        setFailed(true);
-        setMessage('步数已用完，未能在限定步数内将死，挑战失败。可以悔棋或重来。');
-      } else if (kind === 'endgame') {
+      if (kind === 'endgame') {
         setFreeMode(true);
         setDeviationPending(false);
         setMessage(null);
@@ -650,6 +641,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   }
 
   const boardPosition = position ?? initial;
+  const isOpeningFreePlay = kind === 'opening' && freeMode;
 
   return (
     <div className="page training-play-page lesson-play-page">
@@ -726,21 +718,23 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
           </div>
 
           {/* 固定高度的状态槽：提示出现/消失不改变棋盘与整页高度，避免“页面上下一晃” */}
-          <div
-            className={`inline-alert lesson-status${completed ? ' is-success' : ' is-hint'}${failed ? ' inline-alert-error' : ''}`}
-            role="status"
-            aria-live="polite"
-          >
-            {completed
-              ? completedByWin
-                ? '将死成功，本关已完成。'
-                : '挑战完成，本关已完成。'
-              : kind === 'endgame'
-                ? '按你的思路走子；规则库负责合法着法、将军与终局判定。'
-                : '主线中对手按固定应手；可自由尝试，规则库只校验合法性与终局。'}
-          </div>
+          {!isOpeningFreePlay && (
+            <div
+              className={`inline-alert lesson-status${completed ? ' is-success' : ' is-hint'}${failed ? ' inline-alert-error' : ''}`}
+              role="status"
+              aria-live="polite"
+            >
+              {completed
+                ? completedByWin
+                  ? '将死成功，本关已完成。'
+                  : '挑战完成，本关已完成。'
+                : kind === 'endgame'
+                  ? '按你的思路走子；规则库负责合法着法、将军与终局判定。'
+                  : '主线中对手按固定应手；可自由尝试，规则库只校验合法性与终局。'}
+            </div>
+          )}
 
-          {kind === 'opening' && (
+          {kind === 'opening' && !freeMode && (
             <div className="line-progress">
               <div className="line-progress-label">
                 <span>
@@ -773,15 +767,17 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
               <Undo2 size={18} aria-hidden="true" />
               <span>悔棋</span>
             </button>
-            <button
-              type="button"
-              className="control-button"
-              disabled={completed || freeMode || deviationPending || failed || autoMoving}
-              onClick={showHint}
-            >
-              <Lightbulb size={18} aria-hidden="true" />
-              <span>提示</span>
-            </button>
+            {!isOpeningFreePlay && (
+              <button
+                type="button"
+                className="control-button"
+                disabled={completed || freeMode || deviationPending || failed || autoMoving}
+                onClick={showHint}
+              >
+                <Lightbulb size={18} aria-hidden="true" />
+                <span>提示</span>
+              </button>
+            )}
             <button type="button" className="control-button" onClick={reset}>
               <RotateCcw size={18} aria-hidden="true" />
               <span>重来</span>
@@ -808,7 +804,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
             <h1 className="exercise-title">{lesson.title}</h1>
             <p className="exercise-subtitle">{lesson.subtitle}</p>
             <p className="lesson-intro">{lesson.intro}</p>
-            {kind === 'opening' && (
+            {kind === 'opening' && !freeMode && (
               <p className="muted small lesson-flow-note">
                 你走红方，主线中黑方按预设应手；也可以自由尝试，偏离后由自研规则库校验。
               </p>

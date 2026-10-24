@@ -609,6 +609,10 @@ test('opening training follows the line with one automatic side', async ({ page 
   await page.locator('[data-square="22"]').click();
   await expect(page.locator('.board-toast')).toContainText('已进入自由对弈模式');
   await expect(page.locator('.turn-chip')).toContainText('自由走子 · 红方');
+  await expect(page.locator('.lesson-status')).toHaveCount(0);
+  await expect(page.locator('.line-progress')).toHaveCount(0);
+  await expect(page.locator('.lesson-flow-note')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '提示' })).toHaveCount(0);
 
   // Restarting restores the scripted line and its automatic reply.
   await page.getByRole('button', { name: '重来' }).click();
@@ -616,6 +620,8 @@ test('opening training follows the line with one automatic side', async ({ page 
   await page.locator('[data-square="22"]').click();
   await expect(page.locator('.line-progress-label')).toContainText('2 / 20 步');
   await expect(page.locator('.turn-chip')).toContainText('请你走这一步');
+  await expect(page.locator('.lesson-flow-note')).toBeVisible();
+  await expect(page.getByRole('button', { name: '提示' })).toBeVisible();
 });
 test('large training library paginates and searches', async ({ page }) => {
   await page.goto('/train/endgame');
