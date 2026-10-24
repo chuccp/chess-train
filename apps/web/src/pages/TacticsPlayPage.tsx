@@ -4,7 +4,6 @@ import {
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
-  Eye,
   Lightbulb,
   RotateCcw,
   Target,
@@ -33,7 +32,7 @@ import { formatDuration } from '../lib/format';
 import { useSettingsStore } from '../stores/settings';
 import type { TrainingProgress } from '../types';
 
-type Phase = 'solving' | 'solved' | 'revealed';
+type Phase = 'solving' | 'solved';
 
 export function TacticsPlayPage() {
   const { id = '' } = useParams();
@@ -142,7 +141,7 @@ export function TacticsPlayPage() {
     if (settings.haptics) vibrate(kind === 'error' ? [20, 30, 20] : 10);
   }
 
-  async function persist(completed: boolean, revealed: boolean, finalNotation?: string) {
+  async function persist(completed: boolean) {
     if (!exercise) return;
     const finalElapsed = solvedElapsedRef.current || (completed ? Date.now() - startRef.current : elapsed);
     if (completed) solvedElapsedRef.current = finalElapsed;
@@ -155,8 +154,8 @@ export function TacticsPlayPage() {
       attempts: attempts + (completed ? 1 : 0),
       hintsUsed: hints,
       elapsedMs: finalElapsed,
-      revealedAnswer: revealed,
-      independentSolve: completed && !revealed && hints === 0,
+      revealedAnswer: false,
+      independentSolve: completed && hints === 0,
       updatedAt: new Date().toISOString(),
       completedAt: completed ? new Date().toISOString() : undefined,
       completedLineIds: [],
@@ -239,27 +238,7 @@ export function TacticsPlayPage() {
     setSolvedNotation(result.notation);
     setMessage(null);
     feedback('win');
-    void persist(true, false, result.notation);
-  }
-
-  function reveal() {
-    if (!position || !exercise || isSolved) return;
-    const first = exercise.solutions[0]?.[0];
-    if (!first) return;
-    const parsed = parseUcci(first);
-    if (!parsed) return;
-    const result = applyMove(position, parsed.from, parsed.to);
-    if (!result.ok) return;
-    solvedElapsedRef.current = Date.now() - startRef.current;
-    setPosition(result.position);
-    setSelected(null);
-    setTargets([]);
-    setLastMove({ from: parsed.from, to: parsed.to });
-    setPhase('revealed');
-    setSolvedNotation(result.notation);
-    setHint({ from: parsed.from, to: parsed.to });
-    feedback('move');
-    void persist(true, true, result.notation);
+    void persist(true);
   }
 
   function showHint() {
@@ -322,7 +301,7 @@ export function TacticsPlayPage() {
           <div className="board-toolbar">
             <div className="turn-chip">
               <span className="turn-disc r" />
-              {isSolved ? (phase === 'revealed' ? '答案已展开' : '将死成立') : '找出一步将死'}
+              {isSolved ? '将死成立' : '找出一步将死'}
             </div>
             <span className="play-meta">
               <Timer size={14} aria-hidden="true" /> {formatDuration(isSolved ? solvedElapsedRef.current : elapsed)}
@@ -348,51 +327,40 @@ export function TacticsPlayPage() {
               onDismiss={() => setMessage(null)}
             />
             {isSolved && successBarVisible && (
-              <div className="mobile-success-bar" role="status" aria-live="polite">
-                <div className="mobile-success-copy">
-                  <span className="mobile-success-icon">
-                    {phase === 'revealed' ? <Eye size={19} aria-hidden="true" /> : <CheckCircle2 size={19} aria-hidden="true" />}
-                  </span>
-                  <span>
-                    <strong>{phase === 'revealed' ? '参考答案' : '杀法成立'}</strong>
-                    <small>{solvedNotation}</small>
-                  </span>
+              <div className="tactic-result lesson-result-card" role="status" aria-live="polite">
+                <div className="result-mark">
+                  <CheckCircle2 size={24} aria-hidden="true" />
                 </div>
-                {next ? (
-                  <button type="button" className="btn btn-primary btn-small" onClick={() => navigate(`/train/tactics/${next.id}`)}>
-                    下一题
-                    <ArrowRight size={16} aria-hidden="true" />
-                  </button>
-                ) : (
-                  <Link to="/train/tactics" className="btn btn-primary btn-small">
-                    返回列表
-                    <ArrowRight size={16} aria-hidden="true" />
-                  </Link>
-                )}
+                <div>
+                  <span className="eyebrow">杀法成立</span>
+                  <h2>{solvedNotation}</h2>
+                  <p>
+                    {hints === 0
+                      ? '独立找到杀着'
+                      : '借助提示找到杀着'}
+                    ，用时 {formatDuration(solvedElapsedRef.current)}，错试 {attempts} 次，提示 {hints} 次。
+                  </p>
+                </div>
+                <div className="board-result-actions">
+                  {next ? (
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-small"
+                      onClick={() => navigate(`/train/tactics/${next.id}`)}
+                    >
+                      <ArrowRight size={15} aria-hidden="true" />
+                      下一题
+                    </button>
+                  ) : (
+                    <Link to="/train/tactics" className="btn btn-primary btn-small">
+                      <ArrowRight size={15} aria-hidden="true" />
+                      返回列表
+                    </Link>
+                  )}
+                </div>
               </div>
             )}
           </div>
-
-          {isSolved && (
-            <div className={`tactic-result ${phase === 'revealed' ? 'revealed' : ''}`}>
-              <div className="result-mark">
-                {phase === 'revealed' ? <Eye size={24} aria-hidden="true" /> : <CheckCircle2 size={24} aria-hidden="true" />}
-              </div>
-              <div>
-                <span className="eyebrow">{phase === 'revealed' ? '参考答案' : '杀法成立'}</span>
-                <h2>{solvedNotation}</h2>
-                <p>
-                  {phase === 'revealed'
-                    ? '看答案也算完成，但不会记为独立解答。'
-                    : hints === 0
-                      ? `独立找到杀着，用了 ${formatDuration(solvedElapsedRef.current)}。`
-                      : `在提示后完成，用了 ${formatDuration(solvedElapsedRef.current)}。`}
-                </p>
-              </div>
-            </div>
-          )}
-
-
         </section>
 
         <aside className="play-side">
@@ -401,24 +369,22 @@ export function TacticsPlayPage() {
               <Lightbulb size={18} aria-hidden="true" />
               <span>提示</span>
             </button>
-            <button type="button" className="control-button" disabled={isSolved} onClick={reveal}>
-              <Eye size={18} aria-hidden="true" />
-              <span>看答案</span>
-            </button>
             <button type="button" className="control-button" onClick={reset}>
               <RotateCcw size={18} aria-hidden="true" />
               <span>重做</span>
             </button>
-            {next ? (
-              <button type="button" className="control-button primary" onClick={() => navigate(`/train/tactics/${next.id}`)}>
-                <ArrowRight size={18} aria-hidden="true" />
-                <span>下一题</span>
-              </button>
-            ) : (
-              <Link to="/train/tactics" className="control-button primary">
-                <ArrowRight size={18} aria-hidden="true" />
-                <span>返回列表</span>
-              </Link>
+            {!isSolved && (
+              next ? (
+                <button type="button" className="control-button primary" onClick={() => navigate(`/train/tactics/${next.id}`)}>
+                  <ArrowRight size={18} aria-hidden="true" />
+                  <span>下一题</span>
+                </button>
+              ) : (
+                <Link to="/train/tactics" className="control-button primary">
+                  <ArrowRight size={18} aria-hidden="true" />
+                  <span>返回列表</span>
+                </Link>
+              )
             )}
           </div>
           <section className="side-card">
@@ -448,9 +414,7 @@ export function TacticsPlayPage() {
               <div className="explanation-box">
                 <span className="eyebrow">为什么</span>
                 <p>
-                  {phase === 'revealed'
-                    ? exercise.explanation
-                    : `${solvedNotation} 之后，黑将没有合法应手，形成将死。`}
+                  {`${solvedNotation} 之后，黑将没有合法应手，形成将死。`}
                 </p>
               </div>
             )}

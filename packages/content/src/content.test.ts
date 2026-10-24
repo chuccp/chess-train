@@ -3,12 +3,14 @@ import {
   START_FEN,
   applyMove,
   evaluateBoard,
+  fileOf,
   generateLegalMoves,
   hashPosition,
   isInCheck,
   moveToUcci,
   parseFen,
   parseUcci,
+  rankOf,
   type Position,
 } from '@qilian/xiangqi';
 import {
@@ -66,6 +68,25 @@ describe('starter content', () => {
           expect(count, `${lesson.id} ${color}${type}`).toBeLessThanOrEqual(max);
         }
       }
+    }
+  });
+
+  it('places every advisor on a reachable palace diagonal point', () => {
+    const legalAdvisorSquares = {
+      r: new Set(['d0', 'f0', 'e1', 'd2', 'f2']),
+      b: new Set(['d9', 'f9', 'e8', 'd7', 'f7']),
+    } as const;
+    const files = 'abcdefghi';
+    for (const item of [...tacticExercises, ...endgameLessons]) {
+      const position = parseFen(item.fen);
+      position.board.forEach((piece, square) => {
+        if (piece?.type !== 'A') return;
+        const coordinate = `${files[fileOf(square)]}${rankOf(square)}`;
+        expect(
+          legalAdvisorSquares[piece.color].has(coordinate),
+          `${item.id} ${piece.color === 'r' ? '仕' : '士'} at ${coordinate}`,
+        ).toBe(true);
+      });
     }
   });
 

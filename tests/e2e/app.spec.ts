@@ -248,12 +248,15 @@ test('stays usable after going offline', async ({ page, context }) => {
   await expect(page.locator('h1')).toContainText('把棋感练出来');
 });
 
-test('tactic answer marks the exercise completed', async ({ page }) => {
-  await waitForOfflineReady(page);
+test('tactic hint guides the move without a duplicate answer button', async ({ page }) => {
   await page.goto('/train/tactics/tactic-01');
-  await page.getByRole('button', { name: '看答案' }).click();
-  await expect(page.locator('.tactic-result')).toContainText('参考答案');
-  await expect(page.locator('.tactic-result')).toContainText('看答案也算完成');
+  await expect(page.getByRole('button', { name: '看答案' })).toHaveCount(0);
+  await page.getByRole('button', { name: '提示' }).click();
+  await expect(page.locator('.board-toast')).toContainText('金色箭头');
+  await page.locator('[data-square="49"]').click();
+  await page.locator('[data-square="48"]').click();
+  await expect(page.locator('.tactic-result')).toContainText('杀法成立');
+  await expect(page.locator('.tactic-result')).toContainText('借助提示找到杀着');
 });
 
 test('training board and controls fit a 1080p browser viewport', async ({ page }) => {
@@ -646,17 +649,19 @@ test('large training library paginates and searches', async ({ page }) => {
   await expect(page.locator('.page-heading h1')).toHaveCount(0);
   await expect(page.locator('.page-heading p')).toHaveCount(0);
 });
-test('mobile tactics success keeps the next action in view', async ({ page }) => {
+test('mobile tactic success uses one centered result card', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/train/tactics/tactic-01');
   const scrollBefore = await page.evaluate(() => window.scrollY);
   await page.locator('[data-square="49"]').click();
   await page.locator('[data-square="48"]').click();
-  const bar = page.locator('.mobile-success-bar');
-  await expect(bar).toBeHidden();
-  await expect(bar).toBeVisible({ timeout: 4_000 });
-  await expect(bar.getByRole('button', { name: /下一题/ })).toBeInViewport();
-  const box = await bar.boundingBox();
+  const result = page.locator('.tactic-result');
+  await expect(result).toHaveCount(0);
+  await expect(result).toBeVisible({ timeout: 4_000 });
+  await expect(result).toHaveCount(1);
+  await expect(result.getByRole('button', { name: /下一题/ })).toBeInViewport();
+  await expect(page.locator('.side-controls .control-button.primary')).toHaveCount(0);
+  const box = await result.boundingBox();
   expect(box?.y).toBeGreaterThanOrEqual(0);
   expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(844);
   const board = await page.locator('.board-shell').boundingBox();
