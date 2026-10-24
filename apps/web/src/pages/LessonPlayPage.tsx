@@ -713,24 +713,37 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
                     用了 {formatDuration(completedElapsedRef.current)}，错试 {attempts} 次，提示 {hintsUsed} 次。
                   </p>
                 </div>
+                <div className="board-result-actions">
+                  {next ? (
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-small"
+                      onClick={() => navigate(`/train/${kind}/${next.id}`)}
+                    >
+                      <ArrowRight size={15} aria-hidden="true" />
+                      下一节
+                    </button>
+                  ) : (
+                    <Link to={`/train/${kind}`} className="btn btn-primary btn-small">
+                      <ArrowRight size={15} aria-hidden="true" />
+                      返回列表
+                    </Link>
+                  )}
+                </div>
               </div>
             )}
           </div>
 
           {/* 固定高度的状态槽：提示出现/消失不改变棋盘与整页高度，避免“页面上下一晃” */}
-          {!isOpeningFreePlay && (
+          {!isOpeningFreePlay && !completed && (
             <div
-              className={`inline-alert lesson-status${completed ? ' is-success' : ' is-hint'}${failed ? ' inline-alert-error' : ''}`}
+              className={`inline-alert lesson-status is-hint${failed ? ' inline-alert-error' : ''}`}
               role="status"
               aria-live="polite"
             >
-              {completed
-                ? completedByWin
-                  ? '将死成功，本关已完成。'
-                  : '挑战完成，本关已完成。'
-                : kind === 'endgame'
-                  ? '按你的思路走子；规则库负责合法着法、将军与终局判定。'
-                  : '主线中对手按固定应手；可自由尝试，规则库只校验合法性与终局。'}
+              {kind === 'endgame'
+                ? '按你的思路走子；规则库负责合法着法、将军与终局判定。'
+                : '主线中对手按固定应手；可自由尝试，规则库只校验合法性与终局。'}
             </div>
           )}
 
@@ -782,16 +795,18 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
               <RotateCcw size={18} aria-hidden="true" />
               <span>重来</span>
             </button>
-            {next ? (
-              <button type="button" className="control-button primary" onClick={() => navigate(`/train/${kind}/${next.id}`)}>
-                <ArrowRight size={18} aria-hidden="true" />
-                <span>下一节</span>
-              </button>
-            ) : (
-              <Link to={`/train/${kind}`} className="control-button primary">
-                <ArrowRight size={18} aria-hidden="true" />
-                <span>返回列表</span>
-              </Link>
+            {!completed && (
+              next ? (
+                <button type="button" className="control-button primary" onClick={() => navigate(`/train/${kind}/${next.id}`)}>
+                  <ArrowRight size={18} aria-hidden="true" />
+                  <span>下一节</span>
+                </button>
+              ) : (
+                <Link to={`/train/${kind}`} className="control-button primary">
+                  <ArrowRight size={18} aria-hidden="true" />
+                  <span>返回列表</span>
+                </Link>
+              )
             )}
           </div>
           <section className="side-card">
@@ -804,11 +819,6 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
             <h1 className="exercise-title">{lesson.title}</h1>
             <p className="exercise-subtitle">{lesson.subtitle}</p>
             <p className="lesson-intro">{lesson.intro}</p>
-            {kind === 'opening' && !freeMode && (
-              <p className="muted small lesson-flow-note">
-                你走红方，主线中黑方按预设应手；也可以自由尝试，偏离后由自研规则库校验。
-              </p>
-            )}
             <div className="key-points">
               <span className="eyebrow">记住这几点</span>
               <ul className="plain-list compact-list">

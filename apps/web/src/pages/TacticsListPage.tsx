@@ -61,8 +61,6 @@ export function TacticsListPage() {
             <Target size={15} aria-hidden="true" />
             杀法训练
           </div>
-          <h1>找到那步将死</h1>
-          <p>每题红先，一步将死。先自己找，再看提示或解释。</p>
         </div>
         <div className="list-progress-badge">
           <strong>{completed}</strong>

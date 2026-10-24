@@ -48,24 +48,18 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
   const Icon = kind === 'endgame' ? Crown : BookOpen;
 
   return (
-    <div className="page list-page">
+    <div className={`page list-page${kind === 'opening' ? ' is-opening-list' : ''}`}>
       <Link to="/train" className="back-link">
         <ArrowLeft size={15} aria-hidden="true" />
         训练场
       </Link>
 
-      <div className="page-heading list-heading">
+      <div className={`page-heading list-heading${kind === 'opening' ? ' is-compact' : ''}`}>
         <div>
           <div className="eyebrow">
             <Icon size={15} aria-hidden="true" />
             {trainingKindLabels[kind]}
           </div>
-          <h1>{kind === 'endgame' ? '把少子下成胜势' : '把开局顺序走顺'}</h1>
-          <p>
-            {kind === 'endgame'
-              ? '古谱与短课都以将死为目标；可以跟主线，也可以自由尝试。'
-              : '你走红方，黑方自动应手；按主线一步一步走出开局顺序。'}
-          </p>
         </div>
         <div className="list-progress-badge">
           <strong>{completed}</strong>

@@ -325,11 +325,13 @@ test('a faster mate completes the endgame lesson', async ({ page }) => {
   await page.waitForTimeout(300);
   await page.locator('[data-square="49"]').click();
   await page.locator('[data-square="48"]').click();
-  await expect(page.locator('.lesson-status')).toContainText('将死成功');
+  await expect(page.locator('.lesson-status')).toHaveCount(0);
   await expect(page.locator('.board-shell')).toHaveClass(/board-checkmate/);
   await expect(page.locator('.checkmate-stamp')).toBeVisible();
   await expect(page.locator('.tactic-result')).toContainText('找到将死，完成');
   await expect(page.locator('.tactic-result')).toContainText('错试 0 次');
+  await expect(page.locator('.lesson-result-card').getByRole('button', { name: '下一节' })).toBeVisible();
+  await expect(page.locator('.side-controls .control-button.primary')).toHaveCount(0);
   await expect(page.locator('.line-progress')).toHaveCount(0);
   await expect(page.getByRole('button', { name: '提示' })).toBeDisabled();
 });
@@ -580,7 +582,7 @@ test('classic endgame shows its original source', async ({ page }) => {
 test('opening training follows the line with one automatic side', async ({ page }) => {
   await page.goto('/train/opening/opening-classic-01');
   await expect(page.locator('.turn-chip')).toContainText('请你走这一步');
-  await expect(page.locator('.lesson-flow-note')).toContainText('黑方按预设应手');
+  await expect(page.locator('.lesson-flow-note')).toHaveCount(0);
   const undo = page.getByRole('button', { name: '悔棋' });
   await expect(undo).toBeDisabled();
 
@@ -611,7 +613,6 @@ test('opening training follows the line with one automatic side', async ({ page 
   await expect(page.locator('.turn-chip')).toContainText('自由走子 · 红方');
   await expect(page.locator('.lesson-status')).toHaveCount(0);
   await expect(page.locator('.line-progress')).toHaveCount(0);
-  await expect(page.locator('.lesson-flow-note')).toHaveCount(0);
   await expect(page.getByRole('button', { name: '提示' })).toHaveCount(0);
 
   // Restarting restores the scripted line and its automatic reply.
@@ -620,12 +621,13 @@ test('opening training follows the line with one automatic side', async ({ page 
   await page.locator('[data-square="22"]').click();
   await expect(page.locator('.line-progress-label')).toContainText('2 / 20 步');
   await expect(page.locator('.turn-chip')).toContainText('请你走这一步');
-  await expect(page.locator('.lesson-flow-note')).toBeVisible();
   await expect(page.getByRole('button', { name: '提示' })).toBeVisible();
 });
 test('large training library paginates and searches', async ({ page }) => {
   await page.goto('/train/endgame');
   await expect(page.locator('.lesson-meta-strip')).toContainText('703 节');
+  await expect(page.locator('.page-heading h1')).toHaveCount(0);
+  await expect(page.locator('.page-heading p')).toHaveCount(0);
   await expect(page.locator('.lesson-row')).toHaveCount(30);
   await page.locator('.list-more').click();
   await expect(page.locator('.lesson-row')).toHaveCount(60);
@@ -634,9 +636,15 @@ test('large training library paginates and searches', async ({ page }) => {
 
   await page.goto('/train/tactics');
   await expect(page.locator('.list-progress-badge')).toContainText('801');
+  await expect(page.locator('.page-heading h1')).toHaveCount(0);
+  await expect(page.locator('.page-heading p')).toHaveCount(0);
   await expect(page.locator('.tactic-card')).toHaveCount(30);
   await page.locator('.list-more').click();
   await expect(page.locator('.tactic-card')).toHaveCount(60);
+
+  await page.goto('/train/opening');
+  await expect(page.locator('.page-heading h1')).toHaveCount(0);
+  await expect(page.locator('.page-heading p')).toHaveCount(0);
 });
 test('mobile tactics success keeps the next action in view', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
