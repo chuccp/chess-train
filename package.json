@@ -10,7 +10,9 @@
     "typecheck": "pnpm --filter @qilian/web typecheck",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "pnpm --filter @qilian/web build && playwright test"
+    "test:e2e": "pnpm --filter @qilian/web build && playwright test",
+    "generate:endgames": "node --experimental-strip-types tools/generate-endgame-pack.mjs",
+    "generate:tactics": "node --experimental-strip-types tools/generate-tactics-pack.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",

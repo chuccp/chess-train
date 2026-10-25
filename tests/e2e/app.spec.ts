@@ -26,12 +26,33 @@ test('home has one offline two-player entry', async ({ page }) => {
   await expect(page.locator('.mobile-lobby-local')).toHaveCount(0);
   const localEntry = page.locator('.desktop-nav a[href="/local"]');
   await expect(localEntry).toHaveCount(1);
-  await expect(localEntry).toHaveText('人人');
+  await expect(localEntry).toHaveText('其它棋');
   await expect(page.locator('.nav-local-badge')).toHaveCount(0);
   await expect(localEntry).toBeVisible();
   await localEntry.click();
   await expect(page).toHaveURL(/\/local$/);
-  await expect(page.locator('.local-game-card')).toHaveCount(5);
+  await expect(page.locator('.local-game-card')).toHaveCount(4);
+});
+test('other games sits between history and settings in both navigations', async ({ page }) => {
+  await page.goto('/train');
+  await expect(page.locator('.desktop-nav .nav-link')).toHaveText([
+    '练习',
+    '象棋',
+    '训练',
+    '棋谱',
+    '其它棋',
+    '设置',
+  ]);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('.bottom-nav .bottom-link')).toHaveText([
+    '首页',
+    '象棋',
+    '训练',
+    '棋谱',
+    '其它棋',
+    '设置',
+  ]);
 });
 test('settings can disable undo for chess', async ({ page }) => {
   await page.goto('/settings');
@@ -257,11 +278,15 @@ test('tactic hint guides the move without a duplicate answer button', async ({ p
   await page.locator('[data-square="48"]').click();
   await expect(page.locator('.tactic-result')).toContainText('杀法成立');
   await expect(page.locator('.tactic-result')).toContainText('借助提示找到杀着');
+  await expect(page.locator('.board-shell')).toHaveClass(/board-checkmate/);
+  await expect(page.locator('.checkmate-stamp')).toContainText('绝杀');
+  await expect(page.locator('.checkmate-burst')).toHaveCount(1);
+  await expect(page.locator('.stalemate-burst')).toHaveCount(0);
 });
 
 test('training board and controls fit a 1080p browser viewport', async ({ page }) => {
   await page.setViewportSize({ width: 1920, height: 950 });
-  await page.goto('/train/endgame/endgame-01');
+  await page.goto('/train/endgame/endgame-03');
   const board = await page.locator('.board-shell').boundingBox();
   const side = await page.locator('.play-side').boundingBox();
   const controls = await page.locator('.board-controls').boundingBox();
@@ -277,9 +302,30 @@ test('training board and controls fit a 1080p browser viewport', async ({ page }
   ).toBeLessThan(1);
 });
 
+test('endgame lessons are sorted by difficulty and can be filtered', async ({ page }) => {
+  await page.goto('/train/endgame');
+  await expect(page.locator('.lesson-toolbar-primary')).toContainText('由易到难排序');
+  const levels = await page.locator('.lesson-level').allTextContents();
+  const ranks = levels.map((label) => (label === '入门' ? 1 : label === '进阶' ? 2 : 3));
+  expect(ranks).toEqual([...ranks].sort((left, right) => left - right));
+
+  await page.getByRole('button', { name: '挑战', exact: true }).click();
+  const filteredLevels = await page.locator('.lesson-level').allTextContents();
+  expect(filteredLevels.length).toBeGreaterThan(0);
+  expect(new Set(filteredLevels)).toEqual(new Set(['挑战']));
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('.lesson-level-filter')).toBeVisible();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+    ),
+  ).toBe(false);
+});
+
 test('endgame deviation gets a rules-validated reply without a line warning and can be undone', async ({ page }) => {
   await page.setViewportSize({ width: 1920, height: 950 });
-  await page.goto('/train/endgame/endgame-01');
+  await page.goto('/train/endgame/endgame-03');
   await page.waitForTimeout(400);
   const boardBefore = await page.locator('.board-shell').boundingBox();
   const statusBefore = await page.locator('.lesson-status').boundingBox();
@@ -290,8 +336,8 @@ test('endgame deviation gets a rules-validated reply without a line warning and 
   await expect(page.locator('.line-progress')).toHaveCount(0);
 
   // Deviate on the first move: no line warning is shown, but the reply stays legal.
-  await page.locator('[data-square="58"]').click();
-  await page.locator('[data-square="67"]').click();
+  await page.locator('[data-square="68"]').click();
+  await page.locator('[data-square="70"]').click();
   await expect(page.locator('.lesson-status')).not.toContainText('挑战失败');
   await expect(page.getByRole('button', { name: '提示' })).toBeDisabled();
   await expect(page.locator('.turn-chip')).toContainText('请你走这一步');
@@ -317,26 +363,43 @@ test('endgame deviation gets a rules-validated reply without a line warning and 
   await expect(undo).toBeEnabled();
   await undo.click();
   await expect(page.locator('.board-toast')).toContainText('已悔棋');
-  await expect(page.locator('[data-square="58"]')).toHaveAttribute('aria-label', /红方兵/);
-  await expect(page.locator('[data-square="67"]')).toHaveAttribute('aria-label', /空位/);
+  await expect(page.locator('[data-square="68"]')).toHaveAttribute('aria-label', /红方车/);
+  await expect(page.locator('[data-square="70"]')).toHaveAttribute('aria-label', /空位/);
   await expect(undo).toBeDisabled();
 });
 
-test('a faster mate completes the endgame lesson', async ({ page }) => {
-  await page.setViewportSize({ width: 1920, height: 950 });
-  await page.goto('/train/endgame/endgame-02');
-  await page.waitForTimeout(300);
-  await page.locator('[data-square="49"]').click();
+test('one-move endgames are available in tactic training', async ({ page }) => {
+  await page.goto('/train/tactics/tactic-classic-146');
+  await page.locator('[data-square="47"]').click();
   await page.locator('[data-square="48"]').click();
-  await expect(page.locator('.lesson-status')).toHaveCount(0);
+  await expect(page.locator('.tactic-result')).toContainText('杀法成立', { timeout: 4_000 });
   await expect(page.locator('.board-shell')).toHaveClass(/board-checkmate/);
-  await expect(page.locator('.checkmate-stamp')).toBeVisible();
-  await expect(page.locator('.tactic-result')).toContainText('找到将死，完成');
-  await expect(page.locator('.tactic-result')).toContainText('错试 0 次');
-  await expect(page.locator('.lesson-result-card').getByRole('button', { name: '下一节' })).toBeVisible();
-  await expect(page.locator('.side-controls .control-button.primary')).toHaveCount(0);
-  await expect(page.locator('.line-progress')).toHaveCount(0);
-  await expect(page.getByRole('button', { name: '提示' })).toBeDisabled();
+});
+
+test('a stalemate counts as a one-move tactic win', async ({ page }) => {
+  await page.goto('/train/tactics/tactic-03');
+  await page.locator('[data-square="50"]').click();
+  await page.locator('[data-square="51"]').click();
+  await expect(page.locator('.turn-chip')).toContainText('困毙成立');
+  await expect(page.locator('.tactic-result')).toContainText('独立找到杀着', { timeout: 4_000 });
+  await expect(page.locator('.checkmate-stamp')).toContainText('困毙');
+  await expect(page.locator('.board-shell')).toHaveClass(/board-stalemate/);
+  await expect(page.locator('.stalemate-burst')).toHaveCount(1);
+  await expect(page.locator('.checkmate-burst')).toHaveCount(0);
+});
+
+test('an endgame lesson completes when the user creates a stalemate', async ({ page }) => {
+  await page.goto('/train/endgame/endgame-stalemate-01');
+  await page.locator('[data-square="85"]').click();
+  await page.locator('[data-square="83"]').click();
+  await expect(page.locator('[data-square="84"]')).toHaveAttribute('aria-label', /黑方士/);
+  await page.locator('[data-square="83"]').click();
+  await page.locator('[data-square="84"]').click();
+  await expect(page.locator('.tactic-result')).toContainText('困毙成功');
+  await expect(page.locator('.tactic-result')).toContainText('找到困毙，完成');
+  await expect(page.locator('.checkmate-stamp')).toContainText('困毙');
+  await expect(page.locator('.stalemate-burst')).toHaveCount(1);
+  await expect(page.locator('.checkmate-burst')).toHaveCount(0);
 });
 
 test('local two-player game alternates turns and undoes a round', async ({ page }) => {
@@ -628,7 +691,7 @@ test('opening training follows the line with one automatic side', async ({ page 
 });
 test('large training library paginates and searches', async ({ page }) => {
   await page.goto('/train/endgame');
-  await expect(page.locator('.lesson-meta-strip')).toContainText('703 节');
+  await expect(page.locator('.lesson-meta-strip')).toContainText('707 节');
   await expect(page.locator('.page-heading h1')).toHaveCount(0);
   await expect(page.locator('.page-heading p')).toHaveCount(0);
   await expect(page.locator('.lesson-row')).toHaveCount(30);
@@ -638,10 +701,14 @@ test('large training library paginates and searches', async ({ page }) => {
   await expect(page.locator('.lesson-row')).toHaveCount(1);
 
   await page.goto('/train/tactics');
-  await expect(page.locator('.list-progress-badge')).toContainText('801');
+  await expect(page.locator('.list-progress-badge')).toContainText('831');
   await expect(page.locator('.page-heading h1')).toHaveCount(0);
   await expect(page.locator('.page-heading p')).toHaveCount(0);
   await expect(page.locator('.tactic-card')).toHaveCount(30);
+  await expect(page.locator('.sort-note')).toContainText('由易到难排序');
+  const tacticLevels = await page.locator('.tactic-meta span:first-child').allTextContents();
+  const tacticRanks = tacticLevels.map((label) => (label === '入门' ? 1 : label === '进阶' ? 2 : 3));
+  expect(tacticRanks).toEqual([...tacticRanks].sort((left, right) => left - right));
   await page.locator('.list-more').click();
   await expect(page.locator('.tactic-card')).toHaveCount(60);
 

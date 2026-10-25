@@ -10,11 +10,12 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
   const [progress, setProgress] = useState<Record<string, TrainingProgress>>({});
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
+  const [levelFilter, setLevelFilter] = useState<0 | 1 | 2 | 3>(0);
   const [visibleCount, setVisibleCount] = useState(30);
 
   useEffect(() => {
     setVisibleCount(30);
-  }, [kind, query]);
+  }, [kind, levelFilter, query]);
 
   useEffect(() => {
     let alive = true;
@@ -35,15 +36,17 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
     [lessons],
   );
   const filtered = useMemo(() => {
+    const byLevel =
+      levelFilter === 0 ? lessons : lessons.filter((lesson) => lesson.level === levelFilter);
     const needle = query.trim().toLowerCase();
-    if (!needle) return lessons;
-    return lessons.filter((lesson) =>
+    if (!needle) return byLevel;
+    return byLevel.filter((lesson) =>
       [lesson.title, lesson.subtitle, lesson.tags.join(' '), lesson.source.name]
         .join(' ')
         .toLowerCase()
         .includes(needle),
     );
-  }, [lessons, query]);
+  }, [lessons, levelFilter, query]);
   const shown = filtered.slice(0, visibleCount);
   const Icon = kind === 'endgame' ? Crown : BookOpen;
 
@@ -68,14 +71,36 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
       </div>
 
       <div className="list-toolbar">
-        <div className="lesson-meta-strip">
-          <span>
-            {filtered.length === lessons.length
-              ? `${lessons.length} 节`
-              : `${filtered.length} / ${lessons.length} 节`}
-          </span>
-          <span>{totalPlies} 步主线</span>
-          <span>规则核校验</span>
+        <div className="lesson-toolbar-primary">
+          <div className="lesson-meta-strip">
+            <span>
+              {filtered.length === lessons.length
+                ? `${lessons.length} 节`
+                : `${filtered.length} / ${lessons.length} 节`}
+            </span>
+            <span>{totalPlies} 步主线</span>
+            {kind === 'endgame' && <span>由易到难排序</span>}
+            <span>规则核校验</span>
+          </div>
+          {kind === 'endgame' && (
+            <div className="segmented small lesson-level-filter" aria-label="筛选残棋难度">
+              {[
+                [0, '全部'],
+                [1, '入门'],
+                [2, '进阶'],
+                [3, '挑战'],
+              ].map(([value, label]) => (
+                <button
+                  type="button"
+                  key={value}
+                  className={levelFilter === value ? 'is-selected' : ''}
+                  onClick={() => setLevelFilter(value as 0 | 1 | 2 | 3)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
         <div className="list-actions">
           <input
@@ -111,7 +136,7 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
               const line = lesson.lines[0];
               return (
                 <Link to={`/train/${kind}/${lesson.id}`} className={`lesson-row${done ? ' is-done' : ''}`} key={lesson.id}>
-                  <span className="lesson-number">{String(lesson.order).padStart(2, '0')}</span>
+                  <span className="lesson-number">{String(lessons.indexOf(lesson) + 1).padStart(2, '0')}</span>
                   <span className="lesson-icon">
                     <Icon size={20} aria-hidden="true" />
                   </span>

@@ -6,7 +6,9 @@ import type {
   TrainingKind,
 } from './types';
 import tacticsJson from './data/tactics.json';
+import tacticsExtraJson from './data/tactics-extra.json';
 import endgamesJson from './data/endgames.json';
+import endgamesExtraJson from './data/endgame-extra.json';
 import { openingLessons } from './data/openings';
 
 export type {
@@ -23,8 +25,67 @@ export type {
 } from './types';
 export { openingLessons };
 
-export const tacticExercises = tacticsJson as TacticsExercise[];
-export const endgameLessons = endgamesJson as GuidedLesson[];
+const baseTacticExercises = [
+  ...(tacticsJson as TacticsExercise[]),
+  ...(tacticsExtraJson as TacticsExercise[]),
+];
+const rawEndgameLessons = endgamesJson as GuidedLesson[];
+const extraEndgameLessons = endgamesExtraJson as GuidedLesson[];
+/** These duplicate tactic positions are already present as one-move exercises. */
+const oneMoveEndgameIds = new Set(['endgame-01', 'endgame-02']);
+const stalemateLessons: GuidedLesson[] = [
+  {
+    id: 'endgame-stalemate-01',
+    kind: 'endgame',
+    title: '原创困毙 · 帅控将门',
+    subtitle: '红先，两步困毙黑方',
+    level: 1,
+    order: 1001,
+    tags: ['原创', '困毙', '两步杀'],
+    source: { name: '棋练原创编排', author: '棋练项目组', license: 'CC0-1.0' },
+    reviewedAt: '2026-10-25',
+    reviewedBy: '规则核全量校验',
+    fen: '2b1R4/4a4/4k4/3N5/9/9/9/9/9/5K3 w - - 0 1',
+    userColor: 'r',
+    objective: 'win',
+    intro: '困毙也是中国象棋的胜法。黑方没有被将军，但若没有任何合法着法，同样判红方获胜。',
+    keyPoints: ['先用車控制九宫横线', '等黑方退士后再吃掉最后的挡子', '确认黑方无子可走，而不是把将帅照面当成普通走子'],
+    lines: [{
+      id: 'main',
+      label: '主线 · 两步困毙',
+      moves: [
+        { ucci: 'e9c9', comment: '先手：车五平七。先吃掉九宫外侧的挡子。' },
+        { ucci: 'e8d9', comment: '黑方应 士5退4，九宫里的空间进一步缩小。' },
+        { ucci: 'c9d9', comment: '收口：车七平六。黑方无合法着法，形成困毙。' },
+      ],
+    }],
+    completionText: '困毙完成。将死与困毙都属于杀法胜利。',
+  },
+];
+
+export const tacticExercises = baseTacticExercises.slice().sort((left, right) => {
+  if (left.level !== right.level) return left.level - right.level;
+  if (left.solutions.length !== right.solutions.length) {
+    return right.solutions.length - left.solutions.length;
+  }
+  return left.order - right.order;
+});
+const uniqueEndgameLines = new Set<string>();
+export const endgameLessons = [...rawEndgameLessons, ...extraEndgameLessons, ...stalemateLessons]
+  .filter((lesson) => {
+    if (oneMoveEndgameIds.has(lesson.id)) return false;
+    const signature = lesson.lines[0]?.moves.map((move) => move.ucci).join(' ') ?? '';
+    if (!signature || uniqueEndgameLines.has(signature)) return false;
+    uniqueEndgameLines.add(signature);
+    return true;
+  })
+  .sort((left, right) => {
+    if (left.level !== right.level) return left.level - right.level;
+    const leftDepth = left.lines[0]?.moves.length ?? 0;
+    const rightDepth = right.lines[0]?.moves.length ?? 0;
+    if (leftDepth !== rightDepth) return leftDepth - rightDepth;
+    return left.order - right.order;
+  });
 
 export const contentStats: ContentStats = {
   tactics: tacticExercises.length,
@@ -33,8 +94,8 @@ export const contentStats: ContentStats = {
 };
 
 export const trainingKindLabels: Record<TrainingKind, string> = {
-  tactics: '杀法训练',
-  endgame: '残局定式',
+  tactics: '一步杀法',
+  endgame: '残棋定式',
   opening: '开局训练',
 };
 

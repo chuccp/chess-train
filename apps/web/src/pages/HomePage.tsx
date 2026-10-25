@@ -353,7 +353,7 @@ export function HomePage() {
               <Target size={23} aria-hidden="true" />
             </div>
             <div>
-              <span className="training-kicker">杀法训练</span>
+              <span className="training-kicker">一步杀法</span>
               <h3>找到那步将死</h3>
               <p>短题目、即时反馈，练的是看见杀形的眼睛。</p>
             </div>
@@ -370,9 +370,9 @@ export function HomePage() {
               <Crown size={23} aria-hidden="true" />
             </div>
             <div>
-              <span className="training-kicker">残局定式</span>
-              <h3>把少子下成胜势</h3>
-              <p>古谱与短课，理解控将、收口和转换的次序。</p>
+              <span className="training-kicker">残棋定式</span>
+              <h3>把残棋走成胜势</h3>
+              <p>多步古谱按难度排序，理解将军、控将和收口的次序。</p>
             </div>
             <div className="training-footer">
               <span>{contentStats.endgame} 节演示</span>

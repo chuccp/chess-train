@@ -32,7 +32,7 @@ const kindCards: Array<{
 }> = [
   {
     kind: 'tactics',
-    eyebrow: '杀法训练',
+    eyebrow: '一步杀法',
     title: '找到那步将死',
     description: '古谱与原创短题，即时反馈。先把“看见杀形”变成条件反射。',
     detail: `${contentStats.tactics} 道一步杀`,
@@ -42,10 +42,10 @@ const kindCards: Array<{
   },
   {
     kind: 'endgame',
-    eyebrow: '残局定式',
-    title: '把少子下成胜势',
-    description: '古谱短局与原创短课，围绕将死目标自由尝试。每一步都有解释。',
-    detail: `${contentStats.endgame} 节残局 · 含古谱`,
+    eyebrow: '残棋定式',
+    title: '把残棋走成胜势',
+    description: '从短杀到长步追杀，按难度由浅入深；古谱多步杀法也收在这里。',
+    detail: `${contentStats.endgame} 节残棋 · 难度排序`,
     icon: Crown,
     tone: 'green',
     to: '/train/endgame',
@@ -96,13 +96,13 @@ export function TrainHomePage() {
           训练场
         </div>
         <h1>把棋感练出来</h1>
-        <p>三种模式，三种看法：找杀、收残局、走开局。</p>
+        <p>三种模式，三种看法：找一步杀、拆残棋定式、走开局。</p>
       </section>
 
       <div className="training-grid training-grid-large">
         {kindCards.map((card) => {
           const Icon = card.icon;
-          const count = card.kind === 'tactics' ? contentStats.tactics : card.kind === 'endgame' ? contentStats.endgame : contentStats.opening;
+          const count = contentStats[card.kind];
           const done = completedByKind[card.kind] ?? 0;
           return (
             <Link to={card.to} className={`training-card training-card-${card.tone}`} key={card.kind}>
@@ -158,7 +158,7 @@ export function TrainHomePage() {
             <li><CheckCircle2 size={15} aria-hidden="true" /> 开局主线由公开布局常识整理</li>
           </ul>
           <p className="source-line">
-            首批内容：{tacticExercises.length} 道杀法、{endgameLessons.length} 节残局、
+            首批内容：{tacticExercises.length} 道一步杀、{endgameLessons.length} 节残棋定式、
             {openingLessons.length} 套开局 · 原创编排，CC0-1.0
           </p>
         </div>

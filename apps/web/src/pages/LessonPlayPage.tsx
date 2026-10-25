@@ -41,6 +41,8 @@ interface LessonPlayPageProps {
   kind: 'endgame' | 'opening';
 }
 
+type WinReason = 'checkmate' | 'stalemate';
+
 interface LessonUndoPoint {
   position: Position;
   ply: number;
@@ -89,6 +91,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   const [hintsUsed, setHintsUsed] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [completedByWin, setCompletedByWin] = useState(false);
+  const [completedReason, setCompletedReason] = useState<WinReason | null>(null);
   const [freeMode, setFreeMode] = useState(false);
   const [deviationPending, setDeviationPending] = useState(false);
   const [freeUsed, setFreeUsed] = useState(0);
@@ -124,6 +127,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setHintsUsed(0);
     setCompleted(false);
     setCompletedByWin(false);
+    setCompletedReason(null);
     setFreeMode(false);
     setDeviationPending(false);
     setFreeUsed(0);
@@ -191,7 +195,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
           const end = evaluateBoard(position, { positionHashes: [] });
           if (end.status === 'win' && end.winner === lesson.userColor) {
             setAutoMoving(false);
-            finishLine(freeUsed, 'win');
+            finishLine(freeUsed, 'win', end.reason);
           } else {
             setAutoMoving(false);
             setFailed(true);
@@ -218,13 +222,13 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
         const end = evaluateBoard(result.position, { positionHashes: [] });
         if (end.status === 'win' && end.winner !== lesson.userColor) {
           setFailed(true);
-          setMessage('对手已形成将死，本局挑战失败。可以悔棋或重来。');
+          setMessage('对手已完成将死或困毙，本局挑战失败。可以悔棋或重来。');
         } else if (end.status === 'draw') {
           setFailed(true);
           setMessage(
             kind === 'endgame'
               ? '局面已和棋，本局挑战失败。可以悔棋或重来。'
-              : '局面已和棋，未能在限定步数内将死，本局挑战失败。可以悔棋或重来。',
+              : '局面已和棋，未能在限定步数内完成绝杀，本局挑战失败。可以悔棋或重来。',
           );
         }
         return;
@@ -254,7 +258,12 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       setAutoMoving(false);
       feedback(result.givesCheck ? 'check' : result.move.captured ? 'capture' : 'move');
       if (nextPly >= total) {
-        finishLine(nextPly);
+        const end = evaluateBoard(result.position, { positionHashes: [] });
+        if (end.status === 'win' && end.winner === lesson.userColor) {
+          finishLine(nextPly, 'win', end.reason);
+        } else {
+          finishLine(nextPly);
+        }
       }
       })();
     }, freeMode ? 420 : 650);
@@ -284,10 +293,22 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     : null;
   const next = nextTrainingItem(kind, lesson.id);
   const lastComment = !completedByWin && ply > 0 ? moves[ply - 1]?.comment : undefined;
+  const completionLabel =
+    completedReason === 'stalemate'
+      ? '困毙成功'
+      : completedReason === 'checkmate'
+        ? '将死成功'
+        : '挑战完成';
   const hasWon = (next: Position): boolean => {
     if (lesson?.objective !== 'win') return false;
     const end = evaluateBoard(next, { positionHashes: [] });
     return end.status === 'win' && end.winner === userColor;
+  };
+  const winningReason = (next: Position): WinReason | null => {
+    if (lesson?.objective !== 'win') return null;
+    const end = evaluateBoard(next, { positionHashes: [] });
+    if (end.status !== 'win' || end.winner !== userColor) return null;
+    return end.reason;
   };
   const stepsUsed = Math.min(total, freeMode || deviationPending ? freeUsed : ply);
 
@@ -319,10 +340,15 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     void saveTrainingProgress(record);
   }
 
-  function finishLine(nextPly: number, via: 'line' | 'win' = 'line') {
+  function finishLine(
+    nextPly: number,
+    via: 'line' | 'win' = 'line',
+    reason: WinReason | null = null,
+  ) {
     if (completed) return;
     setCompleted(true);
     setCompletedByWin(via === 'win');
+    setCompletedReason(via === 'win' ? reason : null);
     setSelected(null);
     setTargets([]);
     setHint(null);
@@ -466,7 +492,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       if (hasWon(free.position)) {
         const nextUsed = kind === 'endgame' ? freeUsed + 1 : Math.min(total, freeUsed + 1);
         setFreeUsed(nextUsed);
-        finishLine(nextUsed, 'win');
+        finishLine(nextUsed, 'win', winningReason(free.position));
         return;
       }
 
@@ -500,7 +526,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
         setPosition(result.position);
         setLastMove({ from: result.move.from, to: result.move.to });
         setPly(ply + 1);
-        finishLine(ply + 1, 'win');
+        finishLine(ply + 1, 'win', winningReason(result.position));
         return;
       }
       const nextAttempts = attempts + 1;
@@ -541,8 +567,10 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setLastMove({ from: result.move.from, to: result.move.to });
     setMessage(null);
     feedback(result.givesCheck ? 'check' : result.move.captured ? 'capture' : 'move');
-    if (nextPly >= total) finishLine(nextPly);
-    else if (hasWon(result.position)) finishLine(nextPly, 'win');
+    if (nextPly >= total) {
+      const reason = winningReason(result.position);
+      finishLine(nextPly, reason ? 'win' : 'line', reason);
+    } else if (hasWon(result.position)) finishLine(nextPly, 'win', winningReason(result.position));
     else persistInProgress(nextPly);
   }
 
@@ -586,6 +614,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setMessage(null);
     setCompleted(false);
     setCompletedByWin(false);
+    setCompletedReason(null);
     setFreeMode(false);
     setDeviationPending(false);
     setFreeUsed(0);
@@ -614,6 +643,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setMessage(null);
     setCompleted(false);
     setCompletedByWin(false);
+    setCompletedReason(null);
     setFreeMode(false);
     setDeviationPending(false);
     setFreeUsed(0);
@@ -658,7 +688,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
             <div className={`turn-chip${autoMoving ? ' is-thinking' : ''}`}>
               <span className={`turn-disc ${boardPosition.turn}`} />
               {completed
-                ? completedByWin ? '将死成功' : '挑战完成'
+                ? completionLabel
                 : autoMoving
                   ? '对手应手…'
                   : deviationPending
@@ -689,7 +719,8 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
               hint={hint}
               lastMove={lastMove}
               checkedSquare={checked}
-              checkmate={completed && checked !== null}
+              checkmate={completed && completedByWin}
+              stalemate={completedReason === 'stalemate'}
               interactive={!completed && (freeMode || failed || userTurn) && !autoMoving}
               onPoint={handlePoint}
             />
@@ -702,13 +733,21 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
               <div className="tactic-result lesson-result-card">
                 <div className="result-mark"><CheckCircle2 size={24} aria-hidden="true" /></div>
                 <div>
-                  <span className="eyebrow">{completedByWin ? '将死成功' : '挑战完成'}</span>
-                  <h2>{completedByWin ? '找到将死，完成。' : lesson.completionText}</h2>
+                  <span className="eyebrow">{completionLabel}</span>
+                  <h2>
+                    {completedReason === 'stalemate'
+                      ? '找到困毙，完成。'
+                      : completedByWin
+                        ? '找到将死，完成。'
+                        : lesson.completionText}
+                  </h2>
                   <p>
                     {completedByWin
                       ? kind === 'endgame'
-                        ? '你完成了将死，本关已按胜利完成。'
-                        : '你在限定步数内完成了将死，本关已按胜利完成。'
+                        ? completedReason === 'stalemate'
+                          ? '你完成了困毙，本关已按胜利完成。'
+                          : '你完成了将死，本关已按胜利完成。'
+                        : '你在限定步数内完成了绝杀，本关已按胜利完成。'
                       : '跟练完成。'}
                     用了 {formatDuration(completedElapsedRef.current)}，错试 {attempts} 次，提示 {hintsUsed} 次。
                   </p>
@@ -752,7 +791,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
               <div className="line-progress-label">
                 <span>
                   {completedByWin
-                    ? '将死成功'
+                    ? completionLabel
                     : deviationPending
                       ? '偏离主线'
                       : freeMode

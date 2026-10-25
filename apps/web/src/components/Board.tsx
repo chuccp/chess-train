@@ -41,6 +41,7 @@ interface BoardProps {
   capturableSquares?: number[];
   checkedSquare?: number | null;
   checkmate?: boolean;
+  stalemate?: boolean;
   interactive?: boolean;
   preview?: boolean;
   onPoint?: (square: number) => void;
@@ -73,6 +74,7 @@ export function Board({
   capturableSquares = [],
   checkedSquare = null,
   checkmate = false,
+  stalemate = false,
   interactive = true,
   preview = false,
   onPoint,
@@ -242,9 +244,17 @@ export function Board({
   const legalSet = new Set(legalTargets);
   // 最新一步的起点淡影；换边/悔棋/回放时随 lastMove 更新
   const echoPiece = !preview && lastMove ? position.board[lastMove.to] : null;
+  const finishSquare = checkedSquare ?? (stalemate
+    ? position.board.findIndex((piece) => piece?.color === position.turn && piece.type === 'K')
+    : null);
+  const finishSquareValid = finishSquare !== null && finishSquare >= 0;
 
   return (
-    <div className={`board-shell${preview ? ' board-preview' : ''}${checkmate ? ' board-checkmate' : ''}`} role="group" aria-label={preview ? '中国象棋棋盘预览' : '中国象棋棋盘'}>
+    <div
+      className={`board-shell${preview ? ' board-preview' : ''}${checkmate ? (stalemate ? ' board-stalemate' : ' board-checkmate') : ''}`}
+      role="group"
+      aria-label={preview ? '中国象棋棋盘预览' : '中国象棋棋盘'}
+    >
       <svg
         className="board-svg"
         viewBox={`0 0 ${VIEW_WIDTH} ${VIEW_HEIGHT}`}
@@ -423,8 +433,23 @@ export function Board({
             </g>
           );
         })}
-        {checkmate && checkedSquare !== null && (() => {
-          const point = displayPoint(checkedSquare, orientation);
+        {checkmate && finishSquareValid && (() => {
+          const point = displayPoint(finishSquare ?? 0, orientation);
+          if (stalemate) {
+            return (
+              <g className="stalemate-burst" transform={`translate(${point.x} ${point.y})`} aria-hidden="true">
+                <circle r="48" className="stalemate-ring stalemate-ring-a" />
+                <circle r="48" className="stalemate-ring stalemate-ring-b" />
+                <circle r="26" className="stalemate-seal" />
+                <g className="stalemate-corners">
+                  <path d="M -52 -52 h 14 v 5 h -9 v 9 h -5 z" />
+                  <path d="M 52 -52 h -14 v 5 h 9 v 9 h 5 z" />
+                  <path d="M -52 52 h 14 v -5 h -9 v -9 h -5 z" />
+                  <path d="M 52 52 h -14 v -5 h 9 v -9 h 5 z" />
+                </g>
+              </g>
+            );
+          }
           return (
             <g className="checkmate-burst" transform={`translate(${point.x} ${point.y})`} aria-hidden="true">
               <circle r="46" className="mate-ring mate-ring-a" />
@@ -520,9 +545,9 @@ export function Board({
       </div>}
 
       {checkmate && (
-        <div className="checkmate-stamp" aria-hidden="true">
-          <span>绝杀</span>
-          <em>将死</em>
+        <div className={`checkmate-stamp${stalemate ? ' is-stalemate' : ''}`} aria-hidden="true">
+          <span>{stalemate ? '困毙' : '绝杀'}</span>
+          <em>{stalemate ? '无子可走' : '将死'}</em>
         </div>
       )}
     </div>

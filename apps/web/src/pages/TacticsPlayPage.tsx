@@ -33,6 +33,7 @@ import { useSettingsStore } from '../stores/settings';
 import type { TrainingProgress } from '../types';
 
 type Phase = 'solving' | 'solved';
+type WinReason = 'checkmate' | 'stalemate';
 
 export function TacticsPlayPage() {
   const { id = '' } = useParams();
@@ -58,6 +59,7 @@ export function TacticsPlayPage() {
   const [hint, setHint] = useState<{ from: number; to: number } | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [solvedNotation, setSolvedNotation] = useState<string | null>(null);
+  const [solvedReason, setSolvedReason] = useState<WinReason | null>(null);
   const [lastMove, setLastMove] = useState<{ from: number; to: number } | null>(null);
   const [successBarVisible, setSuccessBarVisible] = useState(false);
   const [elapsed, setElapsed] = useState(0);
@@ -76,6 +78,7 @@ export function TacticsPlayPage() {
     setHint(null);
     setMessage(null);
     setSolvedNotation(null);
+    setSolvedReason(null);
     setLastMove(null);
     setElapsed(0);
     startRef.current = Date.now();
@@ -124,7 +127,7 @@ export function TacticsPlayPage() {
     return (
       <div className="page empty-state">
         <h1>题目不存在</h1>
-        <Link to="/train/tactics" className="btn btn-dark">返回杀法训练</Link>
+        <Link to="/train/tactics" className="btn btn-dark">返回一步杀法</Link>
       </div>
     );
   }
@@ -205,7 +208,11 @@ export function TacticsPlayPage() {
       return;
     }
     const end = evaluateBoard(result.position, { positionHashes: [] });
-    if (end.status !== 'win' || end.winner !== 'r' || end.reason !== 'checkmate') {
+    if (
+      end.status !== 'win' ||
+      end.winner !== 'r' ||
+      (end.reason !== 'checkmate' && end.reason !== 'stalemate')
+    ) {
       const nextAttempts = attempts + 1;
       setAttempts(nextAttempts);
       setSelected(null);
@@ -236,6 +243,7 @@ export function TacticsPlayPage() {
     setLastMove({ from: result.move.from, to: result.move.to });
     setPhase('solved');
     setSolvedNotation(result.notation);
+    setSolvedReason(end.reason);
     setMessage(null);
     feedback('win');
     void persist(true);
@@ -276,6 +284,7 @@ export function TacticsPlayPage() {
     setHint(null);
     setMessage(null);
     setSolvedNotation(null);
+    setSolvedReason(null);
     setLastMove(null);
     setSuccessBarVisible(false);
     setElapsed(0);
@@ -288,10 +297,10 @@ export function TacticsPlayPage() {
       <div className="play-topline">
         <Link to="/train/tactics" className="back-link">
           <ArrowLeft size={15} aria-hidden="true" />
-          杀法训练
+          一步杀法
         </Link>
         <span className="play-meta">
-          <Target size={14} aria-hidden="true" /> 红先 · 一步将死
+          <Target size={14} aria-hidden="true" /> 红先 · 一步绝杀
           {recordCompleted && <span className="done-label">已练过</span>}
         </span>
       </div>
@@ -301,7 +310,7 @@ export function TacticsPlayPage() {
           <div className="board-toolbar">
             <div className="turn-chip">
               <span className="turn-disc r" />
-              {isSolved ? '将死成立' : '找出一步将死'}
+              {isSolved ? (solvedReason === 'stalemate' ? '困毙成立' : '将死成立') : '找出一步绝杀'}
             </div>
             <span className="play-meta">
               <Timer size={14} aria-hidden="true" /> {formatDuration(isSolved ? solvedElapsedRef.current : elapsed)}
@@ -317,7 +326,8 @@ export function TacticsPlayPage() {
               hint={hint}
               lastMove={lastMove}
               checkedSquare={checked}
-              checkmate={isSolved && checked !== null}
+              checkmate={isSolved}
+              stalemate={solvedReason === 'stalemate'}
               interactive={!isSolved}
               onPoint={handlePoint}
             />
@@ -402,7 +412,7 @@ export function TacticsPlayPage() {
               <span><Lightbulb size={14} aria-hidden="true" /> 提示 {hints}</span>
             </div>
             <p className="exercise-goal">
-              <strong>目标</strong> 红方先行，一步将死黑方。
+              <strong>目标</strong> 红方先行，一步将死或困毙黑方。
             </p>
             {!isSolved && (
               <div className="hint-box">
@@ -414,7 +424,9 @@ export function TacticsPlayPage() {
               <div className="explanation-box">
                 <span className="eyebrow">为什么</span>
                 <p>
-                  {`${solvedNotation} 之后，黑将没有合法应手，形成将死。`}
+                  {solvedReason === 'stalemate'
+                    ? `${solvedNotation} 之后，黑方没有被将军，但已无任何合法着法，形成困毙。`
+                    : `${solvedNotation} 之后，黑将没有合法应手，形成将死。`}
                 </p>
               </div>
             )}

@@ -59,7 +59,7 @@ export function TacticsListPage() {
         <div>
           <div className="eyebrow">
             <Target size={15} aria-hidden="true" />
-            杀法训练
+            一步杀法
           </div>
         </div>
         <div className="list-progress-badge">
@@ -69,16 +69,19 @@ export function TacticsListPage() {
       </div>
 
       <div className="list-toolbar">
-        <div className="segmented small">
-          <button type="button" className={filter === 'all' ? 'is-selected' : ''} onClick={() => setFilter('all')}>
-            全部
-          </button>
-          <button type="button" className={filter === 'todo' ? 'is-selected' : ''} onClick={() => setFilter('todo')}>
-            未完成
-          </button>
-          <button type="button" className={filter === 'done' ? 'is-selected' : ''} onClick={() => setFilter('done')}>
-            已完成
-          </button>
+        <div className="lesson-toolbar-primary">
+          <div className="segmented small">
+            <button type="button" className={filter === 'all' ? 'is-selected' : ''} onClick={() => setFilter('all')}>
+              全部
+            </button>
+            <button type="button" className={filter === 'todo' ? 'is-selected' : ''} onClick={() => setFilter('todo')}>
+              未完成
+            </button>
+            <button type="button" className={filter === 'done' ? 'is-selected' : ''} onClick={() => setFilter('done')}>
+              已完成
+            </button>
+          </div>
+          <span className="sort-note">由易到难排序</span>
         </div>
         <div className="list-actions">
           <input
@@ -120,14 +123,16 @@ export function TacticsListPage() {
             const done = record?.status === 'completed';
             return (
               <Link to={`/train/tactics/${item.id}`} className={`tactic-card${done ? ' is-done' : ''}`} key={item.id}>
-                <div className="tactic-order">{String(item.order).padStart(2, '0')}</div>
+                <div className="tactic-order">
+                  {String(tacticExercises.indexOf(item) + 1).padStart(2, '0')}
+                </div>
                 <div className="tactic-content">
                   <span className="tactic-theme">{item.tags[0]}</span>
                   <h2>{item.title.replace(/^.*?·\s*/, '')}</h2>
                   <p>{item.hint}</p>
                   <div className="tactic-meta">
                     <span>{item.level === 1 ? '入门' : item.level === 2 ? '进阶' : '挑战'}</span>
-                    <span>{item.solutions.length} 种杀法</span>
+                    <span>{item.solutions.length} 种胜法</span>
                     {done && (
                       <span className="done-label">
                         <CheckCircle2 size={13} aria-hidden="true" />
@@ -156,7 +161,7 @@ export function TacticsListPage() {
       )}
 
       <p className="source-line list-source">
-        原创题为棋练项目组 CC0；古谱题注明原书与局号。规则核逐题验证全部一步将死。
+        原创题为棋练项目组 CC0；古谱题注明原书与局号。规则核逐题验证全部一步胜利终局，将死与困毙均计入。
       </p>
     </div>
   );

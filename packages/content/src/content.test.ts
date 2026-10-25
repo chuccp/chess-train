@@ -38,7 +38,7 @@ function playLine(fen: string, uccis: string[]): { position: Position; hashes: s
 
 describe('starter content', () => {
   it('has the promised starter counts', () => {
-    expect(contentStats).toEqual({ tactics: 801, endgame: 703, opening: 88 });
+    expect(contentStats).toEqual({ tactics: 831, endgame: 707, opening: 88 });
   });
 
   it('has unique ids and valid provenance metadata', () => {
@@ -102,6 +102,19 @@ describe('starter content', () => {
       expect(tacticFens.has(tactic.fen), `${tactic.id} duplicate FEN`).toBe(false);
       tacticFens.add(tactic.fen);
     }
+    for (const lesson of endgameLessons) {
+      expect(tacticFens.has(lesson.fen), `${lesson.id} duplicates a tactic FEN`).toBe(false);
+    }
+  });
+  it('does not repeat endgame main lines', () => {
+    const lines = new Set<string>();
+    for (const lesson of endgameLessons) {
+      for (const line of lesson.lines) {
+        const signature = line.moves.map((move) => move.ucci).join(' ');
+        expect(lines.has(signature), `${lesson.id}/${line.id} duplicate main line`).toBe(false);
+        lines.add(signature);
+      }
+    }
   });
   it('uses consistent difficulty levels', () => {
     for (const lesson of endgameLessons) {
@@ -122,7 +135,29 @@ describe('starter content', () => {
       expect(lesson.level, `${lesson.id} difficulty`).toBe(expected);
     }
   });
-  it('every tactic is legal and every listed solution mates in one', () => {
+  it('orders endgames from easier and shorter to harder and longer', () => {
+    for (let index = 1; index < endgameLessons.length; index += 1) {
+      const previous = endgameLessons[index - 1];
+      const current = endgameLessons[index];
+      expect(previous.level, `${previous.id} level order`).toBeLessThanOrEqual(current.level);
+      if (previous.level === current.level) {
+        expect(previous.lines[0]?.moves.length ?? 0, `${previous.id} depth order`)
+          .toBeLessThanOrEqual(current.lines[0]?.moves.length ?? 0);
+      }
+    }
+  });
+  it('orders one-move tactics from easier to harder', () => {
+    for (let index = 1; index < tacticExercises.length; index += 1) {
+      const previous = tacticExercises[index - 1];
+      const current = tacticExercises[index];
+      expect(previous.level, `${previous.id} level order`).toBeLessThanOrEqual(current.level);
+      if (previous.level === current.level) {
+        expect(previous.solutions.length, `${previous.id} winning-path order`)
+          .toBeGreaterThanOrEqual(current.solutions.length);
+      }
+    }
+  });
+  it('every tactic is legal and every listed solution wins in one', () => {
     for (const tactic of tacticExercises) {
       const position = parseFen(tactic.fen);
       expect(position.turn, tactic.id).toBe('r');
@@ -144,13 +179,13 @@ describe('starter content', () => {
         expect(end, `${tactic.id} ${solution[0]}`).toMatchObject({
           status: 'win',
           winner: 'r',
-          reason: 'checkmate',
         });
+        expect(['checkmate', 'stalemate'], `${tactic.id} winning reason`).toContain(end.reason);
       }
     }
   });
 
-  it('every tactic records every legal one-move mate', () => {
+  it('every tactic records every legal one-move win', () => {
     for (const tactic of tacticExercises) {
       const initial = parseFen(tactic.fen);
       expect(initial.turn, tactic.id).toBe('r');
@@ -161,7 +196,7 @@ describe('starter content', () => {
           const result = applyMove(initial, move.from, move.to);
           if (!result.ok) return false;
           const end = evaluateBoard(result.position, { positionHashes: [] });
-          return end.status === 'win' && end.winner === 'r' && end.reason === 'checkmate';
+          return end.status === 'win' && end.winner === 'r';
         })
         .map((move) => moveToUcci(move.from, move.to))
         .sort();
@@ -188,7 +223,7 @@ describe('starter content', () => {
       }
     }
   });
-  it('every endgame guided line is legal and ends in mate', () => {
+  it('every endgame guided line is legal and ends in a win', () => {
     for (const lesson of endgameLessons) {
       expect(lesson.userColor).toBe('r');
       expect(lesson.lines.length).toBeGreaterThan(0);
@@ -200,8 +235,8 @@ describe('starter content', () => {
         expect(end, `${lesson.id}/${line.id}`).toMatchObject({
           status: 'win',
           winner: 'r',
-          reason: 'checkmate',
         });
+        expect(['checkmate', 'stalemate'], `${lesson.id}/${line.id} winning reason`).toContain(end.reason);
       }
     }
   });
@@ -217,11 +252,9 @@ describe('starter content', () => {
         const result = applyMove(initial, move.from, move.to);
         if (!result.ok) return false;
         const end = evaluateBoard(result.position, { positionHashes: [] });
-        return end.status === 'win' && end.winner === 'r' && end.reason === 'checkmate';
+        return end.status === 'win' && end.winner === 'r';
       });
-      if (immediateWins.length > 0) {
-        expect(lesson.title, lesson.id).not.toContain('两步成杀');
-      }
+      expect(immediateWins, `${lesson.id} must not have a one-move mate`).toHaveLength(0);
 
       for (const line of lesson.lines) {
         let position = initial;
@@ -257,8 +290,9 @@ describe('starter content', () => {
             expect(end, `${lesson.id}/${line.id} final after reply`).toMatchObject({
               status: 'win',
               winner: 'r',
-              reason: 'checkmate',
             });
+            expect(['checkmate', 'stalemate'], `${lesson.id}/${line.id} reply winning reason`)
+              .toContain(end.reason);
           }
         }
       }

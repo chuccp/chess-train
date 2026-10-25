@@ -1,0 +1,1502 @@
+[
+  {
+    "id": "endgame-extra-01",
+    "kind": "endgame",
+    "title": "双车配合 · 多步杀练习 01",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2000,
+    "tags": [
+      "双车配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "3k2b2/1R7/9/7R1/9/9/9/9/5K3/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "h6f6",
+            "comment": "先手：车二平四。双车配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "d9e9",
+            "comment": "黑方应 将4平5，仍在红方合围之内。"
+          },
+          {
+            "ucci": "f6f9",
+            "comment": "收口：车四进三，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-02",
+    "kind": "endgame",
+    "title": "双车配合 · 多步杀练习 02",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2001,
+    "tags": [
+      "双车配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "5a3/5k3/6R2/9/1R7/9/9/3K5/9/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "g7g8",
+            "comment": "先手：车三进一。双车配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "f8f7",
+            "comment": "黑方应 将6进1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "b5b7",
+            "comment": "收口：车八进二，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-03",
+    "kind": "endgame",
+    "title": "双车配合 · 多步杀练习 03",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2002,
+    "tags": [
+      "双车配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "6b2/3k5/9/5R3/1R7/9/9/9/9/5K3 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "f6f8",
+            "comment": "先手：车四进二。双车配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "d8d9",
+            "comment": "黑方应 将4退1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "b5b9",
+            "comment": "收口：车八进四，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-04",
+    "kind": "endgame",
+    "title": "双车配合 · 多步杀练习 04",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2003,
+    "tags": [
+      "双车配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "3R1a3/4k4/9/1R7/9/9/9/3K5/9/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "b6b8",
+            "comment": "先手：车八进二。双车配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "e8e7",
+            "comment": "黑方应 将5进1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "d9d7",
+            "comment": "收口：车六退二，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-05",
+    "kind": "endgame",
+    "title": "双车配合 · 多步杀练习 05",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2004,
+    "tags": [
+      "双车配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "1R7/5k3/8b/9/4R4/9/9/9/3K5/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "d1e1",
+            "comment": "先手：帅六平五。双车配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "i7g9",
+            "comment": "黑方应 象9退7，仍在红方合围之内。"
+          },
+          {
+            "ucci": "e5f5",
+            "comment": "收口：车五平四，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-06",
+    "kind": "endgame",
+    "title": "双车配合 · 多步杀练习 06",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2005,
+    "tags": [
+      "双车配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "4k4/9/4b4/3R5/1R7/9/9/9/5K3/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "d6d8",
+            "comment": "先手：车六进二。双车配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "e7g9",
+            "comment": "黑方应 象5退7，仍在红方合围之内。"
+          },
+          {
+            "ucci": "b5b9",
+            "comment": "收口：车八进四，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-07",
+    "kind": "endgame",
+    "title": "车炮配合 · 多步杀练习 07",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2006,
+    "tags": [
+      "车炮配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "3C5/3k5/b8/5R3/9/9/9/5K3/9/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "f2e2",
+            "comment": "先手：帅四平五。车炮配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "a7c9",
+            "comment": "黑方应 象1退3，仍在红方合围之内。"
+          },
+          {
+            "ucci": "f6d6",
+            "comment": "收口：车四平六，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-08",
+    "kind": "endgame",
+    "title": "车炮配合 · 多步杀练习 08",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2007,
+    "tags": [
+      "车炮配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "9/3C5/b2k5/9/4R4/9/9/9/9/5K3 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "f0e0",
+            "comment": "先手：帅四平五。车炮配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "a7c9",
+            "comment": "黑方应 象1退3，仍在红方合围之内。"
+          },
+          {
+            "ucci": "e5d5",
+            "comment": "收口：车五平六，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-09",
+    "kind": "endgame",
+    "title": "车炮配合 · 多步杀练习 09",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2008,
+    "tags": [
+      "车炮配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "9/4a4/5k3/9/1RC6/9/9/9/9/4K4 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "c5c8",
+            "comment": "先手：炮七进三。车炮配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "e8f9",
+            "comment": "黑方应 士5退6，仍在红方合围之内。"
+          },
+          {
+            "ucci": "b5f5",
+            "comment": "收口：车八平四，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-10",
+    "kind": "endgame",
+    "title": "车炮配合 · 多步杀练习 10",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2009,
+    "tags": [
+      "车炮配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "9/4a2C1/3k5/9/5R3/9/9/5K3/9/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "f2e2",
+            "comment": "先手：帅四平五。车炮配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "e8f9",
+            "comment": "黑方应 士5退6，仍在红方合围之内。"
+          },
+          {
+            "ucci": "f5d5",
+            "comment": "收口：车四平六，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-11",
+    "kind": "endgame",
+    "title": "车炮配合 · 多步杀练习 11",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2010,
+    "tags": [
+      "车炮配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "2C6/5k3/5a3/6R2/9/9/9/9/9/4K4 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "g6f6",
+            "comment": "先手：车三平四。车炮配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "f8f9",
+            "comment": "黑方应 将6退1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "f6f7",
+            "comment": "收口：车四进一，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-12",
+    "kind": "endgame",
+    "title": "车炮配合 · 多步杀练习 12",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2011,
+    "tags": [
+      "车炮配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "9/2C6/b4k3/6R2/9/9/9/9/3K5/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "d1e1",
+            "comment": "先手：帅六平五。车炮配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "a7c9",
+            "comment": "黑方应 象1退3，仍在红方合围之内。"
+          },
+          {
+            "ucci": "g6f6",
+            "comment": "收口：车三平四，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-13",
+    "kind": "endgame",
+    "title": "车马配合 · 多步杀练习 13",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2012,
+    "tags": [
+      "车马配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "4ka3/9/3R5/7N1/9/9/9/5K3/9/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "d7d8",
+            "comment": "先手：车六进一。车马配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "f9e8",
+            "comment": "黑方应 士6进5，仍在红方合围之内。"
+          },
+          {
+            "ucci": "h6g8",
+            "comment": "收口：马二进三，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-14",
+    "kind": "endgame",
+    "title": "车马配合 · 多步杀练习 14",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2013,
+    "tags": [
+      "车马配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "9/5k3/9/3R1N3/6b2/9/9/4K4/9/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "f6h7",
+            "comment": "先手：马四进二。车马配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "f8f9",
+            "comment": "黑方应 将6退1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "d6f6",
+            "comment": "收口：车六平四，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-15",
+    "kind": "endgame",
+    "title": "车马配合 · 多步杀练习 15",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2014,
+    "tags": [
+      "车马配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "6N2/3k5/6R1b/9/9/9/9/9/4K4/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "g7i7",
+            "comment": "先手：车三平一。车马配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "d8d9",
+            "comment": "黑方应 将4退1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "i7d7",
+            "comment": "收口：车一平六，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-16",
+    "kind": "endgame",
+    "title": "车马配合 · 多步杀练习 16",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2015,
+    "tags": [
+      "车马配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "2N3R2/5k3/3a5/9/9/9/9/4K4/9/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "c9d7",
+            "comment": "先手：马七退六。车马配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "f8f7",
+            "comment": "黑方应 将6进1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "g9f9",
+            "comment": "收口：车三平四，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-17",
+    "kind": "endgame",
+    "title": "车马配合 · 多步杀练习 17",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2016,
+    "tags": [
+      "车马配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "2b2k3/5N3/9/9/2R6/9/9/4K4/9/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "c5f5",
+            "comment": "先手：车七平四。车马配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "c9e7",
+            "comment": "黑方应 象3进5，仍在红方合围之内。"
+          },
+          {
+            "ucci": "f8d7",
+            "comment": "收口：马四退六，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-18",
+    "kind": "endgame",
+    "title": "车马配合 · 多步杀练习 18",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2017,
+    "tags": [
+      "车马配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "9/7N1/b2k5/5R3/9/9/9/9/5K3/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "f1e1",
+            "comment": "先手：帅四平五。车马配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "a7c9",
+            "comment": "黑方应 象1退3，仍在红方合围之内。"
+          },
+          {
+            "ucci": "f6d6",
+            "comment": "收口：车四平六，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-19",
+    "kind": "endgame",
+    "title": "马炮配合 · 多步杀练习 19",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2018,
+    "tags": [
+      "马炮配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "5k3/9/9/2N6/1C7/9/9/9/4K4/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "b5b8",
+            "comment": "先手：炮八进三。马炮配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "f9f8",
+            "comment": "黑方应 将6进1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "c6d8",
+            "comment": "收口：马七进六，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-20",
+    "kind": "endgame",
+    "title": "马炮配合 · 多步杀练习 20",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2019,
+    "tags": [
+      "马炮配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "7N1/9/3k5/6C2/9/9/9/4K4/9/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "g6g8",
+            "comment": "先手：炮三进二。马炮配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "d7d8",
+            "comment": "黑方应 将4退1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "h9f8",
+            "comment": "收口：马二退四，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-21",
+    "kind": "endgame",
+    "title": "马炮配合 · 多步杀练习 21",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2020,
+    "tags": [
+      "马炮配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "9/6N2/5k3/9/3C5/9/9/9/4K4/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "d5f5",
+            "comment": "先手：炮六平四。马炮配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "f7f8",
+            "comment": "黑方应 将6退1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "g8f6",
+            "comment": "收口：马三退四，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-22",
+    "kind": "endgame",
+    "title": "马炮配合 · 多步杀练习 22",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2021,
+    "tags": [
+      "马炮配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "3k5/9/9/5C3/3N5/9/9/4K4/9/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "f6f4",
+            "comment": "先手：炮四退二。马炮配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "d9d8",
+            "comment": "黑方应 将4进1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "f4d4",
+            "comment": "收口：炮四平六，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-23",
+    "kind": "endgame",
+    "title": "马炮配合 · 多步杀练习 23",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2022,
+    "tags": [
+      "马炮配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "7C1/5k3/9/5N3/9/9/9/4K4/9/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "h9h5",
+            "comment": "先手：炮二退四。马炮配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "f8f9",
+            "comment": "黑方应 将6退1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "h5f5",
+            "comment": "收口：炮二平四，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-24",
+    "kind": "endgame",
+    "title": "马炮配合 · 多步杀练习 24",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2023,
+    "tags": [
+      "马炮配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "9/9/5k3/5N3/3C5/9/9/9/3K5/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "d1e1",
+            "comment": "先手：帅六平五。马炮配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "f7f8",
+            "comment": "黑方应 将6退1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "d5f5",
+            "comment": "收口：炮六平四，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-25",
+    "kind": "endgame",
+    "title": "车兵配合 · 多步杀练习 25",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2024,
+    "tags": [
+      "车兵配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "3a5/3k5/2P6/9/6R2/9/9/9/5K3/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "c7c8",
+            "comment": "先手：兵七进一。车兵配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "d8e8",
+            "comment": "黑方应 将4平5，仍在红方合围之内。"
+          },
+          {
+            "ucci": "g5e5",
+            "comment": "收口：车三平五，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-26",
+    "kind": "endgame",
+    "title": "车兵配合 · 多步杀练习 26",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2025,
+    "tags": [
+      "车兵配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "9/5k3/bP4R2/9/9/9/9/4K4/9/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "b7a7",
+            "comment": "先手：兵八平九。车兵配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "f8f9",
+            "comment": "黑方应 将6退1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "g7f7",
+            "comment": "收口：车三平四，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-27",
+    "kind": "endgame",
+    "title": "车兵配合 · 多步杀练习 27",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2026,
+    "tags": [
+      "车兵配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "3aP4/9/3k5/7R1/9/9/9/5K3/9/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "f2e2",
+            "comment": "先手：帅四平五。车兵配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "d7d8",
+            "comment": "黑方应 将4退1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "h6d6",
+            "comment": "收口：车二平六，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-28",
+    "kind": "endgame",
+    "title": "车兵配合 · 多步杀练习 28",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2027,
+    "tags": [
+      "车兵配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "3a1R3/3k5/2P6/9/9/9/9/4K4/9/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "c7c8",
+            "comment": "先手：兵七进一。车兵配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "d8d7",
+            "comment": "黑方应 将4进1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "f9d9",
+            "comment": "收口：车四平六，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-29",
+    "kind": "endgame",
+    "title": "车兵配合 · 多步杀练习 29",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2028,
+    "tags": [
+      "车兵配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "9/9/3k1a3/9/1P5R1/9/9/9/5K3/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "f1e1",
+            "comment": "先手：帅四平五。车兵配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "d7d8",
+            "comment": "黑方应 将4退1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "h5d5",
+            "comment": "收口：车二平六，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  },
+  {
+    "id": "endgame-extra-30",
+    "kind": "endgame",
+    "title": "车兵配合 · 多步杀练习 30",
+    "subtitle": "先控将门，再完成合围",
+    "level": 1,
+    "order": 2029,
+    "tags": [
+      "车兵配合",
+      "原创",
+      "多步杀"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核强制应手校验",
+    "fen": "9/3k5/2R2a3/9/5P3/9/9/9/4K4/9 w - - 0 1",
+    "userColor": "r",
+    "objective": "win",
+    "intro": "从短杀开始，先收紧黑将的活动空间，再完成最后合围。",
+    "keyPoints": [
+      "先找能将军的着法",
+      "观察黑方全部合法应手",
+      "最后封住九宫退路"
+    ],
+    "lines": [
+      {
+        "id": "main",
+        "label": "主线 · 两步成杀",
+        "moves": [
+          {
+            "ucci": "c7f7",
+            "comment": "先手：车七平四。车兵配合的关键是收紧将门。"
+          },
+          {
+            "ucci": "d8d9",
+            "comment": "黑方应 将4退1，仍在红方合围之内。"
+          },
+          {
+            "ucci": "f7d7",
+            "comment": "收口：车四平六，形成将死。"
+          }
+        ]
+      }
+    ],
+    "completionText": "合围完成。记住先压缩空间，再完成最后绝杀。"
+  }
+]

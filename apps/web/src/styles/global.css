@@ -3034,6 +3034,23 @@ p {
   color: var(--muted-2);
 }
 
+.lesson-toolbar-primary {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.sort-note {
+  color: var(--muted);
+  font-size: 0.7rem;
+  white-space: nowrap;
+}
+
+.lesson-level-filter {
+  flex-wrap: wrap;
+}
+
 .lesson-list {
   display: flex;
   flex-direction: column;
@@ -5353,11 +5370,13 @@ p {
 /* ---------- Checkmate "绝杀" animation ---------- */
 
 .checkmate-burst,
+.stalemate-burst,
 .checkmate-stamp {
   pointer-events: none;
 }
 
-.checkmate-burst {
+.checkmate-burst,
+.stalemate-burst {
   opacity: 1;
 }
 
@@ -5394,6 +5413,42 @@ p {
   transform-origin: center;
 }
 
+.stalemate-ring {
+  fill: none;
+  stroke: var(--green-3);
+  stroke-width: 3;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.stalemate-ring-b {
+  stroke: var(--gold);
+  stroke-width: 4;
+}
+
+.stalemate-seal {
+  fill: rgba(241, 227, 197, 0.72);
+  stroke: var(--gold);
+  stroke-width: 2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.stalemate-corners {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.stalemate-corners path {
+  fill: none;
+  stroke: var(--green-3);
+  stroke-width: 4;
+  stroke-linecap: round;
+  opacity: 0;
+}
+
 .checkmate-stamp {
   position: absolute;
   z-index: 4;
@@ -5413,6 +5468,18 @@ p {
     0 14px 36px rgba(78, 35, 24, 0.24);
   opacity: 0;
   transform: translate(-50%, -50%);
+}
+
+.checkmate-stamp.is-stalemate {
+  border-color: var(--green-3);
+  color: var(--green);
+  box-shadow:
+    0 0 0 2px rgba(198, 154, 77, 0.42),
+    0 14px 36px rgba(30, 59, 47, 0.22);
+}
+
+.checkmate-stamp.is-stalemate em {
+  color: var(--green-3);
 }
 
 .checkmate-stamp span {
@@ -5454,11 +5521,32 @@ p {
   .checkmate-stamp {
     animation: mate-stamp 1750ms cubic-bezier(0.18, 0.8, 0.24, 1) both;
   }
+
+  .stalemate-ring-a {
+    animation: stalemate-ring 1150ms cubic-bezier(0.16, 0.72, 0.28, 1) both;
+  }
+
+  .stalemate-ring-b {
+    animation: stalemate-ring 1250ms cubic-bezier(0.16, 0.72, 0.28, 1) 130ms both;
+  }
+
+  .stalemate-seal {
+    animation: stalemate-seal 760ms ease-out both;
+  }
+
+  .stalemate-corners {
+    animation: stalemate-corners 980ms cubic-bezier(0.16, 0.72, 0.28, 1) both;
+  }
+
+  .checkmate-stamp.is-stalemate {
+    animation: stalemate-stamp 1750ms cubic-bezier(0.18, 0.8, 0.24, 1) both;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .checkmate-stamp,
-  .checkmate-burst {
+  .checkmate-burst,
+  .stalemate-burst {
     display: none;
   }
 }
@@ -5502,6 +5590,45 @@ p {
   }
 }
 
+@keyframes stalemate-ring {
+  0% {
+    opacity: 0.88;
+    transform: scale(0.82);
+  }
+  58% {
+    opacity: 0.42;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.7);
+  }
+}
+
+@keyframes stalemate-seal {
+  0% {
+    opacity: 0.8;
+    transform: scale(1.7);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+}
+
+@keyframes stalemate-corners {
+  0% {
+    opacity: 0;
+    transform: rotate(-7deg) scale(1.45);
+  }
+  32% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(4deg) scale(0.92);
+  }
+}
+
 @keyframes mate-stamp {
   0% {
     opacity: 0;
@@ -5519,6 +5646,28 @@ p {
   100% {
     opacity: 0;
     transform: translate(-50%, -50%) scale(1.06) rotate(-4deg);
+  }
+}
+
+@keyframes stalemate-stamp {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.55);
+    filter: blur(3px);
+  }
+  18% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.96);
+    filter: blur(0);
+  }
+  28%,
+  78% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.04);
   }
 }
 
