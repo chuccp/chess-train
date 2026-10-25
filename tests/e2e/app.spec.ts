@@ -323,6 +323,20 @@ test('endgame lessons are sorted by difficulty and can be filtered', async ({ pa
   ).toBe(false);
 });
 
+test('opening lessons are sorted by difficulty and can be filtered', async ({ page }) => {
+  await page.goto('/train/opening');
+  await expect(page.locator('.list-progress-badge')).toContainText('209');
+  await expect(page.locator('.lesson-toolbar-primary')).toContainText('由易到难排序');
+  const levels = await page.locator('.lesson-level').allTextContents();
+  const ranks = levels.map((label) => (label === '入门' ? 1 : label === '进阶' ? 2 : 3));
+  expect(ranks).toEqual([...ranks].sort((left, right) => left - right));
+
+  await page.getByRole('button', { name: '挑战', exact: true }).click();
+  const filteredLevels = await page.locator('.lesson-level').allTextContents();
+  expect(filteredLevels.length).toBeGreaterThan(0);
+  expect(new Set(filteredLevels)).toEqual(new Set(['挑战']));
+});
+
 test('endgame deviation gets a rules-validated reply without a line warning and can be undone', async ({ page }) => {
   await page.setViewportSize({ width: 1920, height: 950 });
   await page.goto('/train/endgame/endgame-03');
@@ -557,8 +571,168 @@ test('local game cards open AI or local two-player mode directly', async ({ page
   await expect(page.locator('.mobile-engine-status')).toHaveCount(0);
 
   await page.goto('/local/gomoku?mode=ai');
-  await expect(page.locator('.mobile-engine-status')).toBeVisible();
-  await expect(page.locator('.mobile-engine-status')).toContainText('在线 AI');
+  await expect(page.locator('.game-engine-status .mobile-engine-status:visible')).toBeVisible();
+  await expect(page.locator('.game-engine-status .mobile-engine-status:visible')).toContainText('本地 AI · 已就绪');
+});
+
+test('game pages use one AI status and game-meta format', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const path of [
+    '/local/gomoku?mode=ai',
+    '/local/jungle?mode=ai',
+    '/local/checkers?mode=ai',
+    '/local/connect4?mode=ai',
+  ]) {
+    await page.goto(path);
+    const topline = page.locator('.play-topline-right');
+    await expect(topline).toHaveCount(1);
+    await expect(topline.locator('.mobile-engine-status')).toHaveText('本地 AI · 已就绪');
+    await expect(page.locator('.play-topline-meta')).toHaveCount(0);
+    const elapsed = page.locator('.board-toolbar .board-time');
+    await expect(elapsed).toHaveText(/^(\d+ 秒|\d+ 分(?: \d+ 秒)?|\d+ 小时 \d+ 分)$/);
+    await expect(elapsed).not.toContainText('你执');
+    const chips = await page.locator('.mobile-engine-status:visible, .board-time').evaluateAll(
+      (elements) => elements.map((element) => {
+        const style = getComputedStyle(element);
+        return {
+          height: style.height,
+          fontSize: style.fontSize,
+          padding: style.padding,
+          borderRadius: style.borderRadius,
+        };
+      }),
+    );
+    expect(chips).toHaveLength(2);
+    expect(chips[0]).toEqual(chips[1]);
+  }
+});
+
+test('xiangqi and other game pages share the same AI status style', async ({ page }) => {
+  await waitForOfflineReady(page);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.getByRole('button', { name: /和 AI 下一盘/ }).click();
+  await expect(page).toHaveURL(/\/play$/);
+  await expect(page.locator('.board-hit')).toHaveCount(90);
+
+  const readStatusStyle = () => page.locator('.mobile-engine-status:visible').evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      height: style.height,
+      fontSize: style.fontSize,
+      padding: style.padding,
+      borderRadius: style.borderRadius,
+      borderColor: style.borderColor,
+      backgroundColor: style.backgroundColor,
+    };
+  });
+  await page.waitForTimeout(200);
+  const xiangqiStyle = await readStatusStyle();
+  const xiangqiToolbarHeight = (await page.locator('.game-board-toolbar').boundingBox())?.height;
+
+  await page.goto('/local/gomoku?mode=ai');
+  await expect(page.locator('.mobile-engine-status:visible')).toHaveText('本地 AI · 已就绪');
+  await page.waitForTimeout(200);
+  const localGameStyle = await readStatusStyle();
+  expect(xiangqiStyle).toEqual(localGameStyle);
+  expect((await page.locator('.game-board-toolbar').boundingBox())?.height).toBe(xiangqiToolbarHeight);
+});
+
+test('global and game AI status use identical typography and capsule size', async ({ page }) => {
+  await waitForOfflineReady(page);
+  const readPill = (locator: import('@playwright/test').Locator) => locator.evaluate((element) => {
+    const style = getComputedStyle(element);
+    const rect = element.getBoundingClientRect();
+    return {
+      height: style.height,
+      width: rect.width,
+      fontSize: style.fontSize,
+      fontFamily: style.fontFamily,
+      fontWeight: style.fontWeight,
+      lineHeight: style.lineHeight,
+      padding: style.padding,
+      borderRadius: style.borderRadius,
+      color: style.color,
+      borderColor: style.borderColor,
+      backgroundColor: style.backgroundColor,
+    };
+  });
+
+  await page.goto('/train');
+  const regular = page.locator('.engine-badge.tone-ready:visible');
+  await expect(regular).toBeVisible();
+  await expect(regular).toContainText('在线 AI · 已就绪');
+  await page.waitForTimeout(200);
+  const regularStyle = await readPill(regular);
+  const navBottom = (await page.locator('.site-header').boundingBox())?.height ?? 0;
+  const regularPillTop = (await regular.boundingBox())?.y ?? 0;
+
+  await page.goto('/');
+  await page.getByRole('button', { name: /和 AI 下一盘/ }).click();
+  const gamePill = page.locator('.game-engine-status .mobile-engine-status:visible');
+  await expect(gamePill).toBeVisible();
+  await page.waitForTimeout(200);
+  const gameStyle = await readPill(gamePill);
+  expect(gameStyle).toEqual(regularStyle);
+  expect((await gamePill.boundingBox())?.y ?? 0).toBeCloseTo(regularPillTop, 0);
+  expect(regularPillTop - navBottom).toBeCloseTo(12, 0);
+  expect(((await gamePill.boundingBox())?.y ?? 0) - navBottom).toBeCloseTo(12, 0);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/train');
+  const mobileRegular = page.locator('.engine-badge.tone-ready:visible');
+  await expect(mobileRegular).toContainText('在线 AI · 已就绪');
+  await page.waitForTimeout(200);
+  const mobileRegularStyle = await readPill(mobileRegular);
+  await page.goto('/play');
+  await expect(page.locator('.mobile-engine-status:visible')).toBeVisible();
+  await page.waitForTimeout(200);
+  const mobileGameStyle = await readPill(page.locator('.mobile-engine-status:visible'));
+  expect(mobileGameStyle).toEqual(mobileRegularStyle);
+});
+
+test('game time stays beside the board switch control on desktop and mobile', async ({ page }) => {
+  await page.goto('/play?setup=1');
+  await page.getByRole('button', { name: '双人对战' }).click();
+  await page.getByRole('button', { name: '开始双人对局' }).click();
+
+  async function expectTimeBesideSwitch() {
+    const time = page.locator('.board-time');
+    const switchButton = page.locator('.board-toolbar-actions .btn');
+    await expect(time).toBeVisible();
+    await expect(switchButton).toBeVisible();
+    const timeBox = await time.boundingBox();
+    const switchBox = await switchButton.boundingBox();
+    const toolbarBox = await page.locator('.board-toolbar').boundingBox();
+    expect(Math.abs((timeBox?.y ?? 0) - (switchBox?.y ?? 0))).toBeLessThan(4);
+    expect((timeBox?.x ?? 0) + (timeBox?.width ?? 0) / 2).toBeCloseTo(
+      (toolbarBox?.x ?? 0) + (toolbarBox?.width ?? 0) / 2,
+      0,
+    );
+    expect((switchBox?.x ?? 0) + (switchBox?.width ?? 0)).toBeCloseTo(
+      (toolbarBox?.x ?? 0) + (toolbarBox?.width ?? 0),
+      0,
+    );
+    const boardBox = await page.locator('.board-shell').boundingBox();
+    expect((timeBox?.y ?? 0) + (timeBox?.height ?? 0)).toBeLessThan(boardBox?.y ?? 0);
+  }
+
+  await expectTimeBesideSwitch();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expectTimeBesideSwitch();
+});
+
+test('game pages start at the same distance from the top tabs as other game pages', async ({ page }) => {
+  await page.goto('/play?setup=1');
+  await page.getByRole('button', { name: '双人对战' }).click();
+  await page.getByRole('button', { name: '开始双人对局' }).click();
+  await page.waitForTimeout(250);
+  const xiangqiTopline = await page.locator('.play-topline').boundingBox();
+
+  await page.goto('/local/gomoku?mode=ai');
+  await page.waitForTimeout(250);
+  const gomokuTopline = await page.locator('.play-topline').boundingBox();
+
+  expect(gomokuTopline?.y).toBeCloseTo(xiangqiTopline?.y ?? 0, 0);
 });
 
 test('local gomoku places black and white stones', async ({ page }) => {
@@ -691,7 +865,7 @@ test('opening training follows the line with one automatic side', async ({ page 
 });
 test('large training library paginates and searches', async ({ page }) => {
   await page.goto('/train/endgame');
-  await expect(page.locator('.lesson-meta-strip')).toContainText('707 节');
+  await expect(page.locator('.lesson-meta-strip')).toContainText('737 节');
   await expect(page.locator('.page-heading h1')).toHaveCount(0);
   await expect(page.locator('.page-heading p')).toHaveCount(0);
   await expect(page.locator('.lesson-row')).toHaveCount(30);
@@ -701,7 +875,7 @@ test('large training library paginates and searches', async ({ page }) => {
   await expect(page.locator('.lesson-row')).toHaveCount(1);
 
   await page.goto('/train/tactics');
-  await expect(page.locator('.list-progress-badge')).toContainText('831');
+  await expect(page.locator('.list-progress-badge')).toContainText('861');
   await expect(page.locator('.page-heading h1')).toHaveCount(0);
   await expect(page.locator('.page-heading p')).toHaveCount(0);
   await expect(page.locator('.tactic-card')).toHaveCount(30);

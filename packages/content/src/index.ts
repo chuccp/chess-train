@@ -9,7 +9,8 @@ import tacticsJson from './data/tactics.json';
 import tacticsExtraJson from './data/tactics-extra.json';
 import endgamesJson from './data/endgames.json';
 import endgamesExtraJson from './data/endgame-extra.json';
-import { openingLessons } from './data/openings';
+import { openingLessons as rawOpeningLessons } from './data/openings';
+import openingsExtraJson from './data/openings-extra.json';
 
 export type {
   ContentLevel,
@@ -23,7 +24,16 @@ export type {
   TrainingKind,
   TrainingMeta,
 } from './types';
-export { openingLessons };
+export const openingLessons = [
+  ...rawOpeningLessons,
+  ...(openingsExtraJson as GuidedLesson[]),
+].sort((left, right) => {
+  if (left.level !== right.level) return left.level - right.level;
+  const leftDepth = left.lines[0]?.moves.length ?? 0;
+  const rightDepth = right.lines[0]?.moves.length ?? 0;
+  if (leftDepth !== rightDepth) return leftDepth - rightDepth;
+  return left.order - right.order;
+});
 
 const baseTacticExercises = [
   ...(tacticsJson as TacticsExercise[]),

@@ -185,12 +185,12 @@
   {
     "id": "tactic-extra-07",
     "kind": "tactics",
-    "title": "车炮配合 · 一步杀 07",
+    "title": "双车配合 · 一步杀 07",
     "subtitle": "红先，一步将死或困毙",
     "level": 2,
     "order": 3006,
     "tags": [
-      "车炮配合",
+      "双车配合",
       "一步杀",
       "将死"
     ],
@@ -201,11 +201,11 @@
     },
     "reviewedAt": "2026-10-25",
     "reviewedBy": "规则核全量校验",
-    "fen": "3a1k3/9/2R6/5C3/9/9/9/9/4K4/9 w - - 0 1",
+    "fen": "5k3/7R1/3a5/9/7R1/9/9/9/9/4K4 w - - 0 1",
     "goal": "mate",
     "solutions": [
       [
-        "c7f7"
+        "h5f5"
       ]
     ],
     "hint": "先找能直接封死九宫退路的着法。",
@@ -214,12 +214,12 @@
   {
     "id": "tactic-extra-08",
     "kind": "tactics",
-    "title": "车炮配合 · 一步杀 08",
+    "title": "双车配合 · 一步杀 08",
     "subtitle": "红先，一步将死或困毙",
     "level": 2,
     "order": 3007,
     "tags": [
-      "车炮配合",
+      "双车配合",
       "一步杀",
       "将死"
     ],
@@ -230,7 +230,7 @@
     },
     "reviewedAt": "2026-10-25",
     "reviewedBy": "规则核全量校验",
-    "fen": "6R2/6C2/4bk3/9/9/9/9/3K5/9/9 w - - 0 1",
+    "fen": "6R2/6R2/4bk3/9/9/9/9/3K5/9/9 w - - 0 1",
     "goal": "mate",
     "solutions": [
       [
@@ -243,12 +243,12 @@
   {
     "id": "tactic-extra-09",
     "kind": "tactics",
-    "title": "车炮配合 · 一步杀 09",
+    "title": "双车配合 · 一步杀 09",
     "subtitle": "红先，一步将死或困毙",
     "level": 2,
     "order": 3008,
     "tags": [
-      "车炮配合",
+      "双车配合",
       "一步杀",
       "将死"
     ],
@@ -259,11 +259,11 @@
     },
     "reviewedAt": "2026-10-25",
     "reviewedBy": "规则核全量校验",
-    "fen": "7R1/5C3/b2k5/9/9/9/9/9/4K4/9 w - - 0 1",
+    "fen": "5k3/9/b8/4R4/1R7/9/9/9/9/3K5 w - - 0 1",
     "goal": "mate",
     "solutions": [
       [
-        "h9d9"
+        "b5f5"
       ]
     ],
     "hint": "先找能直接封死九宫退路的着法。",
@@ -272,12 +272,12 @@
   {
     "id": "tactic-extra-10",
     "kind": "tactics",
-    "title": "车炮配合 · 一步杀 10",
+    "title": "双车配合 · 一步杀 10",
     "subtitle": "红先，一步将死或困毙",
     "level": 2,
     "order": 3009,
     "tags": [
-      "车炮配合",
+      "双车配合",
       "一步杀",
       "将死"
     ],
@@ -288,11 +288,14 @@
     },
     "reviewedAt": "2026-10-25",
     "reviewedBy": "规则核全量校验",
-    "fen": "3k5/9/1C6b/9/2R6/9/9/9/9/4K4 w - - 0 1",
+    "fen": "7R1/5R3/b2k5/9/9/9/9/9/4K4/9 w - - 0 1",
     "goal": "mate",
     "solutions": [
       [
-        "c5d5"
+        "h9d9"
+      ],
+      [
+        "h9h7"
       ]
     ],
     "hint": "先找能直接封死九宫退路的着法。",
@@ -301,10 +304,71 @@
   {
     "id": "tactic-extra-11",
     "kind": "tactics",
-    "title": "车炮配合 · 一步杀 11",
+    "title": "双车配合 · 一步杀 11",
     "subtitle": "红先，一步将死或困毙",
     "level": 2,
     "order": 3010,
+    "tags": [
+      "双车配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "3k5/9/1R6b/9/2R6/9/9/9/9/4K4 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c5d5"
+      ],
+      [
+        "b7d7"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-12",
+    "kind": "tactics",
+    "title": "双车配合 · 一步杀 12",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3011,
+    "tags": [
+      "双车配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "4R1b2/3k5/9/9/1R7/9/9/4K4/9/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b5d5"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-13",
+    "kind": "tactics",
+    "title": "车炮配合 · 一步杀 13",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3012,
     "tags": [
       "车炮配合",
       "一步杀",
@@ -328,12 +392,12 @@
     "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
   },
   {
-    "id": "tactic-extra-12",
+    "id": "tactic-extra-14",
     "kind": "tactics",
-    "title": "车炮配合 · 一步杀 12",
+    "title": "车炮配合 · 一步杀 14",
     "subtitle": "红先，一步将死或困毙",
     "level": 2,
-    "order": 3011,
+    "order": 3013,
     "tags": [
       "车炮配合",
       "一步杀",
@@ -357,72 +421,14 @@
     "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
   },
   {
-    "id": "tactic-extra-13",
-    "kind": "tactics",
-    "title": "车马配合 · 一步杀 13",
-    "subtitle": "红先，一步将死或困毙",
-    "level": 2,
-    "order": 3012,
-    "tags": [
-      "车马配合",
-      "一步杀",
-      "含困毙"
-    ],
-    "source": {
-      "name": "棋练原创编排",
-      "author": "棋练项目组",
-      "license": "CC0-1.0"
-    },
-    "reviewedAt": "2026-10-25",
-    "reviewedBy": "规则核全量校验",
-    "fen": "3k1a3/3N5/4R4/9/9/9/9/9/4K4/9 w - - 0 1",
-    "goal": "mate",
-    "solutions": [
-      [
-        "d8f9"
-      ]
-    ],
-    "hint": "先找能直接封死九宫退路的着法。",
-    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
-  },
-  {
-    "id": "tactic-extra-14",
-    "kind": "tactics",
-    "title": "车马配合 · 一步杀 14",
-    "subtitle": "红先，一步将死或困毙",
-    "level": 2,
-    "order": 3013,
-    "tags": [
-      "车马配合",
-      "一步杀",
-      "将死"
-    ],
-    "source": {
-      "name": "棋练原创编排",
-      "author": "棋练项目组",
-      "license": "CC0-1.0"
-    },
-    "reviewedAt": "2026-10-25",
-    "reviewedBy": "规则核全量校验",
-    "fen": "9/2N6/3k4b/4R4/9/9/9/9/5K3/9 w - - 0 1",
-    "goal": "mate",
-    "solutions": [
-      [
-        "e6d6"
-      ]
-    ],
-    "hint": "先找能直接封死九宫退路的着法。",
-    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
-  },
-  {
     "id": "tactic-extra-15",
     "kind": "tactics",
-    "title": "车马配合 · 一步杀 15",
+    "title": "车炮配合 · 一步杀 15",
     "subtitle": "红先，一步将死或困毙",
-    "level": 1,
+    "level": 2,
     "order": 3014,
     "tags": [
-      "车马配合",
+      "车炮配合",
       "一步杀",
       "将死"
     ],
@@ -433,7 +439,7 @@
     },
     "reviewedAt": "2026-10-25",
     "reviewedBy": "规则核全量校验",
-    "fen": "4Nk3/9/5aR2/9/9/9/9/9/4K4/9 w - - 0 1",
+    "fen": "4Ck3/9/5aR2/9/9/9/9/9/4K4/9 w - - 0 1",
     "goal": "mate",
     "solutions": [
       [
@@ -446,12 +452,12 @@
   {
     "id": "tactic-extra-16",
     "kind": "tactics",
-    "title": "车马配合 · 一步杀 16",
+    "title": "车炮配合 · 一步杀 16",
     "subtitle": "红先，一步将死或困毙",
     "level": 2,
     "order": 3015,
     "tags": [
-      "车马配合",
+      "车炮配合",
       "一步杀",
       "将死"
     ],
@@ -462,7 +468,7 @@
     },
     "reviewedAt": "2026-10-25",
     "reviewedBy": "规则核全量校验",
-    "fen": "9/9/3k5/5R1N1/6b2/9/9/9/4K4/9 w - - 0 1",
+    "fen": "9/9/3k5/5R1C1/6b2/9/9/9/4K4/9 w - - 0 1",
     "goal": "mate",
     "solutions": [
       [
@@ -475,12 +481,12 @@
   {
     "id": "tactic-extra-17",
     "kind": "tactics",
-    "title": "车马配合 · 一步杀 17",
+    "title": "车炮配合 · 一步杀 17",
     "subtitle": "红先，一步将死或困毙",
-    "level": 1,
+    "level": 2,
     "order": 3016,
     "tags": [
-      "车马配合",
+      "车炮配合",
       "一步杀",
       "将死"
     ],
@@ -491,7 +497,7 @@
     },
     "reviewedAt": "2026-10-25",
     "reviewedBy": "规则核全量校验",
-    "fen": "3k5/2N6/5a3/9/4R4/9/9/4K4/9/9 w - - 0 1",
+    "fen": "3k5/2C6/5a3/9/4R4/9/9/4K4/9/9 w - - 0 1",
     "goal": "mate",
     "solutions": [
       [
@@ -504,12 +510,12 @@
   {
     "id": "tactic-extra-18",
     "kind": "tactics",
-    "title": "车马配合 · 一步杀 18",
+    "title": "车炮配合 · 一步杀 18",
     "subtitle": "红先，一步将死或困毙",
     "level": 2,
     "order": 3017,
     "tags": [
-      "车马配合",
+      "车炮配合",
       "一步杀",
       "将死"
     ],
@@ -520,7 +526,7 @@
     },
     "reviewedAt": "2026-10-25",
     "reviewedBy": "规则核全量校验",
-    "fen": "6b2/3kN4/9/9/1R7/9/9/9/4K4/9 w - - 0 1",
+    "fen": "6b2/3kC4/9/9/1R7/9/9/9/4K4/9 w - - 0 1",
     "goal": "mate",
     "solutions": [
       [
@@ -533,14 +539,14 @@
   {
     "id": "tactic-extra-19",
     "kind": "tactics",
-    "title": "马炮配合 · 一步杀 19",
+    "title": "车炮配合 · 一步杀 19",
     "subtitle": "红先，一步将死或困毙",
     "level": 2,
     "order": 3018,
     "tags": [
-      "马炮配合",
+      "车炮配合",
       "一步杀",
-      "含困毙"
+      "将死"
     ],
     "source": {
       "name": "棋练原创编排",
@@ -549,14 +555,11 @@
     },
     "reviewedAt": "2026-10-25",
     "reviewedBy": "规则核全量校验",
-    "fen": "5k3/9/9/5C3/6N2/9/9/4K4/9/9 w - - 0 1",
+    "fen": "9/2C1a4/5k3/9/6R2/9/9/3K5/9/9 w - - 0 1",
     "goal": "mate",
     "solutions": [
       [
-        "g5h7"
-      ],
-      [
-        "g5f7"
+        "g5g7"
       ]
     ],
     "hint": "先找能直接封死九宫退路的着法。",
@@ -565,166 +568,12 @@
   {
     "id": "tactic-extra-20",
     "kind": "tactics",
-    "title": "马炮配合 · 一步杀 20",
+    "title": "车炮配合 · 一步杀 20",
     "subtitle": "红先，一步将死或困毙",
     "level": 2,
     "order": 3019,
     "tags": [
-      "马炮配合",
-      "一步杀",
-      "含困毙"
-    ],
-    "source": {
-      "name": "棋练原创编排",
-      "author": "棋练项目组",
-      "license": "CC0-1.0"
-    },
-    "reviewedAt": "2026-10-25",
-    "reviewedBy": "规则核全量校验",
-    "fen": "4N4/5k3/2C6/9/9/9/9/9/4K4/9 w - - 0 1",
-    "goal": "mate",
-    "solutions": [
-      [
-        "c7c9"
-      ]
-    ],
-    "hint": "先找能直接封死九宫退路的着法。",
-    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
-  },
-  {
-    "id": "tactic-extra-21",
-    "kind": "tactics",
-    "title": "马炮配合 · 一步杀 21",
-    "subtitle": "红先，一步将死或困毙",
-    "level": 1,
-    "order": 3020,
-    "tags": [
-      "马炮配合",
-      "一步杀",
-      "含困毙"
-    ],
-    "source": {
-      "name": "棋练原创编排",
-      "author": "棋练项目组",
-      "license": "CC0-1.0"
-    },
-    "reviewedAt": "2026-10-25",
-    "reviewedBy": "规则核全量校验",
-    "fen": "5k3/9/9/9/2N2C3/9/9/9/5K3/9 w - - 0 1",
-    "goal": "mate",
-    "solutions": [
-      [
-        "c5d7"
-      ]
-    ],
-    "hint": "先找能直接封死九宫退路的着法。",
-    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
-  },
-  {
-    "id": "tactic-extra-22",
-    "kind": "tactics",
-    "title": "马炮配合 · 一步杀 22",
-    "subtitle": "红先，一步将死或困毙",
-    "level": 2,
-    "order": 3021,
-    "tags": [
-      "马炮配合",
-      "一步杀",
-      "含困毙"
-    ],
-    "source": {
-      "name": "棋练原创编排",
-      "author": "棋练项目组",
-      "license": "CC0-1.0"
-    },
-    "reviewedAt": "2026-10-25",
-    "reviewedBy": "规则核全量校验",
-    "fen": "4k4/4N4/1C7/9/9/9/9/3K5/9/9 w - - 0 1",
-    "goal": "mate",
-    "solutions": [
-      [
-        "e8g7"
-      ]
-    ],
-    "hint": "先找能直接封死九宫退路的着法。",
-    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
-  },
-  {
-    "id": "tactic-extra-23",
-    "kind": "tactics",
-    "title": "马炮配合 · 一步杀 23",
-    "subtitle": "红先，一步将死或困毙",
-    "level": 1,
-    "order": 3022,
-    "tags": [
-      "马炮配合",
-      "一步杀",
-      "含困毙"
-    ],
-    "source": {
-      "name": "棋练原创编排",
-      "author": "棋练项目组",
-      "license": "CC0-1.0"
-    },
-    "reviewedAt": "2026-10-25",
-    "reviewedBy": "规则核全量校验",
-    "fen": "3k5/7N1/2C6/9/9/9/9/9/4K4/9 w - - 0 1",
-    "goal": "mate",
-    "solutions": [
-      [
-        "h8f9"
-      ],
-      [
-        "h8f7"
-      ]
-    ],
-    "hint": "先找能直接封死九宫退路的着法。",
-    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
-  },
-  {
-    "id": "tactic-extra-24",
-    "kind": "tactics",
-    "title": "马炮配合 · 一步杀 24",
-    "subtitle": "红先，一步将死或困毙",
-    "level": 1,
-    "order": 3023,
-    "tags": [
-      "马炮配合",
-      "一步杀",
-      "含困毙"
-    ],
-    "source": {
-      "name": "棋练原创编排",
-      "author": "棋练项目组",
-      "license": "CC0-1.0"
-    },
-    "reviewedAt": "2026-10-25",
-    "reviewedBy": "规则核全量校验",
-    "fen": "5k3/9/9/5N3/2C6/9/9/4K4/9/9 w - - 0 1",
-    "goal": "mate",
-    "solutions": [
-      [
-        "c5f5"
-      ],
-      [
-        "f6h7"
-      ],
-      [
-        "f6d7"
-      ]
-    ],
-    "hint": "先找能直接封死九宫退路的着法。",
-    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
-  },
-  {
-    "id": "tactic-extra-25",
-    "kind": "tactics",
-    "title": "车兵配合 · 一步杀 25",
-    "subtitle": "红先，一步将死或困毙",
-    "level": 1,
-    "order": 3024,
-    "tags": [
-      "车兵配合",
+      "车炮配合",
       "一步杀",
       "将死"
     ],
@@ -735,129 +584,7 @@
     },
     "reviewedAt": "2026-10-25",
     "reviewedBy": "规则核全量校验",
-    "fen": "6b2/5k3/9/6P2/3R5/9/9/9/4K4/9 w - - 0 1",
-    "goal": "mate",
-    "solutions": [
-      [
-        "d5f5"
-      ]
-    ],
-    "hint": "先找能直接封死九宫退路的着法。",
-    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
-  },
-  {
-    "id": "tactic-extra-26",
-    "kind": "tactics",
-    "title": "车兵配合 · 一步杀 26",
-    "subtitle": "红先，一步将死或困毙",
-    "level": 1,
-    "order": 3025,
-    "tags": [
-      "车兵配合",
-      "一步杀",
-      "将死"
-    ],
-    "source": {
-      "name": "棋练原创编排",
-      "author": "棋练项目组",
-      "license": "CC0-1.0"
-    },
-    "reviewedAt": "2026-10-25",
-    "reviewedBy": "规则核全量校验",
-    "fen": "5a3/9/3k3P1/9/2R6/9/9/9/9/4K4 w - - 0 1",
-    "goal": "mate",
-    "solutions": [
-      [
-        "c5d5"
-      ]
-    ],
-    "hint": "先找能直接封死九宫退路的着法。",
-    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
-  },
-  {
-    "id": "tactic-extra-27",
-    "kind": "tactics",
-    "title": "车兵配合 · 一步杀 27",
-    "subtitle": "红先，一步将死或困毙",
-    "level": 1,
-    "order": 3026,
-    "tags": [
-      "车兵配合",
-      "一步杀",
-      "将死"
-    ],
-    "source": {
-      "name": "棋练原创编排",
-      "author": "棋练项目组",
-      "license": "CC0-1.0"
-    },
-    "reviewedAt": "2026-10-25",
-    "reviewedBy": "规则核全量校验",
-    "fen": "5k3/2R1P4/3a5/9/9/9/9/9/9/4K4 w - - 0 1",
-    "goal": "mate",
-    "solutions": [
-      [
-        "c8c9"
-      ],
-      [
-        "e8e9"
-      ],
-      [
-        "e8f8"
-      ]
-    ],
-    "hint": "先找能直接封死九宫退路的着法。",
-    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
-  },
-  {
-    "id": "tactic-extra-28",
-    "kind": "tactics",
-    "title": "车兵配合 · 一步杀 28",
-    "subtitle": "红先，一步将死或困毙",
-    "level": 1,
-    "order": 3027,
-    "tags": [
-      "车兵配合",
-      "一步杀",
-      "将死"
-    ],
-    "source": {
-      "name": "棋练原创编排",
-      "author": "棋练项目组",
-      "license": "CC0-1.0"
-    },
-    "reviewedAt": "2026-10-25",
-    "reviewedBy": "规则核全量校验",
-    "fen": "5a3/9/3k5/1R2P4/9/9/9/4K4/9/9 w - - 0 1",
-    "goal": "mate",
-    "solutions": [
-      [
-        "b6d6"
-      ]
-    ],
-    "hint": "先找能直接封死九宫退路的着法。",
-    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
-  },
-  {
-    "id": "tactic-extra-29",
-    "kind": "tactics",
-    "title": "车兵配合 · 一步杀 29",
-    "subtitle": "红先，一步将死或困毙",
-    "level": 1,
-    "order": 3028,
-    "tags": [
-      "车兵配合",
-      "一步杀",
-      "将死"
-    ],
-    "source": {
-      "name": "棋练原创编排",
-      "author": "棋练项目组",
-      "license": "CC0-1.0"
-    },
-    "reviewedAt": "2026-10-25",
-    "reviewedBy": "规则核全量校验",
-    "fen": "2b6/7P1/3k5/9/5R3/9/9/9/4K4/9 w - - 0 1",
+    "fen": "2C6/3k5/5a3/9/5R3/9/9/9/4K4/9 w - - 0 1",
     "goal": "mate",
     "solutions": [
       [
@@ -868,12 +595,836 @@
     "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
   },
   {
+    "id": "tactic-extra-21",
+    "kind": "tactics",
+    "title": "车炮配合 · 一步杀 21",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3020,
+    "tags": [
+      "车炮配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "1R7/9/5k3/9/2b2C3/9/9/9/9/4K4 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b9f9"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-22",
+    "kind": "tactics",
+    "title": "车炮配合 · 一步杀 22",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3021,
+    "tags": [
+      "车炮配合",
+      "一步杀",
+      "含困毙"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "5k3/1R7/5a1C1/9/9/9/9/5K3/9/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b8e8"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-23",
+    "kind": "tactics",
+    "title": "车炮配合 · 一步杀 23",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3022,
+    "tags": [
+      "车炮配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "9/5k3/3C5/7R1/6b2/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "h6f6"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-24",
+    "kind": "tactics",
+    "title": "车炮配合 · 一步杀 24",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3023,
+    "tags": [
+      "车炮配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "6b2/5k3/9/6C2/3R5/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d5f5"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-25",
+    "kind": "tactics",
+    "title": "车马配合 · 一步杀 25",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3024,
+    "tags": [
+      "车马配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "5a3/9/3k3N1/9/2R6/9/9/9/9/4K4 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c5d5"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-26",
+    "kind": "tactics",
+    "title": "车马配合 · 一步杀 26",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3025,
+    "tags": [
+      "车马配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "7R1/5k3/5a3/9/2N6/9/9/4K4/9/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c5d7"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-27",
+    "kind": "tactics",
+    "title": "车马配合 · 一步杀 27",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3026,
+    "tags": [
+      "车马配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "5k3/2R1N4/3a5/9/9/9/9/9/9/4K4 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e8g7"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-28",
+    "kind": "tactics",
+    "title": "车马配合 · 一步杀 28",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3027,
+    "tags": [
+      "车马配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "9/3N1k3/6R2/9/2b6/9/9/4K4/9/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g7f7"
+      ],
+      [
+        "g7g8"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-29",
+    "kind": "tactics",
+    "title": "车马配合 · 一步杀 29",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3028,
+    "tags": [
+      "车马配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "5k3/7R1/3N4b/9/9/9/9/3K5/9/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "h8f8"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
     "id": "tactic-extra-30",
     "kind": "tactics",
-    "title": "车兵配合 · 一步杀 30",
+    "title": "车马配合 · 一步杀 30",
     "subtitle": "红先，一步将死或困毙",
     "level": 1,
     "order": 3029,
+    "tags": [
+      "车马配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "5a3/9/3k5/1R2N4/9/9/9/4K4/9/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b6b7"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-31",
+    "kind": "tactics",
+    "title": "车马配合 · 一步杀 31",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3030,
+    "tags": [
+      "车马配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "2b6/7N1/3k5/9/5R3/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f5d5"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-32",
+    "kind": "tactics",
+    "title": "车马配合 · 一步杀 32",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3031,
+    "tags": [
+      "车马配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "9/9/4k3b/3N5/1R7/9/9/9/3K5/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b5b7"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-33",
+    "kind": "tactics",
+    "title": "车马配合 · 一步杀 33",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3032,
+    "tags": [
+      "车马配合",
+      "一步杀",
+      "含困毙"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "7N1/9/2Ra1k3/9/9/9/9/9/3K5/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d1e1"
+      ],
+      [
+        "c7d7"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-34",
+    "kind": "tactics",
+    "title": "车马配合 · 一步杀 34",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3033,
+    "tags": [
+      "车马配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "5R3/9/3kb2N1/9/9/9/9/5K3/9/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f9d9"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-35",
+    "kind": "tactics",
+    "title": "车马配合 · 一步杀 35",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3034,
+    "tags": [
+      "车马配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "9/9/b3k4/2R6/2N6/9/9/5K3/9/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c6e6"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-36",
+    "kind": "tactics",
+    "title": "车马配合 · 一步杀 36",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3035,
+    "tags": [
+      "车马配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "2b6/2R6/4k1N2/9/9/9/9/9/3K5/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c8c7"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-37",
+    "kind": "tactics",
+    "title": "马炮配合 · 一步杀 37",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3036,
+    "tags": [
+      "马炮配合",
+      "一步杀",
+      "含困毙"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "1N2C4/5k3/9/9/9/9/9/9/9/4K4 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b9d8"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-38",
+    "kind": "tactics",
+    "title": "马炮配合 · 一步杀 38",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3037,
+    "tags": [
+      "马炮配合",
+      "一步杀",
+      "含困毙"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "5k3/9/9/4N4/7C1/9/9/9/9/3K5 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "h5e5"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-39",
+    "kind": "tactics",
+    "title": "马炮配合 · 一步杀 39",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3038,
+    "tags": [
+      "马炮配合",
+      "一步杀",
+      "含困毙"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "1N2k4/4C4/9/9/9/9/9/5K3/9/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b9c7"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-40",
+    "kind": "tactics",
+    "title": "马炮配合 · 一步杀 40",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3039,
+    "tags": [
+      "马炮配合",
+      "一步杀",
+      "含困毙"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "1C3k3/9/9/9/4N4/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e5d7"
+      ],
+      [
+        "e5g6"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-41",
+    "kind": "tactics",
+    "title": "马炮配合 · 一步杀 41",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3040,
+    "tags": [
+      "马炮配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "9/9/3k2C2/7N1/9/9/9/5K3/9/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "h6f7"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-42",
+    "kind": "tactics",
+    "title": "马炮配合 · 一步杀 42",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3041,
+    "tags": [
+      "马炮配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "3N5/3k2C2/9/9/9/9/9/9/9/5K3 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d9f8"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-43",
+    "kind": "tactics",
+    "title": "马炮配合 · 一步杀 43",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3042,
+    "tags": [
+      "马炮配合",
+      "一步杀",
+      "含困毙"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "3k5/9/9/3N5/2C6/9/9/9/9/5K3 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d6f7"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-44",
+    "kind": "tactics",
+    "title": "马炮配合 · 一步杀 44",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3043,
+    "tags": [
+      "马炮配合",
+      "一步杀",
+      "含困毙"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "9/9/5k3/3C5/2N6/9/9/9/9/4K4 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c5d7"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-45",
+    "kind": "tactics",
+    "title": "马炮配合 · 一步杀 45",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3044,
+    "tags": [
+      "马炮配合",
+      "一步杀",
+      "含困毙"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "3k5/3C5/6N2/9/9/9/9/4K4/9/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g7f9"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-46",
+    "kind": "tactics",
+    "title": "马炮配合 · 一步杀 46",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3045,
+    "tags": [
+      "马炮配合",
+      "一步杀",
+      "含困毙"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "6N2/5k3/9/7C1/9/9/9/9/3K5/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "h6h9"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-47",
+    "kind": "tactics",
+    "title": "马炮配合 · 一步杀 47",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3046,
+    "tags": [
+      "马炮配合",
+      "一步杀",
+      "含困毙"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "3N5/3k2C2/9/9/9/9/9/4K4/9/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d9f8"
+      ],
+      [
+        "d9b8"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-48",
+    "kind": "tactics",
+    "title": "马炮配合 · 一步杀 48",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 2,
+    "order": 3047,
+    "tags": [
+      "马炮配合",
+      "一步杀",
+      "含困毙"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "9/9/5k3/1N1C5/9/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b6d7"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-49",
+    "kind": "tactics",
+    "title": "车兵配合 · 一步杀 49",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3048,
     "tags": [
       "车兵配合",
       "一步杀",
@@ -886,11 +1437,330 @@
     },
     "reviewedAt": "2026-10-25",
     "reviewedBy": "规则核全量校验",
-    "fen": "5R3/9/3kb2P1/9/9/9/9/5K3/9/9 w - - 0 1",
+    "fen": "9/1P7/3k1a3/9/2R6/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c5d5"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-50",
+    "kind": "tactics",
+    "title": "车兵配合 · 一步杀 50",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3049,
+    "tags": [
+      "车兵配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "5Rb2/9/3k5/4P4/9/9/9/5K3/9/9 w - - 0 1",
     "goal": "mate",
     "solutions": [
       [
         "f9d9"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-51",
+    "kind": "tactics",
+    "title": "车兵配合 · 一步杀 51",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3050,
+    "tags": [
+      "车兵配合",
+      "一步杀",
+      "含困毙"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "5k3/6P2/5a3/6R2/9/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "g6f6"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-52",
+    "kind": "tactics",
+    "title": "车兵配合 · 一步杀 52",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3051,
+    "tags": [
+      "车兵配合",
+      "一步杀",
+      "含困毙"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "4k1P2/4a4/9/9/7R1/9/9/4K4/9/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "h5d5"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-53",
+    "kind": "tactics",
+    "title": "车兵配合 · 一步杀 53",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3052,
+    "tags": [
+      "车兵配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "9/5k3/9/9/3R2bP1/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "d5f5"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-54",
+    "kind": "tactics",
+    "title": "车兵配合 · 一步杀 54",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3053,
+    "tags": [
+      "车兵配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "3a5/9/3k5/9/1PR6/9/9/9/9/4K4 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c5d5"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-55",
+    "kind": "tactics",
+    "title": "车兵配合 · 一步杀 55",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3054,
+    "tags": [
+      "车兵配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "2Ra5/9/3k1P3/9/9/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c9d9"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-56",
+    "kind": "tactics",
+    "title": "车兵配合 · 一步杀 56",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3055,
+    "tags": [
+      "车兵配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "3k3P1/9/5a3/4R4/9/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e6d6"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-57",
+    "kind": "tactics",
+    "title": "车兵配合 · 一步杀 57",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3056,
+    "tags": [
+      "车兵配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "3k5/9/9/5R3/1P4b2/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "f6d6"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-58",
+    "kind": "tactics",
+    "title": "车兵配合 · 一步杀 58",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3057,
+    "tags": [
+      "车兵配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "2bk5/9/9/6P2/2R6/9/9/4K4/9/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "c5d5"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-59",
+    "kind": "tactics",
+    "title": "车兵配合 · 一步杀 59",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3058,
+    "tags": [
+      "车兵配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "9/1P7/3a1k3/1R7/9/9/9/9/4K4/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "b6f6"
+      ]
+    ],
+    "hint": "先找能直接封死九宫退路的着法。",
+    "explanation": "所有合法的一步胜利着法均已记录，将死与困毙都计入答案。"
+  },
+  {
+    "id": "tactic-extra-60",
+    "kind": "tactics",
+    "title": "车兵配合 · 一步杀 60",
+    "subtitle": "红先，一步将死或困毙",
+    "level": 1,
+    "order": 3059,
+    "tags": [
+      "车兵配合",
+      "一步杀",
+      "将死"
+    ],
+    "source": {
+      "name": "棋练原创编排",
+      "author": "棋练项目组",
+      "license": "CC0-1.0"
+    },
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "规则核全量校验",
+    "fen": "1P3k3/9/4Ra3/9/9/9/9/4K4/9/9 w - - 0 1",
+    "goal": "mate",
+    "solutions": [
+      [
+        "e7f7"
       ]
     ],
     "hint": "先找能直接封死九宫退路的着法。",

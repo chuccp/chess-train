@@ -38,7 +38,7 @@ function playLine(fen: string, uccis: string[]): { position: Position; hashes: s
 
 describe('starter content', () => {
   it('has the promised starter counts', () => {
-    expect(contentStats).toEqual({ tactics: 831, endgame: 707, opening: 88 });
+    expect(contentStats).toEqual({ tactics: 861, endgame: 737, opening: 209 });
   });
 
   it('has unique ids and valid provenance metadata', () => {
@@ -92,10 +92,13 @@ describe('starter content', () => {
 
   it('has unique opening sequences and tactic positions', () => {
     const openingSequences = new Set<string>();
+    const openingTitles = new Set<string>();
     for (const lesson of openingLessons) {
       const sequence = lesson.lines[0]?.moves.map((move) => move.ucci).join(' ') ?? '';
       expect(openingSequences.has(sequence), `${lesson.id} duplicate line`).toBe(false);
       openingSequences.add(sequence);
+      expect(openingTitles.has(lesson.title), `${lesson.id} duplicate title`).toBe(false);
+      openingTitles.add(lesson.title);
     }
     const tacticFens = new Set<string>();
     for (const tactic of tacticExercises) {
@@ -154,6 +157,17 @@ describe('starter content', () => {
       if (previous.level === current.level) {
         expect(previous.solutions.length, `${previous.id} winning-path order`)
           .toBeGreaterThanOrEqual(current.solutions.length);
+      }
+    }
+  });
+  it('orders openings from easier and shorter to harder and longer', () => {
+    for (let index = 1; index < openingLessons.length; index += 1) {
+      const previous = openingLessons[index - 1];
+      const current = openingLessons[index];
+      expect(previous.level, `${previous.id} level order`).toBeLessThanOrEqual(current.level);
+      if (previous.level === current.level) {
+        expect(previous.lines[0]?.moves.length ?? 0, `${previous.id} depth order`)
+          .toBeLessThanOrEqual(current.lines[0]?.moves.length ?? 0);
       }
     }
   });

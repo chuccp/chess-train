@@ -23,6 +23,8 @@ import {
 } from '@qilian/xiangqi';
 import { Board, type BoardUndoAnimation } from '../components/Board';
 import { BoardToast } from '../components/BoardToast';
+import { GameBoardToolbar } from '../components/GameBoardToolbar';
+import { GameEngineStatus, PlayToplineRight } from '../components/PlayToplineRight';
 import { Robot } from '../components/Robot';
 import { EnginePrepCard } from '../components/EnginePrepCard';
 import { Dialog } from '../components/Dialog';
@@ -338,7 +340,6 @@ export function PlayPage() {
         : ' is-loss'
       : ' is-draw';
   const elapsed = current.elapsedMs + (isFinished ? 0 : now - new Date(current.startedAt).getTime() - current.elapsedMs);
-  const metaText = `${isHuman ? '双人对局' : `${levelLabel(settings.preferredLevel)} · 你执${playerColor === 'r' ? '红' : '黑'}`} · ${formatDuration(elapsed)}`;
   const lastMoveColor = current.moves[current.moves.length - 1]?.color;
   const canUndo =
     settings.allowUndo &&
@@ -385,24 +386,47 @@ export function PlayPage() {
   return (
     <div className="page play-page">
       <h1 className="sr-only">人机对局</h1>
+      <GameEngineStatus engine={isHuman ? null : engineReady ? (engineBackend === 'local' ? 'local' : 'online') : 'offline'} />
       <div className="play-topline">
         <Link to="/" className="back-link">
           <ArrowLeft size={15} aria-hidden="true" />
           返回首页
         </Link>
-        <div className="play-topline-right">
-          {!isHuman && (
-            <span className={`mobile-engine-status${engineReady ? ' is-ready' : ''}`}>
-              <i aria-hidden="true" />
-              {engineReady ? (engineBackend === 'local' ? '本地 AI' : '在线 AI') : 'AI 未连接'}
-            </span>
-          )}
-          <span className="play-meta play-topline-meta">{metaText}</span>
-        </div>
+        <PlayToplineRight
+          engine={isHuman ? null : engineReady ? (engineBackend === 'local' ? 'local' : 'online') : 'offline'}
+        />
       </div>
 
       <div className="play-layout">
-          <div className="board-toolbar">
+          <GameBoardToolbar
+            elapsedMs={elapsed}
+            actions={(
+              <button
+                type="button"
+                className="btn btn-ghost btn-small"
+                onClick={() => {
+                  if (isHuman) {
+                    settings.setBoardOrientation(orientation === 'r' ? 'black' : 'red');
+                  } else {
+                    const nextColor = switchSides();
+                    if (nextColor) {
+                      toastIdRef.current += 1;
+                      setToast({
+                        id: toastIdRef.current,
+                        text: `已换成执${nextColor === 'r' ? '红' : '黑'}，当前棋局继续`,
+                      });
+                    }
+                  }
+                }}
+                aria-label={isHuman ? '翻转棋盘' : '换边，换成另一方继续当前棋局'}
+                title={isHuman ? '翻转棋盘' : '换成另一方，当前棋局继续'}
+                disabled={isHuman ? isFinished : isFinished || !engineReady}
+              >
+                <ArrowLeftRight size={15} aria-hidden="true" />
+                {isHuman ? '翻转' : '换边'}
+              </button>
+            )}
+          >
             <div className={`turn-chip${current.phase === 'ai_thinking' ? ' is-thinking' : ''}`} aria-live="polite">
               <span className={`turn-disc ${current.position.turn}`} />
               {banMode ? '禁着模式' : statusText}
@@ -412,32 +436,7 @@ export function PlayPage() {
                 <span className="turn-sub">{playerTurn ? '请落子' : '请稍候'}</span>
               ))}
             </div>
-            <span className="play-meta board-meta">{metaText}</span>
-            <button
-              type="button"
-              className="btn btn-ghost btn-small"
-              onClick={() => {
-                if (isHuman) {
-                  settings.setBoardOrientation(orientation === 'r' ? 'black' : 'red');
-                } else {
-                  const nextColor = switchSides();
-                  if (nextColor) {
-                    toastIdRef.current += 1;
-                    setToast({
-                      id: toastIdRef.current,
-                      text: `已换成执${nextColor === 'r' ? '红' : '黑'}，当前棋局继续`,
-                    });
-                  }
-                }
-              }}
-              aria-label={isHuman ? '翻转棋盘' : '换边，换成另一方继续当前棋局'}
-              title={isHuman ? '翻转棋盘' : '换成另一方，当前棋局继续'}
-              disabled={isHuman ? isFinished : isFinished || !engineReady}
-            >
-              <ArrowLeftRight size={15} aria-hidden="true" />
-              {isHuman ? '翻转' : '换边'}
-            </button>
-          </div>
+          </GameBoardToolbar>
         <section className="board-column">
 
           <div className="board-frame">

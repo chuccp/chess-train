@@ -79,28 +79,29 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
                 : `${filtered.length} / ${lessons.length} 节`}
             </span>
             <span>{totalPlies} 步主线</span>
-            {kind === 'endgame' && <span>由易到难排序</span>}
+            <span>由易到难排序</span>
             <span>规则核校验</span>
           </div>
-          {kind === 'endgame' && (
-            <div className="segmented small lesson-level-filter" aria-label="筛选残棋难度">
-              {[
-                [0, '全部'],
-                [1, '入门'],
-                [2, '进阶'],
-                [3, '挑战'],
-              ].map(([value, label]) => (
-                <button
-                  type="button"
-                  key={value}
-                  className={levelFilter === value ? 'is-selected' : ''}
-                  onClick={() => setLevelFilter(value as 0 | 1 | 2 | 3)}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          )}
+          <div
+            className="segmented small lesson-level-filter"
+            aria-label={kind === 'endgame' ? '筛选残棋难度' : '筛选开局难度'}
+          >
+            {[
+              [0, '全部'],
+              [1, '入门'],
+              [2, '进阶'],
+              [3, '挑战'],
+            ].map(([value, label]) => (
+              <button
+                type="button"
+                key={value}
+                className={levelFilter === value ? 'is-selected' : ''}
+                onClick={() => setLevelFilter(value as 0 | 1 | 2 | 3)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
         <div className="list-actions">
           <input

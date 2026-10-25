@@ -12,7 +12,9 @@ import {
 import { GomokuBoard } from '../components/GomokuBoard';
 import { BoardToast } from '../components/BoardToast';
 import { Dialog } from '../components/Dialog';
+import { GameBoardToolbar } from '../components/GameBoardToolbar';
 import { OpponentPicker, type OpponentMode } from '../components/OpponentPicker';
+import { GameEngineStatus, PlayToplineRight } from '../components/PlayToplineRight';
 import { gomokuPosition, gridPositionKey, prunePlacementBans, requestGridMove } from '../engine/adapters';
 import { useAiTurn } from '../lib/useAiTurn';
 import { formatDuration } from '../lib/format';
@@ -244,28 +246,24 @@ export function GomokuPage() {
   return (
     <div className="page play-page local-game-page">
       <h1 className="sr-only">五子棋</h1>
+      <GameEngineStatus engine={isAi ? 'local' : null} />
 
       <div className="play-topline">
         <Link to="/local" className="back-link">
           <ArrowLeft size={15} aria-hidden="true" />
           其它棋类
         </Link>
-        <div className="play-topline-right">
-          {isAi && (
-            <span className="mobile-engine-status is-ready">
-              <i aria-hidden="true" />
-              在线 AI
-            </span>
-          )}
-          <span className="play-meta">
-            {isAi ? `人机对战 · 你执黑` : '双人对战'} · {formatDuration(elapsed)}
-          </span>
-        </div>
+        <PlayToplineRight
+          engine={isAi ? 'local' : null}
+        />
       </div>
 
       <div className="play-layout local-game-layout">
         <section className="board-column">
-          <div className="board-toolbar">
+          <GameBoardToolbar
+            elapsedMs={elapsed}
+            actions={<span className="local-game-rule-chip">15 × 15 · 黑先</span>}
+          >
             <div className={`turn-chip${aiThinking ? ' is-thinking' : ''}`} aria-live="polite">
               <span className={`turn-disc ${game.state.turn === 'b' ? 'b' : 'w'}`} />
               {banMode
@@ -283,8 +281,7 @@ export function GomokuPage() {
                 <span className="turn-sub">{banMode ? '点格子标记/解除禁点' : '先连成五子的一方获胜'}</span>
               )}
             </div>
-            <span className="local-game-rule-chip">15 × 15 · 黑先</span>
-          </div>
+          </GameBoardToolbar>
 
           <div className="board-frame">
             <GomokuBoard

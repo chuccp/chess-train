@@ -22,6 +22,8 @@ import {
 
 const OUT_PATH = path.resolve('packages/content/src/data/endgame-extra.json');
 const EXISTING_PATH = path.resolve('packages/content/src/data/endgames.json');
+const TACTICS_PATH = path.resolve('packages/content/src/data/tactics.json');
+const TACTICS_EXTRA_PATH = path.resolve('packages/content/src/data/tactics-extra.json');
 const REVIEWED_AT = '2026-10-25';
 const SOURCE = {
   name: '棋练原创编排',
@@ -200,15 +202,21 @@ function makeLesson(position, line, index, attackers) {
 }
 
 const existing = JSON.parse(await fs.readFile(EXISTING_PATH, 'utf8'));
-const seenPositions = new Set(existing.map((lesson) => lesson.fen));
+const existingTactics = JSON.parse(await fs.readFile(TACTICS_PATH, 'utf8'));
+const existingTacticsExtra = JSON.parse(await fs.readFile(TACTICS_EXTRA_PATH, 'utf8'));
+const seenPositions = new Set([
+  ...existing.map((lesson) => lesson.fen),
+  ...existingTactics.map((tactic) => tactic.fen),
+  ...existingTacticsExtra.map((tactic) => tactic.fen),
+]);
 const seenLines = new Set(existing.map((lesson) =>
   lesson.lines?.[0]?.moves?.map((move) => move.ucci).join(' ') ?? ''));
 const specs = [
-  { attackers: ['R', 'R'], count: 6, defenders: 1 },
-  { attackers: ['R', 'C'], count: 6, defenders: 1 },
-  { attackers: ['R', 'N'], count: 6, defenders: 1 },
-  { attackers: ['C', 'N'], count: 6, defenders: 0 },
-  { attackers: ['R', 'P'], count: 6, defenders: 1 },
+  { attackers: ['R', 'R'], count: 12, defenders: 1 },
+  { attackers: ['R', 'C'], count: 12, defenders: 1 },
+  { attackers: ['R', 'N'], count: 12, defenders: 1 },
+  { attackers: ['C', 'N'], count: 12, defenders: 0 },
+  { attackers: ['R', 'P'], count: 12, defenders: 1 },
 ];
 const results = [];
 

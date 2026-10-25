@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "test:e2e": "pnpm --filter @qilian/web build && playwright test",
     "generate:endgames": "node --experimental-strip-types tools/generate-endgame-pack.mjs",
-    "generate:tactics": "node --experimental-strip-types tools/generate-tactics-pack.mjs"
+    "generate:tactics": "node --experimental-strip-types tools/generate-tactics-pack.mjs",
+    "generate:openings": "node --experimental-strip-types tools/generate-opening-pack.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",

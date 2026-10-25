@@ -5,6 +5,14 @@ import { registerSW } from 'virtual:pwa-register';
 import App from './App';
 import './styles/global.css';
 
+if (import.meta.env.DEV && 'serviceWorker' in navigator) {
+  void navigator.serviceWorker.getRegistrations().then((registrations) => {
+    for (const registration of registrations) {
+      void registration.unregister();
+    }
+  });
+}
+
 registerSW({
   immediate: true,
   onOfflineReady() {

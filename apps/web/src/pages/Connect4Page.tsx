@@ -13,7 +13,9 @@ import {
 import { Connect4Board } from '../components/Connect4Board';
 import { BoardToast } from '../components/BoardToast';
 import { Dialog } from '../components/Dialog';
+import { GameBoardToolbar } from '../components/GameBoardToolbar';
 import { OpponentPicker, type OpponentMode } from '../components/OpponentPicker';
+import { GameEngineStatus, PlayToplineRight } from '../components/PlayToplineRight';
 import { connect4Position, gridPositionKey, prunePlacementBans, requestGridMove } from '../engine/adapters';
 import { useAiTurn } from '../lib/useAiTurn';
 import { formatDuration } from '../lib/format';
@@ -277,28 +279,24 @@ export function Connect4Page() {
   return (
     <div className="page play-page local-game-page">
       <h1 className="sr-only">四子棋</h1>
+      <GameEngineStatus engine={isAi ? 'local' : null} />
 
       <div className="play-topline">
         <Link to="/local" className="back-link">
           <ArrowLeft size={15} aria-hidden="true" />
           其它棋类
         </Link>
-        <div className="play-topline-right">
-          {isAi && (
-            <span className="mobile-engine-status is-ready">
-              <i aria-hidden="true" />
-              在线 AI
-            </span>
-          )}
-          <span className="play-meta">
-            {isAi ? '人机对战 · 你执红' : '双人对战'} · {formatDuration(elapsed)}
-          </span>
-        </div>
+        <PlayToplineRight
+          engine={isAi ? 'local' : null}
+        />
       </div>
 
       <div className="play-layout local-game-layout">
         <section className="board-column">
-          <div className="board-toolbar">
+          <GameBoardToolbar
+            elapsedMs={elapsed}
+            actions={<span className="local-game-rule-chip">7 × 6 · 重力落子</span>}
+          >
             <div className={`turn-chip${aiThinking ? ' is-thinking' : ''}`} aria-live="polite">
               <span className={`turn-disc ${game.state.turn}`} />
               {banMode
@@ -316,8 +314,7 @@ export function Connect4Page() {
                 <span className="turn-sub">{banMode ? '点列标记/解除禁点' : '先连成四子的一方获胜'}</span>
               )}
             </div>
-            <span className="local-game-rule-chip">7 × 6 · 重力落子</span>
-          </div>
+          </GameBoardToolbar>
 
           <div className="board-frame">
             <Connect4Board
