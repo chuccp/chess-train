@@ -136,7 +136,7 @@ export function MobileGameLobby({
           </span>
           <div className="mobile-lobby-opponents">
             <Link to="/play?setup=1&mode=human" className="btn btn-ghost btn-small">
-              人人
+              双人对战
             </Link>
             <Link to="/play?setup=1&mode=ai" className="btn btn-ghost btn-small">
               人机切换

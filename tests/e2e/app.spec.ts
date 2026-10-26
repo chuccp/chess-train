@@ -789,11 +789,23 @@ test('mobile gomoku result is centered on the board without scrolling', async ({
 test('local connect four drops into a column', async ({ page }) => {
   await page.goto('/local/connect4?mode=local');
   await expect(page.locator('.turn-chip')).toContainText('红方行棋');
-  await page.locator('[data-connect4-column="3"]').first().click();
+  await page.locator('.connect4-column-target[data-connect4-column="3"]').click();
   await expect(page.locator('.turn-chip')).toContainText('黄方行棋');
-  await page.locator('[data-connect4-column="3"]').first().click();
+  await page.locator('.connect4-column-target[data-connect4-column="3"]').click();
   await expect(page.locator('.turn-chip')).toContainText('红方行棋');
   await expect(page.locator('.connect4-disc')).toHaveCount(2);
+  await expect(page.locator('.connect4-cell.is-last')).toHaveAttribute('data-connect4-column', '3');
+});
+test('local connect four keeps every clicked column aligned', async ({ page }) => {
+  await page.goto('/local/connect4?mode=local');
+  for (let column = 0; column < 7; column += 1) {
+    await page.locator(`.connect4-column-target[data-connect4-column="${column}"]`).click();
+    await expect(page.locator('.connect4-cell.is-last')).toHaveAttribute(
+      'data-connect4-column',
+      String(column),
+    );
+  }
+  await expect(page.locator('.connect4-disc')).toHaveCount(7);
 });
 test('local jungle game alternates turns', async ({ page }) => {
   await page.goto('/local/jungle?mode=local');

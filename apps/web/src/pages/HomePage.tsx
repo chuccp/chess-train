@@ -297,9 +297,9 @@ export function HomePage() {
             </p>
           </div>
           <div className="continue-actions">
-            <Link to="/play?setup=1&mode=human" className="btn btn-ghost" title="换成人人对战">
+            <Link to="/play?setup=1&mode=human" className="btn btn-ghost" title="切换双人对战">
               <Users size={15} aria-hidden="true" />
-              人人
+              双人对战
             </Link>
             <Link to="/play?setup=1&mode=ai" className="btn btn-ghost" title="切换人机对战与 AI 难度">
               人机切换
@@ -325,9 +325,9 @@ export function HomePage() {
             </p>
           </div>
           <div className="continue-actions">
-            <Link to="/play?setup=1&mode=human" className="btn btn-ghost" title="换成人人对战">
+            <Link to="/play?setup=1&mode=human" className="btn btn-ghost" title="切换双人对战">
               <Users size={15} aria-hidden="true" />
-              人人
+              双人对战
             </Link>
             <Link to="/play?setup=1&mode=ai" className="btn btn-ghost" title="切换人机对战与 AI 难度">
               人机切换
