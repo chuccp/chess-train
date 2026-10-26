@@ -64,6 +64,7 @@ const OPENING_DEVIATION_MESSAGE =
   '这步不在主线。可以悔棋后点击提示获取下一步；继续走棋将进入自由对弈。';
 const OPENING_FREE_MODE_MESSAGE =
   '已进入自由对弈模式，后续按人机对弈方式继续。';
+const OPENING_DEMO_DELAY_MS = 1200;
 
 function positionAt(fen: string, moves: string[], count: number): Position {
   let position = parseFen(fen);
@@ -300,7 +301,11 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
         }
       }
       })();
-    }, freeMode ? 420 : 650);
+    }, freeMode
+      ? 420
+      : kind === 'opening' && openingPhase === 'watching'
+        ? OPENING_DEMO_DELAY_MS
+        : 650);
 
     return () => {
       cancelled = true;
