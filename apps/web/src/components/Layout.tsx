@@ -1,6 +1,7 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { BookOpen, GraduationCap, History, Home, Settings, Swords, Users } from 'lucide-react';
 import { EngineBadge } from './EngineBadge';
+import { usePageSeo } from '../lib/seo';
 
 const desktopNav = [
   { to: '/', label: '练习', icon: Home, end: true },
@@ -22,6 +23,7 @@ const mobileNav = [
 
 export function Layout() {
   const location = useLocation();
+  usePageSeo(location.pathname);
   const isHome = location.pathname === '/';
   const isGameRoute =
     location.pathname === '/play' ||

@@ -42,6 +42,7 @@ jobs:
         run: pnpm build
         env:
           VITE_BASE_PATH: /chess-train/
+          VITE_SITE_URL: https://chuccp.github.io/chess-train/
           VITE_OUT_DIR: dist-pages
 
       - name: Configure Pages

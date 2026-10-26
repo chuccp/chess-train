@@ -61,6 +61,10 @@ export function TacticsListPage() {
             <Target size={15} aria-hidden="true" />
             一步杀法
           </div>
+          <h1>一步杀法题库</h1>
+          <p>
+            {tacticExercises.length} 道红先杀法，按入门、进阶、挑战排序；将死与困毙都算完成。
+          </p>
         </div>
         <div className="list-progress-badge">
           <strong>{completed}</strong>

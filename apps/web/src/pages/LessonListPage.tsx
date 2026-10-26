@@ -63,6 +63,12 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
             <Icon size={15} aria-hidden="true" />
             {trainingKindLabels[kind]}
           </div>
+          <h1>{kind === 'endgame' ? '中国象棋残局定式' : '中国象棋开局训练'}</h1>
+          <p>
+            {kind === 'endgame'
+              ? `${lessons.length} 节残棋主线，从短杀到多步追杀，按难度由浅入深。`
+              : `${lessons.length} 套开局主线，理解出动、护中和占位的顺序。`}
+          </p>
         </div>
         <div className="list-progress-badge">
           <strong>{completed}</strong>

@@ -12,6 +12,43 @@ test('home loads with the offline engine ready', async ({ page }) => {
   await expect(page.locator('.desktop-nav')).toBeVisible();
 });
 
+test('public pages expose route-specific SEO metadata', async ({ page }) => {
+  const baseURL = test.info().project.use.baseURL ?? 'http://127.0.0.1:4173';
+  const siteRoot = baseURL.endsWith('/') ? baseURL : `${baseURL}/`;
+
+  await page.goto('/');
+  await expect(page).toHaveTitle('棋练 · 中国象棋在线对弈与 AI 训练');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', siteRoot);
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    'content',
+    /index,follow/,
+  );
+
+  await page.goto('/train/tactics/tactic-01');
+  await expect(page).toHaveTitle(/车类杀法 · 第 1 题 · 中国象棋一步杀/);
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    'content',
+    /入门难度/,
+  );
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    `${siteRoot}train/tactics/tactic-01`,
+  );
+  await expect
+    .poll(() =>
+      page
+        .locator('script#qilian-structured-data')
+        .evaluate((element) => element.textContent),
+    )
+    .toContain('"@type":"LearningResource"');
+
+  await page.goto('/settings');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    'content',
+    /noindex,follow/,
+  );
+});
+
 test('local development does not load Baidu analytics', async ({ page }) => {
   const analyticsRequests: string[] = [];
   page.on('request', (request) => {
@@ -957,8 +994,8 @@ test('opening preview automatically starts the red round after the full line', a
 test('large training library paginates and searches', async ({ page }) => {
   await page.goto('/train/endgame');
   await expect(page.locator('.lesson-meta-strip')).toContainText('737 节');
-  await expect(page.locator('.page-heading h1')).toHaveCount(0);
-  await expect(page.locator('.page-heading p')).toHaveCount(0);
+  await expect(page.locator('.page-heading h1')).toContainText('中国象棋残局定式');
+  await expect(page.locator('.page-heading p')).toContainText('残棋主线');
   await expect(page.locator('.lesson-row')).toHaveCount(30);
   await page.locator('.list-more').click();
   await expect(page.locator('.lesson-row')).toHaveCount(60);
@@ -967,8 +1004,8 @@ test('large training library paginates and searches', async ({ page }) => {
 
   await page.goto('/train/tactics');
   await expect(page.locator('.list-progress-badge')).toContainText('861');
-  await expect(page.locator('.page-heading h1')).toHaveCount(0);
-  await expect(page.locator('.page-heading p')).toHaveCount(0);
+  await expect(page.locator('.page-heading h1')).toContainText('一步杀法题库');
+  await expect(page.locator('.page-heading p')).toContainText('红先杀法');
   await expect(page.locator('.tactic-card')).toHaveCount(30);
   await expect(page.locator('.sort-note')).toContainText('由易到难排序');
   const tacticLevels = await page.locator('.tactic-meta span:first-child').allTextContents();
@@ -978,8 +1015,8 @@ test('large training library paginates and searches', async ({ page }) => {
   await expect(page.locator('.tactic-card')).toHaveCount(60);
 
   await page.goto('/train/opening');
-  await expect(page.locator('.page-heading h1')).toHaveCount(0);
-  await expect(page.locator('.page-heading p')).toHaveCount(0);
+  await expect(page.locator('.page-heading h1')).toContainText('中国象棋开局训练');
+  await expect(page.locator('.page-heading p')).toContainText('开局主线');
 });
 test('mobile tactic success uses one centered result card', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -1075,7 +1112,7 @@ test('mobile home exposes working share and shortcut actions', async ({ browser 
   await expect(actions.getByRole('button', { name: '创建快捷方式' })).toHaveText('创建快捷方式');
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
     'content',
-    /^http.*\/icons\/icon-512\.png$/,
+    /^http.*\/social-preview\.jpg$/,
   );
   await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', /^http.*\/$/);
   await expect(page.locator('meta[name="apple-mobile-web-app-title"]')).toHaveAttribute('content', '棋练');
@@ -1090,7 +1127,7 @@ test('mobile home exposes working share and shortcut actions', async ({ browser 
   await actions.getByRole('button', { name: '分享' }).click();
   await expect.poll(() =>
     page.evaluate(() => (window as Window & { sharedData?: ShareData }).sharedData?.title),
-  ).toBe('棋练 · 中国象棋');
+  ).toBe('棋练 · 中国象棋在线对弈与 AI 训练');
 
   await actions.getByRole('button', { name: '创建快捷方式' }).click();
   const dialog = page.getByRole('dialog', { name: '创建快捷方式' });

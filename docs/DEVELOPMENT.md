@@ -89,6 +89,12 @@ GitHub Pages 由 [`.github/workflows/pages.yml`](../.github/workflows/pages.yml)
 
 其他静态托管需要 HTTPS、SPA 回退到 `index.html`，并在构建时设置正确 base；GitHub Pages 项目页必须使用 `/chess-train/`。
 
+SEO 构建产物包含 `robots.txt`、`sitemap.xml`，以及公开页面对应的路由入口 HTML。自定义域名或其他部署路径时，请同时设置 `VITE_SITE_URL`，例如：
+
+```bash
+VITE_BASE_PATH=/ VITE_SITE_URL=https://example.com/ pnpm build
+```
+
 ## 许可
 
 棋练代码以 [GPL-3.0](../LICENSE) 发布。Pikafish 代码为 GPL-3.0；NNUE 权重遵循 Pikafish NNUE-License，免费使用、未经许可不得商业使用。本版本免费公开、非商业，不含广告、付费或赞助。
