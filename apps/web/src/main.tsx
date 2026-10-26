@@ -3,7 +3,13 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { registerSW } from 'virtual:pwa-register';
 import App from './App';
+import { initializeBaiduAnalytics } from './lib/analytics';
 import './styles/global.css';
+
+initializeBaiduAnalytics({
+  production: import.meta.env.PROD,
+  hostname: window.location.hostname,
+});
 
 if (import.meta.env.DEV && 'serviceWorker' in navigator) {
   void navigator.serviceWorker.getRegistrations().then((registrations) => {

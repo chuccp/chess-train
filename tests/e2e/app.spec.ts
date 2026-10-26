@@ -12,6 +12,16 @@ test('home loads with the offline engine ready', async ({ page }) => {
   await expect(page.locator('.desktop-nav')).toBeVisible();
 });
 
+test('local development does not load Baidu analytics', async ({ page }) => {
+  const analyticsRequests: string[] = [];
+  page.on('request', (request) => {
+    if (request.url().includes('hm.baidu.com')) analyticsRequests.push(request.url());
+  });
+  await page.goto('/');
+  await page.waitForTimeout(500);
+  expect(analyticsRequests).toEqual([]);
+});
+
 test('home preloads the local fallback engine in the background', async ({ page }) => {
   await page.goto('/');
   await expect.poll(
