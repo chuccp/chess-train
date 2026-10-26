@@ -1437,6 +1437,184 @@ p {
   margin-bottom: 0.7rem;
 }
 
+.opening-board-toolbar-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.55rem;
+  min-width: 0;
+  min-height: 30px;
+  margin-left: auto;
+}
+
+.lesson-play-page .board-toolbar {
+  height: 32px;
+  min-height: 32px;
+}
+
+.opening-board-float-actions {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  pointer-events: none;
+}
+
+.opening-board-float-actions:not(.is-watch-controls) {
+  background: rgba(245, 237, 220, 0.3);
+}
+
+.opening-review-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.25rem;
+  pointer-events: auto;
+}
+
+.opening-float-caption {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: 12px;
+  background: rgba(255, 251, 242, 0.68);
+  color: var(--ink-soft);
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+  box-shadow:
+    0 8px 20px rgba(29, 36, 32, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.58);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.opening-review-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.opening-review-actions .btn {
+  min-width: 118px;
+  min-height: 58px;
+  padding: 0.65rem 1.05rem;
+  border-radius: 16px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow:
+    0 16px 30px rgba(29, 36, 32, 0.18),
+    0 4px 9px rgba(29, 36, 32, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.opening-review-actions .btn-primary {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(179, 58, 50, 0.8);
+  -webkit-backdrop-filter: blur(14px) saturate(125%);
+  backdrop-filter: blur(14px) saturate(125%);
+}
+
+.opening-review-actions .btn-primary:hover:not(:disabled) {
+  background: rgba(179, 58, 50, 0.9);
+}
+
+.opening-review-actions .btn-ghost {
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  background: rgba(255, 251, 242, 0.58);
+  color: var(--ink-soft);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  backdrop-filter: blur(14px) saturate(120%);
+}
+
+.opening-watch-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: 999px;
+  background: rgba(255, 251, 242, 0.58);
+  box-shadow:
+    0 8px 22px rgba(29, 36, 32, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.58);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  pointer-events: auto;
+}
+
+.opening-icon-button {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid rgba(45, 86, 70, 0.12);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.54);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    opacity 150ms ease,
+    transform 150ms ease;
+}
+
+.opening-icon-button:hover {
+  background: rgba(255, 255, 255, 0.92);
+  transform: translateY(-1px);
+}
+
+.opening-icon-button.is-faint {
+  border-color: rgba(45, 86, 70, 0.07);
+  background: rgba(255, 251, 242, 0.22);
+  color: rgba(29, 36, 32, 0.55);
+  opacity: 0.58;
+}
+
+.opening-icon-button.is-faint:hover {
+  background: rgba(255, 251, 242, 0.72);
+  opacity: 1;
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .opening-board-float-actions:not(.is-watch-controls) {
+    background: rgba(245, 237, 220, 0.1);
+    -webkit-backdrop-filter: blur(6px) saturate(82%);
+    backdrop-filter: blur(6px) saturate(82%);
+  }
+
+  .opening-review-panel {
+    background: transparent;
+  }
+
+  .opening-float-caption {
+    background: rgba(255, 251, 242, 0.48);
+    -webkit-backdrop-filter: blur(16px) saturate(125%);
+    backdrop-filter: blur(16px) saturate(125%);
+  }
+
+  .opening-review-actions .btn-primary {
+    background: rgba(179, 58, 50, 0.72);
+    -webkit-backdrop-filter: blur(16px) saturate(125%);
+    backdrop-filter: blur(16px) saturate(125%);
+  }
+
+  .opening-review-actions .btn-ghost {
+    background: rgba(255, 251, 242, 0.46);
+    -webkit-backdrop-filter: blur(16px) saturate(135%);
+    backdrop-filter: blur(16px) saturate(135%);
+  }
+}
+
 .turn-chip {
   display: inline-flex;
   align-items: center;
@@ -1450,6 +1628,10 @@ p {
 
 .turn-chip.is-thinking {
   color: var(--muted);
+}
+
+.turn-chip.is-placeholder {
+  visibility: hidden;
 }
 
 .turn-disc {
@@ -3343,6 +3525,12 @@ p {
   color: var(--muted);
   font-size: 0.7rem;
   margin-bottom: 0.35rem;
+}
+
+@media (max-width: 600px) {
+  .opening-review-actions .btn {
+    min-height: 44px;
+  }
 }
 
 .lesson-intro {

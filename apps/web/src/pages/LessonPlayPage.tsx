@@ -3,11 +3,16 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   ArrowLeft,
   ArrowRight,
+  BookOpen,
   CheckCircle2,
   ChevronRight,
+  Eye,
   ExternalLink,
   Lightbulb,
+  Pause,
+  Play,
   RotateCcw,
+  SkipForward,
   Timer,
   Undo2,
 } from 'lucide-react';
@@ -42,6 +47,7 @@ interface LessonPlayPageProps {
 }
 
 type WinReason = 'checkmate' | 'stalemate';
+type OpeningPhase = 'intro' | 'watching' | 'playing';
 
 interface LessonUndoPoint {
   position: Position;
@@ -97,6 +103,9 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   const [freeUsed, setFreeUsed] = useState(0);
   const [failed, setFailed] = useState(false);
   const [autoMoving, setAutoMoving] = useState(false);
+  const [openingPhase, setOpeningPhase] = useState<OpeningPhase>('intro');
+  const [openingRound, setOpeningRound] = useState<Color>('r');
+  const [openingWatchPaused, setOpeningWatchPaused] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [loadedProgress, setLoadedProgress] = useState<TrainingProgress | null>(null);
   const [loading, setLoading] = useState(true);
@@ -108,6 +117,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   const line = lesson?.lines.find((item) => item.id === lineId) ?? lesson?.lines[0];
   const moves = line?.moves ?? [];
   const total = moves.length;
+  const userColor: Color = kind === 'opening' ? openingRound : lesson?.userColor ?? 'r';
 
   useEffect(() => {
     if (!lesson) {
@@ -132,6 +142,9 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setDeviationPending(false);
     setFreeUsed(0);
     setFailed(false);
+    setOpeningPhase('intro');
+    setOpeningRound('r');
+    setOpeningWatchPaused(false);
     setUndoPoints([]);
     setElapsed(0);
     startRef.current = Date.now();
@@ -143,10 +156,17 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     void getTrainingProgress(`${kind}:${lesson.id}`).then((record) => {
       if (!alive) return;
       setLoadedProgress(record);
-      if (record?.status === 'in_progress' && record.lineId && record.ply > 0) {
+      if (
+        record?.status === 'in_progress' &&
+        record.lineId &&
+        (record.ply > 0 || (kind === 'opening' && record.openingRound === 'b'))
+      ) {
         const savedLine = lesson.lines.find((item) => item.id === record.lineId);
         if (savedLine && savedLine.moves.length >= record.ply) {
+          const savedRound = kind === 'opening' ? record.openingRound ?? 'r' : lesson.userColor;
           setLineId(savedLine.id);
+          setOpeningRound(savedRound);
+          setOpeningPhase(kind === 'opening' ? 'playing' : 'intro');
           setPly(record.ply);
           setPosition(positionAt(lesson.fen, savedLine.moves.map((move) => move.ucci), record.ply));
           setAttempts(record.attempts);
@@ -171,17 +191,21 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   }, [kind, lesson]);
 
   useEffect(() => {
-    if (completed) return;
+    if (completed || (kind === 'opening' && openingPhase === 'intro')) return;
     const timer = window.setInterval(() => setElapsed(Date.now() - startRef.current), 1000);
     return () => window.clearInterval(timer);
-  }, [completed]);
+  }, [completed, kind, openingPhase]);
 
   // Follow the verified script on the main line. If the user leaves the book,
   // use a deterministic, rules-validated defensive search for the opponent.
   useEffect(() => {
     if (!lesson || !line || !position || completed || failed || loading) return;
+    if (kind === 'opening' && openingPhase === 'intro') return;
+    if (kind === 'opening' && openingPhase === 'watching' && openingWatchPaused) return;
     if (!freeMode && !deviationPending && ply >= total) return;
-    if (position.turn === lesson.userColor) return;
+    if (kind !== 'opening' || openingPhase !== 'watching') {
+      if (position.turn === userColor) return;
+    }
     if (autoMoving) return;
 
     setAutoMoving(true);
@@ -258,6 +282,16 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       setAutoMoving(false);
       feedback(result.givesCheck ? 'check' : result.move.captured ? 'capture' : 'move');
       if (nextPly >= total) {
+        if (kind === 'opening') {
+          if (openingPhase === 'watching') {
+            beginOpeningRound('r');
+            return;
+          }
+          if (openingRound === 'r') {
+            beginOpeningRound('b');
+            return;
+          }
+        }
         const end = evaluateBoard(result.position, { positionHashes: [] });
         if (end.status === 'win' && end.winner === lesson.userColor) {
           finishLine(nextPly, 'win', end.reason);
@@ -274,7 +308,24 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       setAutoMoving(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lesson, line, position, ply, total, completed, freeMode, deviationPending, freeUsed, failed, loading]);
+  }, [
+    lesson,
+    line,
+    position,
+    ply,
+    total,
+    completed,
+    freeMode,
+    deviationPending,
+    freeUsed,
+    failed,
+    loading,
+    kind,
+    openingPhase,
+    openingRound,
+    openingWatchPaused,
+    userColor,
+  ]);
 
   if (!lesson) {
     return (
@@ -286,7 +337,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   }
 
   const initial = parseFen(lesson.fen);
-  const userColor: Color = lesson.userColor;
+  const boardPosition = position ?? initial;
   const userTurn = position?.turn === userColor;
   const checked = position && isInCheck(position, position.turn)
     ? getKingSquare(position.board, position.turn)
@@ -294,7 +345,9 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   const next = nextTrainingItem(kind, lesson.id);
   const lastComment = !completedByWin && ply > 0 ? moves[ply - 1]?.comment : undefined;
   const completionLabel =
-    completedReason === 'stalemate'
+    kind === 'opening'
+      ? '两轮训练通过'
+      : completedReason === 'stalemate'
       ? '困毙成功'
       : completedReason === 'checkmate'
         ? '将死成功'
@@ -311,6 +364,34 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     return end.reason;
   };
   const stepsUsed = Math.min(total, freeMode || deviationPending ? freeUsed : ply);
+  const openingRoundLabel = openingRound === 'r' ? '红方第一轮' : '黑方第二轮';
+  const turnLabel = completed
+    ? completionLabel
+    : kind === 'opening' && openingPhase === 'intro'
+      ? '先观看讲解，或跳过直接挑战'
+      : kind === 'opening' && openingPhase === 'watching'
+        ? `观看演示 · ${boardPosition.turn === 'r' ? '红方' : '黑方'}行棋`
+        : autoMoving
+          ? kind === 'opening'
+            ? `${openingRoundLabel} · 演示应手…`
+            : '对手应手…'
+          : deviationPending
+            ? '偏离主线 · 可悔棋或继续'
+            : failed
+              ? kind === 'endgame'
+                ? '本局已暂停'
+                : `自由走子 · ${boardPosition.turn === 'r' ? '红方' : '黑方'}`
+              : freeMode
+                ? kind === 'endgame'
+                  ? userTurn ? '请你走这一步' : '等待对手'
+                  : `自由走子 · ${boardPosition.turn === 'r' ? '红方' : '黑方'}`
+                : userTurn
+                  ? kind === 'opening'
+                    ? `${openingRoundLabel} · 请你走这一步`
+                    : '请你走这一步'
+                  : kind === 'opening'
+                    ? `${openingRoundLabel} · 等待演示`
+                    : '等待演示';
 
   function feedback(cue: 'move' | 'capture' | 'check' | 'win' | 'error') {
     if (settings.sound) playCue(cue);
@@ -333,6 +414,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       hintsUsed,
       elapsedMs: finalElapsed,
       independentSolve: hintsUsed === 0,
+      openingRound: kind === 'opening' ? openingRound : undefined,
       completedAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -345,7 +427,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     via: 'line' | 'win' = 'line',
     reason: WinReason | null = null,
   ) {
-    if (completed) return;
+    if (completed || (kind === 'opening' && openingRound !== 'b')) return;
     setCompleted(true);
     setCompletedByWin(via === 'win');
     setCompletedReason(via === 'win' ? reason : null);
@@ -356,6 +438,87 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     completedElapsedRef.current = Date.now() - startRef.current;
     feedback('win');
     completeRecord(nextPly);
+  }
+
+  function beginOpeningRound(round: Color, nextMessage: string | null = null) {
+    if (!lesson) return;
+    if (round === 'r') {
+      startRef.current = Date.now();
+      setElapsed(0);
+      setAttempts(0);
+      setHintsUsed(0);
+    }
+    completedElapsedRef.current = 0;
+    setOpeningPhase('playing');
+    setOpeningRound(round);
+    setOpeningWatchPaused(false);
+    setPosition(parseFen(lesson.fen));
+    setPly(0);
+    setSelected(null);
+    setTargets([]);
+    setLastMove(null);
+    setHint(null);
+    setMessage(nextMessage);
+    setCompleted(false);
+    setCompletedByWin(false);
+    setCompletedReason(null);
+    setFreeMode(false);
+    setDeviationPending(false);
+    setFreeUsed(0);
+    setFailed(false);
+    setUndoPoints([]);
+    setAutoMoving(false);
+
+    if (loadedProgress?.status !== 'completed') {
+      const record: TrainingProgress = {
+        key: `${kind}:${lesson.id}`,
+        itemId: lesson.id,
+        kind,
+        status: 'in_progress',
+        lineId: line?.id,
+        completedLineIds: loadedProgress?.completedLineIds ?? [],
+        ply: 0,
+        attempts: round === 'r' ? 0 : attempts,
+        hintsUsed: round === 'r' ? 0 : hintsUsed,
+        elapsedMs: round === 'r' ? 0 : Date.now() - startRef.current,
+        openingRound: round,
+        updatedAt: new Date().toISOString(),
+      };
+      setLoadedProgress(record);
+      void saveTrainingProgress(record);
+    }
+  }
+
+  function startWatching() {
+    if (!lesson) return;
+    startRef.current = Date.now();
+    setOpeningPhase('watching');
+    setOpeningRound('r');
+    setOpeningWatchPaused(false);
+    setPosition(parseFen(lesson.fen));
+    setPly(0);
+    setSelected(null);
+    setTargets([]);
+    setLastMove(null);
+    setHint(null);
+    setMessage(null);
+    setCompleted(false);
+    setCompletedByWin(false);
+    setCompletedReason(null);
+    setFreeMode(false);
+    setDeviationPending(false);
+    setFreeUsed(0);
+    setFailed(false);
+    setUndoPoints([]);
+    setAutoMoving(false);
+    setAttempts(0);
+    setHintsUsed(0);
+    setElapsed(0);
+    completedElapsedRef.current = 0;
+  }
+
+  function skipWatching() {
+    beginOpeningRound('r', '已跳过观看，开始红方第一轮。请按主线走完红方的着法。');
   }
 
   function persistInProgress(nextPly: number) {
@@ -371,6 +534,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       attempts,
       hintsUsed,
       elapsedMs: Date.now() - startRef.current,
+      openingRound: kind === 'opening' ? openingRound : undefined,
       updatedAt: new Date().toISOString(),
     };
     setLoadedProgress(record);
@@ -427,6 +591,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       attempts: previous.attempts,
       hintsUsed,
       elapsedMs: Date.now() - startRef.current,
+      openingRound: kind === 'opening' ? openingRound : undefined,
       updatedAt: new Date().toISOString(),
     };
     setLoadedProgress(record);
@@ -435,6 +600,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
 
   function handlePoint(square: number) {
     if (!position || completed || autoMoving) return;
+    if (kind === 'opening' && openingPhase !== 'playing') return;
     if (position.turn !== userColor) return;
     const movableColor = userColor;
     const piece = pieceAt(position, square);
@@ -512,6 +678,23 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     const actual = `${'abcdefghi'[selected % 9]}${Math.floor(selected / 9)}${'abcdefghi'[square % 9]}${Math.floor(square / 9)}`;
 
     if (actual !== expected) {
+      if (kind === 'opening') {
+        const nextAttempts = attempts + 1;
+        setAttempts(nextAttempts);
+        setSelected(null);
+        setTargets([]);
+        setHint(null);
+        setMessage(
+          `这步不符合${openingRoundLabel}的主线。局面没有改变，请按棋谱重走这一步。`,
+        );
+        feedback('error');
+        setLoadedProgress((record) =>
+          record
+            ? { ...record, attempts: nextAttempts, updatedAt: new Date().toISOString() }
+            : record,
+        );
+        return;
+      }
       // 不限制用户尝试：偏离主线后进入自由走子，并明确规则库能判断什么。
       const result = applyMove(position, selected, square);
       if (!result.ok) {
@@ -568,6 +751,14 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setMessage(null);
     feedback(result.givesCheck ? 'check' : result.move.captured ? 'capture' : 'move');
     if (nextPly >= total) {
+      if (kind === 'opening') {
+        if (openingRound === 'r') {
+          beginOpeningRound('b', '红方第一轮已完成。现在开始黑方第二轮，请按主线走完黑方的着法。');
+        } else {
+          finishLine(nextPly);
+        }
+        return;
+      }
       const reason = winningReason(result.position);
       finishLine(nextPly, reason ? 'win' : 'line', reason);
     } else if (hasWon(result.position)) finishLine(nextPly, 'win', winningReason(result.position));
@@ -575,7 +766,14 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   }
 
   function showHint() {
-    if (completed || freeMode || deviationPending || failed || !lesson) return;
+    if (
+      completed ||
+      freeMode ||
+      deviationPending ||
+      failed ||
+      !lesson ||
+      (kind === 'opening' && openingPhase !== 'playing')
+    ) return;
     const expected = moves[ply]?.ucci;
     if (!expected) return;
     const parsed = parseUcci(expected);
@@ -594,6 +792,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       attempts,
       hintsUsed: hintsUsed + 1,
       elapsedMs: Date.now() - startRef.current,
+      openingRound: kind === 'opening' ? openingRound : undefined,
       updatedAt: new Date().toISOString(),
     };
     if (loadedProgress?.status !== 'completed') {
@@ -604,6 +803,10 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
 
   function reset() {
     if (!lesson) return;
+    if (kind === 'opening') {
+      beginOpeningRound('r', '已重新开始，从红方第一轮由头走起。');
+      return;
+    }
     const defaultLine = lesson.lines.find((item) => item.id === lineId) ?? lesson.lines[0];
     setPosition(parseFen(lesson.fen));
     setPly(0);
@@ -619,6 +822,9 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setDeviationPending(false);
     setFreeUsed(0);
     setFailed(false);
+    setOpeningPhase('intro');
+    setOpeningRound('r');
+    setOpeningWatchPaused(false);
     setUndoPoints([]);
     setAutoMoving(false);
     setAttempts(0);
@@ -648,6 +854,9 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
     setDeviationPending(false);
     setFreeUsed(0);
     setFailed(false);
+    setOpeningPhase('intro');
+    setOpeningRound('r');
+    setOpeningWatchPaused(false);
     setUndoPoints([]);
     setAutoMoving(false);
     setElapsed(0);
@@ -665,12 +874,12 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
         attempts,
         hintsUsed,
         elapsedMs: 0,
+        openingRound: kind === 'opening' ? 'r' : undefined,
         updatedAt: new Date().toISOString(),
       });
     }
   }
 
-  const boardPosition = position ?? initial;
   const isOpeningFreePlay = kind === 'opening' && freeMode;
 
   return (
@@ -685,29 +894,20 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       <div className="play-layout training-layout">
         <section className="board-column">
           <div className="board-toolbar">
-            <div className={`turn-chip${autoMoving ? ' is-thinking' : ''}`}>
+            <div
+              className={`turn-chip${autoMoving ? ' is-thinking' : ''}${
+                kind === 'opening' && openingPhase === 'intro' ? ' is-placeholder' : ''
+              }`}
+              aria-hidden={kind === 'opening' && openingPhase === 'intro' ? true : undefined}
+            >
               <span className={`turn-disc ${boardPosition.turn}`} />
-              {completed
-                ? completionLabel
-                : autoMoving
-                  ? '对手应手…'
-                  : deviationPending
-                    ? '偏离主线 · 可悔棋或继续'
-                    : failed
-                    ? kind === 'endgame'
-                      ? '本局已暂停'
-                      : `自由走子 · ${boardPosition.turn === 'r' ? '红方' : '黑方'}`
-                    : freeMode
-                      ? kind === 'endgame'
-                        ? userTurn ? '请你走这一步' : '等待对手'
-                        : `自由走子 · ${boardPosition.turn === 'r' ? '红方' : '黑方'}`
-                    : userTurn
-                      ? '请你走这一步'
-                      : '等待演示'}
+              {turnLabel}
             </div>
-            <span className="play-meta">
-              <Timer size={14} aria-hidden="true" /> {formatDuration(completed ? completedElapsedRef.current : elapsed)}
-            </span>
+            <div className="opening-board-toolbar-right">
+              <span className="play-meta">
+                <Timer size={14} aria-hidden="true" /> {formatDuration(completed ? completedElapsedRef.current : elapsed)}
+              </span>
+            </div>
           </div>
 
           <div className="board-frame">
@@ -721,9 +921,81 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
               checkedSquare={checked}
               checkmate={completed && completedByWin}
               stalemate={completedReason === 'stalemate'}
-              interactive={!completed && (freeMode || failed || userTurn) && !autoMoving}
+              interactive={
+                !completed &&
+                !autoMoving &&
+                (kind === 'opening'
+                  ? openingPhase === 'playing' && userTurn
+                  : freeMode || failed || userTurn)
+              }
               onPoint={handlePoint}
             />
+            {kind === 'opening' && !completed && openingPhase === 'intro' && (
+              <div className="opening-board-float-actions">
+                <div className="opening-review-panel">
+                  <div className="opening-float-caption">
+                    <span className="turn-disc r" aria-hidden="true" />
+                    先观看讲解，或跳过直接挑战
+                  </div>
+                  <div className="opening-review-actions" aria-label="开局讲解操作">
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-small"
+                      onClick={startWatching}
+                    >
+                      <Eye size={14} aria-hidden="true" />
+                      观看
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-ghost btn-small"
+                      onClick={skipWatching}
+                    >
+                      <SkipForward size={14} aria-hidden="true" />
+                      跳过观看
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+            {kind === 'opening' && !completed && openingPhase === 'watching' && (
+              <div className="opening-board-float-actions is-watch-controls">
+                <div className="opening-watch-controls" role="group" aria-label="观看控制">
+                  {openingWatchPaused ? (
+                    <>
+                      <button
+                        type="button"
+                        className="opening-icon-button"
+                        aria-label="继续观看"
+                        title="继续观看"
+                        onClick={() => setOpeningWatchPaused(false)}
+                      >
+                        <Play size={17} aria-hidden="true" />
+                      </button>
+                      <button
+                        type="button"
+                        className="opening-icon-button"
+                        aria-label="跳过观看"
+                        title="跳过观看"
+                        onClick={skipWatching}
+                      >
+                        <SkipForward size={17} aria-hidden="true" />
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      type="button"
+                      className="opening-icon-button is-faint"
+                      aria-label="暂停观看"
+                      title="暂停观看"
+                      onClick={() => setOpeningWatchPaused(true)}
+                    >
+                      <Pause size={17} aria-hidden="true" />
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
             <BoardToast
               message={message}
               tone={failed ? 'error' : 'info'}
@@ -735,14 +1007,18 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
                 <div>
                   <span className="eyebrow">{completionLabel}</span>
                   <h2>
-                    {completedReason === 'stalemate'
+                    {kind === 'opening'
+                      ? '红方、黑方两轮都走对了。'
+                      : completedReason === 'stalemate'
                       ? '找到困毙，完成。'
                       : completedByWin
                         ? '找到将死，完成。'
                         : lesson.completionText}
                   </h2>
                   <p>
-                    {completedByWin
+                    {kind === 'opening'
+                      ? '两轮均按主线完成，本节开局训练已通过。'
+                      : completedByWin
                       ? kind === 'endgame'
                         ? completedReason === 'stalemate'
                           ? '你完成了困毙，本关已按胜利完成。'
@@ -774,15 +1050,13 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
           </div>
 
           {/* 固定高度的状态槽：提示出现/消失不改变棋盘与整页高度，避免“页面上下一晃” */}
-          {!isOpeningFreePlay && !completed && (
+          {kind === 'endgame' && !isOpeningFreePlay && !completed && (
             <div
               className={`inline-alert lesson-status is-hint${failed ? ' inline-alert-error' : ''}`}
               role="status"
               aria-live="polite"
             >
-              {kind === 'endgame'
-                ? '按你的思路走子；规则库负责合法着法、将军与终局判定。'
-                : '主线中对手按固定应手；可自由尝试，规则库只校验合法性与终局。'}
+              按你的思路走子；规则库负责合法着法、将军与终局判定。
             </div>
           )}
 
@@ -790,18 +1064,28 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
             <div className="line-progress">
               <div className="line-progress-label">
                 <span>
-                  {completedByWin
-                    ? completionLabel
+                  {completed
+                    ? kind === 'opening' ? '红黑两轮通过' : completionLabel
                     : deviationPending
                       ? '偏离主线'
                       : freeMode
                         ? '本关进度'
-                        : (line?.label ?? '主线')}
+                        : openingPhase === 'intro'
+                          ? '讲解与两轮训练'
+                          : openingPhase === 'watching'
+                            ? '观看主线讲解'
+                            : `${openingRoundLabel} · ${line?.label ?? '主线'}`}
                 </span>
-                <span>{completedByWin ? '已完成' : `${stepsUsed} / ${total} 步`}</span>
+                <span>
+                  {completed
+                    ? '已完成'
+                    : openingPhase === 'intro'
+                      ? '尚未开始'
+                      : `${stepsUsed} / ${total} 步 · 第 ${openingRound === 'r' ? '1' : '2'} / 2 轮`}
+                </span>
               </div>
               <div className="progress-track">
-                <span style={{ width: completedByWin ? '100%' : `${total ? Math.min(100, (stepsUsed / total) * 100) : 0}%` }} />
+                <span style={{ width: completed ? '100%' : `${total ? Math.min(100, (stepsUsed / total) * 100) : 0}%` }} />
               </div>
             </div>
           )}
@@ -813,7 +1097,12 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
             <button
               type="button"
               className="control-button"
-              disabled={undoPoints.length === 0 || completed || autoMoving}
+              disabled={
+                undoPoints.length === 0 ||
+                completed ||
+                autoMoving ||
+                (kind === 'opening' && openingPhase !== 'playing')
+              }
               onClick={undoLastMove}
             >
               <Undo2 size={18} aria-hidden="true" />
@@ -823,11 +1112,24 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
               <button
                 type="button"
                 className="control-button"
-                disabled={completed || freeMode || deviationPending || failed || autoMoving}
+                disabled={
+                  completed ||
+                  freeMode ||
+                  deviationPending ||
+                  failed ||
+                  autoMoving ||
+                  (kind === 'opening' && openingPhase !== 'playing')
+                }
                 onClick={showHint}
               >
                 <Lightbulb size={18} aria-hidden="true" />
                 <span>提示</span>
+              </button>
+            )}
+            {kind === 'opening' && (
+              <button type="button" className="control-button" onClick={startWatching}>
+                <BookOpen size={18} aria-hidden="true" />
+                <span>教程</span>
               </button>
             )}
             <button type="button" className="control-button" onClick={reset}>

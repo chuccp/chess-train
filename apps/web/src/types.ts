@@ -70,6 +70,8 @@ export interface TrainingProgress {
   elapsedMs: number;
   revealedAnswer?: boolean;
   independentSolve?: boolean;
+  /** 开局训练当前进行到哪一方；两轮都完成后才写入 completed。 */
+  openingRound?: Color;
   updatedAt: string;
   completedAt?: string;
 }

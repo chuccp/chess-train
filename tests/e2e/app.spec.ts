@@ -819,49 +819,118 @@ test('classic endgame shows its original source', async ({ page }) => {
   await expect(page.locator('.source-card a[href*="xqdao.com"]')).toBeVisible();
   await expect(page.locator('.board-hit')).toHaveCount(90);
 });
-test('opening training follows the line with one automatic side', async ({ page }) => {
-  await page.goto('/train/opening/opening-classic-01');
-  await expect(page.locator('.turn-chip')).toContainText('请你走这一步');
-  await expect(page.locator('.lesson-flow-note')).toHaveCount(0);
-  const undo = page.getByRole('button', { name: '悔棋' });
-  await expect(undo).toBeDisabled();
+test('opening training previews the line and requires correct red and black rounds', async ({ page }) => {
+  await page.goto('/train/opening/opening-central-cannon-screen-horses');
 
-  // The first non-line move warns before switching to human-vs-AI free play.
-  await page.locator('[data-square="29"]').click();
-  await page.locator('[data-square="38"]').click();
-  await expect(page.locator('.turn-chip')).toContainText('偏离主线 · 可悔棋或继续');
-  await expect(page.locator('.line-progress-label')).toContainText('偏离主线');
-  await expect(page.locator('.board-toast')).toContainText('可以悔棋后点击提示获取下一步');
-  await expect(page.getByRole('button', { name: '提示' })).toBeDisabled();
-
-  // Undo restores the line, then hint exposes the expected next move.
-  await expect(undo).toBeEnabled();
-  await undo.click();
-  await expect(page.locator('.board-toast')).toContainText('已悔棋');
-  await expect(page.locator('.turn-chip')).toContainText('请你走这一步');
-  await expect(page.getByRole('button', { name: '提示' })).toBeEnabled();
-  await page.getByRole('button', { name: '提示' }).click();
-  await expect(page.locator('.board-toast')).toContainText('金色箭头');
-
-  // Continuing instead of undoing enters the normal AI free-play mode.
-  await page.locator('[data-square="29"]').click();
-  await page.locator('[data-square="38"]').click();
-  await expect(page.locator('.turn-chip')).toContainText('偏离主线 · 可悔棋或继续');
-  await page.locator('[data-square="25"]').click();
-  await page.locator('[data-square="22"]').click();
-  await expect(page.locator('.board-toast')).toContainText('已进入自由对弈模式');
-  await expect(page.locator('.turn-chip')).toContainText('自由走子 · 红方');
+  const watch = page.getByRole('button', { name: '观看', exact: true });
+  const skip = page.getByRole('button', { name: '跳过观看' });
+  await expect(watch).toBeVisible();
+  await expect(skip).toBeVisible();
+  await expect(page.locator('.opening-float-caption')).toContainText('先观看讲解');
+  await expect(page.locator('.turn-chip')).toBeHidden();
   await expect(page.locator('.lesson-status')).toHaveCount(0);
-  await expect(page.locator('.line-progress')).toHaveCount(0);
-  await expect(page.getByRole('button', { name: '提示' })).toHaveCount(0);
+  await page.waitForTimeout(250);
+  const boardDocumentTopBeforeWatch = await page.locator('.board-shell').evaluate(
+    (element) => element.getBoundingClientRect().top + window.scrollY,
+  );
 
-  // Restarting restores the scripted line and its automatic reply.
-  await page.getByRole('button', { name: '重来' }).click();
+  const actions = await page.locator('.opening-review-actions').boundingBox();
+  const board = await page.locator('.board-shell').boundingBox();
+  expect(actions?.x ?? 0).toBeGreaterThanOrEqual(board?.x ?? 0);
+  expect(actions?.y ?? 0).toBeGreaterThanOrEqual(board?.y ?? 0);
+  expect((actions?.x ?? 0) + (actions?.width ?? 0)).toBeLessThanOrEqual(
+    (board?.x ?? 0) + (board?.width ?? 0),
+  );
+  expect((actions?.y ?? 0) + (actions?.height ?? 0)).toBeLessThanOrEqual(
+    (board?.y ?? 0) + (board?.height ?? 0),
+  );
+
+  // Watching starts the scripted demonstration and can be skipped immediately.
+  await watch.click();
+  await expect(page.locator('.turn-chip')).toContainText('观看演示');
+  expect(
+    await page.locator('.board-shell').evaluate(
+      (element) => element.getBoundingClientRect().top + window.scrollY,
+    ),
+  ).toBe(boardDocumentTopBeforeWatch);
+  await expect(page.locator('.line-progress-label')).toContainText(/[1-5] \/ 6 步/);
+  const pause = page.getByRole('button', { name: '暂停观看' });
+  await expect(pause).toBeVisible();
+  await expect(skip).toHaveCount(0);
+  await pause.click();
+  const resume = page.getByRole('button', { name: '继续观看' });
+  const pausedSkip = page.getByRole('button', { name: '跳过观看' });
+  await expect(resume).toBeVisible();
+  await expect(pausedSkip).toBeVisible();
+  await expect(resume).toHaveText('');
+  await expect(pausedSkip).toHaveText('');
+  const pausedProgress = await page.locator('.line-progress-label').textContent();
+  await page.waitForTimeout(900);
+  await expect(page.locator('.line-progress-label')).toHaveText(pausedProgress);
+  await resume.click();
+  await expect(page.getByRole('button', { name: '暂停观看' })).toBeVisible();
+  await page.getByRole('button', { name: '暂停观看' }).click();
+  await pausedSkip.click();
+  await expect(page.locator('.turn-chip')).toContainText('红方第一轮 · 请你走这一步');
+  await expect(page.locator('.board-toast')).toContainText('已跳过观看');
+  await page.getByRole('button', { name: '教程' }).click();
+  await expect(page.locator('.turn-chip')).toContainText('观看演示');
+  await expect(page.getByRole('button', { name: '暂停观看' })).toBeVisible();
+  await page.getByRole('button', { name: '暂停观看' }).click();
+  await page.getByRole('button', { name: '跳过观看' }).click();
+  await expect(page.locator('.turn-chip')).toContainText('红方第一轮 · 请你走这一步');
+
+  // A legal but incorrect move leaves the position and round progress unchanged.
+  await page.locator('[data-square="29"]').click();
+  await page.locator('[data-square="38"]').click();
+  await expect(page.locator('.board-toast')).toContainText('不符合红方第一轮的主线');
+  await expect(page.locator('.line-progress-label')).toContainText('0 / 6 步');
+
+  // Red round: the user makes red's three moves while black follows the script.
   await page.locator('[data-square="25"]').click();
   await page.locator('[data-square="22"]').click();
-  await expect(page.locator('.line-progress-label')).toContainText('2 / 20 步');
-  await expect(page.locator('.turn-chip')).toContainText('请你走这一步');
-  await expect(page.getByRole('button', { name: '提示' })).toBeVisible();
+  await expect(page.locator('.line-progress-label')).toContainText('2 / 6 步');
+  await page.getByRole('button', { name: '重来' }).click();
+  await expect(page.locator('.board-toast')).toContainText('已重新开始');
+  await expect(page.locator('.line-progress-label')).toContainText('0 / 6 步');
+  await expect(page.locator('.opening-review-actions')).toHaveCount(0);
+  await page.locator('[data-square="25"]').click();
+  await page.locator('[data-square="22"]').click();
+  await expect(page.locator('.line-progress-label')).toContainText('2 / 6 步');
+  await page.locator('[data-square="7"]').click();
+  await page.locator('[data-square="24"]').click();
+  await expect(page.locator('.line-progress-label')).toContainText('4 / 6 步');
+  await page.locator('[data-square="8"]').click();
+  await page.locator('[data-square="7"]').click();
+  await expect(page.locator('.turn-chip')).toContainText('黑方第二轮');
+  await expect(page.locator('.tactic-result')).toHaveCount(0);
+
+  // Black round: red is now demonstrated, and only the user's black moves count.
+  await expect(page.locator('.turn-chip')).toContainText('黑方第二轮 · 请你走这一步');
+  await page.locator('[data-square="88"]').click();
+  await page.locator('[data-square="69"]').click();
+  await expect(page.locator('.line-progress-label')).toContainText('3 / 6 步');
+  await page.locator('[data-square="82"]').click();
+  await page.locator('[data-square="65"]').click();
+  await expect(page.locator('.line-progress-label')).toContainText('5 / 6 步');
+  await page.locator('[data-square="89"]').click();
+  await page.locator('[data-square="88"]').click();
+
+  // Passing is recorded only after both rounds.
+  await expect(page.locator('.tactic-result')).toContainText('两轮训练通过');
+  await expect(page.locator('.tactic-result')).toContainText('红方、黑方两轮都走对了');
+  await expect(page.locator('.line-progress-label')).toContainText('红黑两轮通过');
+  await page.getByRole('button', { name: '教程' }).click();
+  await expect(page.locator('.tactic-result')).toHaveCount(0);
+  await expect(page.locator('.turn-chip')).toContainText('观看演示');
+  await expect(page.getByRole('button', { name: '暂停观看' })).toBeVisible();
+});
+test('opening preview automatically starts the red round after the full line', async ({ page }) => {
+  await page.goto('/train/opening/opening-central-cannon-screen-horses');
+  await page.getByRole('button', { name: '观看', exact: true }).click();
+  await expect(page.locator('.line-progress-label')).toContainText(/[1-5] \/ 6 步/);
+  await expect(page.locator('.turn-chip')).toContainText('红方第一轮 · 请你走这一步');
+  await expect(page.locator('.opening-review-actions')).toHaveCount(0);
 });
 test('large training library paginates and searches', async ({ page }) => {
   await page.goto('/train/endgame');
