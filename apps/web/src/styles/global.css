@@ -1449,14 +1449,26 @@ p {
   margin-bottom: 0.7rem;
 }
 
-.opening-board-toolbar-right {
-  display: flex;
+.board-toolbar-left {
+  display: inline-flex;
   align-items: center;
-  justify-content: flex-end;
   gap: 0.55rem;
   min-width: 0;
-  min-height: 30px;
-  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.random-mode-label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--gold-soft);
+  color: #8a682d;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
 .lesson-play-page .board-toolbar {
@@ -1640,10 +1652,6 @@ p {
 
 .turn-chip.is-thinking {
   color: var(--muted);
-}
-
-.turn-chip.is-placeholder {
-  visibility: hidden;
 }
 
 .turn-disc {
@@ -3042,6 +3050,48 @@ p {
 .page-heading p {
   color: var(--muted);
   font-size: 0.86rem;
+}
+
+.favorite-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 32px;
+  padding: 0.28rem 0.62rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: rgba(255, 250, 240, 0.66);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.favorite-toggle:hover {
+  color: var(--ink);
+  border-color: var(--line-strong);
+  background: var(--surface);
+}
+
+.favorite-toggle.is-favorite {
+  color: #8a682d;
+  border-color: rgba(198, 154, 77, 0.4);
+  background: var(--gold-soft);
+}
+
+.favorite-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.22rem;
+  color: #8a682d;
+  font-size: 0.68rem;
+  white-space: nowrap;
+}
+
+.favorite-mark {
+  flex: 0 0 auto;
+  color: var(--gold);
 }
 
 .training-grid-large .training-card {
@@ -5500,6 +5550,11 @@ p {
     padding-top: 1.2rem;
   }
 
+  /* The training play top line already carries its own meta; avoid overlapping it. */
+  .app-shell.is-training-play .content-engine-status {
+    display: none;
+  }
+
   .app-shell.is-training-play .play-topline {
     margin-bottom: 0;
   }
@@ -6526,7 +6581,7 @@ p {
 }
 
 @media (max-width: 560px) {
-  .is-opening-list .back-link {
+  .list-page .back-link {
     margin-bottom: 0.55rem;
   }
 

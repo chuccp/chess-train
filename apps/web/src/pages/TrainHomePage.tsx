@@ -95,7 +95,6 @@ export function TrainHomePage() {
           <GraduationCap size={15} aria-hidden="true" />
           训练场
         </div>
-        <h1>把棋感练出来</h1>
         <p>三种模式，三种看法：找一步杀、拆残棋定式、走开局。</p>
       </section>
 

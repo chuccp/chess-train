@@ -323,12 +323,19 @@ test('switching sides keeps the current game and swaps colours', async ({ page }
 
 test('stays usable after going offline', async ({ page, context }) => {
   await waitForOfflineReady(page);
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.ready;
+    if (navigator.serviceWorker.controller) return;
+    await new Promise<void>((resolve) => {
+      navigator.serviceWorker.addEventListener('controllerchange', () => resolve(), { once: true });
+    });
+  });
   await context.setOffline(true);
   await page.reload();
-  await expect(page.locator('.engine-badge')).toContainText(/(?:在线|本地) AI/);
+  await expect(page.locator('.site-header .engine-badge')).toContainText(/(?:在线|本地) AI/);
   await expect(page.locator('.home-hero h1')).toContainText('静下来');
   await page.goto('/train');
-  await expect(page.locator('h1')).toContainText('把棋感练出来');
+  await expect(page.locator('.page-heading .eyebrow')).toContainText('训练场');
 });
 
 test('tactic hint guides the move without a duplicate answer button', async ({ page }) => {
@@ -366,7 +373,6 @@ test('training board and controls fit a 1080p browser viewport', async ({ page }
 
 test('endgame lessons are sorted by difficulty and can be filtered', async ({ page }) => {
   await page.goto('/train/endgame');
-  await expect(page.locator('.lesson-toolbar-primary')).toContainText('由易到难排序');
   const levels = await page.locator('.lesson-level').allTextContents();
   const ranks = levels.map((label) => (label === '入门' ? 1 : label === '进阶' ? 2 : 3));
   expect(ranks).toEqual([...ranks].sort((left, right) => left - right));
@@ -388,7 +394,6 @@ test('endgame lessons are sorted by difficulty and can be filtered', async ({ pa
 test('opening lessons are sorted by difficulty and can be filtered', async ({ page }) => {
   await page.goto('/train/opening');
   await expect(page.locator('.list-progress-badge')).toContainText('209');
-  await expect(page.locator('.lesson-toolbar-primary')).toContainText('由易到难排序');
   const levels = await page.locator('.lesson-level').allTextContents();
   const ranks = levels.map((label) => (label === '入门' ? 1 : label === '进阶' ? 2 : 3));
   expect(ranks).toEqual([...ranks].sort((left, right) => left - right));
@@ -878,6 +883,61 @@ test('local jungle game alternates turns', async ({ page }) => {
   await expect(page.locator('.side-meta')).toContainText('已走 1 手');
 });
 
+test('random tactic practice continues with another random tactic', async ({ page }) => {
+  await page.goto('/train/tactics');
+  await expect(page.locator('.page-heading h1')).toHaveCount(0);
+  await page.getByRole('button', { name: '随机刷题', exact: true }).click();
+  await expect(page).toHaveURL(/\/train\/tactics\/[^/?]+\?random=1$/);
+  await expect(page.locator('.back-link')).toHaveText('返回');
+  await expect(page.locator('.random-mode-label')).toHaveText('随机刷题');
+
+  const firstUrl = page.url();
+  await page.getByRole('button', { name: '下一题', exact: true }).click();
+  await expect(page).toHaveURL(/\/train\/tactics\/[^/?]+\?random=1$/);
+  expect(page.url()).not.toBe(firstUrl);
+});
+
+test('favorite tactics can be filtered and practiced from the tactic list', async ({ page }) => {
+  await page.goto('/train/tactics/tactic-01');
+  await page.getByRole('button', { name: '收藏', exact: true }).click();
+  await expect(page.getByRole('button', { name: '已收藏', exact: true })).toBeVisible();
+
+  await page.goto('/train/tactics');
+  await page.getByRole('button', { name: /^收藏/ }).click();
+  await expect(page.locator('.tactic-card')).toHaveCount(1);
+  await expect(page.locator('.tactic-card')).toContainText('车类杀法');
+
+  await page.getByRole('button', { name: '随机练收藏', exact: true }).click();
+  await expect(page).toHaveURL(/\/train\/tactics\/tactic-01\?random=1&source=favorites$/);
+  await expect(page.getByRole('button', { name: '已收藏', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '下一题', exact: true }).click();
+  await expect(page).toHaveURL(/\/train\/tactics\/[^/?]+\?random=1&source=favorites$/);
+});
+
+test('endgame and opening lists also offer random practice and favorites', async ({ page }) => {
+  await page.goto('/train/endgame/endgame-03');
+  await page.getByRole('button', { name: '收藏', exact: true }).click();
+  await page.goto('/train/endgame');
+  await page.getByRole('button', { name: /^收藏/ }).click();
+  await expect(page.locator('.lesson-row')).toHaveCount(1);
+
+  await page.getByRole('button', { name: '随机练收藏', exact: true }).click();
+  await expect(page).toHaveURL(
+    /\/train\/endgame\/[^/?]+\?random=1&source=favorites$/,
+  );
+  await expect(page.locator('.back-link')).toHaveText('返回');
+  await expect(page.locator('.random-mode-label')).toHaveText('收藏练习');
+  await page.getByRole('button', { name: '下一题', exact: true }).click();
+  await expect(page).toHaveURL(
+    /\/train\/endgame\/[^/?]+\?random=1&source=favorites$/,
+  );
+
+  await page.goto('/train/opening');
+  await page.getByRole('button', { name: '随机刷题', exact: true }).click();
+  await expect(page).toHaveURL(/\/train\/opening\/[^/?]+\?random=1$/);
+  await expect(page.locator('.random-mode-label')).toHaveText('随机刷题');
+});
+
 test('local Chinese checkers alternates turns', async ({ page }) => {
   await page.goto('/local/checkers');
   await expect(page.locator('.turn-chip')).toContainText('红方行棋');
@@ -901,7 +961,7 @@ test('opening training previews the line and requires correct red and black roun
   await expect(watch).toBeVisible();
   await expect(skip).toBeVisible();
   await expect(page.locator('.opening-float-caption')).toContainText('先观看讲解');
-  await expect(page.locator('.turn-chip')).toBeHidden();
+  await expect(page.locator('.turn-chip')).toContainText('先观看或直接挑战');
   await expect(page.locator('.lesson-status')).toHaveCount(0);
   await page.waitForTimeout(250);
   const boardDocumentTopBeforeWatch = await page.locator('.board-shell').evaluate(
@@ -1008,9 +1068,8 @@ test('opening preview automatically starts the red round after the full line', a
 });
 test('large training library paginates and searches', async ({ page }) => {
   await page.goto('/train/endgame');
-  await expect(page.locator('.lesson-meta-strip')).toContainText('737 节');
-  await expect(page.locator('.page-heading h1')).toContainText('中国象棋残局定式');
-  await expect(page.locator('.page-heading p')).toContainText('残棋主线');
+  await expect(page.locator('.page-heading .eyebrow')).toHaveText('残棋定式');
+  await expect(page.locator('.list-progress-badge')).toContainText('737');
   await expect(page.locator('.lesson-row')).toHaveCount(30);
   await page.locator('.list-more').click();
   await expect(page.locator('.lesson-row')).toHaveCount(60);
@@ -1018,9 +1077,8 @@ test('large training library paginates and searches', async ({ page }) => {
   await expect(page.locator('.lesson-row')).toHaveCount(1);
 
   await page.goto('/train/tactics');
+  await expect(page.locator('.page-heading .eyebrow')).toHaveText('一步杀法');
   await expect(page.locator('.list-progress-badge')).toContainText('861');
-  await expect(page.locator('.page-heading h1')).toContainText('一步杀法题库');
-  await expect(page.locator('.page-heading p')).toContainText('红先杀法');
   await expect(page.locator('.tactic-card')).toHaveCount(30);
   await expect(page.locator('.sort-note')).toContainText('由易到难排序');
   const tacticLevels = await page.locator('.tactic-meta span:first-child').allTextContents();
@@ -1030,8 +1088,8 @@ test('large training library paginates and searches', async ({ page }) => {
   await expect(page.locator('.tactic-card')).toHaveCount(60);
 
   await page.goto('/train/opening');
-  await expect(page.locator('.page-heading h1')).toContainText('中国象棋开局训练');
-  await expect(page.locator('.page-heading p')).toContainText('开局主线');
+  await expect(page.locator('.page-heading .eyebrow')).toHaveText('开局训练');
+  await expect(page.locator('.list-progress-badge')).toContainText('209');
 });
 test('mobile tactic success uses one centered result card', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });

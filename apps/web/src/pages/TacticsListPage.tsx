@@ -1,16 +1,25 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, CheckCircle2, Circle, Target } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowLeft, ArrowRight, CheckCircle2, Circle, Shuffle, Star } from 'lucide-react';
 import { tacticExercises } from '@qilian/content';
 import { listTrainingProgress } from '../lib/storage';
+import { favoriteKey, useFavorites } from '../lib/favorites';
+import { randomTrainingPath } from '../lib/randomTraining';
 import type { TrainingProgress } from '../types';
 
 export function TacticsListPage() {
+  const navigate = useNavigate();
   const [progress, setProgress] = useState<Record<string, TrainingProgress>>({});
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<'all' | 'todo' | 'done'>('all');
+  const [filter, setFilter] = useState<'all' | 'todo' | 'done' | 'fav'>('all');
   const [query, setQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(30);
+  const favorites = useFavorites();
+  const favoritedTactics = useMemo(
+    () => tacticExercises.filter((item) => favorites.includes(favoriteKey('tactics', item.id))),
+    [favorites],
+  );
+  const favoriteCount = favoritedTactics.length;
 
   useEffect(() => {
     setVisibleCount(30);
@@ -32,8 +41,10 @@ export function TacticsListPage() {
     () =>
       tacticExercises.filter((item) => {
         const done = progress[item.id]?.status === 'completed';
+        const favorited = favorites.includes(favoriteKey('tactics', item.id));
         if (filter === 'todo' && done) return false;
         if (filter === 'done' && !done) return false;
+        if (filter === 'fav' && !favorited) return false;
         const needle = query.trim().toLowerCase();
         if (!needle) return true;
         return [item.title, item.subtitle, item.tags.join(' '), item.source.name]
@@ -41,12 +52,14 @@ export function TacticsListPage() {
           .toLowerCase()
           .includes(needle);
       }),
-    [filter, progress, query],
+    [favorites, filter, progress, query],
   );
   const shown = visible.slice(0, visibleCount);
 
   const completed = Object.values(progress).filter((item) => item.status === 'completed').length;
-  const next = tacticExercises.find((item) => progress[item.id]?.status !== 'completed') ?? tacticExercises[0];
+  const practicePool = filter === 'fav' ? favoritedTactics : tacticExercises;
+  const next =
+    practicePool.find((item) => progress[item.id]?.status !== 'completed') ?? practicePool[0];
 
   return (
     <div className="page list-page">
@@ -57,14 +70,7 @@ export function TacticsListPage() {
 
       <div className="page-heading list-heading">
         <div>
-          <div className="eyebrow">
-            <Target size={15} aria-hidden="true" />
-            一步杀法
-          </div>
-          <h1>一步杀法题库</h1>
-          <p>
-            {tacticExercises.length} 道红先杀法，按入门、进阶、挑战排序；将死与困毙都算完成。
-          </p>
+          <div className="eyebrow">一步杀法</div>
         </div>
         <div className="list-progress-badge">
           <strong>{completed}</strong>
@@ -85,6 +91,11 @@ export function TacticsListPage() {
               已完成
             </button>
           </div>
+          <div className="segmented small">
+            <button type="button" className={filter === 'fav' ? 'is-selected' : ''} onClick={() => setFilter('fav')}>
+              收藏{favoriteCount > 0 ? ` ${favoriteCount}` : ''}
+            </button>
+          </div>
           <span className="sort-note">由易到难排序</span>
         </div>
         <div className="list-actions">
@@ -96,6 +107,19 @@ export function TacticsListPage() {
             placeholder="搜索杀法或来源"
             aria-label="搜索杀法"
           />
+          <button
+            type="button"
+            className="btn btn-primary"
+            disabled={practicePool.length === 0}
+            onClick={() => {
+              const target = randomTrainingPath('tactics', undefined, practicePool);
+              if (!target) return;
+              navigate(filter === 'fav' ? `${target}&source=favorites` : target);
+            }}
+          >
+            <Shuffle size={16} aria-hidden="true" />
+            {filter === 'fav' ? '随机练收藏' : '随机刷题'}
+          </button>
           {next && (
             <Link to={`/train/tactics/${next.id}`} className="btn btn-dark">
               继续练习
@@ -110,13 +134,23 @@ export function TacticsListPage() {
       ) : visible.length === 0 ? (
         <div className="empty-state panel">
           <CheckCircle2 size={30} aria-hidden="true" />
-          <h2>{query.trim() ? '没有找到匹配的杀法' : filter === 'done' ? '还没有完成的题目' : '这一组已经练完了'}</h2>
+          <h2>
+            {query.trim()
+              ? '没有找到匹配的杀法'
+              : filter === 'fav'
+                ? '还没有收藏的杀法'
+                : filter === 'done'
+                  ? '还没有完成的题目'
+                  : '这一组已经练完了'}
+          </h2>
           <p>
             {query.trim()
               ? '可以换一个标题、来源或标签再试。'
-              : filter === 'done'
-                ? '先做几道题，完成记录会出现在这里。'
-                : '可以切换筛选，或重新练一遍。'}
+              : filter === 'fav'
+                ? '打开一道题，点右上角「收藏」，就能在这里专项练习。'
+                : filter === 'done'
+                  ? '先做几道题，完成记录会出现在这里。'
+                  : '可以切换筛选，或重新练一遍。'}
           </p>
         </div>
       ) : (
@@ -125,6 +159,7 @@ export function TacticsListPage() {
             {shown.map((item) => {
             const record = progress[item.id];
             const done = record?.status === 'completed';
+            const favorited = favorites.includes(favoriteKey('tactics', item.id));
             return (
               <Link to={`/train/tactics/${item.id}`} className={`tactic-card${done ? ' is-done' : ''}`} key={item.id}>
                 <div className="tactic-order">
@@ -137,6 +172,12 @@ export function TacticsListPage() {
                   <div className="tactic-meta">
                     <span>{item.level === 1 ? '入门' : item.level === 2 ? '进阶' : '挑战'}</span>
                     <span>{item.solutions.length} 种胜法</span>
+                    {favorited && (
+                      <span className="favorite-label">
+                        <Star size={13} fill="currentColor" aria-hidden="true" />
+                        已收藏
+                      </span>
+                    )}
                     {done && (
                       <span className="done-label">
                         <CheckCircle2 size={13} aria-hidden="true" />

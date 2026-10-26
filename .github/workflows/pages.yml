@@ -38,7 +38,8 @@ jobs:
       - name: Unit tests
         run: pnpm test
 
-      - name: Build for project Pages
+      # GitHub Pages uses its own URL; site.config.json is only for custom deployments.
+      - name: Build for GitHub Pages
         run: pnpm build
         env:
           VITE_BASE_PATH: /chess-train/

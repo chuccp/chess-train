@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
   Lightbulb,
   RotateCcw,
+  Star,
   Target,
   Timer,
   XCircle,
@@ -23,10 +24,13 @@ import {
 import {
   nextTrainingItem,
   tacticById,
+  tacticExercises,
 } from '@qilian/content';
 import { Board } from '../components/Board';
 import { BoardToast } from '../components/BoardToast';
 import { getTrainingProgress, saveTrainingProgress } from '../lib/storage';
+import { favoriteKey, toggleFavorite, useFavorites } from '../lib/favorites';
+import { randomTrainingPath } from '../lib/randomTraining';
 import { playCue, vibrate } from '../lib/feedback';
 import { formatDuration } from '../lib/format';
 import { useSettingsStore } from '../stores/settings';
@@ -37,9 +41,13 @@ type WinReason = 'checkmate' | 'stalemate';
 
 export function TacticsPlayPage() {
   const { id = '' } = useParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const exercise = tacticById(id);
   const settings = useSettingsStore();
+  const favorites = useFavorites();
+  const randomMode = searchParams.get('random') === '1';
+  const favoriteSource = randomMode && searchParams.get('source') === 'favorites';
 
   const initial = useMemo(() => {
     if (!exercise) return null;
@@ -133,6 +141,19 @@ export function TacticsPlayPage() {
   }
 
   const next = nextTrainingItem('tactics', exercise.id);
+  const favoritePool = favoriteSource
+    ? tacticExercises.filter((item) => favorites.includes(favoriteKey('tactics', item.id)))
+    : undefined;
+  const nextTarget = (() => {
+    const target = randomMode
+      ? randomTrainingPath('tactics', exercise.id, favoritePool)
+      : next
+        ? `/train/tactics/${next.id}`
+        : null;
+    return target && favoriteSource ? `${target}&source=favorites` : target;
+  })();
+  const favorited = favorites.includes(favoriteKey('tactics', exercise.id));
+  const backLabel = randomMode ? '返回' : '一步杀法';
   const checked = position && isInCheck(position, position.turn)
     ? getKingSquare(position.board, position.turn)
     : null;
@@ -297,20 +318,43 @@ export function TacticsPlayPage() {
       <div className="play-topline">
         <Link to="/train/tactics" className="back-link">
           <ArrowLeft size={15} aria-hidden="true" />
-          一步杀法
+          {backLabel}
         </Link>
-        <span className="play-meta">
-          <Target size={14} aria-hidden="true" /> 红先 · 一步绝杀
-          {recordCompleted && <span className="done-label">已练过</span>}
-        </span>
+        <div className="play-topline-right">
+          <span className="play-meta">
+            红先 · 一步绝杀
+            {recordCompleted && <span className="done-label">已练过</span>}
+          </span>
+          <button
+            type="button"
+            className={`favorite-toggle${favorited ? ' is-favorite' : ''}`}
+            aria-pressed={favorited}
+            title={favorited ? '取消收藏这道题' : '收藏这道题，之后专项练习'}
+            onClick={() => toggleFavorite('tactics', exercise.id)}
+          >
+            <Star
+              size={15}
+              fill={favorited ? 'currentColor' : 'none'}
+              aria-hidden="true"
+            />
+            {favorited ? '已收藏' : '收藏'}
+          </button>
+        </div>
       </div>
 
       <div className="play-layout training-layout">
         <section className="board-column">
           <div className="board-toolbar">
-            <div className="turn-chip">
-              <span className="turn-disc r" />
-              {isSolved ? (solvedReason === 'stalemate' ? '困毙成立' : '将死成立') : '找出一步绝杀'}
+            <div className="board-toolbar-left">
+              <div className="turn-chip">
+                <span className="turn-disc r" />
+                {isSolved ? (solvedReason === 'stalemate' ? '困毙成立' : '将死成立') : '找出一步绝杀'}
+              </div>
+              {randomMode && (
+                <span className="random-mode-label">
+                  {favoriteSource ? '收藏练习' : '随机刷题'}
+                </span>
+              )}
             </div>
             <span className="play-meta">
               <Timer size={14} aria-hidden="true" /> {formatDuration(isSolved ? solvedElapsedRef.current : elapsed)}
@@ -352,11 +396,11 @@ export function TacticsPlayPage() {
                   </p>
                 </div>
                 <div className="board-result-actions">
-                  {next ? (
+                  {nextTarget ? (
                     <button
                       type="button"
                       className="btn btn-primary btn-small"
-                      onClick={() => navigate(`/train/tactics/${next.id}`)}
+                      onClick={() => navigate(nextTarget)}
                     >
                       <ArrowRight size={15} aria-hidden="true" />
                       下一题
@@ -384,8 +428,8 @@ export function TacticsPlayPage() {
               <span>重做</span>
             </button>
             {!isSolved && (
-              next ? (
-                <button type="button" className="control-button primary" onClick={() => navigate(`/train/tactics/${next.id}`)}>
+              nextTarget ? (
+                <button type="button" className="control-button primary" onClick={() => navigate(nextTarget)}>
                   <ArrowRight size={18} aria-hidden="true" />
                   <span>下一题</span>
                 </button>

@@ -1,21 +1,26 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Circle, Crown } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Circle, Crown, Shuffle, Star } from 'lucide-react';
 import { endgameLessons, openingLessons, trainingKindLabels } from '@qilian/content';
 import { listTrainingProgress } from '../lib/storage';
+import { favoriteKey, useFavorites } from '../lib/favorites';
+import { randomTrainingPath } from '../lib/randomTraining';
 import type { TrainingProgress } from '../types';
 
 export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
+  const navigate = useNavigate();
   const lessons = kind === 'endgame' ? endgameLessons : openingLessons;
   const [progress, setProgress] = useState<Record<string, TrainingProgress>>({});
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [levelFilter, setLevelFilter] = useState<0 | 1 | 2 | 3>(0);
+  const [favOnly, setFavOnly] = useState(false);
   const [visibleCount, setVisibleCount] = useState(30);
+  const favorites = useFavorites();
 
   useEffect(() => {
     setVisibleCount(30);
-  }, [kind, levelFilter, query]);
+  }, [favOnly, kind, levelFilter, query]);
 
   useEffect(() => {
     let alive = true;
@@ -30,14 +35,17 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
   }, [kind]);
 
   const completed = Object.values(progress).filter((item) => item.status === 'completed').length;
-  const next = lessons.find((item) => progress[item.id]?.status !== 'completed') ?? lessons[0];
-  const totalPlies = useMemo(
-    () => lessons.reduce((sum, lesson) => sum + (lesson.lines[0]?.moves.length ?? 0), 0),
-    [lessons],
+  const favoriteLessons = useMemo(
+    () => lessons.filter((lesson) => favorites.includes(favoriteKey(kind, lesson.id))),
+    [favorites, kind, lessons],
   );
+  const favoriteCount = favoriteLessons.length;
+  const scopedLessons = favOnly ? favoriteLessons : lessons;
+  const next =
+    scopedLessons.find((item) => progress[item.id]?.status !== 'completed') ?? scopedLessons[0];
   const filtered = useMemo(() => {
     const byLevel =
-      levelFilter === 0 ? lessons : lessons.filter((lesson) => lesson.level === levelFilter);
+      levelFilter === 0 ? scopedLessons : scopedLessons.filter((lesson) => lesson.level === levelFilter);
     const needle = query.trim().toLowerCase();
     if (!needle) return byLevel;
     return byLevel.filter((lesson) =>
@@ -46,7 +54,7 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
         .toLowerCase()
         .includes(needle),
     );
-  }, [lessons, levelFilter, query]);
+  }, [levelFilter, query, scopedLessons]);
   const shown = filtered.slice(0, visibleCount);
   const Icon = kind === 'endgame' ? Crown : BookOpen;
 
@@ -57,18 +65,9 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
         训练场
       </Link>
 
-      <div className={`page-heading list-heading${kind === 'opening' ? ' is-compact' : ''}`}>
+      <div className="page-heading list-heading">
         <div>
-          <div className="eyebrow">
-            <Icon size={15} aria-hidden="true" />
-            {trainingKindLabels[kind]}
-          </div>
-          <h1>{kind === 'endgame' ? '中国象棋残局定式' : '中国象棋开局训练'}</h1>
-          <p>
-            {kind === 'endgame'
-              ? `${lessons.length} 节残棋主线，从短杀到多步追杀，按难度由浅入深。`
-              : `${lessons.length} 套开局主线，理解出动、护中和占位的顺序。`}
-          </p>
+          <div className="eyebrow">{trainingKindLabels[kind]}</div>
         </div>
         <div className="list-progress-badge">
           <strong>{completed}</strong>
@@ -78,16 +77,6 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
 
       <div className="list-toolbar">
         <div className="lesson-toolbar-primary">
-          <div className="lesson-meta-strip">
-            <span>
-              {filtered.length === lessons.length
-                ? `${lessons.length} 节`
-                : `${filtered.length} / ${lessons.length} 节`}
-            </span>
-            <span>{totalPlies} 步主线</span>
-            <span>由易到难排序</span>
-            <span>规则核校验</span>
-          </div>
           <div
             className="segmented small lesson-level-filter"
             aria-label={kind === 'endgame' ? '筛选残棋难度' : '筛选开局难度'}
@@ -108,6 +97,16 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
               </button>
             ))}
           </div>
+          <div className="segmented small">
+            <button
+              type="button"
+              aria-pressed={favOnly}
+              className={favOnly ? 'is-selected' : ''}
+              onClick={() => setFavOnly((value) => !value)}
+            >
+              收藏{favoriteCount > 0 ? ` ${favoriteCount}` : ''}
+            </button>
+          </div>
         </div>
         <div className="list-actions">
           <input
@@ -118,6 +117,19 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
             placeholder="搜索标题、来源或标签"
             aria-label="搜索棋谱"
           />
+          <button
+            type="button"
+            className="btn btn-primary"
+            disabled={scopedLessons.length === 0}
+            onClick={() => {
+              const target = randomTrainingPath(kind, undefined, scopedLessons);
+              if (!target) return;
+              navigate(favOnly ? `${target}&source=favorites` : target);
+            }}
+          >
+            <Shuffle size={16} aria-hidden="true" />
+            {favOnly ? '随机练收藏' : '随机刷题'}
+          </button>
           {next && (
             <Link to={`/train/${kind}/${next.id}`} className="btn btn-dark">
               继续学习
@@ -131,8 +143,20 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
         <p className="muted">读取学习记录…</p>
       ) : filtered.length === 0 ? (
         <div className="empty-state panel">
-          <h2>没有找到匹配的棋谱</h2>
-          <p>可以换一个标题、来源或标签再试。</p>
+          <h2>
+            {favOnly
+              ? favoriteCount === 0
+                ? '这一组还没有收藏'
+                : '没有找到匹配的收藏'
+              : '没有找到匹配的棋谱'}
+          </h2>
+          <p>
+            {favOnly
+              ? favoriteCount === 0
+                ? '打开一节课程，点右上角「收藏」，就能在这里专项练习。'
+                : '可以调整难度筛选，或换一个搜索词。'
+              : '可以换一个标题、来源或标签再试。'}
+          </p>
         </div>
       ) : (
         <>
@@ -140,6 +164,7 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
             {shown.map((lesson) => {
               const record = progress[lesson.id];
               const done = record?.status === 'completed';
+              const favorited = favorites.includes(favoriteKey(kind, lesson.id));
               const line = lesson.lines[0];
               return (
                 <Link to={`/train/${kind}/${lesson.id}`} className={`lesson-row${done ? ' is-done' : ''}`} key={lesson.id}>
@@ -157,6 +182,14 @@ export function LessonListPage({ kind }: { kind: 'endgame' | 'opening' }) {
                     <strong>{lesson.title}</strong>
                     <small>{lesson.subtitle} · {line?.moves.length ?? 0} 步</small>
                   </span>
+                  {favorited && (
+                    <Star
+                      size={15}
+                      fill="currentColor"
+                      className="favorite-mark"
+                      aria-label="已收藏"
+                    />
+                  )}
                   <span className={`lesson-state${done ? ' done' : ''}`}>
                     {done ? <CheckCircle2 size={18} aria-hidden="true" /> : <Circle size={18} aria-hidden="true" />}
                     {done ? '已完成' : '未开始'}

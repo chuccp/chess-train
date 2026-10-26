@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   ArrowLeft,
   ArrowRight,
@@ -13,6 +13,7 @@ import {
   Play,
   RotateCcw,
   SkipForward,
+  Star,
   Timer,
   Undo2,
 } from 'lucide-react';
@@ -29,14 +30,18 @@ import {
   type Position,
 } from '@qilian/xiangqi';
 import {
+  endgameLessons,
   lessonById,
   nextTrainingItem,
+  openingLessons,
   trainingKindLabels,
 } from '@qilian/content';
 import { Board } from '../components/Board';
 import { BoardToast } from '../components/BoardToast';
 import { getTrainingProgress, saveTrainingProgress } from '../lib/storage';
 import { formatDuration } from '../lib/format';
+import { favoriteKey, toggleFavorite, useFavorites } from '../lib/favorites';
+import { randomTrainingPath } from '../lib/randomTraining';
 import { playCue, vibrate } from '../lib/feedback';
 import { chooseTrainingDefense } from '../lib/trainingOpponent';
 import { useSettingsStore } from '../stores/settings';
@@ -82,9 +87,13 @@ function positionAt(fen: string, moves: string[], count: number): Position {
 
 export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   const { id = '' } = useParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const lesson = lessonById(kind, id);
   const settings = useSettingsStore();
+  const favorites = useFavorites();
+  const randomMode = searchParams.get('random') === '1';
+  const favoriteSource = randomMode && searchParams.get('source') === 'favorites';
 
   const [lineId, setLineId] = useState(lesson?.lines[0]?.id ?? '');
   const [ply, setPly] = useState(0);
@@ -347,7 +356,21 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   const checked = position && isInCheck(position, position.turn)
     ? getKingSquare(position.board, position.turn)
     : null;
-  const next = nextTrainingItem(kind, lesson.id);
+  const lessonsForKind = kind === 'endgame' ? endgameLessons : openingLessons;
+  const favoritePool = favoriteSource
+    ? lessonsForKind.filter((item) => favorites.includes(favoriteKey(kind, item.id)))
+    : undefined;
+  const next = randomMode ? null : nextTrainingItem(kind, lesson.id);
+  const nextTarget = (() => {
+    const target = randomMode
+      ? randomTrainingPath(kind, lesson.id, favoritePool)
+      : next
+        ? `/train/${kind}/${next.id}`
+        : null;
+    return target && favoriteSource ? `${target}&source=favorites` : target;
+  })();
+  const favorited = favorites.includes(favoriteKey(kind, lesson.id));
+  const backLabel = randomMode ? '返回' : trainingKindLabels[kind];
   const lastComment = !completedByWin && ply > 0 ? moves[ply - 1]?.comment : undefined;
   const completionLabel =
     kind === 'opening'
@@ -373,7 +396,7 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
   const turnLabel = completed
     ? completionLabel
     : kind === 'opening' && openingPhase === 'intro'
-      ? '先观看讲解，或跳过直接挑战'
+      ? '先观看或直接挑战'
       : kind === 'opening' && openingPhase === 'watching'
         ? `观看演示 · ${boardPosition.turn === 'r' ? '红方' : '黑方'}行棋`
         : autoMoving
@@ -892,27 +915,53 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
       <div className="play-topline">
         <Link to={`/train/${kind}`} className="back-link">
           <ArrowLeft size={15} aria-hidden="true" />
-          {trainingKindLabels[kind]}
+          {backLabel}
         </Link>
+        <div className="play-topline-right">
+          <span className="play-meta">
+            {kind === 'opening'
+              ? '红黑两轮'
+              : lesson.userColor === 'r'
+                ? '红先'
+                : '黑先'} · {trainingKindLabels[kind]}
+            {loadedProgress?.status === 'completed' && (
+              <span className="done-label">已练过</span>
+            )}
+          </span>
+          <button
+            type="button"
+            className={`favorite-toggle${favorited ? ' is-favorite' : ''}`}
+            aria-pressed={favorited}
+            title={favorited ? '取消收藏这节课程' : '收藏这节课程，之后专项练习'}
+            onClick={() => toggleFavorite(kind, lesson.id)}
+          >
+            <Star
+              size={15}
+              fill={favorited ? 'currentColor' : 'none'}
+              aria-hidden="true"
+            />
+            {favorited ? '已收藏' : '收藏'}
+          </button>
+        </div>
       </div>
 
       <div className="play-layout training-layout">
         <section className="board-column">
           <div className="board-toolbar">
-            <div
-              className={`turn-chip${autoMoving ? ' is-thinking' : ''}${
-                kind === 'opening' && openingPhase === 'intro' ? ' is-placeholder' : ''
-              }`}
-              aria-hidden={kind === 'opening' && openingPhase === 'intro' ? true : undefined}
-            >
-              <span className={`turn-disc ${boardPosition.turn}`} />
-              {turnLabel}
+            <div className="board-toolbar-left">
+              <div className={`turn-chip${autoMoving ? ' is-thinking' : ''}`}>
+                <span className={`turn-disc ${boardPosition.turn}`} />
+                {turnLabel}
+              </div>
+              {randomMode && (
+                <span className="random-mode-label">
+                  {favoriteSource ? '收藏练习' : '随机刷题'}
+                </span>
+              )}
             </div>
-            <div className="opening-board-toolbar-right">
-              <span className="play-meta">
-                <Timer size={14} aria-hidden="true" /> {formatDuration(completed ? completedElapsedRef.current : elapsed)}
-              </span>
-            </div>
+            <span className="play-meta">
+              <Timer size={14} aria-hidden="true" /> {formatDuration(completed ? completedElapsedRef.current : elapsed)}
+            </span>
           </div>
 
           <div className="board-frame">
@@ -1034,14 +1083,14 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
                   </p>
                 </div>
                 <div className="board-result-actions">
-                  {next ? (
+                  {nextTarget ? (
                     <button
                       type="button"
                       className="btn btn-primary btn-small"
-                      onClick={() => navigate(`/train/${kind}/${next.id}`)}
+                      onClick={() => navigate(nextTarget)}
                     >
                       <ArrowRight size={15} aria-hidden="true" />
-                      下一节
+                      {randomMode ? '下一题' : '下一节'}
                     </button>
                   ) : (
                     <Link to={`/train/${kind}`} className="btn btn-primary btn-small">
@@ -1142,10 +1191,10 @@ export function LessonPlayPage({ kind }: LessonPlayPageProps) {
               <span>重来</span>
             </button>
             {!completed && (
-              next ? (
-                <button type="button" className="control-button primary" onClick={() => navigate(`/train/${kind}/${next.id}`)}>
+              nextTarget ? (
+                <button type="button" className="control-button primary" onClick={() => navigate(nextTarget)}>
                   <ArrowRight size={18} aria-hidden="true" />
-                  <span>下一节</span>
+                  <span>{randomMode ? '下一题' : '下一节'}</span>
                 </button>
               ) : (
                 <Link to={`/train/${kind}`} className="control-button primary">

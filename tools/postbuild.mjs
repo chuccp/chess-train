@@ -7,7 +7,8 @@ const outDir = process.env.VITE_OUT_DIR || 'dist';
 const dir = path.join(ROOT, 'apps/web', outDir);
 const configuredBasePath = process.env.VITE_BASE_PATH || '/';
 const basePath = normalizeBasePath(configuredBasePath);
-const configuredSiteUrl = process.env.VITE_SITE_URL?.trim();
+const configuredSiteUrl =
+  process.env.VITE_SITE_URL?.trim() || (await readSiteConfigUrl());
 const fallbackOrigin =
   basePath === '/'
     ? 'http://127.0.0.1:4173/'
@@ -157,13 +158,16 @@ function replaceCanonical(html, href) {
 function withMetadata(template, metadata) {
   const canonicalUrl = absoluteRouteUrl(metadata.path);
   const socialImageUrl = absoluteRouteUrl('social-preview.jpg');
-  let html = template
-    .replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(metadata.title)}</title>`)
-    .replace(/<meta\s+name="description"[^>]*>/i, '')
-    .replace(
-      '</head>',
-      `    <meta name="description" content="${escapeHtml(metadata.description)}" />\n  </head>`,
-    );
+  const descriptionTag = `<meta name="description" content="${escapeHtml(metadata.description)}" />`;
+  let html = template.replace(
+    /<title>[\s\S]*?<\/title>/i,
+    `<title>${escapeHtml(metadata.title)}</title>`,
+  );
+  if (/<meta\s+name="description"[^>]*>/i.test(html)) {
+    html = html.replace(/<meta\s+name="description"[^>]*>/i, descriptionTag);
+  } else {
+    html = html.replace('</head>', `    ${descriptionTag}\n  </head>`);
+  }
   html = replaceMeta(html, 'name', 'robots', metadata.robots);
   html = replaceMeta(html, 'name', 'googlebot', metadata.robots);
   html = replaceMeta(html, 'property', 'og:title', metadata.title);
@@ -176,6 +180,14 @@ function withMetadata(template, metadata) {
   return replaceCanonical(html, canonicalUrl);
 }
 
+async function readSiteConfigUrl() {
+  try {
+    const config = await readJson('site.config.json');
+    return typeof config?.siteUrl === 'string' ? config.siteUrl.trim() : '';
+  } catch {
+    return '';
+  }
+}
 async function readJson(relativePath) {
   const source = await fs.readFile(path.join(ROOT, relativePath), 'utf8');
   return JSON.parse(source);

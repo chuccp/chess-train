@@ -84,16 +84,28 @@ docs/                     产品、开发与设计文档
 GitHub Pages 由 [`.github/workflows/pages.yml`](../.github/workflows/pages.yml) 自动构建和部署：
 
 - 推送到 `main` 后，Actions 安装依赖、校验引擎包、运行单元测试、以 `/chess-train/` 为 base 构建
-- 构建时生成 `404.html`（SPA 直达路由回退）和 `.nojekyll`
+- 构建时生成 `404.html`（SPA 直达路由回退）、`.nojekyll`、`robots.txt` 和 `sitemap.xml`
 - 通过 GitHub Pages artifact 发布到 https://chuccp.github.io/chess-train/
+- GitHub Pages 使用自己的地址构建，不读取 `site.config.json`
 
-其他静态托管需要 HTTPS、SPA 回退到 `index.html`，并在构建时设置正确 base；GitHub Pages 项目页必须使用 `/chess-train/`。
+其他静态托管需要 HTTPS 和 SPA 回退到 `index.html`，并在构建时设置正确 base。
 
-SEO 构建产物包含 `robots.txt`、`sitemap.xml`，以及公开页面对应的路由入口 HTML。自定义域名或其他部署路径时，请同时设置 `VITE_SITE_URL`，例如：
+自定义部署（例如 `https://home.usercao.com/chess/`）可以在仓库根目录的
+`site.config.json` 中登记网址：
+
+```json
+{"siteUrl": "https://home.usercao.com/chess/"}
+```
+
+`tools/site-env.mjs` 会从该文件派生出 `VITE_SITE_URL` 和 `VITE_BASE_PATH`；
+也可以在构建时直接覆盖：
 
 ```bash
-VITE_BASE_PATH=/ VITE_SITE_URL=https://example.com/ pnpm build
+VITE_BASE_PATH=/chess/ VITE_SITE_URL=https://home.usercao.com/chess/ pnpm build
 ```
+
+`VITE_SITE_URL` 会统一写入 canonical、Open Graph、`robots.txt` 和 `sitemap.xml`，
+`VITE_BASE_PATH` 决定静态资源与页面路由的前缀，两者需要指向同一个地址。
 
 ## 许可
 

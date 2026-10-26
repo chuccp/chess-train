@@ -18,6 +18,7 @@ import {
 import { useEngineStore } from '../stores/engine';
 import { useSettingsStore } from '../stores/settings';
 import { clearAllLocalData } from '../lib/storage';
+import { clearFavorites } from '../lib/favorites';
 import { formatBytes } from '../lib/format';
 import type { Level } from '../types';
 
@@ -45,9 +46,10 @@ export function SettingsPage() {
   }
 
   async function clearData() {
-    if (!window.confirm('清除本机所有棋谱、训练进度和设置？此操作不可恢复。')) return;
+    if (!window.confirm('清除本机所有棋谱、训练进度、收藏和设置？此操作不可恢复。')) return;
     setBusy('data');
     await clearAllLocalData();
+    clearFavorites();
     settings.reset();
     setBusy(null);
     window.location.reload();
