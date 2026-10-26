@@ -49,6 +49,21 @@ test('public pages expose route-specific SEO metadata', async ({ page }) => {
   );
 });
 
+test('page zoom is disabled on touch devices', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('meta[name="viewport"]')).toHaveAttribute(
+    'content',
+    /maximum-scale=1/,
+  );
+  await expect(page.locator('meta[name="viewport"]')).toHaveAttribute(
+    'content',
+    /user-scalable=no/,
+  );
+  await expect.poll(() =>
+    page.evaluate(() => getComputedStyle(document.documentElement).touchAction),
+  ).toBe('pan-x pan-y');
+});
+
 test('local development does not load Baidu analytics', async ({ page }) => {
   const analyticsRequests: string[] = [];
   page.on('request', (request) => {
