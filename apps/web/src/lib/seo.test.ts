@@ -11,6 +11,7 @@ describe('page SEO metadata', () => {
     const paths = [
       '/',
       '/play',
+      '/endgames',
       '/local',
       '/local/gomoku',
       '/local/jungle',
@@ -56,7 +57,13 @@ describe('page SEO metadata', () => {
   });
 
   it('keeps private and unknown pages out of search indexes', () => {
-    for (const path of ['/settings', '/history', '/review/private-game', '/unknown']) {
+    for (const path of [
+      '/settings',
+      '/history',
+      '/review/private-game',
+      '/endgames/edit',
+      '/unknown',
+    ]) {
       expect(seoForPath(path).robots).toContain('noindex');
     }
   });

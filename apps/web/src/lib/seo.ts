@@ -48,6 +48,21 @@ const staticPages: Record<string, PageSeo> = {
     breadcrumbs: [{ name: '棋练', path: '/' }],
     keywords: ['中国象棋在线下棋', '象棋人机对战', '象棋双人同屏', 'AI 象棋'],
   },
+  '/endgames': {
+    title: '自定义残局 · 自己摆局与 FEN 分享 | 棋练',
+    description:
+      '自己摆放中国象棋残局并保存在本机，可继续人机对弈或双人同屏；复制 FEN 就能把同一局面分享给朋友。',
+    robots: INDEXABLE,
+    schemaType: 'CollectionPage',
+    breadcrumbs: [{ name: '棋练', path: '/' }],
+    keywords: ['自定义残局', '象棋摆局', '象棋残局', 'FEN 分享'],
+  },
+  '/endgames/edit': {
+    title: '编辑自定义残局 | 棋练',
+    description: '摆放棋子、导入或复制 FEN，保存到本机后即可人机或双人继续对弈。',
+    robots: PRIVATE,
+    schemaType: 'WebPage',
+  },
   '/local': {
     title: '在线棋类游戏 · 五子棋、斗兽棋、跳棋、四子棋 | 棋练',
     description:

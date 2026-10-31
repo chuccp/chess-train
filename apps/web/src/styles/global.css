@@ -5115,48 +5115,6 @@ p {
     background: var(--line-strong);
   }
 
-  .mobile-lobby-actions {
-    margin-top: 0.55rem;
-  }
-
-  .mobile-lobby-options {
-    margin-top: 0;
-    padding: 0.4rem 0.6rem;
-    border: 1px solid var(--line);
-    border-radius: 11px;
-    background: rgba(255, 250, 240, 0.72);
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 0.15rem 0.7rem;
-  }
-
-  .mobile-option-row {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    min-width: 0;
-    min-height: 30px;
-  }
-
-  .mobile-option-label {
-    flex: 0 0 auto;
-    color: var(--muted);
-    font-size: 0.66rem;
-  }
-
-  .mobile-option-row .segmented {
-    flex: 1;
-    justify-content: space-between;
-    padding: 0.1rem;
-  }
-
-  .mobile-option-row .segmented button {
-    flex: 1;
-    min-height: 26px;
-    padding: 0.2rem 0.42rem;
-    text-align: center;
-  }
-
   .mobile-lobby-cta {
     width: 100%;
     min-height: 49px;
@@ -5363,18 +5321,6 @@ p {
 
   .mobile-lobby-head h1 {
     font-size: 2.05rem;
-  }
-
-  .mobile-lobby-options {
-    grid-template-columns: 1fr;
-  }
-
-  .mobile-option-row {
-    justify-content: space-between;
-  }
-
-  .mobile-option-row .segmented {
-    flex: 0 1 auto;
   }
 
   .mobile-board-stage {
@@ -7044,5 +6990,386 @@ p {
   .setup-page .setup-side .prep-card {
     margin-top: 0.1rem;
     padding: 0.65rem 0.75rem;
+  }
+}
+
+/* ---------- Custom endgames ---------- */
+
+.endgame-list-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0.6rem 0 0.9rem;
+}
+
+.endgame-list-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.endgame-list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.endgame-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.endgame-row-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  flex: 1 1 260px;
+}
+
+.endgame-row-main strong {
+  font-size: 0.98rem;
+}
+
+.endgame-row-meta {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.icon-button.is-copied {
+  color: var(--green-3);
+}
+
+.endgame-row-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.endgame-color-choice {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+}
+
+.endgame-color-choice .btn {
+  flex: 1;
+}
+
+.endgame-editor-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  align-items: start;
+  gap: 1rem;
+  margin-top: 0.8rem;
+}
+
+.endgame-editor-board {
+  min-width: 0;
+}
+
+.endgame-toast {
+  position: fixed;
+  z-index: 70;
+  left: 50%;
+  bottom: 28px;
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  background: rgba(29, 36, 32, 0.92);
+  color: #fffaf0;
+  font-size: 0.8rem;
+  transform: translateX(-50%);
+  box-shadow: 0 10px 24px rgba(29, 36, 32, 0.28);
+  pointer-events: none;
+}
+
+.endgame-editor-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 0.9rem;
+}
+
+.endgame-name-input,
+.endgame-fen-input {
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.84rem;
+}
+
+.endgame-fen-input {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  resize: vertical;
+}
+
+.endgame-name-input:focus,
+.endgame-fen-input:focus {
+  outline: 2px solid var(--green);
+  outline-offset: 1px;
+}
+
+.endgame-palette {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.endgame-palette-row {
+  display: flex;
+  gap: 0.32rem;
+}
+
+.endgame-palette-mobile {
+  display: none;
+}
+
+.endgame-piece-btn {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: rgba(255, 250, 240, 0.9);
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+}
+
+.endgame-drag-ghost {
+  position: fixed;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 10px 22px rgba(29, 36, 32, 0.25);
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  line-height: 1;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  will-change: left, top;
+}
+
+.endgame-drag-ghost.is-r {
+  color: var(--red-deep);
+}
+
+.endgame-drag-ghost.is-b {
+  color: var(--ink);
+}
+
+.endgame-piece-btn.is-r {
+  color: var(--red-deep);
+}
+
+.endgame-piece-btn.is-b {
+  color: var(--ink);
+}
+
+.endgame-piece-btn:hover {
+  border-color: var(--gold);
+}
+
+.endgame-editor-page .board-hit {
+  cursor: grab;
+  touch-action: none;
+}
+
+.endgame-remove-piece {
+  position: absolute;
+  z-index: 6;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 2px solid rgba(255, 250, 240, 0.95);
+  border-radius: 50%;
+  background: var(--red-deep);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(29, 36, 32, 0.3);
+  transform: translate(-50%, -110%);
+  cursor: pointer;
+}
+
+.endgame-piece-btn.is-selected {
+  border-color: var(--gold);
+  background: var(--gold-soft);
+  box-shadow: 0 0 0 2px rgba(198, 154, 77, 0.28);
+}
+
+.endgame-board-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.45rem;
+}
+
+.endgame-editor-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0;
+  margin-left: auto;
+}
+
+@media (max-width: 880px) {
+  .endgame-editor-heading {
+    display: none;
+  }
+
+  .endgame-editor-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .endgame-editor-board {
+    width: min(100%, 520px);
+    margin: 0 auto;
+  }
+
+  .endgame-editor-panel {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.55rem 1rem;
+    width: min(100%, 760px);
+    padding: 0.8rem 0.95rem;
+  }
+
+  .endgame-editor-panel .field {
+    gap: 0.3rem;
+  }
+
+  .endgame-editor-panel .endgame-fen-import {
+    flex: 0 1 240px;
+  }
+
+  .endgame-palette-mobile {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-bottom: 0.55rem;
+  }
+
+  .endgame-copy-mobile {
+    margin-left: auto;
+    gap: 0.25rem;
+    padding-inline: 0.45rem;
+    font-size: 0.66rem;
+  }
+
+  .endgame-board-toolbar {
+    display: none;
+  }
+
+  .endgame-palette-desktop,
+  .endgame-fen-import {
+    display: none;
+  }
+
+  .endgame-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+    padding: 0.75rem 0.85rem;
+  }
+
+  .endgame-row-main {
+    flex: 0 0 auto;
+  }
+
+  .endgame-row-actions {
+    justify-content: flex-start;
+  }
+
+  .mobile-lobby-opponents {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+}
+
+@media (max-width: 560px) {
+  .endgame-piece-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 0.95rem;
+  }
+
+  .endgame-palette-row {
+    gap: 0.26rem;
+  }
+
+  .endgame-editor-panel {
+    padding: 0.85rem;
+  }
+
+  .endgame-row-actions .btn {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+}
+
+@media (max-width: 880px) {
+  .app-shell.is-endgame-editor .site-header,
+  .app-shell.is-endgame-editor .site-footer {
+    display: none;
+  }
+
+  .app-shell.is-endgame-editor .main-content {
+    padding-top: max(0.5rem, env(safe-area-inset-top));
+  }
+
+  .app-shell.is-endgame-editor .play-topline {
+    margin-bottom: 0;
+  }
+
+  .app-shell.is-endgame-editor .play-topline .back-link {
+    padding-top: 0;
+    padding-bottom: 0.85rem;
+  }
+
+  .endgame-editor-page .endgame-editor-layout {
+    margin-top: 0.1rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .endgame-palette-mobile .endgame-piece-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+
+  .endgame-palette-row {
+    gap: 0.22rem;
   }
 }

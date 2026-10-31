@@ -740,7 +740,12 @@ export function PlayPage() {
 
   async function handleNewGame() {
     // 新局跟随设置里的默认难度，避免沿用旧局难度把设置覆盖回去
-    const ok = await startNewGame(current!.playerColor, settings.preferredLevel, current!.mode);
+    const ok = await startNewGame(
+      current!.playerColor,
+      settings.preferredLevel,
+      current!.mode,
+      current!.initialFen,
+    );
     if (ok) {
       setDialog(null);
     }

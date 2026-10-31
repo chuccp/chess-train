@@ -1,5 +1,5 @@
 import { openDB, type DBSchema, type IDBPDatabase } from 'idb';
-import type { FinishedGame, GameSnapshot, TrainingProgress } from '../types';
+import type { CustomEndgame, FinishedGame, GameSnapshot, TrainingProgress } from '../types';
 
 interface QilianDB extends DBSchema {
   currentGame: {
@@ -16,19 +16,30 @@ interface QilianDB extends DBSchema {
     value: TrainingProgress;
     indexes: { 'by-kind': string };
   };
+  customEndgames: {
+    key: string;
+    value: CustomEndgame;
+    indexes: { 'by-updated-at': string };
+  };
 }
 
 let dbPromise: Promise<IDBPDatabase<QilianDB>> | null = null;
 
 function db(): Promise<IDBPDatabase<QilianDB>> {
   if (!dbPromise) {
-    dbPromise = openDB<QilianDB>('qilian', 1, {
-      upgrade(database) {
-        database.createObjectStore('currentGame', { keyPath: 'key' });
-        const games = database.createObjectStore('games', { keyPath: 'id' });
-        games.createIndex('by-ended-at', 'endedAt');
-        const training = database.createObjectStore('training', { keyPath: 'key' });
-        training.createIndex('by-kind', 'kind');
+    dbPromise = openDB<QilianDB>('qilian', 2, {
+      upgrade(database, oldVersion) {
+        if (oldVersion < 1) {
+          database.createObjectStore('currentGame', { keyPath: 'key' });
+          const games = database.createObjectStore('games', { keyPath: 'id' });
+          games.createIndex('by-ended-at', 'endedAt');
+          const training = database.createObjectStore('training', { keyPath: 'key' });
+          training.createIndex('by-kind', 'kind');
+        }
+        if (oldVersion < 2) {
+          const customEndgames = database.createObjectStore('customEndgames', { keyPath: 'id' });
+          customEndgames.createIndex('by-updated-at', 'updatedAt');
+        }
       },
     });
   }
@@ -127,12 +138,50 @@ export async function listTrainingProgress(kind?: TrainingProgress['kind']): Pro
   }
 }
 
+export async function saveCustomEndgame(endgame: CustomEndgame): Promise<void> {
+  try {
+    const database = await db();
+    await database.put('customEndgames', endgame);
+  } catch {
+    // ignore
+  }
+}
+
+export async function listCustomEndgames(): Promise<CustomEndgame[]> {
+  try {
+    const database = await db();
+    const items = await database.getAll('customEndgames');
+    return items.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  } catch {
+    return [];
+  }
+}
+
+export async function getCustomEndgame(id: string): Promise<CustomEndgame | null> {
+  try {
+    const database = await db();
+    return (await database.get('customEndgames', id)) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function deleteCustomEndgame(id: string): Promise<void> {
+  try {
+    const database = await db();
+    await database.delete('customEndgames', id);
+  } catch {
+    // ignore
+  }
+}
+
 export async function clearAllLocalData(): Promise<void> {
   try {
     const database = await db();
     await database.clear('currentGame');
     await database.clear('games');
     await database.clear('training');
+    await database.clear('customEndgames');
   } catch {
     // ignore
   }

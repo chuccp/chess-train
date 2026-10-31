@@ -206,7 +206,7 @@ test('history review can undo and resume', async ({ page }) => {
   await page.goto('/');
   await page.waitForTimeout(400);
   await page.evaluate(async () => {
-    const request = indexedDB.open('qilian', 1);
+    const request = indexedDB.open('qilian', 2);
     request.onupgradeneeded = () => {
       const database = request.result;
       if (!database.objectStoreNames.contains('currentGame')) {
@@ -219,6 +219,10 @@ test('history review can undo and resume', async ({ page }) => {
       if (!database.objectStoreNames.contains('training')) {
         const training = database.createObjectStore('training', { keyPath: 'key' });
         training.createIndex('by-kind', 'kind');
+      }
+      if (!database.objectStoreNames.contains('customEndgames')) {
+        const customEndgames = database.createObjectStore('customEndgames', { keyPath: 'id' });
+        customEndgames.createIndex('by-updated-at', 'updatedAt');
       }
     };
     const database = await new Promise<IDBDatabase>((resolve, reject) => {
@@ -1161,6 +1165,135 @@ test('mobile layout has no horizontal overflow and an immersive game', async ({ 
   await context.close();
 });
 
+test('mobile home offers a two-player game on first visit', async ({ browser }) => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+  });
+  const page = await context.newPage();
+  await page.goto('/');
+  await page.getByRole('link', { name: '双人对战' }).click();
+  await expect(page).toHaveURL(/\/play\?setup=1&mode=human/);
+  await page.getByRole('button', { name: '开始双人对局' }).click();
+  await expect(page).toHaveURL(/\/play$/);
+  await expect(page.locator('.turn-chip')).toContainText('轮到红方');
+  await expect(page.getByRole('button', { name: '翻转' })).toBeVisible();
+  await context.close();
+});
+
+test('home links to custom endgames on desktop', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('link', { name: '自定义残局', exact: true }).click();
+  await expect(page).toHaveURL(/\/endgames$/);
+  await expect(page.getByRole('heading', { name: '自己摆的残局' })).toBeVisible();
+  await expect(page.getByRole('link', { name: '摆一个残局' })).toBeVisible();
+});
+
+test('endgame list imports a pasted FEN', async ({ page }) => {
+  await page.goto('/endgames');
+  await page
+    .locator('.empty-state')
+    .getByRole('button', { name: '导入 FEN' })
+    .click();
+  const dialog = page.getByRole('dialog', { name: '导入残局 FEN' });
+  await expect(dialog).toBeVisible();
+  await dialog
+    .locator('textarea')
+    .fill('4k4/9/9/9/9/4P4/9/9/9/4K4 w - - 0 1');
+  await dialog.getByRole('button', { name: '导入并编辑' }).click();
+
+  await expect(page).toHaveURL(/\/endgames\/edit\?fen=/);
+  await expect(page.locator('.piece')).toHaveCount(3);
+  await expect(page.getByRole('button', { name: '复制棋盘' })).toBeVisible();
+});
+
+test('endgame editor drags, moves and removes pieces', async ({ page }) => {
+  await page.goto('/endgames/edit');
+  await page
+    .getByRole('button', { name: '红方车' })
+    .dragTo(page.locator('[data-square="36"]'));
+  await expect(
+    page.getByRole('button', { name: /红方车，a 列第 4 线/ }),
+  ).toBeVisible();
+
+  await page.locator('[data-square="36"]').dragTo(page.locator('[data-square="37"]'));
+  await expect(
+    page.getByRole('button', { name: /红方车，b 列第 4 线/ }),
+  ).toBeVisible();
+
+  await page.locator('[data-square="37"]').dragTo(page.locator('.endgame-editor-panel'));
+  await expect(
+    page.getByRole('button', { name: /红方车，b 列第 4 线/ }),
+  ).toHaveCount(0);
+  await expect(page.locator('[data-square="37"]')).toHaveAttribute('aria-label', /空位/);
+
+  await page
+    .getByRole('button', { name: '红方车' })
+    .dragTo(page.locator('[data-square="36"]'));
+  await expect(page.locator('.piece')).toHaveCount(3);
+  await page.getByRole('button', { name: '复位' }).click();
+  await expect(page.locator('.piece')).toHaveCount(2);
+
+  await page
+    .getByRole('button', { name: '红方车' })
+    .dragTo(page.locator('[data-square="36"]'));
+  await page.locator('[data-square="36"]').click();
+  const remove = page.getByRole('button', { name: '移除这枚棋子' });
+  await expect(remove).toBeVisible();
+  await remove.click();
+  await expect(
+    page.getByRole('button', { name: /红方车，a 列第 4 线/ }),
+  ).toHaveCount(0);
+});
+
+test('mobile can create, save and play a custom endgame', async ({ browser }) => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+  });
+  const page = await context.newPage();
+  await page.goto('/');
+  await page
+    .locator('.mobile-lobby-secondary')
+    .getByRole('link', { name: '自定义残局' })
+    .click();
+  await expect(page).toHaveURL(/\/endgames$/);
+  await page.getByRole('link', { name: '摆一个残局' }).click();
+  await expect(page).toHaveURL(/\/endgames\/edit$/);
+
+  await page.getByRole('button', { name: '红方车' }).click();
+  await page.locator('[data-square="36"]').click();
+  await page.getByRole('button', { name: '黑方卒' }).click();
+  await page.locator('[data-square="76"]').click();
+  await page.getByRole('button', { name: '保存残局' }).click();
+  const saveDialog = page.getByRole('dialog', { name: '保存新残局' });
+  await expect(saveDialog).toBeVisible();
+  await saveDialog.getByLabel('残局名称').fill('测试残局');
+  await saveDialog.getByRole('button', { name: '保存', exact: true }).click();
+
+  await expect(page).toHaveURL(/\/endgames$/);
+  await expect(page.getByText('测试残局')).toBeVisible();
+  await page.getByRole('button', { name: '双人对弈' }).click();
+  await expect(page).toHaveURL(/\/play$/);
+  await expect(page.locator('.board-hit')).toHaveCount(90);
+  await expect(page.locator('.turn-chip')).toContainText('轮到红方');
+  await expect(page.locator('.piece:not(.piece-echo)')).toHaveCount(4);
+
+  await page.locator('[data-square="36"]').click();
+  await page.locator('[data-square="37"]').click();
+  await expect(page.locator('.turn-chip')).toContainText('轮到黑方');
+  await expect(page.getByRole('button', { name: /红方车，b 列第 4 线/ })).toBeVisible();
+
+  await page.locator('.side-controls .control-button').first().click();
+  await expect(page.locator('.turn-chip')).toContainText('轮到红方');
+  await expect(page.getByRole('button', { name: /红方车，a 列第 4 线/ })).toBeVisible();
+  await expect(page.locator('.piece:not(.piece-echo)')).toHaveCount(4);
+
+  await context.close();
+});
+
 test('mobile home exposes working share and shortcut actions', async ({ browser }) => {
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
@@ -1371,7 +1504,7 @@ test('active mobile game hides the continue heading in the title row', async ({ 
     };
 
     await new Promise<void>((resolve, reject) => {
-      const request = indexedDB.open('qilian', 1);
+      const request = indexedDB.open('qilian', 2);
       request.onupgradeneeded = () => {
         const database = request.result;
         if (!database.objectStoreNames.contains('currentGame')) {
@@ -1382,6 +1515,9 @@ test('active mobile game hides the continue heading in the title row', async ({ 
         }
         if (!database.objectStoreNames.contains('training')) {
           database.createObjectStore('training', { keyPath: 'key' });
+        }
+        if (!database.objectStoreNames.contains('customEndgames')) {
+          database.createObjectStore('customEndgames', { keyPath: 'id' });
         }
       };
       request.onerror = () => reject(request.error);

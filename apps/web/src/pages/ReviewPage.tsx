@@ -32,10 +32,10 @@ export function ReviewPage() {
       } else if (current?.id === id) {
         setGame({
           id: current.id,
-          mode: 'ai',
+          mode: current.mode,
           playerColor: current.playerColor,
           level: current.level,
-          initialFen: START_FEN,
+          initialFen: current.initialFen ?? START_FEN,
           moves: current.moves,
           result: current.result,
           startedAt: current.startedAt,

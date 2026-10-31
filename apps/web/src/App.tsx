@@ -3,6 +3,8 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { HomePage } from './pages/HomePage';
 import { PlayPage } from './pages/PlayPage';
+import { CustomEndgameListPage } from './pages/CustomEndgameListPage';
+import { CustomEndgameEditorPage } from './pages/CustomEndgameEditorPage';
 import { LocalGamesPage } from './pages/LocalGamesPage';
 import { JunglePage } from './pages/JunglePage';
 import { CheckersPage } from './pages/CheckersPage';
@@ -57,6 +59,8 @@ export default function App() {
         <Route element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="play" element={<PlayPage />} />
+          <Route path="endgames" element={<CustomEndgameListPage />} />
+          <Route path="endgames/edit" element={<CustomEndgameEditorPage />} />
           <Route path="local" element={<LocalGamesPage />} />
           {/* 象棋人人对战已并入人机对战流程 */}
           <Route path="local/chess" element={<Navigate to="/play?setup=1" replace />} />

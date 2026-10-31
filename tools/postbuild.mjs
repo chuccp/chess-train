@@ -33,6 +33,19 @@ const coreRoutes = [
     robots: 'index,follow,max-image-preview:large',
   },
   {
+    path: 'endgames',
+    title: '自定义残局 · 自己摆局与 FEN 分享 | 棋练',
+    description:
+      '自己摆放中国象棋残局并保存在本机，可继续人机对弈或双人同屏；复制 FEN 就能把同一局面分享给朋友。',
+    robots: 'index,follow,max-image-preview:large',
+  },
+  {
+    path: 'endgames/edit',
+    title: '编辑自定义残局 | 棋练',
+    description: '摆放棋子、导入或复制 FEN，保存到本机后即可人机或双人继续对弈。',
+    robots: 'noindex,follow',
+  },
+  {
     path: 'local',
     title: '在线棋类游戏 · 五子棋、斗兽棋、跳棋、四子棋 | 棋练',
     description:

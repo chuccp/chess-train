@@ -30,9 +30,11 @@ export function Layout() {
     location.pathname.startsWith('/play/') ||
     location.pathname.startsWith('/local/');
   const isTrainingPlay = /^\/train\/(?:tactics|endgame|opening)\/[^/]+/.test(location.pathname);
+  const isEndgameEditor = location.pathname.startsWith('/endgames/edit');
   const hideMobileNav =
     location.pathname === '/play' ||
     location.pathname.startsWith('/play/') ||
+    location.pathname.startsWith('/endgames/edit') ||
     location.pathname.startsWith('/local/') ||
     location.pathname.startsWith('/train/tactics/') ||
     location.pathname.startsWith('/train/endgame/') ||
@@ -41,7 +43,7 @@ export function Layout() {
   const hideGlobalEngineStatus = isGameRoute;
 
   return (
-    <div className={`app-shell${isGameRoute ? ' is-game-route' : ''}${isTrainingPlay ? ' is-training-play' : ''}${isHome ? ' is-home' : ''}`}>
+    <div className={`app-shell${isGameRoute ? ' is-game-route' : ''}${isTrainingPlay ? ' is-training-play' : ''}${isEndgameEditor ? ' is-endgame-editor' : ''}${isHome ? ' is-home' : ''}`}>
       <a className="skip-link" href="#main-content">
         跳到主要内容
       </a>

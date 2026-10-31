@@ -17,8 +17,6 @@ interface MobileGameLobbyProps {
   color: Color;
   level: Level;
   starting: boolean;
-  onColor: (color: Color) => void;
-  onLevel: (level: Level) => void;
   onStart: () => void;
   onNewGame: () => void;
   onOpenCurrent: () => void;
@@ -34,8 +32,6 @@ export function MobileGameLobby({
   color,
   level,
   starting,
-  onColor,
-  onLevel,
   onStart,
   onNewGame,
   onOpenCurrent,
@@ -127,58 +123,31 @@ export function MobileGameLobby({
         <span className="mobile-board-caption">{statusText}</span>
       </div>
 
-      {active || finished ? (
-        <div className="mobile-lobby-secondary">
-          <span>
-            {isHuman
+      <div className="mobile-lobby-secondary">
+        <span>
+          {active || finished
+            ? isHuman
               ? '双人对局'
-              : `你执${current!.playerColor === 'r' ? '红' : '黑'} · ${levelLabel(current!.level)}`}
-          </span>
-          <div className="mobile-lobby-opponents">
-            <Link to="/play?setup=1&mode=human" className="btn btn-ghost btn-small">
-              双人对战
-            </Link>
-            <Link to="/play?setup=1&mode=ai" className="btn btn-ghost btn-small">
-              人机切换
-            </Link>
-          </div>
+              : `你执${current!.playerColor === 'r' ? '红' : '黑'} · ${levelLabel(current!.level)}`
+            : `${color === 'r' ? '执红' : '执黑'} · ${levelLabel(level)}`}
+        </span>
+        <div className="mobile-lobby-opponents">
+          <Link to="/play?setup=1&mode=human" className="btn btn-ghost btn-small">
+            双人对战
+          </Link>
+          <Link to="/play?setup=1&mode=ai" className="btn btn-ghost btn-small">
+            人机切换
+          </Link>
+          <Link to="/endgames" className="btn btn-ghost btn-small">
+            自定义残局
+          </Link>
         </div>
-      ) : (
-        <div className="mobile-lobby-actions">
-          <div className="mobile-lobby-options">
-              <div className="mobile-option-row">
-                <span className="mobile-option-label">执子</span>
-                <div className="segmented small">
-                  <button type="button" className={color === 'r' ? 'is-selected' : ''} onClick={() => onColor('r')}>
-                    执红
-                  </button>
-                  <button type="button" className={color === 'b' ? 'is-selected' : ''} onClick={() => onColor('b')}>
-                    执黑
-                  </button>
-                </div>
-              </div>
-              <div className="mobile-option-row">
-                <span className="mobile-option-label">难度</span>
-                <div className="segmented small">
-                  {([1, 2, 3] as Level[]).map((value) => (
-                    <button
-                      type="button"
-                      key={value}
-                      className={level === value ? 'is-selected' : ''}
-                      onClick={() => onLevel(value)}
-                    >
-                      {levelLabel(value)}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-            {enginePhase === 'error' && engineError && (
-              <p className="mobile-lobby-error">
-                {engineError} · <Link to="/settings#engine">去设置重试</Link>
-              </p>
-            )}
-        </div>
+      </div>
+
+      {enginePhase === 'error' && engineError && (
+        <p className="mobile-lobby-error">
+          {engineError} · <Link to="/settings#engine">去设置重试</Link>
+        </p>
       )}
 
     </section>

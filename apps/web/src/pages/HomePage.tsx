@@ -10,6 +10,7 @@ import {
   Flag,
   GraduationCap,
   Play,
+  Puzzle,
   RotateCcw,
   ShieldCheck,
   Sparkles,
@@ -86,7 +87,7 @@ export function HomePage() {
     setStarting(true);
     const mode: GameMode = current?.mode ?? opponent;
     const nextColor: Color = current?.playerColor ?? color;
-    const ok = await startNewGame(nextColor, settings.preferredLevel, mode);
+    const ok = await startNewGame(nextColor, settings.preferredLevel, mode, current?.initialFen);
     setStarting(false);
     if (ok) navigate('/play');
   }
@@ -107,8 +108,6 @@ export function HomePage() {
         color={color}
         level={level}
         starting={starting}
-        onColor={setColor}
-        onLevel={setLevel}
         onStart={() => void start()}
         onNewGame={() => void startFresh()}
         onOpenCurrent={openCurrent}
@@ -160,6 +159,10 @@ export function HomePage() {
             <Link to="/train" className="btn btn-ghost btn-large">
               <GraduationCap size={18} aria-hidden="true" />
               去训练
+            </Link>
+            <Link to="/endgames" className="btn btn-ghost btn-large">
+              <Puzzle size={18} aria-hidden="true" />
+              自定义残局
             </Link>
             <span className="hero-engine-status">
               <EngineBadge />

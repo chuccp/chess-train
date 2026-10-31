@@ -25,6 +25,7 @@ import {
   saveCurrentGame,
   saveFinishedGame,
 } from '../lib/storage';
+import { normalizePosition } from '../lib/customEndgame';
 import { playCue, vibrate } from '../lib/feedback';
 import type {
   FinishedGame,
@@ -55,7 +56,7 @@ function enqueueFinished(game: GameSnapshot): Promise<void> {
     mode: game.mode,
     playerColor: game.playerColor,
     level: game.level,
-    initialFen: START_FEN,
+    initialFen: game.initialFen ?? START_FEN,
     moves: game.moves,
     result: game.result,
     startedAt: game.startedAt,
@@ -86,8 +87,17 @@ function moveRecord(
   };
 }
 
-function replayTo(moves: MoveRecord[], count: number): { position: Position; hashes: string[] } {
-  let position = parseFen(START_FEN);
+function replayTo(
+  moves: MoveRecord[],
+  count: number,
+  initialFen = START_FEN,
+): { position: Position; hashes: string[] } {
+  let position: Position;
+  try {
+    position = parseFen(initialFen);
+  } catch {
+    position = parseFen(START_FEN);
+  }
   const hashes = [hashPosition(position)];
   for (let index = 0; index < count; index += 1) {
     const record = moves[index];
@@ -200,7 +210,12 @@ interface GameState {
   /** SSE 最近一层搜索进度 */
   aiProgress: EngineMoveProgress | null;
   hydrate: () => Promise<void>;
-  startNewGame: (playerColor: Color, level: Level, opponent?: GameMode) => Promise<boolean>;
+  startNewGame: (
+    playerColor: Color,
+    level: Level,
+    opponent?: GameMode,
+    initialFen?: string,
+  ) => Promise<boolean>;
   /** 人机对局中改执另一方，当前局面与棋谱原样保留；返回新的执子方，未换边时返回 null。 */
   switchSides: () => Color | null;
   resumeFinishedGame: (record: FinishedGame, keepMoves: number) => boolean;
@@ -240,11 +255,26 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
   },
 
-  async startNewGame(playerColor, level, opponent = 'ai') {
+  async startNewGame(playerColor, level, opponent = 'ai', initialFen = START_FEN) {
     if (opponent === 'ai' && !useEngineStore.getState().engineReady) {
       set({ error: 'AI 尚未就绪，暂时不能开始与 AI 的对局' });
       return false;
     }
+
+    let initial: Position;
+    try {
+      initial = normalizePosition(parseFen(initialFen));
+    } catch {
+      set({ error: '残局 FEN 无法解析，请重新导入' });
+      return false;
+    }
+    const hashes = [hashPosition(initial)];
+    const result = resultOf(initial, hashes);
+    if (result.status !== 'playing') {
+      set({ error: '这个残局已经分出胜负，换一个摆法' });
+      return false;
+    }
+
     useSettingsStore.getState().setPreferredColor(playerColor);
     useSettingsStore.getState().setPreferredLevel(level);
     const existing = get().current;
@@ -257,19 +287,17 @@ export const useGameStore = create<GameState>((set, get) => ({
       void enqueueFinished(aborted);
     }
 
-    const initial = parseFen(START_FEN);
-    const hashes = [hashPosition(initial)];
     const now = new Date().toISOString();
-    const result = resultOf(initial, hashes);
     const game: GameSnapshot = {
       id: uuid(),
       mode: opponent,
       playerColor,
       level,
+      initialFen: toFen(initial),
       position: initial,
       positionHashes: hashes,
       moves: [],
-      phase: opponent === 'ai' && playerColor !== 'r' ? 'ai_thinking' : 'playing',
+      phase: opponent === 'ai' && initial.turn !== playerColor ? 'ai_thinking' : 'playing',
       result,
       startedAt: now,
       updatedAt: now,
@@ -352,10 +380,15 @@ export const useGameStore = create<GameState>((set, get) => ({
       mode: record.mode ?? 'ai',
       playerColor: record.playerColor,
       level: record.level,
+      initialFen: record.initialFen,
       position,
       positionHashes: hashes,
       moves,
-      phase: isFinal ? 'finished' : 'playing',
+      phase: isFinal
+        ? 'finished'
+        : record.mode === 'ai' && position.turn !== record.playerColor
+          ? 'ai_thinking'
+          : 'playing',
       result: isFinal ? record.result : { status: 'playing' },
       startedAt: now,
       updatedAt: now,
@@ -653,7 +686,7 @@ export const useGameStore = create<GameState>((set, get) => ({
             : 1;
 
     const keep = game.moves.length - removeCount;
-    const { position, hashes } = replayTo(game.moves, keep);
+    const { position, hashes } = replayTo(game.moves, keep, game.initialFen);
     const end = resultOf(position, hashes);
     // 换边后可能出现“退完轮到 AI”的情况，按实际轮次决定是继续等玩家还是让 AI 走
     const aiTurn = game.mode === 'ai' && position.turn !== game.playerColor;

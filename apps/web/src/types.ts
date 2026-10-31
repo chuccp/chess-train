@@ -27,6 +27,8 @@ export interface GameSnapshot {
   mode: GameMode;
   playerColor: Color;
   level: Level;
+  /** 自定义残局等非标准开局的起始 FEN；旧快照没有这个字段。 */
+  initialFen?: string;
   position: Position;
   positionHashes: string[];
   moves: MoveRecord[];
@@ -55,6 +57,14 @@ export interface FinishedGame {
   startedAt: string;
   endedAt: string;
   elapsedMs: number;
+}
+
+export interface CustomEndgame {
+  id: string;
+  name: string;
+  fen: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface TrainingProgress {
